@@ -32,3 +32,7 @@ See [publication evidence](evidence/PUBLICATION_CHECKS.json) for fresh checks an
 ## Context Discovery — systemic continuation
 
 [Context Discovery](Context%20Discovery/README.md) adds an exact finite question planner, selected SQLite/zlib context-dependency probes, counterexamples, source notes and reproducible evidence. Python 3.11+; run `python "Context Discovery/systemic.py" --out context-output`. The existing projects and workflows are unchanged. This is bounded research, not an automated cultural-meaning or universal idea detector.
+
+## SPrime Search — complete bounded candidate census
+
+[SPrime Search](SPrime%20Search/README.md) joins the UTF-8 carrier to exact NAND-program counts, protected-behavior checking, shortest witnesses, rank/unrank and a separate alliteration fixture through a 1,024-byte capacity. Run `python "SPrime Search/run_audit.py" --out sprime-results`. Counts classify all expressions in the declared grammar, not arbitrary human ideas. Existing projects and workflows are unchanged.
