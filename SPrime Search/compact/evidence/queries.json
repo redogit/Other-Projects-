@@ -1,0 +1,74 @@
+{
+  "outcomes": [
+    {
+      "not_a_user_preference": "Synthetic output-oracle answers for a regression test.",
+      "required_output_011": 0,
+      "required_output_101": 0,
+      "route": "PARENT_TREE_FALLBACK",
+      "target": 82,
+      "target_hex": "0x52",
+      "word": "NNxNzzNzNzNNzxNzy"
+    },
+    {
+      "not_a_user_preference": "Synthetic output-oracle answers for a regression test.",
+      "required_output_011": 0,
+      "required_output_101": 1,
+      "route": "D1",
+      "target": 114,
+      "target_hex": "0x72",
+      "word": "D1*#3E"
+    },
+    {
+      "not_a_user_preference": "Synthetic output-oracle answers for a regression test.",
+      "required_output_011": 1,
+      "required_output_101": 0,
+      "route": "D1",
+      "target": 90,
+      "target_hex": "0x5a",
+      "word": "D1\"#3E"
+    },
+    {
+      "not_a_user_preference": "Synthetic output-oracle answers for a regression test.",
+      "required_output_011": 1,
+      "required_output_101": 1,
+      "route": "D1",
+      "target": 122,
+      "target_hex": "0x7a",
+      "word": "D1 *$3N"
+    }
+  ],
+  "plan": {
+    "answers": [
+      {
+        "answers": [
+          {
+            "questions": 0,
+            "table": 82
+          },
+          {
+            "questions": 0,
+            "table": 114
+          }
+        ],
+        "questions": 1,
+        "row": 5
+      },
+      {
+        "answers": [
+          {
+            "questions": 0,
+            "table": 90
+          },
+          {
+            "questions": 0,
+            "table": 122
+          }
+        ],
+        "questions": 1,
+        "row": 5
+      }
+    ],
+    "questions": 2,
+    "row": 3
+  }
+}

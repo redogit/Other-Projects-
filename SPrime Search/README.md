@@ -104,3 +104,7 @@ A passing audit verifies these finite implementation paths. The recurrence, inve
 - [Cambridge Dictionary, alliteration](https://dictionary.cambridge.org/dictionary/english/alliteration): sound-based definition. The eight-word onset assignment is an assistant-authored fixture.
 
 The user's instinct remains an open research direction. This pass supplies an actual candidate family, exact admission rule, counted accepted set, counterexamples and indexed witnesses. Extending the semantic domain requires a new interpreter and verifier; it must not silently inherit the old PASS.
+
+## Pass 04: compact reuse and context
+
+[Compact reuse and context](compact/README.md) tests a distinct versioned NAND register language: 412,909,356 words through eight UTF-8 bytes, with explicit unresolved outputs and fallback to the parent tree grammar. The results above remain scoped to the original grammar.

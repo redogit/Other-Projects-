@@ -1,0 +1,59 @@
+{
+  "accepted_D1_tables": [
+    "0x5a",
+    "0x72",
+    "0x7a"
+  ],
+  "accepted_D1_words": 767096,
+  "accepted_tables": [
+    "0x52",
+    "0x5a",
+    "0x72",
+    "0x7a"
+  ],
+  "byte_cap_including_D1_tag": 8,
+  "caller_plan_mutation_isolated": true,
+  "complete_partial_specifications": 6561,
+  "full_native_enumeration": true,
+  "gate_bound": 6,
+  "invalid_requests_rejected": [
+    "bad version",
+    "empty program",
+    "forward reference",
+    "non-ASCII instruction",
+    "excess length",
+    "leading whitespace",
+    "repeated terminal",
+    "negative rank",
+    "rank boundary",
+    "bool rank",
+    "unknown output value",
+    "protected row contradiction",
+    "duplicate behavior vote",
+    "bool output value"
+  ],
+  "native_histogram_sha256": "bcb1b56bb408418849fde3c77154e16e3238bc69900e97d0ed11205fd0fc7f47",
+  "new_format": "D1",
+  "new_to_eight_byte_tree_working_set": 154,
+  "non_claims": [
+    "No new truth table was invented.",
+    "No universal meaning detector.",
+    "Decoder and input data are external dependencies.",
+    "Byte-shortest means shortest in D1 only.",
+    "Synthetic query answers are not user preferences.",
+    "No multilingual or alliteration expansion."
+  ],
+  "parent_cost_inequalities": 65536,
+  "python_scalar_oracle_words": 133356,
+  "rank_float_samples": 527,
+  "reachable_behaviors": 192,
+  "shortest_witness_float_roundtrips": 192,
+  "shortest_witness_scalar_rows": 1536,
+  "significant_space_preserved": true,
+  "stale_acceptance_rejected": true,
+  "status": "PASS_BOUNDED",
+  "total_words_checked": 412909356,
+  "unknown_answer_retains_candidates": true,
+  "unreached_behaviors_at_bound": 64,
+  "worst_case_queries_for_parent_four": 2
+}
