@@ -1,0 +1,93 @@
+{
+  "schema": "chatgpt-conscience/source-lock/v1",
+  "repository": "redogit/conscience64",
+  "commit": "3f8889e17cecd7bd865e33f70201c703163df405",
+  "scope": "Fourteen pinned runtime/checker assets only; not a mirror of all upstream documents or playground tools.",
+  "files": [
+    {
+      "path": "index.html",
+      "bytes": 3240,
+      "sha256": "4f45c6356d2a43cb789f5353faed1a74959f7629ebdcfd4322f95054c59cfb95"
+    },
+    {
+      "path": "app.js",
+      "bytes": 15910,
+      "sha256": "66afc8cc3de4a3806b471f2c4e2d75f63bfcde0df4ce960015c05ab039bfa24d"
+    },
+    {
+      "path": "API.md",
+      "bytes": 4592,
+      "sha256": "12addaeecb9de292bf99e8cd3906cb70ac52929f59b2b79deaa60ce3e2a7f549"
+    },
+    {
+      "path": "BUILD_AUDIT.json",
+      "bytes": 4842,
+      "sha256": "7dee314a05cd40e9b7d0a82704ca06473d12e68644a8de4b99399f9fcd0ffb17"
+    },
+    {
+      "path": "data-manifest.json",
+      "bytes": 4145,
+      "sha256": "ef34d8cf9f84008c5500e2b235a2670ee6622f45538407d5fa7b25824b7ca930"
+    },
+    {
+      "path": "data-00.txt",
+      "bytes": 20000,
+      "sha256": "fe19c037c13d0617c57ecbf365655b7da67571c2eabcbec7cd1bfcf781cbe7b2"
+    },
+    {
+      "path": "data-01.txt",
+      "bytes": 20000,
+      "sha256": "7005593f8320208ed84f8981763d4c1321fe84df50919c73309b39da7f757ae3"
+    },
+    {
+      "path": "data-02.txt",
+      "bytes": 20000,
+      "sha256": "fc49d159900394c6305151f98d808f4bf6bd06a7442a71a7583005e06605728c"
+    },
+    {
+      "path": "data-03.txt",
+      "bytes": 20000,
+      "sha256": "51d6743f70d4e22f1f3536ab413e4bb1d53187584bff913bb48a9b87a27ba46d"
+    },
+    {
+      "path": "data-04.txt",
+      "bytes": 20000,
+      "sha256": "e3fc7efd5653b0932e80f892686b2c851bb7b7064abe22641fb8b3e0f030e2bd"
+    },
+    {
+      "path": "data-05.txt",
+      "bytes": 18256,
+      "sha256": "5196be8a8c4213a39ce45510f72fdcbd9dd35706a7f7eb27e6a761c354769402"
+    },
+    {
+      "path": "data-06.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "research/projects/projects.json",
+      "bytes": 10730,
+      "sha256": "1e8c49b3c7d097efe2f030b66c143d996c85aeaf97fcb3c8c597529ca3daef73"
+    },
+    {
+      "path": "tools/check_site.mjs",
+      "bytes": 6620,
+      "sha256": "68c65421c608aa67c674ce5f92e960ecdacf01d6a53a81ecd201e805268bab21"
+    }
+  ],
+  "patches": [
+    {
+      "path": "patches/001-boundary.patch",
+      "sha256": "b6b470c2c01f4e6440321ef690e934116b64d6fa7ad8c3b2eb38f6ce837dd2ea"
+    },
+    {
+      "path": "patches/002-history.patch",
+      "sha256": "d2e4fa35b8717b5f84ae06790e7d20d5ba84c12589ef944a890ec7c6efa8e9a4"
+    }
+  ],
+  "candidate_version": "1.2.0-coop.2",
+  "expected_after_patch": {
+    "app.js": "4eec027ca65494b2d325ee0fb608cced0fcb1b719b155487b72b64c09abf5957",
+    "API.md": "a75b39703f369e57e2d971595cea4652cd88e6598b94e73a1fca3a9d25e5354e"
+  }
+}

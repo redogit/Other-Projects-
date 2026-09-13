@@ -1,0 +1,109 @@
+--- a/app.js
++++ b/app.js
+@@ -76,7 +76,26 @@
+     results:ranked.slice(offset,offset+limit).map(([r,s])=>({...clone(r),searchScore:s}))};
+ }
+ function intersects(v,e){const a=arr(v).map(String),b=arr(e).map(String);return !b.length||b.some(x=>a.includes(x));}
++// Local cooperation candidate: supplied-but-unresolved is not omitted.
++function apiBoundaryError(code,message,details={}){
++  return Object.assign(new Error(message),{code,details});
++}
++function endpointConstraint(spec,field){
++  if(!Object.hasOwn(spec,field)){
++    if(field in spec)throw apiBoundaryError('INVALID_REFERENCE',`Inherited ${field} constraint is not supported`,{field});
++    return null;
++  }
++  const id=spec[field];
++  if(typeof id!=='string'||id.trim().length===0)
++    throw apiBoundaryError('INVALID_REFERENCE',`${field} must be a nonempty exact identifier`,{field});
++  const record=resolve(id);
++  if(!record)throw apiBoundaryError('UNRESOLVED_REFERENCE',`Unresolved ${field} identifier: ${id}`,{field,id});
++  return record.uoid;
++}
+ function advancedSearch(spec={}){
++  if(spec===null||typeof spec!=='object'||Array.isArray(spec))
++    throw apiBoundaryError('INVALID_QUERY','Advanced search requires an object specification');
++  const from=endpointConstraint(spec,'from'),to=endpointConstraint(spec,'to');
+   const text=String(spec.text??'').trim().toLowerCase(),kinds=arr(spec.kind||spec.kinds),types=arr(spec.objectType||spec.objectTypes),
+     times=arr(spec.timeLayer||spec.timeLayers),auths=arr(spec.authority||spec.authorities),domains=arr(spec.domain||spec.domains),
+     rels=arr(spec.relation||spec.relations),ids=arr(spec.logicalId||spec.logicalIds),prefix=String(spec.uoidPrefix||''),
+@@ -100,9 +119,8 @@
+     for(const[k,v]of Object.entries(eq)){const rv=k.split('.').reduce((o,p)=>o?.[p],r);if(JSON.stringify(rv)!==JSON.stringify(v))return false;}
+     return true;
+   }).map(d=>d.r);
+-  if(spec.from||spec.to){
+-    const from=spec.from?resolve(spec.from)?.uoid:null,to=spec.to?resolve(spec.to)?.uoid:null;
+-    rows=rows.filter(r=>r.objectType==='research-edge'&&(!from||r.sourceUoid===from)&&(!to||r.targetUoid===to));
++  if(from!==null||to!==null){
++    rows=rows.filter(r=>r.objectType==='research-edge'&&(from===null||r.sourceUoid===from)&&(to===null||r.targetUoid===to));
+   }
+   const sortBy=spec.sortBy||'degree',dir=spec.sortDir==='asc'?1:-1;
+   rows.sort((a,b)=>sortBy==='label'?dir*String(a.label||'').localeCompare(String(b.label||'')):
+@@ -195,7 +213,7 @@
+   const rec={I,R,P,O,at:new Date().toISOString(),spaceUoid:SPACE_UOID};IRPO_HISTORY.push(rec);if(IRPO_HISTORY.length>512)IRPO_HISTORY.shift();updateIRPO(rec);return clone(rec);
+ }
+ const API=Object.freeze({
+-  version:'1.2.0',spaceUoid:SPACE_UOID,
++  version:'1.2.0-coop.1',spaceUoid:SPACE_UOID,
+   search:Object.freeze({simple:simpleSearch,advanced:advancedSearch}),get:id=>clone(resolve(id)),relations,traverse,microdata,microdataHTML,irpo,
+   projects:Object.freeze({list:projectList,get:projectGet,reflow:projectReflow,invariants:learnedInvariants}),
+   history:()=>clone(IRPO_HISTORY),stats,all:()=>SPACE.map(clone),
+@@ -209,10 +227,26 @@
+ globalThis.Conscience64API=API;
+ addEventListener('message',async event=>{
+   const m=event.data;if(!m||m.type!=='conscience64.api'||!m.id)return;const reply={type:'conscience64.api.result',id:m.id,ok:true,result:null};
+-  try{const args=Array.isArray(m.args)?m.args:[],route={'search.simple':()=>simpleSearch(...args),'search.advanced':()=>advancedSearch(...args),'get':()=>API.get(...args),
+-    'relations':()=>relations(...args),'traverse':()=>traverse(...args),'microdata':()=>microdata(...args),'irpo':()=>irpo(...args),'stats':()=>stats(),
+-    'projects.list':()=>projectList(...args),'projects.get':()=>projectGet(...args),'projects.reflow':()=>projectReflow(...args),'projects.invariants':()=>learnedInvariants()}[String(m.method||'')];
+-    if(!route)throw new Error(`Unknown API method: ${m.method}`);reply.result=await route();}catch(e){reply.ok=false;reply.error=String(e?.message||e);}
++  try{
++    if(typeof m.method!=='string'||m.method.length===0)
++      throw apiBoundaryError('INVALID_METHOD','method must be a nonempty string');
++    if(Object.hasOwn(m,'args')&&!Array.isArray(m.args))
++      throw apiBoundaryError('INVALID_ARGUMENTS','args must be an array when supplied');
++    const args=Object.hasOwn(m,'args')?m.args:[];
++    const routes={
++      'search.simple':()=>simpleSearch(...args),'search.advanced':()=>advancedSearch(...args),'get':()=>API.get(...args),
++      'relations':()=>relations(...args),'traverse':()=>traverse(...args),'microdata':()=>microdata(...args),
++      'irpo':()=>irpo(...args),'stats':()=>stats(),
++      'projects.list':()=>projectList(...args),'projects.get':()=>projectGet(...args),
++      'projects.reflow':()=>projectReflow(...args),'projects.invariants':()=>learnedInvariants()
++    };
++    if(!Object.hasOwn(routes,m.method))
++      throw apiBoundaryError('UNKNOWN_METHOD',`Unknown API method: ${m.method}`,{method:m.method});
++    reply.result=await routes[m.method]();
++  }catch(e){
++    reply.ok=false;reply.error=String(e?.message||e);reply.errorCode=e?.code||'API_ERROR';
++    if(e?.details)reply.details=e.details;
++  }
+   event.source?.postMessage(reply,'*');
+ });
+ function draw(){
+--- a/API.md
++++ b/API.md
+@@ -1,6 +1,6 @@
+ # Conscience64 Universal Search Space API
+ 
+-**API version:** `1.2.0`  
++**API version:** `1.2.0-coop.1` (local candidate; not deployed)  
+ **Space UOID:** `uoid:sha256:aa3994488ddfcf5f0d828e679b598dd905d4d1fe958c97fd6303e357171d6599`  
+ **Search-space objects:** 734  
+ **Structured research projects:** 7  
+@@ -204,3 +204,17 @@
+ A byte hash establishes identity of bytes; it does not establish semantic truth or proof weight. Research nodes, relations, world fragments, manifests, structured project records, failed experiments, and unresolved recovery states retain distinct roles.
+ 
+ Current policy is forward-only: new lessons update current registries, APIs, and verification without silently rewriting verified historical checkpoints.
++
++## Cooperation candidate boundary contract
++
++This is a local proposal over the pinned 1.2.0 source, not a claim about the deployed host.
++
++An omitted `from` or `to` means no constraint on that endpoint. A supplied endpoint must be a nonempty exact identifier which resolves in the graph. An unknown identifier throws `UNRESOLVED_REFERENCE`; a blank, null, non-string, undefined, or inherited endpoint throws `INVALID_REFERENCE`. Top-level advanced-search specifications must be objects, not null, arrays, strings or numbers. No-argument search retains its former behavior.
++
++A resolved object with no matching incident edges produces a successful empty result. This is distinct from an unresolved identifier. Existing valid result shapes, ordering, pagination, graph objects, projects, and UOIDs remain unchanged.
++
++Direct callers should catch the error and inspect `error.code`. The postMessage bridge returns `ok:false`, `result:null`, `error`, `errorCode`, and optional `details`. Unknown method names return `UNKNOWN_METHOD`, including inherited JavaScript object-property names. An explicitly supplied `args` must be an array; omission still means an empty array.
++
++A failed I/R/P/O action throws before it appends history. Failed requests are retained by the external cooperation transcript, not inserted as successful browser history.
++
++This patch does not claim broad authorization hardening, all-field schema validation, cryptographic authenticity, or sender-origin authorization. The existing server-side postMessage origin policy is unchanged.

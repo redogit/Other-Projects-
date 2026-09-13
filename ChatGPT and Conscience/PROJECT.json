@@ -1,0 +1,30 @@
+{
+  "schema": "other-projects/project/v1",
+  "id": "chatgpt-and-conscience",
+  "name": "ChatGPT and Conscience",
+  "version": "0.1.0",
+  "status": "RESEARCH_PROJECT_WITH_LOCAL_CANDIDATE",
+  "created": "2026-09-13",
+  "folder": "ChatGPT and Conscience",
+  "participants": {
+    "human": "Project owner; goals and publication authorization",
+    "ChatGPT": "Assisting system; experiment selection, code and interpretation",
+    "Conscience64": "Companion; structured navigation and I/R/P/O record receipt"
+  },
+  "authorship_merged": false,
+  "upstream_repository": "redogit/conscience64",
+  "candidate_version": "1.2.0-coop.2",
+  "upstream_deployed_by_this_project": false,
+  "entry_points": {
+    "readme": "README.md",
+    "python_demo": "demo.py",
+    "tests": "tests/test_stabilizers.py",
+    "local_api_builder": "tools/materialize_sandbox.py",
+    "claims": "CLAIMS.json"
+  },
+  "knowledge_decay": {
+    "active": true,
+    "obligation": "Recheck version, source hashes and availability before applying recorded results to another build."
+  },
+  "public_scope": "Selected cooperation code, API patches and bounded research evidence. No private Library corpus, credentials or family records."
+}

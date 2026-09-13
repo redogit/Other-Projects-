@@ -1,0 +1,12 @@
+test_all_partial_tables_through_three_variables (test_stabilizers.StabilizerTests.test_all_partial_tables_through_three_variables) ... ok
+test_large_empty_domain_remains_symbolic (test_stabilizers.StabilizerTests.test_large_empty_domain_remains_symbolic) ... ok
+test_named_structural_cases (test_stabilizers.StabilizerTests.test_named_structural_cases) ... ok
+test_original_code_and_patch_identities (test_stabilizers.StabilizerTests.test_original_code_and_patch_identities) ... ok
+test_recorded_results_not_relabelled_as_new (test_stabilizers.StabilizerTests.test_recorded_results_not_relabelled_as_new) ... ok
+test_reject_invalid_inputs (test_stabilizers.StabilizerTests.test_reject_invalid_inputs) ... ok
+test_stored_target (test_stabilizers.StabilizerTests.test_stored_target) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.102s
+
+OK

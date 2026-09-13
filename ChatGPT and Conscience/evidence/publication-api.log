@@ -1,0 +1,2 @@
+PASS site: 734 records, 218 nodes, 508 edges, 7 projects; app startup and API smoke checks
+{"status":"PASS","candidateVersion":"1.2.0-coop.2","packagingChecks":13,"transport":"Node EventTarget/source-window stand-in; not a browser session","graphs":734,"projects":7}

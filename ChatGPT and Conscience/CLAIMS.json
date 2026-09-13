@@ -1,0 +1,68 @@
+{
+  "schema": "chatgpt-conscience/claim-index/v1",
+  "evidence_status": "Imported historical claims with bounded scopes; publication does not upgrade them.",
+  "claims": [
+    {
+      "id": "C64-H001",
+      "statement": "The supplied twenty-vertex thirty-edge graph has Max-Cut 28.",
+      "status": "PREVIOUS_EXACT_CERTIFICATE_AND_ENUMERATION",
+      "scope": "One graph; 524288 complement-reduced cuts in the prior audit.",
+      "evidence": "Claim Hunt 001 archive; see PROVENANCE.json.",
+      "materialized_here": false
+    },
+    {
+      "id": "C64-H002-H003",
+      "statement": "Same-label XOR pairs, autocorrelation and squared Walsh spectra express the same preservation statistic.",
+      "status": "PREVIOUS_ALGEBRAIC_ARGUMENT_AND_FINITE_CHECK",
+      "scope": "Exact identity; three carriers are not independent empirical sources.",
+      "evidence": "Claim Hunt 001 archive; see PROVENANCE.json.",
+      "materialized_here": false
+    },
+    {
+      "id": "C64-H004",
+      "statement": "Six-byte payload chunks carried as exact 48-bit integers in binary64 round-trip with correct metadata.",
+      "status": "PREVIOUS_VALID_INPUT_RESULT",
+      "scope": "Raw array storage expands by 4/3 for full chunks; not compression or an entire library in one Float64.",
+      "evidence": "Claim Hunt 001 archive; see PROVENANCE.json.",
+      "materialized_here": false
+    },
+    {
+      "id": "C64-COOP1-API",
+      "statement": "The coop.1 candidate rejects unresolved endpoints, inherited method names and malformed argument arrays.",
+      "status": "LOCAL_CANDIDATE_PREVIOUSLY_TESTED",
+      "scope": "Recorded query boundary, not a full security audit or production authorization.",
+      "evidence": "patches/001-boundary.patch",
+      "materialized_here": true
+    },
+    {
+      "id": "C64-C002-02",
+      "statement": "The coop.2 candidate snapshots admitted I/R/P/O values before committing history and rejects tested clone/render failures.",
+      "status": "LOCAL_CANDIDATE_PREVIOUSLY_TESTED",
+      "scope": "History remains a 512-record rolling window. Shared memory is rejected; arbitrary host/DOM attacks are outside the audit.",
+      "evidence": "patches/002-history.patch",
+      "materialized_here": true
+    },
+    {
+      "id": "C64-C002-04",
+      "statement": "Subgroup bookkeeping can be delayed until the first verified nonzero translation without changing exact output.",
+      "status": "PREVIOUS_STRUCTURAL_ARGUMENT_AND_BOUNDED_CHECK",
+      "scope": "Explicit finite Boolean tables; 72444 prior cases, not all larger partial tables or a novelty claim.",
+      "evidence": "src/stabilizer_adaptive.py",
+      "materialized_here": true
+    },
+    {
+      "id": "C64-C002-05",
+      "statement": "Large recorded adaptive gains on selected structured workloads coexist with near parity, regressions and additional memory costs.",
+      "status": "PRIOR_ENVIRONMENT_AND_WORKLOAD_BOUNDED_TIMING",
+      "scope": "Parsed input through canonical JSON output; excludes acquisition, imports and I/O; no universal fastest-algorithm claim.",
+      "evidence": "evidence/benchmark-summary.json",
+      "materialized_here": true
+    }
+  ],
+  "remainder": [
+    "Production adoption and live-host verification",
+    "Independent external replication",
+    "Sender-origin authorization and complete security audit",
+    "Counterprobe reuse on the two-altered-label parity family"
+  ]
+}
