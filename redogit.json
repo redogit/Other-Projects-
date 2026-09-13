@@ -1,0 +1,93 @@
+{
+  "$schema": "https://raw.githubusercontent.com/redogit/redogit/main/REDOGIT.schema.json",
+  "schema": "redogit/v1",
+  "repository": "redogit/Other-Projects-",
+  "current": {
+    "id": "other-projects-research-carrier-v1",
+    "status": "current",
+    "path": ".",
+    "build": null,
+    "verify": "python3 tools/verify.py"
+  },
+  "predecessors": [
+    { "id": "publication-checkpoint-2026-09-13", "path": "evidence/PUBLICATION_CHECKS.json", "retained": true },
+    { "id": "existing-chatgpt-conscience-cooperation-lab", "path": "ChatGPT and Conscience", "retained": true }
+  ],
+  "history_policy": {
+    "preserve_predecessors": true,
+    "preserve_failures": true,
+    "preserve_unresolved_remainder": true,
+    "preserve_source_native_identity": true,
+    "rewrite_history": false
+  },
+  "research_policy": {
+    "surface": "I/R/P/O",
+    "checks": ["assumption", "test", "unknown"],
+    "evidence_classes": [
+      "executed-and-verified",
+      "externally-validated",
+      "formal-consequence",
+      "hypothesis-or-open-question"
+    ],
+    "claim_policy": "Claims stop at the strongest evidence actually carried by this repository; negative evidence and unresolved remainder are retained.",
+    "selection_policy": "Selection is bounded, task-local, and minimal-necessity; unselected possibilities are not treated as false and selection does not imply global optimality.",
+    "promotion": "evidence-gated and forward-only",
+    "knowledge_decay": "Treat evidence age, accessibility, dependency drift, and changed external facts as active inputs when they can alter the current claim.",
+    "historical_checkpoint_policy": "Do not rewrite verified predecessors merely to conform to newer lessons.",
+    "required_distinctions": [
+      "UNKNOWN != ABSENT",
+      "UNASSIGNED != ABSENT",
+      "UNSELECTED != FALSE",
+      "INDEX_MISS != ABSENCE",
+      "RELATED != SUPPORTS",
+      "SEMANTIC_SIMILARITY != IDENTITY",
+      "SOURCE != RECONSTRUCTION",
+      "BYTE_IDENTITY != SEMANTIC_TRUTH",
+      "CURRENT_NAVIGATION != HISTORICAL_SOURCE",
+      "OBSERVATION != INTERPRETATION",
+      "VIEWPOINT_CHANGE != TASK_CHANGE",
+      "SELECTION != GLOBAL_OPTIMALITY",
+      "FINITE_VERIFICATION != UNIVERSALITY",
+      "LOSS_ACKNOWLEDGED != LOSS_CONCEALED",
+      "EVALUATION_COMPLETE != PROMOTION_APPROVED",
+      "PERSON != RECORDED_MODEL",
+      "USER_GOAL != SYSTEM_GOAL",
+      "PREDECESSOR != SUCCESSOR",
+      "INTERNAL_CONSISTENCY != EXTERNAL_VALIDATION",
+      "CLAIM != EVIDENCE"
+    ],
+    "domain_distinctions": [
+      "BOUNDED_ACCESSION != ALL_HUMAN_EXPRESSION",
+      "PRESERVATION != ENDORSEMENT",
+      "SOURCE_RIGHTS != BLANKET_TRAINING_PERMISSION",
+      "CORPUS_RECORD != INSTRUCTION",
+      "SYNTHETIC_COMPRESSION_RESULT != LAW_OF_HUMAN_LEARNING",
+      "EXACT_1024_BYTE_SECTION != UTF8_CHARACTER_BOUNDARY",
+      "FINITE_FLOAT_TRANSPORT != COMPLETE_SEMANTIC_SPACE",
+      "CROSS_REFERENCE != SOURCE_OF_TRUTH",
+      "NAVIGATION_LINK != RUNTIME_ADMISSION",
+      "COOPERATION_LAB_PRESERVED != NEW_COMPANION_CONSENSUS"
+    ]
+  },
+  "boundary": {
+    "owns": [
+      "Human Expression Archive implementation and bounded accession",
+      "S1024 Compression Lab implementation",
+      "existing ChatGPT and Conscience cooperation-lab carrier",
+      "project routing and publication evidence",
+      "explicit source rights and remainder records"
+    ],
+    "does_not_own": [
+      "all human expression",
+      "blanket rights to source material",
+      "blanket corpus-training permission",
+      "private Library snapshots",
+      "complete third-party media",
+      "universal claims about human learning",
+      "TBCL promotion",
+      "SHADOW frozen-model changes",
+      "Orbit game-engine authorship or runtime",
+      "new companion consensus merely because the cooperation lab is preserved"
+    ]
+  }
+}
