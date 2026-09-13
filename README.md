@@ -28,3 +28,7 @@ The archive is a bounded accession, not all human expression. Preservation is no
 This repository is the implementation home. Earlier `conscience64/research` notes are historical cross-references, not the source-of-truth repository for these projects. No GitHub Pages deployment or workflow activation is part of this publication.
 
 See [publication evidence](evidence/PUBLICATION_CHECKS.json) for fresh checks and [routing](PROJECT_ROUTING.md) for project boundaries.
+
+## Context Discovery — systemic continuation
+
+[Context Discovery](Context%20Discovery/README.md) adds an exact finite question planner, selected SQLite/zlib context-dependency probes, counterexamples, source notes and reproducible evidence. Python 3.11+; run `python "Context Discovery/systemic.py" --out context-output`. The existing projects and workflows are unchanged. This is bounded research, not an automated cultural-meaning or universal idea detector.

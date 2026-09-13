@@ -1,0 +1,32 @@
+{
+  "archive_sha256": "2094c0b82ad19f0d3615d351ea210aa90ed4cb7ec774d86569dd8a88b502f14b",
+  "case_selection": "purposive, not independent or representative",
+  "codec_git_blob": "fc77b8a1d2e19ca81c4831a6d4225e9defac5c41",
+  "codec_sha256": "a2fd74aff787b4d47aa10d8c580bba4db9d8b96e0a487746a6166692031e6f85",
+  "human_study": false,
+  "novel_cultural_records_added": 0,
+  "pass01_package_sha256": "05f35f1eb6cfbaf78e4bd6f3f15e49db449febc8a7de5225fa86f942a3cb03dc",
+  "pass01_scientific_outputs_reproduced": [
+    "context_matrix.json",
+    "results.json",
+    "source_context_checks.json",
+    "unresolved_groups.json"
+  ],
+  "pass01_source_sha256": "dd8c024266bdd08f52646613546a3e9a64fe8c28800b69332600809be42a27f7",
+  "pass02_scientific_outputs_identical": [
+    "policies.json",
+    "results.json",
+    "software.json",
+    "traces.json"
+  ],
+  "production_services_modified": false,
+  "source_code_and_contract_unchanged_during_runs": true,
+  "source_reviews": "Only new technical documentation and two publisher abstracts checked; prior cultural source claims not revalidated.",
+  "status": "PASS",
+  "trace_bytes": 87619,
+  "trace_full_1024_sections": 85,
+  "trace_remainder_bytes": 579,
+  "trace_section_roundtrip": true,
+  "trace_sha256": "0175edafa1e69e4f3311e59736c17bafd3a1819c692036281172eedcb5ee099f",
+  "validation": "Package-local byte/structural checks, not official Mathbox validation or a proof assistant."
+}

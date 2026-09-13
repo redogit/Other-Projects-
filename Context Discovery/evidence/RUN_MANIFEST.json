@@ -1,0 +1,119 @@
+{
+  "checks": [
+    "100 initial models",
+    "500 oracle-checked world/policy traces",
+    "1024 independent tiny tree enumerations",
+    "six malformed-input rejections",
+    "pairwise versus global action intersection",
+    "duplicate-world control",
+    "six local software episodes",
+    "two identical four-file executions"
+  ],
+  "claim_id": "CONTEXT-DISCOVERY-02",
+  "command": "python \"Context Discovery/systemic.py\" --out context-output",
+  "environment": {
+    "hardware": "x86_64",
+    "software": [
+      {
+        "name": "Python",
+        "version": "3.13.5"
+      },
+      {
+        "name": "SQLite",
+        "version": "3.46.1"
+      },
+      {
+        "name": "zlib",
+        "version": "1.3.1"
+      }
+    ]
+  },
+  "input_artifacts": [
+    {
+      "path": "systemic.py",
+      "sha256": "f734d54e2c424355385268664f0f81c42f521aa6cb334b5ca40b899fe6ad2c47"
+    },
+    {
+      "path": "CONTRACT.md",
+      "sha256": "8736ffe9b29e24625740715acf8b1e69f0f3b051ea57bd1f33e754d3d182f8a0"
+    },
+    {
+      "path": "SOURCES.json",
+      "sha256": "f8c4c1a85c85eb1d2dedadbabd3eeabdc99d1e2b6a8dee441798cffa3e2ad841"
+    },
+    {
+      "path": "README.md",
+      "sha256": "912f8a4b6d5773e2392a8f7bdf3e1268cb9f0b7498dff1369d6cbeee98333b9e"
+    },
+    {
+      "path": "question_example.json",
+      "sha256": "caf86a294ebc7948c74b8bb57ab6c814e92ed219c1f413bfb35823fad3bf79da"
+    },
+    {
+      "path": "verify.py",
+      "sha256": "b3bcaf45799edf76eff43c42df72494aed100e9c1a90a11c1d8cde7ed622c0d4"
+    }
+  ],
+  "mathematics": {
+    "assertion_tested": "Exact finite minimax diagnostic policies, independent tiny tree oracle, selected local SQLite/zlib dependency episodes.",
+    "bounds": {
+      "actions": 4,
+      "feasibility_regimes": 2,
+      "implementation_cost_values": 5,
+      "initial_states_per_regime": 10,
+      "query_pool": 8,
+      "tiny_oracles": 1024,
+      "worlds": 25
+    },
+    "coefficient_domain": "integer utilities and positive integer query costs; infinity represents no finite policy",
+    "conventions": "Noiseless binary questions; all optimum ties preserved; no worlds outside the declared model.",
+    "inputs": [
+      "systemic.py",
+      "CONTRACT.md"
+    ],
+    "non_claims": [
+      "No universal semantic or cultural inference.",
+      "No total net-utility optimality after questioning.",
+      "No independent human replication, production deployment recommendation, concurrency stress or crash-safety certification."
+    ]
+  },
+  "outputs": [
+    {
+      "path": "evidence/MODEL.json",
+      "sha256": "fdfe2aa3857842011627aae77025dd7119243268f87e019aa096a524a592e723"
+    },
+    {
+      "path": "evidence/SOFTWARE.json",
+      "sha256": "a0878ebef955de2c79c3c7d856bc8b5e722bb071ee1ae85e130e8ecb46346206"
+    },
+    {
+      "path": "evidence/INTEGRATION.json",
+      "sha256": "989e3baf0c52d6e040c4d31ba652ae4331d2d24066ae8c380c80a46ce63d2c6d"
+    }
+  ],
+  "randomness": {
+    "generator": "none; dictionary bytes derived deterministically from SHA-256",
+    "seed": null,
+    "used": false
+  },
+  "repository": {
+    "commit": "0837d5bc11c7f5806fbbc919e9721b1b182e3cb9",
+    "dirty": true,
+    "note": "Source repository base; new code is bound by hashes, not claimed present at this base."
+  },
+  "residual_risks": [
+    "Cases and models selected by the same assistant that authored the code.",
+    "Input models are manually specified.",
+    "SQLite 3.46.1 is not a current production-safety baseline; official WAL-reset caveat applies.",
+    "Package-local v1 custody validation, not official Mathbox schema validator."
+  ],
+  "result": "PASS in stated finite/selected local domains",
+  "run": {
+    "exit_status": 0,
+    "repetitions": 2,
+    "runtime_seconds": 1.2925554200000136,
+    "started_at": "2026-09-13T19:47:39.339058+00:00",
+    "wall_timeout_seconds_per_process": 40
+  },
+  "schema_version": 1
+}
