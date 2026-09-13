@@ -36,3 +36,11 @@ See [publication evidence](evidence/PUBLICATION_CHECKS.json) for fresh checks an
 ## SPrime Search — complete bounded candidate census
 
 [SPrime Search](SPrime%20Search/README.md) joins the UTF-8 carrier to exact NAND-program counts, protected-behavior checking, shortest witnesses, rank/unrank and a separate alliteration fixture through a 1,024-byte capacity. Run `python "SPrime Search/run_audit.py" --out sprime-results`. Counts classify all expressions in the declared grammar, not arbitrary human ideas. Existing projects and workflows are unchanged.
+
+## Blank Page and Hodge research aids
+
+- [Blank Page Lab](Blank%20Page%20Lab/README.md) — inspect exact marks, observer/context distinctions and the unresolved historical route to `OLU_Surface` and `OLU_Context`; preserves recollection separately from documented sequence.
+- [Hodge Span Lab](Hodge%20Span%20Lab/README.md) — exact rational ranks and checkable separating covectors for supplied cycle/target vectors. A linear-algebra aid, not a geometric proof or an automatic Hodge-class detector.
+
+Both are local Python standard-library tools with examples and bounded tests. These are subprojects, not new repositories. No deployment, private archive publication or promotion of an open conjecture is implied.
+

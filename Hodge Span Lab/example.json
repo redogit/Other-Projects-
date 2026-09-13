@@ -1,0 +1,7 @@
+{
+  "schema": "hodge-span/v1",
+  "ambient_dimension": 3,
+  "basis": "Synthetic e1,e2,e3; not a cohomology computation",
+  "cycle_vectors": [[1,0,0],[2,0,0],[0,1,0]],
+  "target_vectors": [[1,1,0],[0,0,1]]
+}

@@ -1,0 +1,13 @@
+{
+  "schema": "blank-page/v1",
+  "observer": "A researcher beginning a question; synthetic example",
+  "question": "What changes when an apparently blank page is viewed with different context?",
+  "carrier_state": "present",
+  "marks": "",
+  "context": [],
+  "definitions": {"OLU_Surface": null, "OLU_Context": null},
+  "lineage": [
+    {"from":"blank-page exploration", "to":"OLU_Surface", "status":"user_recollection", "sources":["Current user request, 2026-09-13; earlier derivation not recovered"]},
+    {"from":"blank-page exploration", "to":"OLU_Context", "status":"user_recollection", "sources":["Current user request, 2026-09-13; earlier derivation not recovered"]}
+  ]
+}
