@@ -1,0 +1,10 @@
+test_all_small_two_by_two (test_span.Tests.test_all_small_two_by_two) ... ok
+test_bad_inputs (test_span.Tests.test_bad_inputs) ... ok
+test_duplicates_are_not_rank (test_span.Tests.test_duplicates_are_not_rank) ... ok
+test_empty_spans (test_span.Tests.test_empty_spans) ... ok
+test_rational_not_integral (test_span.Tests.test_rational_not_integral) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.006s
+
+OK
