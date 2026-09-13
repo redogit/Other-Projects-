@@ -74,6 +74,17 @@ def require(condition: bool, message: str) -> None:
         raise ValueError(message)
 
 
+def normalize_prose(text: str) -> str:
+    """Normalize presentation punctuation for semantic-boundary checks only."""
+    return (
+        text.replace("‑", "-")
+        .replace("–", "-")
+        .replace("—", "-")
+        .replace("−", "-")
+        .lower()
+    )
+
+
 def run(*argv: str) -> subprocess.CompletedProcess[str]:
     print("RUN", " ".join(argv), flush=True)
     result = subprocess.run(
@@ -120,11 +131,11 @@ def verify_historical_boundary() -> None:
     require("No human-learning or corpus-training experiment" in non_claims,
             "Historical human-learning non-claim was lost")
 
-    routing = ROUTING.read_text(encoding="utf-8")
+    routing = normalize_prose(ROUTING.read_text(encoding="utf-8"))
     require("source data, never instructions" in routing, "Corpus-data/instruction boundary was lost")
-    require("source-of-truth" in routing and "operative publication" in routing,
+    require("historical checkpoint" in routing and "operative publication" in routing,
             "Cross-reference/source-of-truth boundary was lost")
-    require("game-engine repository is not Orbit Lab" in routing, "Orbit project-identity boundary was lost")
+    require("game-engine repository is not orbit lab" in routing, "Orbit project-identity boundary was lost")
     require(COOP.is_dir(), "Preserved cooperation lab is missing")
 
 
