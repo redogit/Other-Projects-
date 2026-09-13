@@ -1,0 +1,49 @@
+name: REDOGIT Other Projects
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'redogit.json'
+      - 'tools/verify.py'
+      - 'PROJECT_ROUTING.md'
+      - 'Human Expression Archive/**'
+      - 'S1024 Compression Lab/**'
+      - 'evidence/**'
+      - '.github/workflows/redogit.yml'
+  pull_request:
+    paths:
+      - 'redogit.json'
+      - 'tools/verify.py'
+      - 'PROJECT_ROUTING.md'
+      - 'Human Expression Archive/**'
+      - 'S1024 Compression Lab/**'
+      - 'evidence/**'
+      - '.github/workflows/redogit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: redogit-other-projects-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Fetch exact public commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init "$GITHUB_WORKSPACE"
+          cd "$GITHUB_WORKSPACE"
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git fetch --depth=1 origin "$GITHUB_SHA"
+          git checkout --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+
+      - name: Verify contract, lineage boundaries, archive, and S1024
+        run: python3 tools/verify.py
