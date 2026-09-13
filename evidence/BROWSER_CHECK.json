@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "scope": "bounded DOM rendering and filtering, not full browser navigation or accessibility certification",
+  "browser": "144.0.7559.96",
+  "all_records": 91,
+  "native_script_matches": 1,
+  "recording_filter_matches": 9,
+  "reset_matches": 91,
+  "query_focus": true,
+  "mobile_viewport_width": 390,
+  "mobile_scroll_width": 390,
+  "page_errors": [],
+  "limits": [
+    "Default Playwright browser unavailable; installed Chromium used.",
+    "File navigation blocked by environment policy. Tested generated HTML with set_content; no policy changed."
+  ],
+  "correction": "Initial 28-pixel narrow-screen text overflow fixed with overflow-wrap:anywhere; DOM smoke rerun passed."
+}

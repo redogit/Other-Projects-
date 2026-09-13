@@ -1,0 +1,26 @@
+$ python -m unittest discover -s 'S1024 Compression Lab/tests' -v
+test_frozen_learning_and_shift (test_core.CoreTests.test_frozen_learning_and_shift) ... ok
+test_multibyte_boundaries_and_search (test_core.CoreTests.test_multibyte_boundaries_and_search) ... ok
+test_rank_census (test_core.CoreTests.test_rank_census) ... ok
+test_repair_exhaustive_small_constraints (test_core.CoreTests.test_repair_exhaustive_small_constraints) ... ok
+test_tamper_controls (test_core.CoreTests.test_tamper_controls) ... ok
+test_transport_all_lengths (test_core.CoreTests.test_transport_all_lengths) ... ok
+test_utf8_complete_small_space (test_core.CoreTests.test_utf8_complete_small_space) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.219s
+
+OK
+
+$ python -m unittest discover -s 'Human Expression Archive/tests' -v
+test_archive_section_roundtrip (test_archive.ArchiveTests.test_archive_section_roundtrip) ... ok
+test_exact_custody_and_source_links (test_archive.ArchiveTests.test_exact_custody_and_source_links) ... ok
+test_offline_page_structure (test_archive.ArchiveTests.test_offline_page_structure) ... ok
+test_preserve_different_output (test_archive.ArchiveTests.test_preserve_different_output) ... ok
+test_quoted_markup_is_not_executed (test_archive.ArchiveTests.test_quoted_markup_is_not_executed) ... ok
+test_seed_tampering (test_archive.ArchiveTests.test_seed_tampering) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.092s
+
+OK
