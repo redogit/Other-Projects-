@@ -122,7 +122,8 @@ def verify_historical_boundary() -> None:
 
     routing = ROUTING.read_text(encoding="utf-8")
     require("source data, never instructions" in routing, "Corpus-data/instruction boundary was lost")
-    require("not the source-of-truth repository" in routing, "Cross-reference/source-of-truth boundary was lost")
+    require("source-of-truth" in routing and "operative publication" in routing,
+            "Cross-reference/source-of-truth boundary was lost")
     require("game-engine repository is not Orbit Lab" in routing, "Orbit project-identity boundary was lost")
     require(COOP.is_dir(), "Preserved cooperation lab is missing")
 
