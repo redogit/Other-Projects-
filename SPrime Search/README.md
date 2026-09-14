@@ -108,3 +108,11 @@ The user's instinct remains an open research direction. This pass supplies an ac
 ## Pass 04: compact reuse and context
 
 [Compact reuse and context](compact/README.md) tests a distinct versioned NAND register language: 412,909,356 words through eight UTF-8 bytes, with explicit unresolved outputs and fallback to the parent tree grammar. The results above remain scoped to the original grammar.
+
+## September 14: semantic query compilation repair
+
+[The compact query-cache repair](compact/CACHE_REPAIR_2026-09-14.md) validates
+semantic states before cache access and adds bounded retention and explicit
+release. The four accepted behaviors and D1 bounds remain unchanged. The parent
+verifier now defaults to a current versioned record; the historical record is
+preserved, including its obsolete README hash.
