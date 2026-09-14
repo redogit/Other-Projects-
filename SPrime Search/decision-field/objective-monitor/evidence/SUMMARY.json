@@ -1,0 +1,48 @@
+{
+  "action_count": 2,
+  "collision_physical_states": 253380,
+  "initial_cases_by_colliding_state_count": {
+    "0": 135784,
+    "1": 39708,
+    "2": 46284,
+    "3": 40368,
+    "4": 0
+  },
+  "initial_cases_with_monitor_collision": 126360,
+  "initial_state_cases": 262144,
+  "maximum_minimum_certificate_radius": 4,
+  "minimum_certificate_radius_distribution": {
+    "2": 57024,
+    "3": 54756,
+    "4": 14580
+  },
+  "ordered_action_map_pairs": 65536,
+  "state_count": 4,
+  "status": "PASS_BOUNDED",
+  "systems_with_monitor_collision": 48822,
+  "tracked_state": 1,
+  "witness": {
+    "initial_state": 0,
+    "left_code": 0,
+    "left_map": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "physical_state": 0,
+    "radius": 2,
+    "right_code": 1,
+    "right_map": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "word_with_visit": [
+      1,
+      0
+    ],
+    "word_without_visit": []
+  }
+}
