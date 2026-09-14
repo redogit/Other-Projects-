@@ -22,6 +22,11 @@ class QTests(unittest.TestCase):
     a=QuestionSpec('a','a',('y','n'),(('y',('a','c')),('n',('b','d'))),3)
     b=QuestionSpec('b','b',('y','n'),(('y',('a','c')),('n',('b','d'))),1)
     self.assertEqual(rank_questions((a,b),('a','b','c','d'),('a','b'))[0].question.stable_id,'b')
+  def test_answer_recomputes_frontier_when_dominated_candidate_survives(self):
+    q=QuestionSpec('qnew','remove old frontier',('old','new'),(('old',('a','b')),('new',('c',))),0)
+    costs={'a':(1,3),'b':(3,1),'c':(4,4)}
+    score=score_question(q,('a','b','c'),('a','b'),costs=costs)
+    self.assertEqual(dict(score.answer_frontiers)['new'],('c',))
   def test_why_records(self):
     q=QuestionSpec('q','sensor?',('yes','no'),(('yes',('fused',)),('no',('open',))),1)
     ranked=rank_questions((q,),('fused','open'),('fused','open'))[0]
