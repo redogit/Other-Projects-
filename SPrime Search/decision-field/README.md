@@ -55,22 +55,31 @@ The partial requirements generate a context-conflict graph. Four named contexts 
 The minimum repair is itself a canonical `T4` word and a tagged one-float carrier. Its two output bits also have exact four-input ANF masks, linking temporal behavior back to the canonical static field.
 
 ## Carrier boundary
-The tagged float carrier fixes exponent 1023 and reserves four fraction bits for a format tag, leaving **48 payload bits**. It can therefore carry A4, A5, B4 and T4 ranks exactly, while remaining a normal finite binary64 value. This is an opaque carrier protocol; numerical arithmetic on the float is not assigned meaning.
+The tagged float carrier fixes exponent 1023 and reserves four fraction bits for a format tag, leaving **48 protocol payload bits**. The current tags use only the declared canonical width of their object: A4 uses 16 bits and A5/B4/T4 use 32. High unused payload bits are rejected at both encoding and decoding. This is an opaque carrier protocol; numerical arithmetic on the float is not assigned meaning.
 
 With the two-byte self-describing ASCII tag, the eight-byte envelope has six base64 payload characters = 36 encoded bits. Therefore the exact self-describing frontier includes:
 
 - 5 inputs x 1 output (32 bits) — fits;
 - 4 inputs x 2 outputs (32 bits) — fits;
-- 4 inputs x 3 outputs (48 bits) — **does not** fit as eight-byte tagged text, although it fits the 48-bit tagged float payload;
-- 6 inputs x 1 output (64 bits) — fits neither this tagged float payload nor the eight-byte tagged text envelope.
+- 4 inputs x 3 outputs (48 bits) — **does not** fit as eight-byte tagged text, although a separately defined 48-bit tagged-float format could fit that payload;
+- 6 inputs x 1 output (64 bits) — fits neither the current tagged-float payload nor the eight-byte tagged text envelope.
 
 Those are representation capacity boundaries, not impossibility results for larger carriers or shared external context.
+
+## Hardening after adversarial review
+
+A harder pass found and repaired two boundary defects without changing the original scientific `SUMMARY.json`: noncanonical high float payloads were accepted under narrower format tags, and several public helpers did not consistently reject out-of-domain ranks/input counts. See `HARDENING_2026-09-14.md` and `evidence/HARDENING_VERIFICATION.json`.
+
+The temporal stress tests also found a consequential distinction: **fixed-context stability does not imply stability under a changing context schedule**. Among 64 four-state maps that each converge to a unique fixed-point attractor, 1,008 of the 4,096 ordered pairs create a 2- or 3-cycle in their two-step composition. Thus `transition system + context schedule`, not a local map alone, is the subject for switched temporal claims.
+
+For six-input / one-output behavior, the complete field contains exactly `2^64` functions while binary64 has only `2^64 - 2^53` finite bit patterns. Therefore one finite binary64 value cannot injectively carry the entire A6 field. A canonical exact fallback splits on the highest input and carries two A5 objects; this was checked on all 64 basis functions plus 100,000 deterministic 64-bit samples and 20,000 paired textual-codec cases.
 
 ## Run
 
 ```sh
 cd "SPrime Search/decision-field"
 python audit.py
+python stress_audit.py
 ```
 
 Python standard library only. The evidence files are generated locally. No cultural corpus, natural-language interpretation, training data, or user preference is inferred.

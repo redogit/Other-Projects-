@@ -8,6 +8,7 @@ ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
 INV = {c:i for i,c in enumerate(ALPHABET)}
 TAGS = {'A4':1, 'A5':2, 'B4':3, 'T4':4}
 REV_TAGS = {v:k for k,v in TAGS.items()}
+PAYLOAD_BITS = {'A4':16, 'A5':32, 'B4':32, 'T4':32}
 
 
 def _check_int(v, lo, hi, name):
@@ -32,6 +33,7 @@ def mobius(mask:int, n:int) -> int:
 
 
 def eval_anf(coeff:int, n:int, row:int) -> int:
+    _check_int(n,0,5,'n')
     width=1<<n
     _check_int(coeff,0,(1<<width)-1,'coeff')
     _check_int(row,0,width-1,'row')
@@ -44,13 +46,18 @@ def eval_anf(coeff:int, n:int, row:int) -> int:
 
 
 def truth_from_anf(coeff:int,n:int) -> int:
+    _check_int(n,0,5,'n')
     width=1<<n
+    _check_int(coeff,0,(1<<width)-1,'coeff')
     return sum(eval_anf(coeff,n,row)<<row for row in range(width))
 
 
 def algebraic_degree(coeff:int,n:int) -> int:
+    _check_int(n,0,5,'n')
+    width=1<<n
+    _check_int(coeff,0,(1<<width)-1,'coeff')
     if coeff==0: return -1
-    return max(s.bit_count() for s in range(1<<n) if (coeff>>s)&1)
+    return max(s.bit_count() for s in range(width) if (coeff>>s)&1)
 
 
 def _encode_fixed(value:int, chars:int) -> str:
@@ -147,7 +154,7 @@ def decode_T4(text:str) -> int:
 
 def to_float(format_name:str, payload:int) -> float:
     if format_name not in TAGS: raise ValueError('unknown format tag')
-    _check_int(payload,0,(1<<48)-1,'payload')
+    _check_int(payload,0,(1<<PAYLOAD_BITS[format_name])-1,'payload')
     frac=(TAGS[format_name]<<48)|payload
     bits=(1023<<52)|frac
     return struct.unpack('>d',bits.to_bytes(8,'big'))[0]
@@ -159,7 +166,9 @@ def from_float(value:float) -> tuple[str,int]:
     if (bits>>63) or ((bits>>52)&0x7ff)!=1023: raise ValueError('outside tagged carrier')
     frac=bits&((1<<52)-1); tag=(frac>>48)&15; payload=frac&((1<<48)-1)
     if tag not in REV_TAGS: raise ValueError('unknown carrier tag')
-    return REV_TAGS[tag],payload
+    format_name=REV_TAGS[tag]
+    if payload >= 1<<PAYLOAD_BITS[format_name]: raise ValueError('noncanonical high payload bits')
+    return format_name,payload
 
 
 def identity_transition() -> int:
@@ -168,7 +177,7 @@ def identity_transition() -> int:
 
 
 def get_next(rank:int,context:int,state:int) -> int:
-    _check_int(context,0,3,'context'); _check_int(state,0,3,'state')
+    _check_int(rank,0,0xffffffff,'rank'); _check_int(context,0,3,'context'); _check_int(state,0,3,'state')
     return (rank>>(8*context+2*state))&3
 
 
