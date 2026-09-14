@@ -1,0 +1,42 @@
+name: Decision Field Operator Lab
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Decision Field Operator Lab/**'
+      - '.github/workflows/operator-field-check.yml'
+  pull_request:
+    paths:
+      - 'Decision Field Operator Lab/**'
+      - '.github/workflows/operator-field-check.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: operator-field-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Fetch exact public commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init "$GITHUB_WORKSPACE"
+          cd "$GITHUB_WORKSPACE"
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git fetch --depth=1 origin "$GITHUB_SHA"
+          git checkout --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+
+      - name: Run exact bounded tests
+        run: python3 -m unittest discover -s "Decision Field Operator Lab" -p "test_*.py" -v
+
+      - name: Verify committed evidence is reproducible
+        run: python3 "Decision Field Operator Lab/run_audit.py" --check
