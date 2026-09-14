@@ -1,7 +1,33 @@
 {
   "hidden_mode": {
-    "first_q2_actions": [[3,1,0,0],[2,0,0,0]],
-    "first_q2_updates": [[0,1,0,0],[0,0,0,0]],
+    "first_q2_actions": [
+      [
+        3,
+        1,
+        0,
+        0
+      ],
+      [
+        2,
+        0,
+        0,
+        0
+      ]
+    ],
+    "first_q2_updates": [
+      [
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
     "initial_hidden_belief": 17,
     "interpretation": "A failed consequential action can also reveal hidden mode; separate probe action is not necessary in the minimum controller.",
     "minimum_controller_memory_bits": 1,
@@ -20,13 +46,38 @@
     "belief_winning_cases": 160440,
     "collapsed_observation_memory_needed_models": 3528,
     "memoryless_winning_cases": 139416,
-    "min_observation_classes_belief": [10696,0,0,0,5688],
-    "min_observation_classes_memoryless": [7168,3528,0,0,5688],
-    "minimum_no_observation_controller_states": {"1":7168,"2":3000,"3":528,"impossible":5688},
+    "min_observation_classes_belief": [
+      10696,
+      0,
+      0,
+      0,
+      5688
+    ],
+    "min_observation_classes_memoryless": [
+      7168,
+      3528,
+      0,
+      0,
+      5688
+    ],
+    "minimum_no_observation_controller_states": {
+      "1": 7168,
+      "2": 3000,
+      "3": 528,
+      "impossible": 5688
+    },
     "model_partition_cases": 245760,
     "partitions": 15,
     "refinement_implications_checked": 983040,
-    "shortest_open_loop_word_length": {"1":508,"2":5316,"3":3912,"4":672,"5":240,"6":48,"impossible":5688}
+    "shortest_open_loop_word_length": {
+      "1": 508,
+      "2": 5316,
+      "3": 3912,
+      "4": 672,
+      "5": 240,
+      "6": 48,
+      "impossible": 5688
+    }
   },
   "objective_monitor": {
     "interpretation": "Current physical belief alone cannot encode whether a nonabsorbing reach objective has already been satisfied.",
@@ -38,9 +89,29 @@
     "synthetic_required_action_before_visit": 0
   },
   "partial_observation": {
+    "all_partitions": [
+      {"belief_wins":true,"classes":1,"memoryless_policy":null,"partition":[0,0,0,0]},
+      {"belief_wins":true,"classes":2,"memoryless_policy":null,"partition":[0,0,0,1]},
+      {"belief_wins":true,"classes":2,"memoryless_policy":[1,0],"partition":[0,0,1,0]},
+      {"belief_wins":true,"classes":2,"memoryless_policy":[1,0],"partition":[0,0,1,1]},
+      {"belief_wins":true,"classes":3,"memoryless_policy":[1,0,0],"partition":[0,0,1,2]},
+      {"belief_wins":true,"classes":2,"memoryless_policy":[0,1],"partition":[0,1,0,0]},
+      {"belief_wins":true,"classes":2,"memoryless_policy":[0,1],"partition":[0,1,0,1]},
+      {"belief_wins":true,"classes":3,"memoryless_policy":[0,1,0],"partition":[0,1,0,2]},
+      {"belief_wins":true,"classes":2,"memoryless_policy":null,"partition":[0,1,1,0]},
+      {"belief_wins":true,"classes":2,"memoryless_policy":null,"partition":[0,1,1,1]},
+      {"belief_wins":true,"classes":3,"memoryless_policy":null,"partition":[0,1,1,2]},
+      {"belief_wins":true,"classes":3,"memoryless_policy":[0,1,0],"partition":[0,1,2,0]},
+      {"belief_wins":true,"classes":3,"memoryless_policy":[0,1,0],"partition":[0,1,2,1]},
+      {"belief_wins":true,"classes":3,"memoryless_policy":[0,1,0],"partition":[0,1,2,2]},
+      {"belief_wins":true,"classes":4,"memoryless_policy":[0,1,0,0],"partition":[0,1,2,3]}
+    ],
     "belief_strategy_wins_all_15_partitions": true,
     "collapsed_observation_q1_controller": null,
-    "collapsed_observation_q2_controller": {"actions":[0,1],"updates":[1,0]},
+    "collapsed_observation_q2_controller": {
+      "actions": [0,1],
+      "updates": [1,0]
+    },
     "independent_horizon_beliefs_checked": 49500,
     "initial_belief": 7,
     "memoryless_winning_partitions": 10,
