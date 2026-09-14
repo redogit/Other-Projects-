@@ -1,0 +1,13 @@
+{
+  "claim_ceiling": "bounded deterministic finite tradeoff; not a universal memory/observation theorem",
+  "native_replays_identical": true,
+  "python_native_exact_match": true,
+  "scope": "exact two-class sensor / two-state-controller reachability census",
+  "source_hash_policy": "SHA-256 of exact checked-out source bytes used by the audit",
+  "source_sha256": {
+    "CONTRACT.md": "88c961f60c1ac7b93ac169bd8ab19484616d879d910918a138f1e191bb3bc98f",
+    "native_sensor_memory.cpp": "c8780c1e5b8eaa7e44937f6fd9d4e36e53d010023cce27708dce6a8a16dffc25",
+    "sensor_memory.py": "3b8a123c8c7226d6ff6e3c6af2ef95045dcb4c17080ffdcf2dc59102b91a0f9a"
+  },
+  "status": "PASS"
+}
