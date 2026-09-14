@@ -1,0 +1,18 @@
+{
+  "experiment": "DF-PNP-01",
+  "status": "EXECUTED_FINITE_CALIBRATION_PLUS_SEPARATE_PROOF",
+  "scope": "Parity-aligned protected decision on affine support sizes 1 through 8.",
+  "rows": [
+    {"support_size":1,"basis_coordinate_min_worst_case_depth":1,"affine_predicate_depth":1},
+    {"support_size":2,"basis_coordinate_min_worst_case_depth":2,"affine_predicate_depth":1},
+    {"support_size":3,"basis_coordinate_min_worst_case_depth":3,"affine_predicate_depth":1},
+    {"support_size":4,"basis_coordinate_min_worst_case_depth":4,"affine_predicate_depth":1},
+    {"support_size":5,"basis_coordinate_min_worst_case_depth":5,"affine_predicate_depth":1},
+    {"support_size":6,"basis_coordinate_min_worst_case_depth":6,"affine_predicate_depth":1},
+    {"support_size":7,"basis_coordinate_min_worst_case_depth":7,"affine_predicate_depth":1},
+    {"support_size":8,"basis_coordinate_min_worst_case_depth":8,"affine_predicate_depth":1}
+  ],
+  "structural_result": "Exact affine elimination can make a useful original coordinate a multi-coordinate affine form in the free basis. Restricting branch candidates to basis coordinates is therefore representation-dependent.",
+  "next_discriminator": "On recovered SAT64 instances, compare free-only, all-original, and affine-form candidate sets with planning, affine-update, simplification, verification, and total tree cost charged separately.",
+  "claim_ceiling": "No uniform SAT speedup, polynomial bound, or P-vs-NP conclusion. No Hodge evidence imported."
+}
