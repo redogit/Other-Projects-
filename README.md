@@ -7,6 +7,7 @@ Implementation home for the Human Expression Archive, 1,024-byte section carrier
 - [ChatGPT and Conscience](ChatGPT%20and%20Conscience/README.md) — the existing cooperation lab. Its code, patches, evidence and source locks are unchanged by the archive publication.
 - [Human Expression Archive](Human%20Expression%20Archive/README.md) — the complete 91-record accession, source register, qualified relations, explicit gaps, and a searchable offline viewer.
 - [S1024 Compression Lab](S1024%20Compression%20Lab/README.md) — exact 1,024-byte cuts, UTF-8 boundary states, finite-float transport, exact UTF-8 indexing, constrained bit repair, and a frozen-pattern compression example.
+- [Decision Field MMORPG](Decision%20Field%20MMORPG/README.md) — a constantly mutating browser-world prototype with procedural events, local adaptation, carrier lenses and the code-hidden **Fuzzball** Quantum Frontier artifact.
 
 ## Run locally
 
@@ -43,4 +44,8 @@ See [publication evidence](evidence/PUBLICATION_CHECKS.json) for fresh checks an
 - [Hodge Span Lab](Hodge%20Span%20Lab/README.md) — exact rational ranks and checkable separating covectors for supplied cycle/target vectors. A linear-algebra aid, not a geometric proof or an automatic Hodge-class detector.
 
 Both are local Python standard-library tools with examples and bounded tests. These are subprojects, not new repositories. No deployment, private archive publication or promotion of an open conjecture is implied.
+
+## Decision Field MMORPG
+
+[Decision Field MMORPG](Decision%20Field%20MMORPG/README.md) turns the decision-field research into a browser MMORPG-style laboratory. The world mutates continuously; failures remain part of the player's local state; and the hidden **Fuzzball** artifact opens bounded Quantum Frontier encounters around genuine unresolved physics questions while preserving `UNRESOLVED` instead of manufacturing solutions.
 
