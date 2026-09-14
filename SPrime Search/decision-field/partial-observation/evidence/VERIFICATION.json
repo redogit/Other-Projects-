@@ -1,13 +1,6 @@
 {
   "native_replays_identical": true,
   "scope": "Deterministic finite partial observation with sure objectives; not probabilistic POMDP inference or a universal partial-observation game theorem.",
-  "source_sha256": {
-    "CONTRACT.md": "b4f6958a83dbabe519d9bf0a07b00000e094d9d4032fd50558f8c5960533d9c9",
-    "README.md": "cba039a1c7abe58ccb4fcc26c8ed18f93f823e09b6db3ab858be6302ce06be88",
-    "audit.py": "37bf19cff980e415e8f5dc081e85f4f0d4645eb5585de5afb85a877df8842556",
-    "native_hidden.cpp": "042b21b616350784df9135be21655b1bd3365e0c7a646affd84071a4d094fba7",
-    "native_partial.cpp": "03c10310d615986c800600a9d8d0be416dea9749ddba5d09ffe3af80d4e86984",
-    "partial.py": "ed1408e86ee55247bd14cc87d3535136822fe58c468ea33ff358c629106b5e82"
-  },
+  "source_hash_policy": "Fresh audit SHA-256 values are checked by CI against the exact checked-out source bytes; no manually copied hash table is treated as authority.",
   "status": "PASS"
 }
