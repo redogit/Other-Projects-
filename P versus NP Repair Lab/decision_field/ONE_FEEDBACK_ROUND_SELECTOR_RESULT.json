@@ -1,0 +1,38 @@
+{
+  "experiment": "DF-PNP-03-ONE-FEEDBACK-ROUND-SELECTOR",
+  "status": "EXECUTED_BOUNDED_NEGATIVE_RESULT",
+  "planner": "K=8 occurrence shortlist; for each branch value run only raw GF(5) compression plus one exact affine-consequence/parameterization round; score resulting guard-component topology; do not run full feedback closure or Boolean enumeration during planning.",
+  "source_adapter_sha256_before_repository_copy": "2eedb37002e4fa15570b731a08983ba77eb8d55c04af4cecdffa67f53df63ba2",
+  "baseline_all_original": [
+    {"name":"compiler_0","status":"UNSAT","states":7,"maximum_depth":2},
+    {"name":"compiler_1","status":"SAT","states":3,"maximum_depth":2}
+  ],
+  "one_round_k8": [
+    {
+      "name":"compiler_0",
+      "status":"UNSAT",
+      "states":29,
+      "maximum_depth":5,
+      "seconds_total_approx":3.326,
+      "planning_candidates":112,
+      "planning_branch_predictions":224,
+      "planning_seconds_approx":2.133,
+      "planning_row_operations":17612,
+      "independent_tree_verifier":"PASS; 15 UNSAT leaves checked"
+    },
+    {
+      "name":"compiler_1",
+      "status":"SAT",
+      "states":3,
+      "maximum_depth":2,
+      "seconds_total_approx":0.212,
+      "planning_branch_predictions":32,
+      "independent_tree_verifier":"PASS"
+    }
+  ],
+  "result": "One feedback round is neither a safe proxy for full branch consequence nor an economic improvement on this panel. On compiler_0 it ranks a materially worse partition sequence, expanding the verified search from 7 states/depth 2 to 29 states/depth 5; on compiler_1 it preserves the 3-state tree while adding planning work.",
+  "related_negative": "Raw GF(5) compression without Boolean-guard feedback gave identical predicted root topology for every tested value of each top-8 candidate on all four preserved controls, so an even cheaper linear/topological proxy is blind on those probes.",
+  "research_consequence": "Stop increasing exact child work inside the planner. The next candidate selector should use partition-stable features learned/proved outside the current child solve, then be frozen and tested prospectively under renaming and SAT/UNSAT controls.",
+  "scope_boundary": "The balanced controls were not adaptively run with this one-round policy after the compiler_0 counterexample already falsified the intended improvement. This is not a lower bound on all partial-feedback predictors.",
+  "claim_ceiling": "Bounded negative result for this exact planner only. No P-vs-NP conclusion and no Hodge evidence transfer."
+}
