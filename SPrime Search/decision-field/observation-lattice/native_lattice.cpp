@@ -1,0 +1,23 @@
+#include <array>
+#include <cstdint>
+#include <iostream>
+#include <map>
+#include <vector>
+#include <algorithm>
+using namespace std;
+struct Part{array<int,4> p;int k;array<int,4> sizes;};
+vector<Part> parts(){vector<Part>out;array<int,4>a{0,0,0,0};auto rec=[&](auto&&self,int i,int mx)->void{if(i==4){Part q;q.p=a;q.k=mx+1;q.sizes.fill(0);for(int s=0;s<4;s++)q.sizes[a[s]]++;out.push_back(q);return;}for(int x=0;x<=mx+1;x++){a[i]=x;self(self,i+1,max(mx,x));}};rec(rec,1,0);return out;}
+array<int,4> mt(int b){array<int,4>f{};for(int s=0;s<4;s++)f[s]=(b>>(2*s))&3;return f;}
+bool full_win(const array<int,4>&a,const array<int,4>&b,int t,int pol){for(int start=0;start<4;start++){int s=start;bool seen[4]{};while(s!=t&&!seen[s]){seen[s]=true;s=((pol>>s)&1?b:a)[s];}if(s!=t)return false;}return true;}
+bool direct_win(const array<int,4>&a,const array<int,4>&b,int t,const Part&q){for(int op=0;op<(1<<q.k);op++){int p=0;for(int s=0;s<4;s++)p|=((op>>q.p[s])&1)<<s;if(full_win(a,b,t,p))return true;}return false;}
+array<int,4> action_part(int pol){array<int,4>q{};int first=pol&1;for(int s=0;s<4;s++)q[s]=(((pol>>s)&1)==first)?0:1;return q;}
+bool refines(const Part&fine,const array<int,4>&coarse){for(int i=0;i<4;i++)for(int j=0;j<4;j++)if(fine.p[i]==fine.p[j]&&coarse[i]!=coarse[j])return false;return true;}
+string pstr(const array<int,4>&p){string s="[";for(int i=0;i<4;i++){if(i)s+=",";s+=char('0'+p[i]);}return s+"]";}
+int main(){auto P=parts();if(P.size()!=15)return 2;uint64_t models=0,impossible=0,cases=0,theorem=0;map<int,uint64_t>mincount;uint64_t min31=0,min22=0,mixed2=0,mixed31=0,mixed22=0,mixed3=0;map<int,array<uint64_t,8>>byk;bool wd=false;vector<pair<array<int,4>,bool>>w31,w22;
+for(int t=0;t<4;t++){vector<int>bs;for(int b=0;b<256;b++)if(mt(b)[t]==t)bs.push_back(b);for(int b0:bs)for(int b1:bs){models++;auto a=mt(b0),b=mt(b1);vector<int>wins;for(int p=0;p<16;p++)if(full_win(a,b,t,p))wins.push_back(p);vector<array<int,4>>mins;if(wins.empty())impossible++;else{bool constant=false;for(int p:wins)if(p==0||p==15)constant=true;if(constant)mins.push_back({0,0,0,0});else for(int p:wins){auto q=action_part(p);if(find(mins.begin(),mins.end(),q)==mins.end())mins.push_back(q);}mincount[(int)mins.size()]++;for(auto&q:mins){int c0=count(q.begin(),q.end(),0),c1=4-c0,hi=max(c0,c1);if(c1==0){}else if(hi==3)min31++;else if(hi==2)min22++;else return 7;}}
+array<int,5>wc{};int c31=0,n31=0,c22=0,n22=0,c3=0,n3=0;for(const Part&q:P){bool d=direct_win(a,b,t,q);cases++;bool pred=false;for(auto&m:mins)if(refines(q,m)){pred=true;break;}if(d!=pred)return 3;theorem++;if(d)wc[q.k]++;if(q.k==2){int hi=max(q.sizes[0],q.sizes[1]);if(hi==3){n31++;c31+=d;}else{n22++;c22+=d;}}if(q.k==3){n3++;c3+=d;}if(!wd&&t==0&&b0==0x04&&b1==0x18){if(q.k==2&&max(q.sizes[0],q.sizes[1])==3)w31.push_back({q.p,d});if(q.k==2&&q.sizes[0]==2&&q.sizes[1]==2)w22.push_back({q.p,d});}}
+for(int k=1;k<=4;k++)byk[k][wc[k]]++;if(0<wc[2]&&wc[2]<7)mixed2++;if(0<c31&&c31<n31)mixed31++;if(0<c22&&c22<n22)mixed22++;if(0<c3&&c3<n3)mixed3++;if(t==0&&b0==0x04&&b1==0x18)wd=true;}}
+if(models!=16384||cases!=245760||theorem!=245760)return 4;if(impossible!=5688||mincount[1]!=7168||mincount[2]!=1392||mincount[4]!=1872||mincount[6]!=264)return 5;if(min31!=5928||min22!=5928||mixed2!=3528||mixed31!=3528||mixed22!=3264||mixed3!=3264)return 6;
+cout<<"{\n  \"status\":\"PASS\",\n  \"plant_target_systems\":"<<models<<",\n  \"partition_cases\":"<<cases<<",\n  \"impossible_systems\":"<<impossible<<",\n  \"minimal_sensor_count_distribution\":{\"1\":"<<mincount[1]<<",\"2\":"<<mincount[2]<<",\"4\":"<<mincount[4]<<",\"6\":"<<mincount[6]<<"},\n  \"minimal_two_class_sensor_occurrences\":{\"3+1\":"<<min31<<",\"2+2\":"<<min22<<"},\n  \"same_class_count_mixed_systems\":{\"2_classes\":"<<mixed2<<",\"3_classes\":"<<mixed3<<"},\n  \"same_profile_mixed_systems\":{\"2_classes_3+1\":"<<mixed31<<",\"2_classes_2+2\":"<<mixed22<<",\"3_classes_2+1+1\":"<<mixed3<<"},\n  \"policy_partition_theorem_cases\":"<<theorem<<",\n  \"witness\":{\"target\":0,\"map0_hex\":\"0x04\",\"map1_hex\":\"0x18\",\"map0\":[0,1,0,0],\"map1\":[0,2,1,0],\"three_plus_one\":[";
+for(size_t i=0;i<w31.size();i++){if(i)cout<<",";cout<<"{\"partition\":"<<pstr(w31[i].first)<<",\"wins\":"<<(w31[i].second?"true":"false")<<"}";}cout<<"],\"two_plus_two\":[";for(size_t i=0;i<w22.size();i++){if(i)cout<<",";cout<<"{\"partition\":"<<pstr(w22[i].first)<<",\"wins\":"<<(w22[i].second?"true":"false")<<"}";}cout<<"]},\n  \"winning_partition_count_distributions\":{\n";
+for(int k=1;k<=4;k++){cout<<"    \""<<k<<"\":{";bool first=true;for(int n=0;n<8;n++)if(byk[k][n]){if(!first)cout<<",";first=false;cout<<"\""<<n<<"\":"<<byk[k][n];}cout<<"}"<<(k<4?",":"")<<"\n";}cout<<"  }\n}\n";}
