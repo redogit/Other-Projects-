@@ -1,0 +1,114 @@
+{
+  "checks": [
+    "Two regression runs",
+    "Independent uncached minimax oracle on 255 candidate subsets",
+    "Two full D1 audits",
+    "Eight scientific files identical across new runs",
+    "Six committed scientific files identical to historical bytes",
+    "Exact source input bytes compared to execution staging copies"
+  ],
+  "claim_id": "SPRIME-CACHE-REPAIR-2026-09-14",
+  "command": [
+    "python3",
+    "SPrime Search/compact/run_audit.py",
+    "--out",
+    "pass2"
+  ],
+  "environment": {
+    "hardware": "Linux-6.18.44-x86_64-with-glibc2.39",
+    "software": [
+      "Python 3.12.14",
+      "g++ (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0"
+    ]
+  },
+  "input_artifacts": [
+    {
+      "path": "compact/compact.py",
+      "sha256": "50c23408ba56e2c2ee2bf1421d1a7c30b48830d5892cbc782d2c94eeaf1bd8f2",
+      "sha256_after": "50c23408ba56e2c2ee2bf1421d1a7c30b48830d5892cbc782d2c94eeaf1bd8f2"
+    },
+    {
+      "path": "compact/census.cpp",
+      "sha256": "83ebc0bd3c9f3ff6474035e016d999481c9e870368876d9d00e85fee58429020",
+      "sha256_after": "83ebc0bd3c9f3ff6474035e016d999481c9e870368876d9d00e85fee58429020"
+    },
+    {
+      "path": "compact/run_audit.py",
+      "sha256": "24ac999df482e9b26a36f3867265e1f10e0c4c1e8be436574f64cd06f9627511",
+      "sha256_after": "24ac999df482e9b26a36f3867265e1f10e0c4c1e8be436574f64cd06f9627511"
+    },
+    {
+      "path": "compact/test_cache_repair.py",
+      "sha256": "3dbea4fa44f13ab5d4e2d60d31bc991698e70fbc9503c6550cceddad2a2269cb",
+      "sha256_after": "3dbea4fa44f13ab5d4e2d60d31bc991698e70fbc9503c6550cceddad2a2269cb"
+    },
+    {
+      "path": "search.py",
+      "sha256": "8a784efa0c1c572349a9feac4df6e085a01f7eb16fb940ef4e2a915105121d53",
+      "sha256_after": "8a784efa0c1c572349a9feac4df6e085a01f7eb16fb940ef4e2a915105121d53"
+    },
+    {
+      "path": "compact/CONTRACT.md",
+      "sha256": "fccb6a19f5eb7575e7b0eaf25ff217a5338d13cc2e98c25f799c4a756dc9ede4",
+      "sha256_after": "fccb6a19f5eb7575e7b0eaf25ff217a5338d13cc2e98c25f799c4a756dc9ede4"
+    }
+  ],
+  "mathematics": {
+    "assertion_tested": "Strict semantic-state validation is cache-history independent for the tested malformed cases; minimax plans and complete bounded D1 scientific outputs are preserved.",
+    "bounds": {
+      "D1_gates": 6,
+      "full_words": 412909356,
+      "independent_small_minimax_subsets": 255,
+      "input_variables": 3,
+      "partial_specs": 6561,
+      "regression_tests": 6,
+      "truth_table_rows": 8
+    },
+    "coefficient_domain": "Exact integers and 8-bit complete Boolean truth tables",
+    "conventions": "D1 CONTRACT.md; candidate tuples sorted and exact integer typed; CACHE_REPAIR_2026-09-14.md",
+    "inputs": [
+      "compact/compact.py",
+      "compact/census.cpp",
+      "compact/run_audit.py",
+      "compact/test_cache_repair.py",
+      "search.py",
+      "compact/CONTRACT.md"
+    ],
+    "non_claims": [
+      "Not P versus NP resolution or a general polynomial SAT algorithm",
+      "No arbitrary natural-language semantics",
+      "No native machine-code compilation or universal execution optimum",
+      "No RSS/heap-memory benchmark or immediate garbage-collection guarantee",
+      "Same assisting system performed the implementation and audits; no independent human replication"
+    ]
+  },
+  "outputs": [
+    {
+      "path": "compact/evidence/CACHE_REPAIR_2026-09-14.json",
+      "sha256": "c2ad59c4bc0e7593108ea5b61f5255411bb495b233eab79fecc0f6893e528e36"
+    }
+  ],
+  "randomness": {
+    "generator": "Python random.Random in inherited full audit",
+    "seed": 20260913,
+    "used": true
+  },
+  "repository": {
+    "commit": "3c09ab6c07a854f8cc3feb585822cc7c5fd8dcde",
+    "dirty": true
+  },
+  "residual_risks": [
+    "Version 1 manifest records evidence but is not an execution sandbox or proof assistant",
+    "Old audit has hardcoded historical base metadata; actual changed-source hashes are recorded here",
+    "S1024 inherited dependency is separately SHA locked",
+    "No independent human replication or measured immediate memory reclamation"
+  ],
+  "result": "Implementation and finite assertion verified within the declared bounds",
+  "run": {
+    "exit_status": 0,
+    "process_timeout_seconds": 45,
+    "runtime_seconds": 9.36351003299933,
+    "started_at": "2026-09-14T04:18:56.765623+00:00"
+  },
+  "schema_version": 1
+}

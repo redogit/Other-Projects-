@@ -1,0 +1,71 @@
+{
+  "contract": "cnf-mutation-audit/1",
+  "exhaustive_two_variable_systems": 24576,
+  "sampled_systems": 128,
+  "random_seed": 854321,
+  "minimum_boundary_systems": 4,
+  "failures": 0,
+  "trap": {
+    "source": {
+      "variables": 3,
+      "clauses": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          -1,
+          2
+        ],
+        [
+          -1,
+          3
+        ],
+        [
+          -2,
+          1
+        ],
+        [
+          -2,
+          3
+        ],
+        [
+          -3,
+          1
+        ],
+        [
+          -3,
+          2
+        ]
+      ]
+    },
+    "baseline": 0,
+    "conflicts_by_assignment": [
+      1,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      0
+    ],
+    "repair": {
+      "status": "optimal",
+      "candidate": 7,
+      "minimum_distance": 3,
+      "minimum_count": 1,
+      "visited": 8,
+      "clause_checks": 29
+    },
+    "protected_bit_zero": "infeasible"
+  },
+  "timing_ns": {
+    "compile_masks": 10766,
+    "validate_and_load": 21432,
+    "solve_plus_independent_oracle": 29503
+  },
+  "compiled_json_bytes": 250,
+  "scope": "Exact finite oracle comparisons. Timings are one small local example, not a benchmark speed claim. Search enumerates Hamming layers; compilation never materializes the model population. No claim about arbitrary program repair or solving P versus NP."
+}

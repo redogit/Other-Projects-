@@ -1,0 +1,138 @@
+{
+  "claim_id": "PNP_V6_COMPLETE_BOUNDED_SELECTOR_AUDIT",
+  "mathematics": {
+    "assertion_tested": "Exact finite NAND DAG class construction, symmetry-aware greedy certificate construction, historical v5 calibration, and bounded comparison of all-ones versus every translation-weight representative.",
+    "coefficient_domain": "Boolean truth tables in uint16_t, exact bit operations and integer counts",
+    "conventions": "Input x encodes variable j in bit j; table bit x is f(x). Variables are initial signals; fanout and repeated NAND inputs are allowed. Constants are not free and enter only when generated. At most g NAND gates; any variable or computed gate may be output. Deterministic tie break (survivor count, coordinate, output bit). Pair actions impose equal bits at x and x xor t; representatives t=2^w-1.",
+    "inputs": [
+      "constructor_v6.cpp",
+      "run_v6.py",
+      "contract_v6.json"
+    ],
+    "bounds": {
+      "variables": [
+        2,
+        3,
+        4
+      ],
+      "maximum_gates": 6,
+      "cases": [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          4,
+          6
+        ]
+      ],
+      "independent_syntactic_class_crosscheck": "all declared n<=3 cases",
+      "all_action_scalar_path_crosscheck": "all emitted routes in all declared cases",
+      "wall_seconds": 120,
+      "address_space_bytes_per_process": 1073741824
+    },
+    "non_claims": [
+      "No general P versus NP conclusion",
+      "No asymptotic lower bound",
+      "No formula lower-bound transfer",
+      "No universal selector optimality",
+      "No calibrated wall-time superiority from one instrumented execution"
+    ]
+  },
+  "execution_artifacts": [
+    "constructor_v6.cpp",
+    "run_v6.py",
+    "contract_v6.json"
+  ],
+  "software": [
+    {
+      "name": "g++",
+      "version": "13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04)"
+    },
+    {
+      "name": "Python",
+      "version": "3.12.14"
+    }
+  ],
+  "randomness": {
+    "used": false,
+    "generator": "",
+    "seed": null
+  }
+}

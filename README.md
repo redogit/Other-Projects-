@@ -45,7 +45,19 @@ See [publication evidence](evidence/PUBLICATION_CHECKS.json) for fresh checks an
 
 Both are local Python standard-library tools with examples and bounded tests. These are subprojects, not new repositories. No deployment, private archive publication or promotion of an open conjecture is implied.
 
+## Explore connected work
+
+[Knowledge Garden](knowledge-garden/README.md) adds project hierarchies, typed connections, source summaries, guided trails, a browser working-set builder and a local read-only API. It connects selected Library, Master, companion, research and practical-project records while preserving each project's own state and evidence.
+
+Run it with Node.js 22 or later:
+
+```sh
+cd knowledge-garden
+npm start
+```
+
+Then open <http://127.0.0.1:4317>. See the [API contract](knowledge-garden/openapi.json) and [source review](knowledge-garden/docs/SOURCE_REVIEW.md).
+
 ## Decision Field MMORPG
 
 [Decision Field MMORPG](Decision%20Field%20MMORPG/README.md) turns the decision-field research into a browser MMORPG-style laboratory. The world mutates continuously; failures remain part of the player's local state; and the hidden **Fuzzball** artifact opens bounded Quantum Frontier encounters around genuine unresolved physics questions while preserving `UNRESOLVED` instead of manufacturing solutions.
-

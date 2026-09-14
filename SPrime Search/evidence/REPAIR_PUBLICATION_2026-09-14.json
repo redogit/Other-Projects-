@@ -1,0 +1,17 @@
+{
+  "base_commit": "3c09ab6c07a854f8cc3feb585822cc7c5fd8dcde",
+  "change": "Current publication record after appended compact and cache-repair pointers; historic VERIFICATION.json is preserved.",
+  "schema": "sprime-source-hashes-v2",
+  "source_hashes": {
+    "CONTRACT.md": "4bcb892e3146b013ea9c6a51c676fec4d43109bfe87e545546205a8055a90666",
+    "README.md": "999d127e781646c9b119e6e54b3ec868166a62b9e72a908b3d5bfdf46cf2bca0",
+    "evidence/FAILURE_LEDGER.json": "8a01783d454f8c92ac7204add44fa774b168b39cdd2dc4db705ea248705ee48c",
+    "evidence/VERIFICATION.json": "1785f4fb9195b4c7eff56830a5842ec6ec5e199e87ca8b01362588bfebfd62a1",
+    "evidence/repair_candidates.json": "32e0e86d1956ea7220dd2155d8061c74008864b4c7c8c620ca8b02a932c9f621",
+    "evidence/summary.json": "fca90327529849ae7d0dfaf5319cd18b8429078d2b9ccad8c7e61967a59982a7",
+    "run_audit.py": "4e834d3d8ac3cfaace8faee598946c793aa978d92508224995849a62c8ecbdb7",
+    "search.py": "8a784efa0c1c572349a9feac4df6e085a01f7eb16fb940ef4e2a915105121d53",
+    "verify.py": "4f0fff6606217693610f18f664cca7d7b5af8159521cb7de479f86fa1b77d89f"
+  },
+  "validation_limit": "Declared file byte integrity only; compact subtree has its own explicit record."
+}

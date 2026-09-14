@@ -1,0 +1,142 @@
+{
+  "schema_version": 2,
+  "claim_id": "CNF_MUTATION_001",
+  "repository": {
+    "commit": "unavailable",
+    "dirty": true
+  },
+  "command": [
+    "python3",
+    "mutation/audit.py",
+    "--output",
+    "mutation/evidence/run-001"
+  ],
+  "environment": {
+    "software": [
+      {
+        "name": "runner-python",
+        "version": "3.12.14"
+      },
+      {
+        "name": "Python",
+        "version": "3.12.14"
+      }
+    ],
+    "hardware": "Linux-6.18.44-x86_64-with-glibc2.39"
+  },
+  "mathematics": {
+    "assertion_tested": "Compiled CNF mask repair matches independent scalar enumeration in the declared finite systems; local monotone repair counterexample and explicit clear/type/stale-plan controls.",
+    "coefficient_domain": "Boolean assignments, exact Python integers",
+    "conventions": "Signed one-based literals; least significant bit is variable 1; protected bits retain baseline; distance is Hamming; unsigned-integer tie break.",
+    "inputs": [
+      "All subsets of nine non-tautological two-variable clauses including empty clause",
+      "Seeded 3–6 variable CNFs",
+      "Explicit implication-clique local-search counterexample"
+    ],
+    "bounds": {
+      "variables_exhaustive": 2,
+      "cnf_families": 512,
+      "baseline_values": 4,
+      "protected_masks": 4,
+      "radii": 3,
+      "sampled_systems": 128,
+      "sampled_variables": [
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    "non_claims": [
+      "No P vs NP resolution",
+      "No arbitrary program semantic repair",
+      "No polynomial general SAT solver",
+      "No historical Independent Set CSV reproduction"
+    ]
+  },
+  "randomness": {
+    "used": true,
+    "generator": "Python random.Random MT19937",
+    "seed": 854321
+  },
+  "run": {
+    "started_at": "2026-09-14T04:19:09.669235+00:00",
+    "runtime_seconds": 0.471147,
+    "exit_status": 0,
+    "status": "completed",
+    "timeout_seconds": 60.0,
+    "max_output_bytes": 1048576,
+    "resource_limits": {
+      "memory_bytes": 536870912,
+      "cpu_seconds": 45,
+      "max_cores": 1,
+      "max_threads": 1
+    },
+    "missing_results": [],
+    "invalid_results": []
+  },
+  "execution_artifacts": [
+    "mutation/repair.py",
+    "mutation/audit.py"
+  ],
+  "input_artifacts": [
+    {
+      "path": "mutation/repair.py",
+      "sha256": "5914a2ee46f5f479643460043808697f476fa1943f5661f87b7f0291173eeeee",
+      "sha256_after": "5914a2ee46f5f479643460043808697f476fa1943f5661f87b7f0291173eeeee"
+    },
+    {
+      "path": "mutation/audit.py",
+      "sha256": "1fce0cc5f4121609061ac3401f87ca9378098a82a55d7480dab2fd16751b0082",
+      "sha256_after": "1fce0cc5f4121609061ac3401f87ca9378098a82a55d7480dab2fd16751b0082"
+    }
+  ],
+  "output_directory": "mutation/evidence/run-001",
+  "declared_results": [
+    "mutation/evidence/run-001/results.json",
+    "mutation/evidence/run-001/trap.plan.json"
+  ],
+  "outputs": [
+    {
+      "path": "mutation/evidence/run-001/stdout.txt",
+      "sha256": "8f750147950eb74460bef938b07a33238909e880b4b4a412995c6b7b67bee26b",
+      "kind": "log"
+    },
+    {
+      "path": "mutation/evidence/run-001/stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "log"
+    },
+    {
+      "path": "mutation/evidence/run-001/results.json",
+      "sha256": "fbaceb09387bdc904496c64e7eaf3d254108ec01257a78679ea5103248099d7a",
+      "kind": "result"
+    },
+    {
+      "path": "mutation/evidence/run-001/trap.plan.json",
+      "sha256": "3212d3e23d8bbd1831ab50e5ceb09cccd5996a231b72ba959f415fd832bf8dc1",
+      "kind": "result"
+    }
+  ],
+  "checks": [
+    {
+      "check": "input hashes unchanged",
+      "passed": true
+    },
+    {
+      "check": "process exited successfully within enforced limits",
+      "passed": true
+    },
+    {
+      "check": "declared result files are present and regular",
+      "passed": true
+    }
+  ],
+  "result": "Run completed; mathematical assertion requires interpretation and review.",
+  "residual_risks": [
+    "Command success does not establish the mathematical interpretation.",
+    "Only listed input artifacts are pinned; external dependencies need recorded versions.",
+    "The thread cap uses conventional environment variables; a child program may ignore them.",
+    "The POSIX CPU-time limit is per process, not an aggregate descendant budget."
+  ]
+}

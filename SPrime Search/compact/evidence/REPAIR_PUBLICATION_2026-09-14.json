@@ -1,0 +1,103 @@
+{
+  "base_commit": "3c09ab6c07a854f8cc3feb585822cc7c5fd8dcde",
+  "change": "Strict-before-cache validation, bounded retention and explicit clear; old publication bytes retained as historical records.",
+  "files": [
+    {
+      "bytes": 4997,
+      "path": "CACHE_REPAIR_2026-09-14.md",
+      "sha256": "2904f647c3b6686b6b10a63c5d75bcfa115e3102e568b00bd8e48111716be9f8"
+    },
+    {
+      "bytes": 4569,
+      "path": "CONTRACT.md",
+      "sha256": "fccb6a19f5eb7575e7b0eaf25ff217a5338d13cc2e98c25f799c4a756dc9ede4"
+    },
+    {
+      "bytes": 9387,
+      "path": "README.md",
+      "sha256": "5dc8f3ebe610757ac4c0f10955df246b22d9f73396db650ee788558548d40ff2"
+    },
+    {
+      "bytes": 2679,
+      "path": "census.cpp",
+      "sha256": "83ebc0bd3c9f3ff6474035e016d999481c9e870368876d9d00e85fee58429020"
+    },
+    {
+      "bytes": 7294,
+      "path": "compact.py",
+      "sha256": "50c23408ba56e2c2ee2bf1421d1a7c30b48830d5892cbc782d2c94eeaf1bd8f2"
+    },
+    {
+      "bytes": 5114,
+      "path": "evidence/CACHE_REPAIR_2026-09-14.json",
+      "sha256": "c2ad59c4bc0e7593108ea5b61f5255411bb495b233eab79fecc0f6893e528e36"
+    },
+    {
+      "bytes": 4324,
+      "path": "evidence/CACHE_REPAIR_MANIFEST_2026-09-14.json",
+      "sha256": "54ee84675c126bee115409df22396067ac54bfae7f0d74732d47447848e005b5"
+    },
+    {
+      "bytes": 799,
+      "path": "evidence/DEVELOPMENT_LOG.json",
+      "sha256": "e83867dbc837cfa01b93205deea5b7a346d793652061c8ca32d664ed77100a52"
+    },
+    {
+      "bytes": 2421,
+      "path": "evidence/PUBLICATION.json",
+      "sha256": "d3999b9277ffb34aad4735145e856f1c4f8f3ff93d732ed78306e6604afa6b3d"
+    },
+    {
+      "bytes": 1187,
+      "path": "evidence/VERIFICATION.json",
+      "sha256": "eb67a762577f8bf9a7a581b84819b5a3cd59c7d0f4aee7869b438483e3f06507"
+    },
+    {
+      "bytes": 1135,
+      "path": "evidence/budgets.json",
+      "sha256": "fbf8376a2f2aa09d79e28932e38556084b87a23d98d83fecec3943afdecaa9dc"
+    },
+    {
+      "bytes": 2065,
+      "path": "evidence/multiplicity.json",
+      "sha256": "7c0932f2837fe8c4153f0bc20720b01bef04ebb31babb974a1addd2af1705097"
+    },
+    {
+      "bytes": 1649,
+      "path": "evidence/queries.json",
+      "sha256": "35c7228b02a603e960f4b63be790195cd0b735806205b8de572b1b68697479bd"
+    },
+    {
+      "bytes": 2373,
+      "path": "evidence/repairs.json",
+      "sha256": "650ca7376cee5b90883a2ec7c017be83b23bdc3f35ea4ffd3d9c715f644f2648"
+    },
+    {
+      "bytes": 1690,
+      "path": "evidence/summary.json",
+      "sha256": "39bde38a7d6eda62f6062c59bc4374a629c320a5ea76ea4f54e33a572b5d301f"
+    },
+    {
+      "bytes": 422,
+      "path": "evidence/unreached.json",
+      "sha256": "6ba0820520f609ca5018a9c94332ca830ac47f204016700f243c938fc67062c1"
+    },
+    {
+      "bytes": 14937,
+      "path": "run_audit.py",
+      "sha256": "24ac999df482e9b26a36f3867265e1f10e0c4c1e8be436574f64cd06f9627511"
+    },
+    {
+      "bytes": 4373,
+      "path": "test_cache_repair.py",
+      "sha256": "3dbea4fa44f13ab5d4e2d60d31bc991698e70fbc9503c6550cceddad2a2269cb"
+    },
+    {
+      "bytes": 1514,
+      "path": "verify.py",
+      "sha256": "869e52af39ac65d0a96c5c5a14ac99bac127ca4c0ed4a5e8c1f2b2cfc1327dea"
+    }
+  ],
+  "schema": "sprime-publication-hashes-v1",
+  "validation_limit": "Declared current file byte integrity only; unlisted user files are allowed. Not authorship authentication or theorem verification."
+}
