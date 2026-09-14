@@ -27,6 +27,10 @@ class QTests(unittest.TestCase):
     costs={'a':(1,3),'b':(3,1),'c':(4,4)}
     score=score_question(q,('a','b','c'),('a','b'),costs=costs)
     self.assertEqual(dict(score.answer_frontiers)['new'],('c',))
+  def test_question_cannot_erase_viable_candidate_from_all_answers(self):
+    q=QuestionSpec('bad','bad',('yes','no'),(('yes',('a',)),('no',('b',))),0)
+    with self.assertRaisesRegex(ValueError,'omit viable'):
+      score_question(q,('a','b','c'),('a','b'))
   def test_why_records(self):
     q=QuestionSpec('q','sensor?',('yes','no'),(('yes',('fused',)),('no',('open',))),1)
     ranked=rank_questions((q,),('fused','open'),('fused','open'))[0]

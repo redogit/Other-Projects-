@@ -33,11 +33,15 @@ def _frontier_ids(members,costs):
 def score_question(question:QuestionSpec, viable, frontier, costs=None):
     viable=tuple(sorted(set(viable))); frontier=tuple(sorted(set(frontier)))
     vset=set(viable); fset=set(frontier)
+    if not set(frontier) <= vset: raise ValueError('frontier must be a subset of viable candidates')
+    if costs is not None and any(x not in costs for x in viable): raise ValueError('costs missing viable candidate')
     buckets=[]; answer_frontiers=[]
+    covered=set()
     for answer,members in question.partitions:
-        b=tuple(sorted(vset & set(members))); buckets.append(b)
+        b=tuple(sorted(vset & set(members))); buckets.append(b); covered.update(b)
         af=_frontier_ids(b,costs) if costs is not None else tuple(sorted(fset & set(b)))
         answer_frontiers.append((answer,af))
+    if covered != vset: raise ValueError('question answers omit viable candidates')
     if not buckets: return None
     worst=max(map(len,buckets))
     eliminated=len(viable)-worst
