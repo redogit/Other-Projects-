@@ -2,7 +2,7 @@ name: SPrime Decision Field
 
 on:
   push:
-    branches: [main, sprime-decision-field-pass06, sprime-schedule-field-pass07]
+    branches: [main, sprime-decision-field-pass06, sprime-schedule-field-pass07, sprime-partial-observation-pass08]
     paths:
       - 'SPrime Search/decision-field/**'
       - '.github/workflows/sprime-decision-field-check.yml'
@@ -114,4 +114,41 @@ jobs:
           assert fresh['witness_context01_semigroup_size'] == 12
           assert fresh['alternating_schedule_minimum_memory_bits'] == 1
           print('PASS deterministic Pass 07 schedule evidence')
+          PY
+
+      - name: Re-run Pass 08 partial-observation semantics twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          src="SPrime Search/decision-field/partial-observation"
+          tmp="$(mktemp -d)"
+          python3 "$src/audit.py" --out "$tmp/run1"
+          python3 "$src/audit.py" --out "$tmp/run2"
+          cmp "$tmp/run1/SUMMARY.json" "$tmp/run2/SUMMARY.json"
+          cmp "$tmp/run1/VERIFICATION.json" "$tmp/run2/VERIFICATION.json"
+          python3 - "$tmp/run1/SUMMARY.json" "$tmp/run1/VERIFICATION.json" <<'PY'
+          import hashlib, json, subprocess, sys
+          from pathlib import Path
+          fresh=json.load(open(sys.argv[1])); ver=json.load(open(sys.argv[2]))
+          committed=json.loads(subprocess.check_output(['git','show','HEAD:SPrime Search/decision-field/partial-observation/evidence/SUMMARY.json']))
+          committed_ver=json.loads(subprocess.check_output(['git','show','HEAD:SPrime Search/decision-field/partial-observation/evidence/VERIFICATION.json']))
+          assert fresh == committed
+          assert ver['status'] == committed_ver['status'] == 'PASS'
+          assert ver['scope'] == committed_ver['scope']
+          assert ver['native_replays_identical'] is committed_ver['native_replays_identical'] is True
+          assert 'exact checked-out source bytes' in committed_ver['source_hash_policy']
+          src=Path('SPrime Search/decision-field/partial-observation')
+          for name, expected in ver['source_sha256'].items():
+              actual=hashlib.sha256((src/name).read_bytes()).hexdigest()
+              assert actual == expected, (name, actual, expected)
+          assert fresh['status'] == 'PASS_BOUNDED'
+          census=fresh['native_absorbing_target_census']
+          assert census['model_partition_cases'] == 245_760
+          assert census['refinement_implications_checked'] == 983_040
+          assert census['belief_win_memoryless_fail_cases'] == 21_024
+          assert fresh['partial_observation']['independent_horizon_beliefs_checked'] == 49_500
+          hidden=fresh['hidden_mode']
+          assert hidden['q1_controllers_exhausted'] == 256 and hidden['q1_winning'] == 0
+          assert hidden['q2_controllers_exhausted'] == 16_777_216 and hidden['q2_winning'] == 360_448
+          print('PASS deterministic Pass 08 partial-observation evidence and exact source hashes')
           PY
