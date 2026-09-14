@@ -56,6 +56,27 @@ Integrate the character into the Decision Field MMORPG only after checks for:
 - deterministic state transitions;
 - graceful fallback when high-resolution assets are absent.
 
+## Red Wilds motion set
+
+Use the complete scene list in [`RED_WILDS_VIDEO_UPDATE.md`](RED_WILDS_VIDEO_UPDATE.md):
+- companion reveal;
+- night-city walk;
+- private-room scene;
+- in-game phone clips;
+- living-world moments;
+- memory videos.
+
+## Image generation recovery
+
+- Keep the selected source/reference intact.
+- Request one edited variant first.
+- Treat generation as complete only when a render exists.
+- Retry once when output is empty or missing.
+- Preserve failed requests as pending instead of marking them complete.
+- Keep dashboard, cinematic, phone and portrait aspect ratios explicit.
+- Verify a replacement asset before overwriting a working image.
+- Preserve reproducible generation intent alongside each result.
+
 ### Evidence boundary
 
 Concept images demonstrate visual direction only. They do not establish a real person's identity, measurements, biography, or canonical game geometry. Production readiness requires implementation and executed tests.
