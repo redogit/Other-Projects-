@@ -1,0 +1,73 @@
+{
+  "memory_rescued_sensor_cases": 12312,
+  "memoryless_winning_sensor_cases": 62032,
+  "rescue_count_distribution": {
+    "0": 12856,
+    "1": 264,
+    "2": 240,
+    "3": 1632,
+    "4": 288,
+    "5": 1104
+  },
+  "rescues_by_profile": {
+    "2+2": 4656,
+    "3+1": 7656
+  },
+  "sensor_cases": 114688,
+  "status": "PASS_BOUNDED",
+  "systems": 16384,
+  "systems_with_memory_rescue": 3528,
+  "two_class_partitions": 7,
+  "two_state_memory_winning_sensor_cases": 74344,
+  "witness": {
+    "controller_cells": [
+      {
+        "action": 1,
+        "memory": 0,
+        "next_memory": 1,
+        "observation": 0
+      },
+      {
+        "action": 0,
+        "memory": 0,
+        "next_memory": 0,
+        "observation": 1
+      },
+      {
+        "action": 0,
+        "memory": 1,
+        "next_memory": 0,
+        "observation": 0
+      },
+      {
+        "action": 0,
+        "memory": 1,
+        "next_memory": 0,
+        "observation": 1
+      }
+    ],
+    "controller_code": 3,
+    "map0": [
+      0,
+      1,
+      0,
+      0
+    ],
+    "map0_code": 4,
+    "map1": [
+      0,
+      2,
+      1,
+      0
+    ],
+    "map1_code": 24,
+    "partition": [
+      0,
+      0,
+      0,
+      1
+    ],
+    "profile": "3+1",
+    "target": 0
+  }
+}
