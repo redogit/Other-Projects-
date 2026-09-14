@@ -64,7 +64,8 @@
       <div id="load-error" class="load-error" hidden role="alert"><p id="load-error-text"></p><button class="button button-lime" id="retry-button" type="button">Try loading again</button></div>
       <div class="explorer-grid" id="explorer-grid" aria-busy="true">
         <aside class="explorer-sidebar" aria-label="Find and browse projects">
-          <div class="search-area"><label for="project-search">Find a project or idea</label><div class="search-box"><span aria-hidden="true">⌕</span><input id="project-search" type="search" placeholder="Try “companion” or “compression”" maxlength="200" autocomplete="off"></div><div class="filter-row"><label for="kind-filter">Show</label><select id="kind-filter"><option value="all">Everything</option><option value="project">Projects</option><option value="component">Components</option><option value="role">Roles</option><option value="group">Groups</option></select><button id="clear-filter" type="button" class="text-button" hidden>Clear</button></div><p id="results-count" class="results-count" role="status" aria-live="polite">Loading the map…</p></div>
+          <div class="search-area"><label for="project-search">Find a project or idea</label><div class="search-box"><span aria-hidden="true">⌕</span><input id="project-search" type="search" placeholder="Try “companion” or “compression”" maxlength="200" autocomplete="off"></div><div class="filter-row"><label for="kind-filter">Show</label><select id="kind-filter"><option value="all">Everything</option><option value="project">Projects</option><option value="component">Components</option><option value="role">Roles</option><option value="group">Groups</option></select><button id="clear-filter" type="button" class="text-button" hidden>Clear</button></div><p id="results-count" class="results-count">Loading the map…</p></div>
+          <a id="read-selected-details" class="read-details-link" href="#node-detail">Read selected details</a>
           <nav class="hierarchy" id="hierarchy" aria-label="Project hierarchy"></nav>
           <p class="sidebar-note"><span aria-hidden="true">↳</span> A branch is an address, not a proof.</p>
         </aside>
@@ -74,12 +75,78 @@
 
     <section class="trails-section" id="trails" aria-labelledby="trails-title"><div class="page-width"><div class="section-heading"><div><p class="eyebrow">02 / FOLLOW YOUR CURIOSITY</p><h2 id="trails-title">Take the scenic route.</h2></div><p>Suggested sequences for exploration.<br>Every trail is a proposal you can change.</p></div><div id="trail-grid" class="trail-grid"></div></div></section>
 
-    <section class="page-width working-section" id="working-set" aria-labelledby="working-title"><div class="working-intro"><p class="eyebrow">03 / YOUR NEXT CHAPTER</p><h2 id="working-title">A small working set.<br>A little more focus.</h2><p>Gather the branches you want to explore next. Download a proposed working set with its source references and snapshot version.</p><p class="small-note">Your selection stays in this page until you leave or reload. Downloading creates a file on your device.</p><button class="button button-forest" id="download-set" type="button" disabled>Download working set <span aria-hidden="true">↓</span></button><p id="download-status" class="small-note" role="status" aria-live="polite"></p></div><div class="working-panel"><div class="working-panel-heading"><h3>On your potting bench</h3><span id="working-total">0 selected</span></div><ul id="working-list" class="working-list"></ul><div id="working-empty" class="working-empty"><span aria-hidden="true">✳</span><p>A good place to begin.</p><p>Open a project and choose <strong>Add to working set</strong>.</p></div></div></section>
+    <section class="page-width working-section" id="working-set" aria-labelledby="working-title">
+      <div class="working-intro">
+        <p class="eyebrow">03 / YOUR NEXT CHAPTER</p>
+        <h2 id="working-title" tabindex="-1">A small working set.<br>A little more focus.</h2>
+        <p>Gather branches, name your task, and leave yourself a place to return. A saved working set is a proposal with source references and a dated snapshot.</p>
+        <p class="small-note">Your task text stays separate from source summaries. Checkpoints stay in this browser; download one to move it. Nothing restores automatically.</p>
+        <p id="action-status" class="action-status" role="status" aria-live="polite" aria-atomic="true"></p>
+        <form id="task-form" class="task-form" aria-label="Working set task context" autocomplete="off">
+          <label for="task-title">Task name <span class="field-optional">(optional)</span></label>
+          <input id="task-title" name="title" type="text" maxlength="120" placeholder="A question worth following">
+          <details id="task-context" class="task-context">
+            <summary>Add task context</summary>
+            <p id="task-context-note" class="small-note">Use your own words. Blank fields remain unknown. Each field allows up to 2,000 characters.</p>
+            <div class="task-fields" aria-describedby="task-context-note">
+              <label for="task-request">Request</label><textarea id="task-request" name="request" rows="3" maxlength="2000"></textarea>
+              <label for="task-output_definition">Output definition</label><textarea id="task-output_definition" name="output_definition" rows="3" maxlength="2000"></textarea>
+              <label for="task-subject">Subject</label><textarea id="task-subject" name="subject" rows="2" maxlength="2000"></textarea>
+              <label for="task-motivator">Motivator</label><textarea id="task-motivator" name="motivator" rows="2" maxlength="2000"></textarea>
+              <label for="task-obligation">Obligation</label><textarea id="task-obligation" name="obligation" rows="2" maxlength="2000"></textarea>
+              <label for="task-surface">Surface</label><textarea id="task-surface" name="surface" rows="2" maxlength="2000"></textarea>
+            </div>
+          </details>
+        </form>
+        <div class="working-actions">
+          <button class="button button-forest" id="download-set" type="button" disabled>Download working set <span aria-hidden="true">↓</span></button>
+          <button class="button button-soft" id="save-checkpoint" type="button" disabled>Save checkpoint on this device</button>
+          <button class="button button-soft" id="save-and-clear" type="button" disabled>Save checkpoint and clear</button>
+          <button class="text-button" id="clear-active" type="button" disabled>Clear active working set</button>
+          <button class="text-button" id="undo-restore" type="button" hidden>Undo restore</button>
+        </div>
+        <div id="active-clear-review" class="review-panel" role="group" aria-labelledby="active-clear-title" hidden>
+          <h3 id="active-clear-title" tabindex="-1">Clear the unsaved task and selection?</h3>
+          <p id="active-clear-summary"></p>
+          <p>Saved checkpoints remain. The restore preview and undo snapshot will also be released.</p>
+          <div class="review-actions"><button id="confirm-clear-active" class="button button-forest" type="button">Clear the unsaved task and selection</button><button id="cancel-clear-active" class="text-button" type="button">Keep working</button></div>
+        </div>
+        <div class="import-control">
+          <label for="open-working-set">Open a saved working set</label>
+          <input id="open-working-set" type="file" accept="application/json,.json" disabled aria-describedby="import-note">
+          <p id="import-note" class="small-note">JSON, up to 1 MiB. Review available, missing, and changed records before restoring. Restored task text is editable.</p>
+        </div>
+      </div>
+      <div class="working-side">
+        <div class="working-panel">
+          <div class="working-panel-heading"><h3>On your potting bench</h3><span id="working-total">0 selected</span></div>
+          <ul id="working-list" class="working-list"></ul>
+          <div id="working-empty" class="working-empty"><span aria-hidden="true">✳</span><p>A good place to begin.</p><p>Open a project and choose <strong>Add to working set</strong>, or start with your task notes.</p></div>
+        </div>
+        <section id="restore-preview" class="review-panel restore-preview" aria-labelledby="restore-preview-title" hidden>
+          <h3 id="restore-preview-title" tabindex="-1">Review a saved working set</h3>
+          <div id="restore-preview-content"></div>
+          <div class="review-actions"><button id="restore-selection" class="button button-forest" type="button">Restore reviewed selection</button><button id="cancel-restore" class="text-button" type="button">Cancel restore</button></div>
+        </section>
+        <section class="checkpoint-panel" aria-labelledby="checkpoint-title">
+          <div class="working-panel-heading"><h3 id="checkpoint-title" tabindex="-1">The seed shelf</h3><span id="checkpoint-count">Checking…</span></div>
+          <p class="small-note">Up to 12 checkpoints in this browser. Download one to move it. Saving is always your choice.</p>
+          <p id="checkpoint-state" class="small-note"></p>
+          <ul id="checkpoint-list" class="checkpoint-list"></ul>
+          <button id="clear-checkpoints" class="text-button" type="button" disabled>Clear saved checkpoints on this device</button>
+          <div id="checkpoint-clear-review" class="review-panel" role="group" aria-labelledby="checkpoint-clear-title" hidden>
+            <h4 id="checkpoint-clear-title" tabindex="-1">Clear this garden’s saved checkpoints?</h4>
+            <p id="checkpoint-clear-summary"></p>
+            <p>The active task and selection remain. Other browser data is unchanged.</p>
+            <div class="review-actions"><button id="confirm-clear-checkpoints" class="button button-forest" type="button">Clear saved checkpoints</button><button id="cancel-clear-checkpoints" class="text-button" type="button">Keep checkpoints</button></div>
+          </div>
+        </section>
+      </div>
+    </section>
 
     <section class="api-section page-width" id="api" aria-labelledby="api-title"><div class="api-intro"><p class="eyebrow">04 / OPEN THE TOOLBOX</p><h2 id="api-title">Small API.<br>Many possible paths.</h2><p>Explore the same catalog as structured data. Each route reads this reviewed snapshot; none runs a companion or changes a project.</p><a href="/api/openapi.json" target="_blank" rel="noopener noreferrer" class="api-documentation">OpenAPI 3.1 document <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a></div><div class="api-routes" id="api-routes"><a href="/api/hierarchy" target="_blank" rel="noopener noreferrer"><span class="method">GET</span><code>/api/hierarchy</code><span>Navigate the branches</span><span aria-hidden="true">↗</span><span class="sr-only">Opens in a new tab</span></a><a href="/api/projects" target="_blank" rel="noopener noreferrer"><span class="method">GET</span><code>/api/projects</code><span>Find project records</span><span aria-hidden="true">↗</span><span class="sr-only">Opens in a new tab</span></a><a href="/api/relations" target="_blank" rel="noopener noreferrer"><span class="method">GET</span><code>/api/relations</code><span>Inspect typed connections</span><span aria-hidden="true">↗</span><span class="sr-only">Opens in a new tab</span></a><a href="/api/capabilities" target="_blank" rel="noopener noreferrer"><span class="method">GET</span><code>/api/capabilities</code><span>Check roles and interfaces</span><span aria-hidden="true">↗</span><span class="sr-only">Opens in a new tab</span></a><a href="/api/sources" target="_blank" rel="noopener noreferrer"><span class="method">GET</span><code>/api/sources</code><span>Trace the source summaries</span><span aria-hidden="true">↗</span><span class="sr-only">Opens in a new tab</span></a></div></section>
   </main>
 
   <footer class="site-footer page-width"><div class="footer-top"><span class="footer-title">Keep the roots.<br><em>Explore the branches.</em></span><div><p id="catalog-scope">A source-reviewed cross-project catalog.</p><p id="catalog-version" class="small-note"></p><details class="scope-details"><summary>How to read this map</summary><ul id="catalog-rules"></ul></details></div></div><div class="footer-bottom"><span>Knowledge Garden / Other Projects</span><a href="#top">Back to the canopy <span aria-hidden="true">↑</span></a></div></footer>
-  <p id="action-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
 </body>
 </html>

@@ -15,7 +15,11 @@ npm start
 
 Open <http://127.0.0.1:4317>. The server listens on loopback by default. `PORT` selects another port; exposing it on another host requires an explicit `HOST` setting. Stop it with Ctrl+C.
 
-Search a name or topic, open a branch, or choose an expedition. Each entry shows its next action, sources, capabilities and typed connections. **Surprise me** offers another way in. Add entries to a working set and download a proposal when you are ready to focus. Selections stay in browser memory until exported; reloading starts a fresh session.
+Search a name or topic, open a branch, or choose an expedition. Each entry shows its next action, sources, capabilities and typed connections. **Surprise me** offers another way in. Gather entries into a working set and describe the task they belong to: subject, motivator, request, obligation, surface and output definition. Blank fields stay blank.
+
+Download a portable JSON proposal, or save a named checkpoint in this browser. Import and checkpoint review show changed or missing entries before you restore; restored selections use the current catalog. There is one in-memory undo for restore. Nothing is automatically saved or restored on reload.
+
+**Clear active work** releases the task, selections, pending import and undo. **Save and clear** clears only after the checkpoint write succeeds. Remove a checkpoint individually or review **Clear saved checkpoints** to remove the Garden's own history while keeping active work. Checkpoints are limited to twelve and 2 MiB in total; imports to 1 MiB. Browser storage can be cleared by the browser, so download anything you need to keep independently. See [execution and recovery](docs/EXECUTION.md).
 
 The interface uses native buttons, links, headings, lists and expandable details. It supports keyboard use and reduced-motion preferences. API and static UI checks are recorded in [verification](docs/VERIFICATION.md). Rendered browser, assistive-technology and participant acceptance remain open.
 
@@ -54,8 +58,13 @@ Sources label public references and owner-held summaries. The public dataset con
 
 The editable source is [data/catalog.json](data/catalog.json), with [catalog.schema.json](catalog.schema.json) as its format contract. Follow [the catalog guide](docs/CATALOG_GUIDE.md) to add a node, source, capability or trail. The server checks identities, references and hierarchy before accepting the catalog.
 
+Every `npm start` first compiles a query plan for the exact catalog. Startup checks its version, content fingerprint and derived relationships before listening. Direct `node server.mjs` requires a current plan from `npm run build`. Generated plans live in the ignored `build/` directory.
+
 ```sh
 npm test
+npm run benchmark
 ```
 
 These checks exercise the Garden's data and API. They do not replay the source projects' scientific or integration tests. See [source review](docs/SOURCE_REVIEW.md) for what was inspected and what remains unresolved.
+
+Compilation prepares lookup indices and search text, not native machine code or executable task instructions. The [measurement record](docs/EXECUTION.md#measured-costs) reports build costs, query timings and memory limits; it does not establish universal optimality.

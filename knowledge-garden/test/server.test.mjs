@@ -18,6 +18,7 @@ before(async () => {
   writeFileSync(join(temporary, 'index.html'), '<!doctype html><title>Fixture</title>');
   writeFileSync(join(temporary, 'styles.css'), 'body { color: green; }');
   writeFileSync(join(temporary, 'app.js'), 'export const fixture = true;');
+  writeFileSync(join(temporary, 'working-set.mjs'), 'export const checkpoint = true;');
   writeFileSync(join(temporary, 'private.txt'), 'must not be served');
   server = createServer(original, { publicDirectory: temporary });
   server.listen(0, '127.0.0.1');
@@ -172,6 +173,8 @@ test('static files are served only from the allowlist with correct MIME types', 
   assert.match(index.headers['content-type'], /^text\/html/);
   assert.match((await request('/styles.css')).headers['content-type'], /^text\/css/);
   assert.match((await request('/app.js')).headers['content-type'], /^text\/javascript/);
+  assert.equal((await request('/working-set.mjs')).status, 200);
+  assert.match((await request('/working-set.mjs')).headers['content-type'], /^text\/javascript/);
   for (const path of ['/private.txt', '/data/catalog.json', '/server.mjs', '/package.json', '/api/unknown', '/api/projects/']) {
     assert.equal((await request(path)).status, 404);
   }
@@ -204,4 +207,12 @@ test('OpenAPI covers each implemented API route and GET/HEAD behavior', async ()
     assert.ok(result.json.paths[path].get.responses['405']);
     assert.ok(result.json.paths[path].head);
   }
+});
+
+test('closing releases the executor and a closed server cannot reuse released state', async () => {
+  const disposable = createServer(fixture());
+  disposable.listen(0, '127.0.0.1');
+  await once(disposable, 'listening');
+  await new Promise((resolve, reject) => disposable.close(error => error ? reject(error) : resolve()));
+  assert.throws(() => disposable.listen(0, '127.0.0.1'), /released its catalog/);
 });

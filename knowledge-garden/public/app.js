@@ -1,3 +1,5 @@
+import { TASK_FIELDS, MAX_IMPORT_BYTES, createWorkingSet, parseWorkingSet, createCheckpointHistory } from '/working-set.mjs';
+
 const $ = (selector) => document.querySelector(selector);
 const ui = {
   search: $('#project-search'), filter: $('#kind-filter'), clear: $('#clear-filter'),
@@ -10,6 +12,20 @@ let sources = new Map();
 let childNodes = new Map();
 let selectedId = null;
 const workingSet = new Set();
+let checkpointHistory;
+let checkpointCount = null;
+let pendingRestore = null;
+let undoSnapshot = null;
+let pendingReader = null;
+let importGeneration = 0;
+let restoreReturnTarget = null;
+let previewCheckpointId = null;
+const pendingDownloadUrls = new Map();
+
+const taskLabels = {
+  subject: 'Subject', motivator: 'Motivator', request: 'Request', obligation: 'Obligation',
+  surface: 'Surface', output_definition: 'Output definition',
+};
 
 function element(tag, className, text) {
   const item = document.createElement(tag);
@@ -257,14 +273,14 @@ function toggleWorkingNode(id) {
   if (removed) workingSet.delete(id); else workingSet.add(id);
   renderWorkingSet();
   if (selectedId) updateAddButton($('#toggle-working-set'), nodes.get(selectedId));
-  $('#download-status').textContent = '';
   announce(`${node.name} ${removed ? 'removed from' : 'added to'} working set. ${workingSet.size} selected.`);
 }
 function renderWorkingSet() {
+  $('#active-clear-review').hidden = true;
   $('#set-count').textContent = workingSet.size;
   $('#working-total').textContent = `${workingSet.size} selected`;
   $('#working-empty').hidden = workingSet.size > 0;
-  ui.download.disabled = workingSet.size === 0;
+  refreshWorkingControls();
   const list = document.createDocumentFragment();
   for (const id of workingSet) {
     const node = nodes.get(id);
@@ -313,40 +329,298 @@ function renderTrails() {
       renderWorkingSet();
       if (selectedId) updateAddButton($('#toggle-working-set'), nodes.get(selectedId));
       announce(`${trail.title} added to working set. ${workingSet.size} selected. This trail is a proposal.`);
-      $('#download-status').textContent = '';
-    });
+        });
     footer.append(button, element('span', '', 'PROPOSED TRAIL'));
     card.append(footer); grid.append(card);
   });
   $('#trail-grid').replaceChildren(grid);
 }
 
-function downloadWorkingSet() {
-  if (!workingSet.size) return;
-  const selectedNodes = [...workingSet].map((id) => nodes.get(id));
-  const selectedRelations = catalog.relations.filter((relation) => workingSet.has(relation.from_id) && workingSet.has(relation.to_id));
-  const selectedCapabilities = catalog.capabilities.filter((capability) => workingSet.has(capability.node_id));
-  const selectedSourceIds = new Set([...selectedNodes.flatMap((node) => node.source_ids), ...selectedRelations.flatMap((relation) => relation.source_ids), ...selectedCapabilities.flatMap((capability) => capability.source_ids)]);
-  const proposal = {
-    kind: 'proposed-working-set', schema_version: catalog.schema_version,
-    created_at: new Date().toISOString(), catalog_version: catalog.catalog_version,
-    catalog_reviewed_on: catalog.reviewed_on, status: 'proposal',
-    scope: 'Explicit browser selection from the Knowledge Garden catalog. No project was invoked, changed, or independently verified.',
-    navigation_note: 'Parent IDs are navigation references; ancestor records may be outside this selected set. Connections retain their recorded type and scope.',
-    nodes: selectedNodes, relations: selectedRelations, capabilities: selectedCapabilities,
-    sources: [...selectedSourceIds].map((id) => sources.get(id)),
-    rules: catalog.rules,
-  };
+function readTask() {
+  return Object.fromEntries(TASK_FIELDS.map((field) => [field, $(`#task-${field}`).value]));
+}
+function activeSnapshot() {
+  return { node_ids: [...workingSet], title: $('#task-title').value, task: readTask() };
+}
+function hasActiveContent() {
+  return workingSet.size > 0 || $('#task-title').value.length > 0 || TASK_FIELDS.some((field) => $(`#task-${field}`).value.length > 0);
+}
+function refreshWorkingControls() {
+  const hasContent = Boolean(catalog) && hasActiveContent();
+  ui.download.disabled = !hasContent;
+  $('#save-checkpoint').disabled = !hasContent;
+  $('#save-and-clear').disabled = !hasContent;
+  $('#clear-active').disabled = !catalog || !(hasContent || pendingRestore || undoSnapshot || pendingReader);
+  $('#undo-restore').hidden = !undoSnapshot;
+}
+function applyActiveSnapshot(snapshot) {
+  workingSet.clear();
+  for (const id of snapshot.node_ids) if (nodes.has(id)) workingSet.add(id);
+  $('#task-title').value = snapshot.title;
+  for (const field of TASK_FIELDS) $(`#task-${field}`).value = snapshot.task[field] || '';
+  $('#task-context').open = TASK_FIELDS.some((field) => snapshot.task[field]);
+  renderWorkingSet();
+  if (selectedId) updateAddButton($('#toggle-working-set'), nodes.get(selectedId));
+}
+function currentWorkingSet() {
+  return createWorkingSet(catalog, [...workingSet], readTask(), {
+    title: $('#task-title').value, createdAt: new Date().toISOString(),
+  });
+}
+function downloadProposal(proposal, description) {
   const blob = new Blob([JSON.stringify(proposal, null, 2) + '\n'], { type: 'application/json' });
   const href = URL.createObjectURL(blob);
   const link = element('a');
   link.href = href;
   link.download = `knowledge-garden-working-set-${new Date().toISOString().slice(0, 10)}.json`;
   document.body.append(link);
-  link.click();
-  link.remove();
-  window.setTimeout(() => URL.revokeObjectURL(href), 1000);
-  $('#download-status').textContent = `Prepared a proposed working set with ${workingSet.size} ${workingSet.size === 1 ? 'node' : 'nodes'}.`;
+  try { link.click(); }
+  finally {
+    link.remove();
+    const timer = window.setTimeout(() => {
+      URL.revokeObjectURL(href);
+      pendingDownloadUrls.delete(href);
+    }, 1000);
+    pendingDownloadUrls.set(href, timer);
+  }
+  announce(`${description} prepared for download. It remains a proposal; no project was executed.`);
+}
+function downloadWorkingSet() {
+  if (!hasActiveContent()) return;
+  try { downloadProposal(currentWorkingSet(), `Working set with ${workingSet.size} selected`); }
+  catch (error) { announce(`Could not prepare the download. ${error.message}`); }
+}
+function getCheckpointHistory() {
+  // Accessing localStorage itself may throw in restricted browser environments.
+  if (!checkpointHistory) checkpointHistory = createCheckpointHistory(window.localStorage);
+  return checkpointHistory;
+}
+function checkpointDateLabel(value) {
+  const date = new Date(value);
+  return Number.isNaN(date.valueOf()) ? value : new Intl.DateTimeFormat(undefined, {
+    dateStyle: 'medium', timeStyle: 'short',
+  }).format(date);
+}
+function findCheckpoint(id) {
+  const entry = getCheckpointHistory().list().find((item) => item.id === id);
+  if (!entry) throw new Error('This checkpoint is no longer on this device.');
+  return entry;
+}
+function renderCheckpoints({ focusIndex = null } = {}) {
+  const list = document.createDocumentFragment();
+  try {
+    const entries = getCheckpointHistory().list();
+    checkpointCount = entries.length;
+    $('#checkpoint-count').textContent = `${checkpointCount} of 12`;
+    $('#checkpoint-state').textContent = checkpointCount ? '' : 'No checkpoints saved yet. Your next stopping place can go here.';
+    $('#clear-checkpoints').disabled = checkpointCount === 0;
+    entries.forEach((entry, index) => {
+      // Handlers retain only the stable identifier, never the saved working set.
+      const id = entry.id;
+      const title = entry.title || 'Untitled working set';
+      const row = element('li');
+      const heading = element('h4', '', title);
+      const date = element('time', '', checkpointDateLabel(entry.saved_at));
+      date.dateTime = entry.saved_at;
+      row.append(heading, date);
+      const actions = element('div', 'checkpoint-actions');
+      const review = element('button', 'text-button', 'Review restore');
+      review.type = 'button';
+      review.dataset.checkpointId = id;
+      review.setAttribute('aria-label', `Review restore: ${title}`);
+      review.disabled = !catalog;
+      review.addEventListener('click', () => {
+        try { reviewWorkingSet(JSON.stringify(findCheckpoint(id).working_set), review); }
+        catch (error) { announce(`Could not review this checkpoint. ${error.message}`); }
+      });
+      const download = element('button', 'text-button', 'Download');
+      download.type = 'button';
+      download.setAttribute('aria-label', `Download checkpoint: ${title}`);
+      download.addEventListener('click', () => {
+        try { downloadProposal(findCheckpoint(id).working_set, 'Saved checkpoint'); }
+        catch (error) { announce(`Could not download this checkpoint. ${error.message}`); }
+      });
+      const remove = element('button', 'text-button', 'Remove checkpoint');
+      remove.type = 'button';
+      remove.setAttribute('aria-label', `Remove checkpoint: ${title}`);
+      remove.addEventListener('click', () => {
+        try {
+          const removed = getCheckpointHistory().remove(id);
+          if (removed && previewCheckpointId === id) {
+            releaseRestorePreview();
+            refreshWorkingControls();
+          }
+          renderCheckpoints({ focusIndex: index });
+          announce(removed ? `Removed ${title}. ${checkpointCount === null ? 'The remaining checkpoint count is unavailable.' : `${checkpointCount} checkpoints remain.`} The active working set is unchanged.` : 'This checkpoint was already removed.');
+        } catch (error) { announce(`Could not remove this checkpoint. ${error.message}`); }
+      });
+      actions.append(review, download, remove);
+      row.append(actions);
+      list.append(row);
+    });
+  } catch (error) {
+    checkpointCount = null;
+    $('#checkpoint-count').textContent = 'Unavailable';
+    $('#checkpoint-state').textContent = `Checkpoints are unavailable. ${error.message} You can still download and open working sets.`;
+    $('#clear-checkpoints').disabled = true;
+  }
+  $('#checkpoint-list').replaceChildren(list);
+  if (focusIndex !== null) {
+    const remaining = $('#checkpoint-list').querySelectorAll('button[data-checkpoint-id]');
+    if (remaining.length) remaining[Math.min(focusIndex, remaining.length - 1)].focus();
+    else $('#checkpoint-title').focus({ preventScroll: true });
+  }
+}
+function saveCheckpoint({ clearAfter = false } = {}) {
+  if (!hasActiveContent()) return;
+  try {
+    getCheckpointHistory().save(currentWorkingSet());
+  } catch (error) {
+    announce(`Checkpoint was not saved. ${error.message} Your active task and selection are unchanged.`);
+    return;
+  }
+  // Only a successful browser storage write reaches the active clear operation.
+  if (clearAfter) clearActiveWorkingSet({ speak: false });
+  renderCheckpoints();
+  const countNote = checkpointCount === null ? 'The checkpoint count is currently unavailable.' : `${checkpointCount} checkpoints on the seed shelf.`;
+  announce(clearAfter ? `Checkpoint saved. Active task, selection, preview, and undo snapshot cleared. ${countNote}` : `Checkpoint saved on this device. ${countNote}`);
+}
+function cancelPendingRead() {
+  importGeneration += 1;
+  if (pendingReader) {
+    const reader = pendingReader;
+    pendingReader = null;
+    reader.onload = null;
+    reader.onerror = null;
+    reader.onabort = null;
+    if (reader.readyState === FileReader.LOADING) reader.abort();
+  }
+  $('#open-working-set').value = '';
+}
+function releaseRestorePreview() {
+  cancelPendingRead();
+  pendingRestore = null;
+  restoreReturnTarget = null;
+  previewCheckpointId = null;
+  $('#restore-preview-content').replaceChildren();
+  $('#restore-preview').hidden = true;
+  $('#restore-selection').disabled = false;
+  $('#cancel-restore').textContent = 'Cancel restore';
+}
+function clearActiveWorkingSet({ speak = true } = {}) {
+  releaseRestorePreview();
+  for (const [href, timer] of pendingDownloadUrls) {
+    window.clearTimeout(timer);
+    URL.revokeObjectURL(href);
+  }
+  pendingDownloadUrls.clear();
+  undoSnapshot = null;
+  workingSet.clear();
+  $('#task-form').reset();
+  $('#task-context').open = false;
+  $('#active-clear-review').hidden = true;
+  renderWorkingSet();
+  if (selectedId) updateAddButton($('#toggle-working-set'), nodes.get(selectedId));
+  $('#task-title').focus({ preventScroll: true });
+  if (speak) announce(`Active task, selection, preview, and undo snapshot cleared. ${checkpointCount === null ? 'Saved checkpoints are unchanged.' : `${checkpointCount} saved checkpoints remain.`}`);
+}
+function previewIdList(title, ids) {
+  const group = element('details', 'preview-records');
+  const summary = element('summary', '', `${title}: ${ids.length}`);
+  group.append(summary);
+  if (ids.length) {
+    const list = element('ul');
+    for (const id of ids) list.append(element('li', '', nodes.has(id) ? `${nodes.get(id).name} (${id})` : id));
+    group.append(list);
+  } else group.append(element('p', 'small-note', 'None.'));
+  return group;
+}
+function reviewWorkingSet(text, returnTarget = $('#open-working-set')) {
+  const parsed = parseWorkingSet(text, catalog);
+  releaseRestorePreview();
+  pendingRestore = parsed;
+  restoreReturnTarget = returnTarget;
+  previewCheckpointId = returnTarget?.dataset.checkpointId || null;
+  const proposal = parsed.proposal;
+  const content = document.createDocumentFragment();
+  content.append(element('p', 'preview-name', proposal.title || 'Untitled working set'));
+  content.append(element('p', '', `Saved catalog ${proposal.catalog_version}, reviewed ${dateLabel(proposal.catalog_reviewed_on)}. Current catalog ${catalog.catalog_version}, reviewed ${dateLabel(catalog.reviewed_on)}.`));
+  content.append(element('p', '', `${parsed.available_ids.length} available; ${parsed.missing_ids.length} missing; ${parsed.changed_ids.length} changed records.`));
+  if (parsed.version_mismatch) content.append(element('p', 'preview-notice', 'The catalog version differs. Restore will resolve available IDs against the current catalog and keep its current source summaries.'));
+  if (parsed.legacy) content.append(element('p', 'preview-notice', 'This is a legacy working-set file. Any absent task fields will remain blank.'));
+  if (parsed.missing_ids.length) content.append(element('p', 'preview-notice', 'Missing IDs will not be restored or replaced. They remain listed in this review.'));
+  if (parsed.changed_ids.length) content.append(element('p', 'preview-notice', 'Changed records use their current catalog details when restored. Saved source text does not replace the catalog.'));
+  content.append(previewIdList('Available records', parsed.available_ids), previewIdList('Missing IDs', parsed.missing_ids), previewIdList('Changed records', parsed.changed_ids));
+  const task = element('details', 'preview-records');
+  task.open = true;
+  task.append(element('summary', '', 'Restored task text — editable after restore'));
+  const fields = element('dl', 'preview-task');
+  for (const field of TASK_FIELDS) fields.append(element('dt', '', taskLabels[field]), element('dd', '', proposal.task[field] || 'Unknown / blank'));
+  task.append(fields);
+  content.append(task, element('p', 'small-note', 'Restoring replaces your active task and selection. One undo snapshot will let you return to the state immediately before restore. No project or companion will run.'));
+  $('#restore-preview-content').replaceChildren(content);
+  $('#restore-preview').hidden = false;
+  $('#active-clear-review').hidden = true;
+  refreshWorkingControls();
+  $('#restore-preview-title').focus();
+  announce(`Working set ready for review: ${parsed.available_ids.length} available, ${parsed.missing_ids.length} missing, ${parsed.changed_ids.length} changed. Your active working set is unchanged.`);
+}
+function openWorkingSetFile() {
+  const file = $('#open-working-set').files?.[0];
+  cancelPendingRead();
+  if (!file) return;
+  if (file.size > MAX_IMPORT_BYTES) {
+    announce('This working set is larger than the 1 MiB import limit. Your active working set is unchanged.');
+    return;
+  }
+  const generation = importGeneration;
+  const reader = new FileReader();
+  pendingReader = reader;
+  reader.onload = () => {
+    if (generation !== importGeneration) return;
+    pendingReader = null;
+    try { reviewWorkingSet(String(reader.result)); }
+    catch (error) { announce(`Could not open this working set. ${error.message} Your active task and selection are unchanged.`); }
+    finally { reader.onload = null; reader.onerror = null; reader.onabort = null; refreshWorkingControls(); }
+  };
+  reader.onerror = () => {
+    if (generation !== importGeneration) return;
+    pendingReader = null;
+    reader.onload = null; reader.onerror = null; reader.onabort = null;
+    refreshWorkingControls();
+    announce('The file could not be read. Your active task and selection are unchanged.');
+  };
+  try { reader.readAsText(file); }
+  catch (error) {
+    cancelPendingRead();
+    announce(`The file could not be read. ${error.message} Your active task and selection are unchanged.`);
+  }
+  refreshWorkingControls();
+}
+function restoreReviewedSelection() {
+  if (!pendingRestore) return;
+  const parsed = pendingRestore;
+  undoSnapshot = activeSnapshot();
+  applyActiveSnapshot({ ...parsed.proposal, node_ids: parsed.available_ids });
+  const missingCount = parsed.missing_ids.length;
+  pendingRestore = null;
+  restoreReturnTarget = null;
+  cancelPendingRead();
+  $('#restore-selection').disabled = true;
+  $('#cancel-restore').textContent = 'Close review';
+  $('#restore-preview-content').append(element('p', 'preview-notice', `Restored ${workingSet.size} current records and the editable task text. ${missingCount} missing IDs were left out and remain listed above.`));
+  refreshWorkingControls();
+  $('#task-title').focus();
+  announce(`Restored ${workingSet.size} current records and editable task text. ${missingCount} missing IDs were not restored. Undo restore is available.`);
+}
+function undoRestore() {
+  if (!undoSnapshot) return;
+  const snapshot = undoSnapshot;
+  undoSnapshot = null;
+  releaseRestorePreview();
+  applyActiveSnapshot(snapshot);
+  $('#task-title').focus();
+  announce(`Returned to the task and ${workingSet.size} selections from immediately before restore. Undo snapshot released.`);
 }
 
 function applyHash({ initial = false } = {}) {
@@ -390,6 +664,8 @@ async function loadCatalog() {
       if (first) selectNode(first.id, { updateHash: false, speak: false });
     }
     $('#surprise-button').disabled = false;
+    $('#open-working-set').disabled = false;
+    renderCheckpoints();
   } catch (error) {
     $('#load-error-text').textContent = `The garden could not load. ${error.message} Start the local server and try again.`;
     $('#load-error').hidden = false;
@@ -398,8 +674,8 @@ async function loadCatalog() {
   } finally { $('#explorer-grid').setAttribute('aria-busy', 'false'); }
 }
 
-ui.search.addEventListener('input', () => { if (catalog) renderHierarchy(); });
-ui.filter.addEventListener('change', () => { if (catalog) renderHierarchy(); });
+ui.search.addEventListener('input', () => { if (catalog) { renderHierarchy(); announce(ui.results.textContent); } });
+ui.filter.addEventListener('change', () => { if (catalog) { renderHierarchy(); announce(ui.results.textContent); } });
 ui.clear.addEventListener('click', () => {
   ui.search.value = '';
   ui.filter.value = 'all';
@@ -415,7 +691,71 @@ $('#surprise-button').addEventListener('click', () => {
   selectNode(project.id, { focus: true, scroll: true });
 });
 ui.download.addEventListener('click', downloadWorkingSet);
+$('#task-form').addEventListener('submit', (event) => event.preventDefault());
+$('#task-form').addEventListener('input', () => {
+  $('#active-clear-review').hidden = true;
+  refreshWorkingControls();
+});
+$('#save-checkpoint').addEventListener('click', () => saveCheckpoint());
+$('#save-and-clear').addEventListener('click', () => saveCheckpoint({ clearAfter: true }));
+$('#open-working-set').addEventListener('change', openWorkingSetFile);
+$('#restore-selection').addEventListener('click', restoreReviewedSelection);
+$('#undo-restore').addEventListener('click', undoRestore);
+$('#cancel-restore').addEventListener('click', () => {
+  const returnTarget = restoreReturnTarget;
+  releaseRestorePreview();
+  refreshWorkingControls();
+  if (returnTarget?.isConnected) returnTarget.focus();
+  else $('#open-working-set').focus();
+  announce('Review closed. Your active working set is unchanged.');
+});
+$('#clear-active').addEventListener('click', () => {
+  $('#active-clear-summary').textContent = `${workingSet.size} selected records and the active task text will be cleared.`;
+  $('#active-clear-review').hidden = false;
+  $('#active-clear-title').focus();
+});
+$('#confirm-clear-active').addEventListener('click', () => clearActiveWorkingSet());
+$('#cancel-clear-active').addEventListener('click', () => {
+  $('#active-clear-review').hidden = true;
+  $('#clear-active').focus();
+});
+$('#clear-checkpoints').addEventListener('click', () => {
+  try {
+    const count = getCheckpointHistory().list().length;
+    $('#checkpoint-clear-summary').textContent = `${count} saved ${count === 1 ? 'checkpoint will' : 'checkpoints will'} be removed from this browser. Download any you want to keep first.`;
+    $('#checkpoint-clear-review').hidden = false;
+    $('#checkpoint-clear-title').focus();
+  } catch (error) { announce(`Could not review saved checkpoints. ${error.message}`); }
+});
+$('#confirm-clear-checkpoints').addEventListener('click', () => {
+  try {
+    getCheckpointHistory().clear();
+    if (previewCheckpointId) {
+      releaseRestorePreview();
+      refreshWorkingControls();
+    }
+    $('#checkpoint-clear-review').hidden = true;
+    renderCheckpoints();
+    $('#checkpoint-title').focus({ preventScroll: true });
+    announce('Saved checkpoints cleared from this device. Your active working set and other browser data are unchanged.');
+  } catch (error) { announce(`Saved checkpoints were not cleared. ${error.message}`); }
+});
+$('#cancel-clear-checkpoints').addEventListener('click', () => {
+  $('#checkpoint-clear-review').hidden = true;
+  $('#clear-checkpoints').focus();
+});
+$('#read-selected-details').addEventListener('click', (event) => {
+  const title = $('#selected-node-title');
+  if (!title) return;
+  event.preventDefault();
+  title.focus({ preventScroll: true });
+  ui.detail.scrollIntoView({ block: 'start', behavior: 'auto' });
+});
+window.addEventListener('storage', (event) => {
+  if (event.key === 'knowledge-garden.checkpoints.v1' || event.key === null) renderCheckpoints();
+});
 $('#retry-button').addEventListener('click', loadCatalog);
 window.addEventListener('hashchange', () => applyHash());
 window.addEventListener('popstate', () => applyHash());
+renderCheckpoints();
 await loadCatalog();

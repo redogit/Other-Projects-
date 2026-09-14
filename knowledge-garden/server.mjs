@@ -2,155 +2,22 @@ import http from 'node:http';
 import { readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { validateCatalog, RELATION_TYPES } from './catalog.mjs';
+import { compileCatalog, createExecutor } from './compiler.mjs';
+export { validateCatalog } from './catalog.mjs';
 
 const directory = dirname(fileURLToPath(import.meta.url));
-const idPattern = /^[a-z0-9][a-z0-9_.-]{0,127}$/;
-const relationTypes = new Set(['related_to', 'depends_on', 'supports', 'derived_from', 'predecessor']);
+const relationTypes = new Set(RELATION_TYPES);
 const staticFiles = new Map([
   ['/', ['index.html', 'text/html; charset=utf-8']],
   ['/index.html', ['index.html', 'text/html; charset=utf-8']],
   ['/styles.css', ['styles.css', 'text/css; charset=utf-8']],
   ['/app.js', ['app.js', 'text/javascript; charset=utf-8']],
+  ['/working-set.mjs', ['working-set.mjs', 'text/javascript; charset=utf-8']],
 ]);
-
-function invariant(condition, message) {
-  if (!condition) throw new TypeError(`Invalid catalog: ${message}`);
-}
-
-function record(value, label) {
-  invariant(value !== null && typeof value === 'object' && !Array.isArray(value), `${label} must be an object`);
-}
-
-function fields(value, allowed, label) {
-  for (const key of Object.keys(value)) invariant(allowed.includes(key), `${label} has unexpected field ${key}`);
-  for (const key of allowed) invariant(Object.hasOwn(value, key), `${label} is missing field ${key}`);
-}
-
-function string(value, label, maximum = 10000) {
-  invariant(typeof value === 'string' && value.trim().length > 0 && value.length <= maximum, `${label} must be a nonempty string of at most ${maximum} characters`);
-}
-
-function strings(value, label, { nonempty = false } = {}) {
-  invariant(Array.isArray(value) && value.length <= 5000, `${label} must be an array of at most 5000 strings`);
-  invariant(!nonempty || value.length > 0, `${label} must not be empty`);
-  value.forEach((item, index) => string(item, `${label}[${index}]`));
-  invariant(new Set(value).size === value.length, `${label} contains duplicates`);
-}
-
-function date(value, label, nullable = false) {
-  if (nullable && value === null) return;
-  invariant(typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value), `${label} must be an ISO calendar date`);
-  const parsed = new Date(`${value}T00:00:00.000Z`);
-  invariant(Number.isFinite(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value, `${label} is not a valid date`);
-}
-
-function records(value, label, allowed) {
-  invariant(Array.isArray(value) && value.length <= 5000, `${label} must be an array of at most 5000 records`);
-  const map = new Map();
-  value.forEach((item, index) => {
-    const path = `${label}[${index}]`;
-    record(item, path);
-    fields(item, allowed, path);
-    invariant(typeof item.id === 'string' && idPattern.test(item.id), `${path}.id must be a stable lowercase identifier`);
-    invariant(!map.has(item.id), `${label} has duplicate id ${item.id}`);
-    map.set(item.id, item);
-  });
-  return map;
-}
-
-function references(ids, map, label, nonempty = false) {
-  strings(ids, label, { nonempty });
-  ids.forEach(id => invariant(map.has(id), `${label} references missing id ${id}`));
-}
-
-/** Check containment, typed edges and their recorded basis; this is not a scientific truth check. */
-export function validateCatalog(catalog) {
-  record(catalog, 'root');
-  fields(catalog, ['schema_version', 'catalog_version', 'reviewed_on', 'title', 'scope', 'rules', 'nodes', 'relations', 'sources', 'capabilities', 'trails'], 'root');
-  invariant(catalog.schema_version === '1.0.0', 'schema_version must be 1.0.0');
-  string(catalog.catalog_version, 'catalog_version', 100);
-  date(catalog.reviewed_on, 'reviewed_on');
-  string(catalog.title, 'title', 200);
-  string(catalog.scope, 'scope');
-  strings(catalog.rules, 'rules', { nonempty: true });
-  const nodes = records(catalog.nodes, 'nodes', ['id', 'name', 'kind', 'parent_id', 'summary', 'status', 'evidence_status', 'source_ids', 'tags', 'next_action']);
-  const sources = records(catalog.sources, 'sources', ['id', 'title', 'source_date', 'reviewed_on', 'access', 'url', 'evidence_kind', 'scope']);
-  records(catalog.relations, 'relations', ['id', 'from_id', 'to_id', 'type', 'scope', 'status', 'source_ids']);
-  records(catalog.capabilities, 'capabilities', ['id', 'node_id', 'name', 'transport', 'status', 'invocation', 'input', 'output', 'limitations', 'source_ids']);
-  records(catalog.trails, 'trails', ['id', 'title', 'summary', 'node_ids', 'next_action', 'status']);
-
-  for (const node of nodes.values()) {
-    string(node.name, `${node.id}.name`, 200);
-    invariant(['group', 'project', 'component', 'role'].includes(node.kind), `${node.id}.kind is unknown`);
-    invariant(node.parent_id === null || nodes.has(node.parent_id), `${node.id}.parent_id references a missing node`);
-    for (const key of ['summary', 'status', 'evidence_status', 'next_action']) string(node[key], `${node.id}.${key}`);
-    references(node.source_ids, sources, `${node.id}.source_ids`, true);
-    strings(node.tags, `${node.id}.tags`);
-    const ancestors = new Set([node.id]);
-    let parent = node.parent_id;
-    while (parent !== null) {
-      invariant(!ancestors.has(parent), `containment cycle involving ${node.id}`);
-      ancestors.add(parent);
-      invariant(ancestors.size <= 100, 'containment depth exceeds 100');
-      parent = nodes.get(parent).parent_id;
-      invariant(parent === null || nodes.has(parent), `missing ancestor of ${node.id}`);
-    }
-  }
-
-  for (const source of sources.values()) {
-    string(source.title, `${source.id}.title`, 500);
-    date(source.source_date, `${source.id}.source_date`, true);
-    date(source.reviewed_on, `${source.id}.reviewed_on`);
-    string(source.evidence_kind, `${source.id}.evidence_kind`, 200);
-    string(source.scope, `${source.id}.scope`);
-    invariant(['public', 'owner-held'].includes(source.access), `${source.id}.access is unknown`);
-    if (source.access === 'owner-held') {
-      invariant(source.url === null, `${source.id}: owner-held sources must not expose a URL`);
-    } else {
-      let url;
-      try { url = new URL(source.url); } catch { /* Report a catalog error below. */ }
-      invariant(typeof source.url === 'string' && url?.protocol === 'https:' && !url.username && !url.password, `${source.id}: public source needs an HTTPS URL without credentials`);
-    }
-  }
-
-  for (const edge of catalog.relations) {
-    invariant(nodes.has(edge.from_id) && nodes.has(edge.to_id), `${edge.id}: relation endpoint is missing`);
-    invariant(relationTypes.has(edge.type), `${edge.id}: unknown relation type`);
-    string(edge.scope, `${edge.id}.scope`);
-    invariant(['source-described', 'proposal'].includes(edge.status), `${edge.id}: unknown relation status`);
-    references(edge.source_ids, sources, `${edge.id}.source_ids`, true);
-    invariant(edge.type !== 'supports' || edge.status === 'source-described', `${edge.id}: supports requires a source-described basis`);
-  }
-
-  for (const capability of catalog.capabilities) {
-    invariant(nodes.has(capability.node_id), `${capability.id}: capability node is missing`);
-    invariant(['local-http', 'external-browser', 'source-contract'].includes(capability.transport), `${capability.id}: unknown transport`);
-    invariant(['implemented', 'source-inspected', 'described'].includes(capability.status), `${capability.id}: unknown capability status`);
-    const transportStatus = { 'local-http': 'implemented', 'external-browser': 'source-inspected', 'source-contract': 'described' };
-    invariant(capability.status === transportStatus[capability.transport], `${capability.id}: capability transport and status do not match`);
-    for (const key of ['name', 'invocation', 'input', 'output']) string(capability[key], `${capability.id}.${key}`);
-    strings(capability.limitations, `${capability.id}.limitations`, { nonempty: true });
-    references(capability.source_ids, sources, `${capability.id}.source_ids`, true);
-  }
-
-  for (const trail of catalog.trails) {
-    for (const key of ['title', 'summary', 'next_action']) string(trail[key], `${trail.id}.${key}`);
-    invariant(trail.status === 'proposal', `${trail.id}: discovery trails are proposals`);
-    references(trail.node_ids, nodes, `${trail.id}.node_ids`, true);
-  }
-  return catalog;
-}
 
 function loadCatalog() {
   return JSON.parse(readFileSync(join(directory, 'data', 'catalog.json'), 'utf8'));
-}
-
-function freeze(value) {
-  if (value && typeof value === 'object') {
-    Object.values(value).forEach(freeze);
-    Object.freeze(value);
-  }
-  return value;
 }
 
 class RequestError extends Error {
@@ -197,10 +64,6 @@ function page(items, params) {
   return { items: items.slice(offset, offset + limit), total: items.length, offset, limit };
 }
 
-function matches(node, query) {
-  return query === null || [node.name, node.summary, ...node.tags].join('\n').toLowerCase().includes(query.toLowerCase());
-}
-
 function parseRequestTarget(target) {
   if (typeof target !== 'string' || target.length > 4096) invalid('Request target must be at most 4096 characters.');
   if (!target.startsWith('/') || target.startsWith('//') || target.includes('#') || target.includes('\\')) invalid('Use an absolute path without a fragment or backslash.');
@@ -226,36 +89,26 @@ function normalizedHost(host) {
 
 /**
  * Return an unbound Node HTTP server. With no arguments, loads data/catalog.json.
- * Tests/embedders may provide a catalog and { publicDirectory, allowedHosts }.
+ * Tests/embedders may provide a catalog and { publicDirectory, allowedHosts, compiledPlan }.
  * Call server.listen(port, '127.0.0.1'); no requests are made by this module.
  */
 export function createServer(catalog = loadCatalog(), options = {}) {
-  const snapshot = freeze(validateCatalog(structuredClone(catalog)));
-  const nodes = new Map(snapshot.nodes.map(node => [node.id, node]));
-  const sources = new Map(snapshot.sources.map(source => [source.id, source]));
+  // Compilation and integrity checks finish before a server can accept a request.
+  const executor = createExecutor(catalog, options.compiledPlan ?? compileCatalog(catalog));
+  let snapshot = executor.catalog();
   const openapi = JSON.parse(readFileSync(join(directory, 'openapi.json'), 'utf8'));
   const publicDirectory = options.publicDirectory ?? join(directory, 'public');
   const allowedHosts = new Set(['127.0.0.1', 'localhost', '[::1]', ...(options.allowedHosts ?? []).map(normalizedHost).filter(Boolean)]);
 
   function nodeById(id) {
-    if (!nodes.has(id)) missing('Node not found.');
-    return nodes.get(id);
+    if (!executor.has(id)) missing('Node not found.');
+    return executor.node(id);
   }
 
   function nodeParameter(params, key) {
     const id = textParameter(params, key, { maximum: 128 });
     if (id !== null) nodeById(id);
     return id;
-  }
-
-  function hierarchy(rootId) {
-    const nested = new Map(snapshot.nodes.map(node => [node.id, { ...node, children: [] }]));
-    const roots = [];
-    for (const node of snapshot.nodes) {
-      if (node.parent_id === null) roots.push(nested.get(node.id));
-      else nested.get(node.parent_id).children.push(nested.get(node.id));
-    }
-    return { roots: rootId === null ? roots : [nested.get(rootId)] };
   }
 
   function api(path, url) {
@@ -269,7 +122,7 @@ export function createServer(catalog = loadCatalog(), options = {}) {
       const params = queryParameters(url, ['q', 'status', 'limit', 'offset']);
       const q = textParameter(params, 'q');
       const status = textParameter(params, 'status', { maximum: 120 });
-      return page(snapshot.nodes.filter(node => node.kind === 'project' && matches(node, q) && (status === null || node.status === status)), params);
+      return page(executor.search(q, { projectsOnly: true, status }), params);
     }
     const projectMatch = /^\/api\/projects\/([^/]+)$/.exec(path);
     if (projectMatch) {
@@ -282,30 +135,24 @@ export function createServer(catalog = loadCatalog(), options = {}) {
     if (nodeMatch) {
       queryParameters(url);
       const node = nodeById(nodeMatch[1]);
-      return {
-        node,
-        children: snapshot.nodes.filter(item => item.parent_id === node.id),
-        relations: snapshot.relations.filter(edge => edge.from_id === node.id || edge.to_id === node.id),
-        sources: node.source_ids.map(id => sources.get(id)),
-        capabilities: snapshot.capabilities.filter(capability => capability.node_id === node.id),
-      };
+      return executor.detail(node.id);
     }
     if (path === '/api/hierarchy') {
       const params = queryParameters(url, ['root']);
-      return hierarchy(nodeParameter(params, 'root'));
+      return executor.hierarchy(nodeParameter(params, 'root'));
     }
     if (path === '/api/relations') {
       const params = queryParameters(url, ['node_id', 'type']);
       const nodeId = nodeParameter(params, 'node_id');
       const type = textParameter(params, 'type', { maximum: 30 });
       if (type !== null && !relationTypes.has(type)) invalid('Unknown relation type.');
-      const items = snapshot.relations.filter(edge => (nodeId === null || edge.from_id === nodeId || edge.to_id === nodeId) && (type === null || edge.type === type));
+      const items = executor.relations(nodeId, type);
       return { items, total: items.length };
     }
     if (path === '/api/capabilities') {
       const params = queryParameters(url, ['node_id']);
       const nodeId = nodeParameter(params, 'node_id');
-      const items = snapshot.capabilities.filter(capability => nodeId === null || capability.node_id === nodeId);
+      const items = executor.capabilities(nodeId);
       return { items, total: items.length };
     }
     if (path === '/api/sources' || path === '/api/trails') {
@@ -316,7 +163,7 @@ export function createServer(catalog = loadCatalog(), options = {}) {
     if (path === '/api/search') {
       const params = queryParameters(url, ['q', 'limit', 'offset']);
       const q = textParameter(params, 'q', { required: true });
-      return page(snapshot.nodes.filter(node => matches(node, q)), params);
+      return page(executor.search(q), params);
     }
     missing();
   }
@@ -356,6 +203,16 @@ export function createServer(catalog = loadCatalog(), options = {}) {
       else send(500, { error: { code: 'internal_error', message: 'The request could not be completed.' } });
     }
   });
+  let released = false;
+  const listen = server.listen;
+  server.listen = function (...args) {
+    if (released) throw new Error('This server has released its catalog. Create a new server to listen again.');
+    return listen.apply(this, args);
+  };
+  server.once('close', () => { released = true; snapshot = null; executor.dispose(); });
+  // Request handlers use the immutable executor snapshot, not these input handles.
+  catalog = null;
+  options = null;
   server.requestTimeout = 10000;
   server.headersTimeout = 10000;
   server.keepAliveTimeout = 5000;
@@ -374,7 +231,10 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       const rawPort = process.env.PORT || '4317';
       if (!/^\d+$/.test(rawPort) || Number(rawPort) < 1 || Number(rawPort) > 65535) throw new Error('PORT must be an integer from 1 to 65535.');
       const extraHosts = (process.env.ALLOWED_HOSTS || '').split(',').map(value => value.trim()).filter(Boolean);
-      const server = createServer(catalog, { allowedHosts: [host, ...extraHosts] });
+      let compiledPlan;
+      try { compiledPlan = JSON.parse(readFileSync(join(directory, 'build/catalog.plan.json'), 'utf8')); }
+      catch { throw new Error('Compiled query plan unavailable. Run npm run build or use npm start.'); }
+      const server = createServer(catalog, { allowedHosts: [host, ...extraHosts], compiledPlan });
       server.on('error', error => { console.error(`Knowledge Garden could not start: ${error.message}`); process.exitCode = 1; });
       server.listen(Number(rawPort), host, () => console.log(`Knowledge Garden: http://${host.includes(':') ? `[${host}]` : host}:${rawPort} (read-only API)`));
       for (const signal of ['SIGINT', 'SIGTERM']) process.once(signal, () => server.close());

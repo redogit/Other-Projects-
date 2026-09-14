@@ -1,6 +1,26 @@
 # Verification record
 
-September 14, 2026 · Knowledge Garden 1.0.0 · catalog 2026-09-14.1.
+September 14, 2026 · Knowledge Garden 1.1.0 · catalog 2026-09-14.1.
+
+## Version 1.1 continuation
+
+The complete suite passed **109/109 tests**, zero failures and zero skips, on Node v24.19.0. It retains the 76 version 1.0 checks and adds 24 working-set tests, seven compiler tests, a server-release lifecycle test and one UI state-flow test with multiple assertions. The catalog and twelve-route API contract are unchanged; the OpenAPI contract retains version 1.0.0.
+
+Working-set checks cover current and legacy export parsing, exact task preservation, source closure, mismatched catalog versions, changed and missing entries, malformed and oversized inputs, bounded history, quota errors and preservation of unrelated browser-storage keys. The UI state test executes the actual application functions with a minimal DOM substitute. It checks save-before-clear ordering, storage-failure preservation, review without mutation, restore and undo, file-read cancellation and independent active/history clearing. It is not a rendered browser test.
+
+Compiler checks compare details for all 50 catalog entries with independent scans, plus hierarchy, typed connections, capabilities, literal Unicode search, status filtering and self-relations. They reject stale, corrupted and rechecksummed semantically inconsistent plans. Caller mutation cannot change the executor snapshot; disposed executors and closed servers reject reuse.
+
+A second reviewer found two defects in the first implementation: a closed server still retained its catalog, and a rechecksummed invalid child index could pass validation. Both were fixed. The bounded recheck observed release of both disposed-executor and closed-server catalog references using WeakRef and requested garbage collection; a forged self-child index was rejected before execution. This is evidence about those references, not a promise of an exact runtime or browser heap reduction.
+
+An actual CLI smoke check confirmed that a missing plan and a stale plan both prevent startup, and that `npm start` builds before listening. The started server returned HTTP 200 with expected content types for `/`, `/working-set.mjs`, `/api/catalog` and a search query. It was then stopped. Updated UI syntax and static checks found 73 unique IDs, matching selectors, ten explicitly labelled input controls and one visible polite status region.
+
+[Execution and recovery](EXECUTION.md) reports the observed query timings and build costs. The final benchmark checks sixty distinct outputs and uses seven alternating-order timing trials per workload. The earlier measurement is retained with its correction: its scan baseline was not frozen and it omitted real build-process/file costs. The corrected evidence includes actual Node build-process, plan-loading and executor-initialization measurements. Neither benchmark measures end-to-end UI performance.
+
+Rendered browser and assistive-technology acceptance remain open for the reason recorded below. Add task editing, import preview, restore/undo, failed checkpoint writes, save-and-clear, individual checkpoint removal and active/history clear focus behavior to that acceptance pass. No browser acceptance result is inferred from the DOM substitute.
+
+## Version 1.0 baseline retained
+
+The following records the earlier 76-test baseline, before task recovery and compilation were added.
 
 ## Executed
 
