@@ -1,5 +1,18 @@
 # RED WILDS — VIDEO + IMAGE UPDATE
 
+## MASTER VISUAL RULE
+
+- High-quality photorealistic / real-life visual target
+- Natural skin, hair, fabric, glass, metal, rain, reflections and environmental light
+- Cinematic camera behavior and physically plausible depth of field
+- Preserve the same fictional companion identity across scene variants unless a shapeshifter state explicitly changes it
+- No fixed image count
+- No fixed aspect-ratio family
+- No fixed numbered range
+- Use sequential asset IDs (`1`, `2`, `3`, …) for as many variants as the project needs
+- Generation/storage can be batched while the logical asset sequence remains open-ended
+- Choose resolution and format per scene instead of forcing every asset into the same dimensions
+
 ## VIDEO SET
 
 ### 01 — COMPANION REVEAL
@@ -10,7 +23,7 @@
 - Red evening dress
 - Warm interior lighting
 - Alternate face-angle takes
-- 6–12 second loop
+- Short and long takes
 
 ### 02 — NIGHT-CITY WALK
 - Neon street environment
@@ -20,7 +33,6 @@
 - Crowd movement
 - Reflections in wet pavement
 - City signage and ambient traffic
-- 10–20 second loop
 
 ### 03 — PRIVATE-ROOM SCENE
 - Warm bedside lamps
@@ -30,8 +42,7 @@
 - Sitting / standing transitions
 - Window-light variation
 - Camera push-in
-- Fade / cut ending
-- 8–18 second loop
+- Alternate endings and camera positions
 
 ### 04 — IN-GAME PHONE CLIPS
 - Selfie video
@@ -43,8 +54,7 @@
 - Passenger-seat clip
 - Rooftop clip
 - Hotel / apartment clip
-- Vertical 9:16 format
-- 4–12 seconds each
+- Portrait, square, landscape, ultrawide and custom crops as needed
 
 ### 05 — LIVING-WORLD MOMENTS
 - Dancing
@@ -71,37 +81,47 @@
 
 ## RED WILDS VISUAL DIRECTION
 
-- Slightly bolder wardrobe and silhouette choices
-- More direct eye contact
-- Closer camera distance
-- Stronger red / black night styling
-- More confident poses
-- More movement in hair and clothing
-- Neon, rain, glass, mirrors, reflections
-- More dramatic warm-vs-cool lighting
-- Keep the same recognizable fictional companion across variants
+- Bolder wardrobe and silhouette choices
+- Direct eye contact
+- Close camera distance
+- Strong red / black night styling
+- Confident poses
+- Natural movement in hair and clothing
+- Neon, rain, glass, mirrors and reflections
+- Dramatic warm-vs-cool lighting
+- Realistic pores, flyaway hairs, fabric weave, jewelry reflections and environmental bounce light when visible at the chosen shot distance
+- Avoid plastic skin, over-smoothed faces, impossible anatomy, duplicated accessories, broken hands and inconsistent reflections
 
 ## IMAGE GENERATION RECOVERY
 
-Generation is considered successful only when an actual image asset is returned and can be displayed.
+Generation is complete only when an actual image asset exists and can be displayed.
 
-Pipeline:
 1. Preserve the selected reference image and composition target.
-2. Generate a single edited variant first.
-3. Verify that a render exists before advancing.
-4. Retry once with the same visual intent if the render is empty or missing.
-5. If the second attempt fails, preserve the request as pending instead of silently treating it as complete.
-6. Keep output dimensions and aspect ratio explicit for dashboard and in-game-phone assets.
+2. Generate one verified variant first.
+3. Confirm the render exists and is visually valid.
+4. Retry failed or empty outputs without changing the intended scene unless the failure requires a repair.
+5. Keep failed requests pending rather than marking them complete.
+6. Choose dimensions and aspect ratio per asset; do not constrain the project to preset ratios.
 7. Do not overwrite a working source image until the replacement render is verified.
-8. Store prompt intent separately from the resulting asset so generation can be reproduced.
+8. Store generation intent, seed/state where available, source references and resulting asset ID separately.
+9. Run consistency checks for face, hair, wardrobe, hands, reflections, lighting direction and scene continuity.
+10. Batch large variant runs and keep deterministic numbering/index metadata so the set can scale from a few images to very large collections.
 
-## TARGET OUTPUTS
+## OUTPUT FAMILIES
 
-- Dashboard concept update
-- 16:9 cinematic stills
-- 9:16 phone clips / thumbnails
-- Companion portrait variants
+- Dashboard concepts
+- Cinematic stills
+- Phone clips / thumbnails
+- Companion portraits
+- Full-body character shots
 - Outfit / silhouette variants
-- Night-city environment variants
-- Private-room environment variants
-- Memory-scene variants
+- Night-city environments
+- Private-room environments
+- Memory scenes
+- Contact sheets
+- Storyboard frames
+- Background plates
+- UI art
+- Promotional key art
+- High-resolution source masters
+- Derived web/game/mobile versions
