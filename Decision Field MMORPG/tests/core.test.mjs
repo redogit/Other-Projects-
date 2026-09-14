@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {advanceSecret,normalizeProfile,makeFrontier,eventInterval,SECRET_SEQUENCE} from '../core.mjs';
+let buffer=[],unlocked=false;
+for(const key of SECRET_SEQUENCE)({buffer,unlocked}=advanceSecret(buffer,key));
+assert.equal(unlocked,true,'Fuzzball sequence must unlock');
+buffer=[];for(const key of ['q','2','x','e','3','r','1'])({buffer,unlocked}=advanceSecret(buffer,key));
+assert.equal(unlocked,false,'Interrupted sequence must not unlock');
+const profile=normalizeProfile({moves:3,discoveries:['Fuzzball','Fuzzball']});
+assert.equal(profile.version,2);assert.equal(profile.moves,3);assert.deepEqual(profile.discoveries,['Fuzzball']);
+assert.equal(makeFrontier(0).status,'UNRESOLVED');
+assert.ok(eventInterval({events:999,signals:999,pulses:999})>=8);
+console.log('PASS Decision Field core');
