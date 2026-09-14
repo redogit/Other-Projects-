@@ -1,0 +1,72 @@
+name: SPrime Objective Monitor Pass 11
+
+on:
+  push:
+    branches: [main, sprime-objective-monitor-pass11]
+    paths:
+      - 'SPrime Search/decision-field/objective-monitor/**'
+      - '.github/workflows/sprime-objective-monitor-pass11.yml'
+  pull_request:
+    paths:
+      - 'SPrime Search/decision-field/objective-monitor/**'
+      - '.github/workflows/sprime-objective-monitor-pass11.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sprime-objective-monitor-pass11-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Materialize exact commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init "$GITHUB_WORKSPACE"
+          cd "$GITHUB_WORKSPACE"
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git fetch --depth=1 origin "$GITHUB_SHA"
+          git checkout --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          python3 --version
+          g++ --version
+
+      - name: Re-run Pass 11 objective monitor twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          src="SPrime Search/decision-field/objective-monitor"; tmp="$(mktemp -d)"
+          python3 "$src/audit.py" --out "$tmp/run1"
+          python3 "$src/audit.py" --out "$tmp/run2"
+          cmp "$tmp/run1/SUMMARY.json" "$tmp/run2/SUMMARY.json"
+          cmp "$tmp/run1/VERIFICATION.json" "$tmp/run2/VERIFICATION.json"
+          python3 - "$tmp/run1/SUMMARY.json" "$tmp/run1/VERIFICATION.json" <<'PY'
+          import hashlib, json, subprocess, sys
+          from pathlib import Path
+          fresh=json.load(open(sys.argv[1])); ver=json.load(open(sys.argv[2]))
+          committed=json.loads(subprocess.check_output(['git','show','HEAD:SPrime Search/decision-field/objective-monitor/evidence/SUMMARY.json']))
+          committed_ver=json.loads(subprocess.check_output(['git','show','HEAD:SPrime Search/decision-field/objective-monitor/evidence/VERIFICATION.json']))
+          assert fresh == committed
+          assert ver == committed_ver
+          assert fresh['status'] == 'PASS_BOUNDED'
+          assert fresh['ordered_action_map_pairs'] == 65_536
+          assert fresh['initial_state_cases'] == 262_144
+          assert fresh['systems_with_monitor_collision'] == 48_822
+          assert fresh['initial_cases_with_monitor_collision'] == 126_360
+          assert fresh['collision_physical_states'] == 253_380
+          assert fresh['minimum_certificate_radius_distribution'] == {'2':57024,'3':54756,'4':14580}
+          assert fresh['maximum_minimum_certificate_radius'] == 4
+          assert fresh['witness']['word_without_visit'] == []
+          assert fresh['witness']['word_with_visit'] == [1,0]
+          assert ver['native_replays_identical'] is True and ver['python_native_exact_match'] is True
+          src=Path('SPrime Search/decision-field/objective-monitor')
+          for name,expected in ver['source_sha256'].items():
+              assert hashlib.sha256((src/name).read_bytes()).hexdigest() == expected
+          print('PASS deterministic Pass 11 objective-monitor evidence and exact source hashes')
+          PY
