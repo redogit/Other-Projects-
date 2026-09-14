@@ -1,0 +1,10 @@
+[
+  {"inputs":3,"outputs":4,"behavior_bits":32,"behavior_count":"2^32","two_char_tag_ascii_bytes":8,"fits_8_ascii_bytes":true,"fits_tagged_normal_float_48_payload_bits":true},
+  {"inputs":4,"outputs":1,"behavior_bits":16,"behavior_count":"2^16","two_char_tag_ascii_bytes":5,"fits_8_ascii_bytes":true,"fits_tagged_normal_float_48_payload_bits":true},
+  {"inputs":4,"outputs":2,"behavior_bits":32,"behavior_count":"2^32","two_char_tag_ascii_bytes":8,"fits_8_ascii_bytes":true,"fits_tagged_normal_float_48_payload_bits":true},
+  {"inputs":4,"outputs":3,"behavior_bits":48,"behavior_count":"2^48","two_char_tag_ascii_bytes":10,"fits_8_ascii_bytes":false,"fits_tagged_normal_float_48_payload_bits":true},
+  {"inputs":4,"outputs":4,"behavior_bits":64,"behavior_count":"2^64","two_char_tag_ascii_bytes":13,"fits_8_ascii_bytes":false,"fits_tagged_normal_float_48_payload_bits":false},
+  {"inputs":5,"outputs":1,"behavior_bits":32,"behavior_count":"2^32","two_char_tag_ascii_bytes":8,"fits_8_ascii_bytes":true,"fits_tagged_normal_float_48_payload_bits":true},
+  {"inputs":5,"outputs":2,"behavior_bits":64,"behavior_count":"2^64","two_char_tag_ascii_bytes":13,"fits_8_ascii_bytes":false,"fits_tagged_normal_float_48_payload_bits":false},
+  {"inputs":6,"outputs":1,"behavior_bits":64,"behavior_count":"2^64","two_char_tag_ascii_bytes":13,"fits_8_ascii_bytes":false,"fits_tagged_normal_float_48_payload_bits":false}
+]
