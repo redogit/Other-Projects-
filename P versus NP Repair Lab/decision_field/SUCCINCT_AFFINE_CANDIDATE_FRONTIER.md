@@ -1,72 +1,93 @@
 # Succinct Affine Candidate Frontier
 
-Status: `PROVED_ABSTRACT / PNP_METHOD_RESULT`
+Status: `PROVED_ABSTRACT_FINITE_FIELD / PNP_METHOD_RESULT`
 
-## Statement
+## General counting theorem
 
-Let `y in {0,1}^d` be the surviving free-coordinate vector after exact affine elimination over GF(2), and consider nonconstant affine Boolean predicates
+Let `F_q` be a finite field and `y in F_q^d`. An affine form is
 
 ```text
-ell_{a,c}(y) = c XOR (a dot y),
+L_{a,c}(y) = a dot y + c,
 ```
 
-with `a in {0,1}^d \ {0}` and `c in {0,1}`.
-
-There are exactly
+with `a in F_q^d` and `c in F_q`. Exactly `q` choices (`a=0`) are constant, so the number of nonconstant affine forms is
 
 ```text
-2 * (2^d - 1) = 2^(d+1) - 2
+q^(d+1) - q = q * (q^d - 1).
 ```
 
-nonconstant affine predicates on the free basis.
+Thus exhaustive planning over the entire affine-form space is exponential in `d` for every fixed `q>1`.
 
-Therefore exhaustive planning over all affine cuts is exponential in the number `d` of free coordinates.
-
-By contrast, if the original SAT/EO3 instance has `n` original Boolean coordinates, exact elimination represents each original coordinate by at most one affine form
+Special cases:
 
 ```text
-x_j = L_j(y).
+F_2: 2^(d+1) - 2
+F_5: 5^(d+1) - 5
 ```
 
-Hence the family of branch predicates inherited from original coordinates has cardinality at most `n` (or at most `2n` if both displayed literals `L_j=0` and `L_j=1` are counted as separate actions). The candidate-family size is polynomial in the input coordinate count even though individual forms may have large support.
+## SAT64-specific admissibility
 
-## Proof
-
-An affine Boolean predicate is determined uniquely by its coefficient vector `a` and constant bit `c`. There are `2^d` coefficient vectors and two constants. The two choices with `a=0` are constant functions, so removing them leaves `2^(d+1)-2` nonconstant predicates.
-
-Gaussian elimination expresses every original coordinate `x_j` as one affine form in the chosen free basis. There are only `n` original coordinates, so there are at most `n` such forms, irrespective of support size. QED.
-
-## Consequence for the SAT64 decision field
-
-The earlier affine-coordinate branching theorem showed that basis-only branching can hide a sharp lawful partition. This theorem supplies the opposite pressure: admitting every possible affine partition makes planning exponential before search begins.
-
-The smallest defensible candidate family is therefore currently:
+SAT64 uses an exact parameterization over `F_5`:
 
 ```text
-free basis coordinates
+x_j = L_j(y)
+```
+
+with Boolean domain guards
+
+```text
+L_j(y)(L_j(y)-1)=0.
+```
+
+An arbitrary affine form over `F_5` is **not** automatically a Boolean decision coordinate. It may take values `2,3,4` on admissible or intermediate states. Therefore "all affine forms" is not merely too large; most forms also lack the required Boolean-branch certificate.
+
+Every original Boolean coordinate supplies a certified candidate partition on the valid solution set:
+
+```text
+x_j = 0  versus  x_j = 1,
+```
+
+represented in the current chart as `L_j(y)=0` versus `L_j(y)=1`. With `n` original coordinates there are at most `n` such unordered partitions (at most `2n` labelled branch actions).
+
+Additional affine forms may be admitted only when a separate exact certificate establishes the domain property needed by the intended branch.
+
+## Proof of candidate-size bound
+
+Gaussian elimination carries each of the `n` original coordinates to one affine expression in the free chart. Multiple original variables may collapse to the same partition, reducing the count further; they cannot create more than `n` original-coordinate partitions. QED.
+
+## Current decision-field frontier
+
+The smallest defensible SAT64 candidate family is therefore
+
+```text
+free-coordinate partitions
 UNION
-nonconstant original-coordinate affine forms
+original-coordinate partitions transported through the exact affine chart
 UNION
-separately certified structural carrier predicates
+separately certified structural/carrier partitions.
 ```
 
-not the full affine dual space.
+It is **not** the full affine dual space.
 
-This family is representation-aware but succinctly inherited from the input/elimination map.
+This preserves two pressures simultaneously:
+
+1. basis-only branching can hide consequential original-coordinate partitions;
+2. arbitrary affine expansion would make planning exponential and can admit non-Boolean pseudo-coordinates.
 
 ## Remaining cost
 
-Polynomial candidate count does **not** imply polynomial total solving time. For each state we must still charge:
+A polynomial candidate family does not imply polynomial solving time. At every state we must still charge:
 
-- scoring/planning over candidates;
-- applying an affine branch condition;
-- rebuilding the exact parameterization/guards;
-- simplification and component detection;
-- certificate verification;
-- number and depth of visited states.
+- candidate scoring/planning;
+- exact branch application;
+- affine reparameterization and guard rebuilding;
+- simplification/component discovery;
+- certificate checking;
+- search-tree states and depth;
+- memory/recovery costs.
 
-The unresolved question is whether a consequence-aware score on this succinct family gives enough tree reduction to repay those costs on a growing, independently checked family.
+The live experiment remains a full-cost comparison of free-only, all-original, and consequence-aware selection on recovered SAT64 instances.
 
 ## Claim ceiling
 
-This is a candidate-space theorem only. It proves no polynomial SAT bound and no P-versus-NP result. No Hodge evidence is used or transferred.
+This is a candidate-space result. It proves no polynomial SAT bound and no P-versus-NP conclusion. No Hodge evidence is used or transferred.
