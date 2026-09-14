@@ -1,0 +1,124 @@
+name: Verify and publish P-vs-NP decision-field checkpoint
+
+on:
+  pull_request:
+    paths:
+      - 'P versus NP Repair Lab/decision_field/**'
+      - '.github/workflows/pnp-decision-field-check.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'P versus NP Repair Lab/decision_field/**'
+      - '.github/workflows/pnp-decision-field-check.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: other-projects-pnp-decision-field-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Materialize exact commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init "$GITHUB_WORKSPACE"
+          cd "$GITHUB_WORKSPACE"
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git fetch --depth=1 origin "$GITHUB_SHA"
+          git checkout --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+
+      - name: Re-run bounded circuit discriminator and checkpoint invariants
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "P versus NP Repair Lab/decision_field/discriminators_2026_09_14"
+          python3 test_discriminators.py
+          python3 -m py_compile experiment_a_symmetry.py experiment_b_consequence.py
+          if find . -maxdepth 1 -type f -name 'SAT64*.zip' -print -quit | grep -q .; then
+            echo 'Owner-held SAT64 archives must not be published in this checkpoint.' >&2
+            exit 1
+          fi
+
+      - name: Verify post-merge selector records and claim ceilings
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "P versus NP Repair Lab/decision_field"
+          python3 -m py_compile consequence_selector_k4.py one_feedback_round_selector.py
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path('.')
+          df = json.loads((root / 'DF_PNP_01_RESULT.json').read_text())
+          k4 = json.loads((root / 'CONSEQUENCE_SELECTOR_K4_RESULT.json').read_text())
+          one = json.loads((root / 'ONE_FEEDBACK_ROUND_SELECTOR_RESULT.json').read_text())
+
+          assert df['experiment'] == 'DF-PNP-01'
+          assert df['status'] == 'EXECUTED_F2_FINITE_CALIBRATION_PLUS_SEPARATE_F2_PROOF'
+          assert 'not the constrained F_5 SAT64 guard domain' in df['scope']
+          assert df['sat64_translation_status'].startswith('METHOD_CALIBRATION_ONLY')
+          assert 'no P-vs-NP conclusion' in df['claim_ceiling']
+          assert 'No Hodge evidence imported' in df['claim_ceiling']
+
+          assert k4['experiment'] == 'DF-PNP-02-CONSEQUENCE-SELECTOR-K4'
+          assert k4['status'] == 'EXECUTED_BOUNDED_NEGATIVE_RESULT'
+          assert k4['baseline_replay']['historical_state_counts_reproduced_exactly'] is True
+          baseline = {r['name']: r for r in k4['baseline_replay']['all_original']}
+          for row in k4['consequence_k4']:
+              assert row['name'] in baseline
+              assert row['states'] == baseline[row['name']]['states']
+              assert row['planning_branch_probes'] > 0
+              assert row['planning_row_operations'] > 0
+          assert 'not a P-versus-NP result' in k4['claim_ceiling']
+          assert 'No Hodge evidence is used' in k4['claim_ceiling']
+
+          assert one['experiment'] == 'DF-PNP-03-ONE-FEEDBACK-ROUND-SELECTOR'
+          assert one['status'] == 'EXECUTED_BOUNDED_NEGATIVE_RESULT'
+          one_base = {r['name']: r for r in one['baseline_all_original']}
+          one_rows = {r['name']: r for r in one['one_round_k8']}
+          assert one_rows['compiler_0']['states'] > one_base['compiler_0']['states']
+          assert one_rows['compiler_0']['maximum_depth'] > one_base['compiler_0']['maximum_depth']
+          assert one_rows['compiler_1']['states'] == one_base['compiler_1']['states']
+          assert 'balanced controls were not adaptively run' in one['scope_boundary']
+          assert 'No P-vs-NP conclusion' in one['claim_ceiling']
+          assert 'no Hodge evidence transfer' in one['claim_ceiling']
+
+          for doc in (
+              'AFFINE_COORDINATE_BRANCHING_THEOREM.md',
+              'ORIGINAL_PARTITION_INVARIANCE.md',
+              'SUCCINCT_AFFINE_CANDIDATE_FRONTIER.md',
+          ):
+              text = (root / doc).read_text(encoding='utf-8')
+              assert text.strip(), doc
+
+          print('PASS - post-merge P-vs-NP records are bounded, negative results remain negative, and evidence domains stay separated')
+          PY
+
+      - name: Ensure private SAT64 archives are not published anywhere in decision-field surface
+        shell: bash
+        run: |
+          set -euo pipefail
+          if find "P versus NP Repair Lab/decision_field" -type f -name 'SAT64*.zip' -print -quit | grep -q .; then
+            echo 'Owner-held SAT64 archives must remain outside the public repository.' >&2
+            exit 1
+          fi
+
+      - name: Publish exact main revision to gh-pages source branch
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          cd "$GITHUB_WORKSPACE"
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push --force origin "$GITHUB_SHA:refs/heads/gh-pages"

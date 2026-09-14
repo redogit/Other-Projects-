@@ -1,0 +1,14 @@
+{
+  "scope": "Finite implementation checks plus stated algebraic bijection arguments; not formal proof or semantic validation.",
+  "source_hashes": {
+    "audit.py": "1b2dfc033fbd94ed0ade5ca2ecb69f5cb958d0cfd4423ed333d5c4b5fc8430ea",
+    "field.py": "e3fac169c836722cae55166fc81759f3de9cdf30f43b35f7e8d8b55803b46794"
+  },
+  "second_pass": {
+    "scientific_json_hashes_identical_across_two_runs": true,
+    "temporal_repair_cube_exhaustively_checked": 4096,
+    "minimum_repair_count": 1,
+    "minimum_repair_changed_entries": 6
+  },
+  "status": "PASS"
+}

@@ -1,0 +1,44 @@
+{
+  "minimal_sensor_antichain_distribution": {"1":7168,"2":1392,"4":1872,"6":264},
+  "minimal_two_class_profile_occurrences": {"2+2":5928,"3+1":5928},
+  "native": {
+    "impossible_systems":5688,
+    "minimal_sensor_count_distribution":{"1":7168,"2":1392,"4":1872,"6":264},
+    "minimal_two_class_sensor_occurrences":{"2+2":5928,"3+1":5928},
+    "partition_cases":245760,
+    "plant_target_systems":16384,
+    "policy_partition_theorem_cases":245760,
+    "same_class_count_mixed_systems":{"2_classes":3528,"3_classes":3264},
+    "same_profile_mixed_systems":{"2_classes_2+2":3264,"2_classes_3+1":3528,"3_classes_2+1+1":3264},
+    "status":"PASS",
+    "winning_partition_count_distributions":{
+      "1":{"0":9216,"1":7168},
+      "2":{"0":5688,"2":1392,"4":1872,"6":264,"7":7168},
+      "3":{"0":5688,"4":1392,"5":1872,"6":7432},
+      "4":{"0":5688,"1":10696}
+    },
+    "witness":{
+      "map0":[0,1,0,0],"map0_hex":"0x04","map1":[0,2,1,0],"map1_hex":"0x18","target":0,
+      "three_plus_one":[
+        {"partition":[0,0,0,1],"wins":false},{"partition":[0,0,1,0],"wins":true},
+        {"partition":[0,1,0,0],"wins":true},{"partition":[0,1,1,1],"wins":false}
+      ],
+      "two_plus_two":[
+        {"partition":[0,0,1,1],"wins":true},{"partition":[0,1,0,1],"wins":true},{"partition":[0,1,1,0],"wins":false}
+      ]
+    }
+  },
+  "partitions":15,
+  "python_policy_partition_theorem_checks_solvable":160440,
+  "same_profile_witness":{
+    "cases":[
+      {"partition":[0,0,0,1],"wins":false},{"partition":[0,0,1,0],"wins":true},
+      {"partition":[0,1,0,0],"wins":true},{"partition":[0,1,1,1],"wins":false}
+    ],
+    "map0":"0x04","map1":"0x18","profile":"3+1","target":0
+  },
+  "scope":"four-state, two-action, singleton absorbing-target deterministic memoryless control; observation sufficiency is task/controller-class relative",
+  "status":"PASS_BOUNDED",
+  "structural_statement":"For deterministic memoryless control, a sensor partition is sufficient iff it refines the action partition of at least one winning state policy. With two actions, any fixed winning policy needs at most two observation classes.",
+  "systems":16384
+}

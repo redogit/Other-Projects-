@@ -54,6 +54,16 @@ Motion and speech are permission-gated. Browser speech recognition may use a bro
 - Fuzzball discovery persists across reloads;
 - Quantum Frontier encounters reopen as the explorer collects signals.
 
+## Character visual pipeline
+
+The Red Wilds visual work now has a five-deliverable production specification in [`CHARACTER_VISUAL_PIPELINE.md`](CHARACTER_VISUAL_PIPELINE.md): reference dossier, canonical fictional character sheet, material/texture specification, reversible shapeshifter states, and integration/acceptance gates.
+
+The visual target is high-quality photorealistic / real-life imagery with scene-specific resolutions and formats rather than a fixed aspect-ratio family. Asset numbering is intentionally open-ended and generation can be batched at whatever scale is practical while preserving stable IDs, source masters and reproducibility metadata.
+
+The complete motion/image scene set and failed-render recovery rules are in [`RED_WILDS_VIDEO_UPDATE.md`](RED_WILDS_VIDEO_UPDATE.md).
+
+Reference imagery is treated as visual input, not evidence of identity. Generated concept art remains concept evidence until production assets are implemented and tested.
+
 ## Fuzzball
 
 There is a deliberately obscure code-hidden artifact named **Fuzzball**. It is not shown in the normal HUD or item list. Its unlock logic is defined separately in `core.mjs`, where it can be tested without running the renderer.

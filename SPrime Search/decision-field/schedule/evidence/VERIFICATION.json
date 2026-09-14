@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "local_runs": 2,
+  "scientific_summary_identical_across_runs": true,
+  "native_oracle": {
+    "composition_pairs": 65536,
+    "associativity_triples": 16777216,
+    "ordered_map_pair_mask_game_cases": 1048576
+  },
+  "python_cross_checks": {
+    "sampled_associativity_triples": 500000,
+    "finite_schedule_words": 87376,
+    "safety_fixed_point_comparisons": 240000,
+    "reachability_fixed_point_comparisons": 240000,
+    "periodic_words_minimized": 21844,
+    "scheduler_machines": 7096,
+    "scheduler_state_pairs": 54096
+  },
+  "scope": "Local deterministic finite-domain verification plus the finite 256-map semigroup closure argument. GitHub CI reruns the implementation on the exact PR commit; no formal proof assistant or external independent replication."
+}
