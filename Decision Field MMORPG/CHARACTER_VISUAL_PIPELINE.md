@@ -4,6 +4,16 @@ Status: design specification. This document does not claim that generated concep
 
 The recurring woman in the Red Wilds concept work is treated as a **fictional shapeshifter character**. Reference images are visual inputs only; identity inference is out of scope.
 
+## Global image target
+
+- High-quality photorealistic / real-life visual output
+- Natural camera, lens, depth-of-field and lighting behavior
+- Physically plausible skin, hair, fabric, glass, metal, water, rain and reflections
+- No fixed output count, aspect-ratio family or numbering ceiling
+- Choose dimensions and file format per scene and destination
+- Maintain open-ended sequential asset IDs and batch generation at whatever scale storage and compute permit
+- Preserve high-resolution source masters and derive game/web/mobile variants from them
+
 ## Deliverable 1 — Reference dossier
 
 Build a provenance-aware reference set separating:
@@ -16,7 +26,7 @@ Record only visible design features needed for the fictional character: silhouet
 
 ## Deliverable 2 — Canonical character sheet
 
-Create a stable fictional base design rather than attempting biometric replication. Required views: portrait, front, side, rear, three-quarter, neutral silhouette and representative rainy-night lighting. Preserve intentional variability as part of the shapeshifter mechanic.
+Create a stable fictional base design rather than attempting biometric replication. Required coverage: portrait, front, side, rear, three-quarter, neutral silhouette and representative rainy-night lighting. Add further views whenever they improve continuity or production use. Preserve intentional variability as part of the shapeshifter mechanic.
 
 ## Deliverable 3 — Material and texture specification
 
@@ -69,13 +79,15 @@ Use the complete scene list in [`RED_WILDS_VIDEO_UPDATE.md`](RED_WILDS_VIDEO_UPD
 ## Image generation recovery
 
 - Keep the selected source/reference intact.
-- Request one edited variant first.
+- Request one verified edited variant first.
 - Treat generation as complete only when a render exists.
-- Retry once when output is empty or missing.
+- Retry when output is empty or missing while preserving scene intent.
 - Preserve failed requests as pending instead of marking them complete.
-- Keep dashboard, cinematic, phone and portrait aspect ratios explicit.
+- Choose output size and aspect ratio per asset rather than forcing presets.
 - Verify a replacement asset before overwriting a working image.
 - Preserve reproducible generation intent alongside each result.
+- Validate face, hair, wardrobe, hands, reflections, lighting direction and continuity before promotion.
+- Batch large runs and retain stable asset numbering/index metadata.
 
 ### Evidence boundary
 
