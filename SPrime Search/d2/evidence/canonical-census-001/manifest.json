@@ -1,0 +1,143 @@
+{
+  "schema_version": 2,
+  "claim_id": "D2_CANONICAL_CENSUS_20260914",
+  "repository": {
+    "commit": "unavailable",
+    "dirty": true
+  },
+  "command": [
+    "python3",
+    "audit.py",
+    "--output",
+    "evidence/canonical-census-001"
+  ],
+  "environment": {
+    "software": [
+      {
+        "name": "runner-python",
+        "version": "3.12.14"
+      },
+      {
+        "name": "Python",
+        "version": "3.12.14"
+      },
+      {
+        "name": "g++",
+        "version": "recorded by run environment; C++17 -O3"
+      }
+    ],
+    "hardware": "Linux-6.18.44-x86_64-with-glibc2.39"
+  },
+  "mathematics": {
+    "assertion_tested": "Canonical D2v1 census and all-primitive sweep reproduce inherited finite results in two native passes",
+    "coefficient_domain": "Exact Boolean tables, integers, IEEE binary64 bit patterns",
+    "conventions": "Three input variables x,y,z use row bits 2,1,0; instruction bit 7 reserved zero; bit 6 selects NAND/XOR; operands are 3-bit prior register indexes",
+    "inputs": [
+      "Source-pinned D2v1 language at PR4 predecessor 614f6823a6bbe6cbff64470ed53df646252a1f09"
+    ],
+    "bounds": {
+      "variables": 3,
+      "operations_max": 5,
+      "nonterminal_words_per_pass": 205315794,
+      "passes": 2,
+      "second_binary_primitives": 16
+    },
+    "non_claims": [
+      "No P-versus-NP result",
+      "No natural-language semantic validity",
+      "No whole transform-wave package validation",
+      "No timing speedup claim"
+    ]
+  },
+  "randomness": {
+    "used": false,
+    "generator": "",
+    "seed": null
+  },
+  "run": {
+    "started_at": "2026-09-14T04:37:26.394775+00:00",
+    "runtime_seconds": 6.837502,
+    "exit_status": 0,
+    "status": "completed",
+    "timeout_seconds": 180.0,
+    "max_output_bytes": 4194304,
+    "resource_limits": {
+      "memory_bytes": 1073741824,
+      "cpu_seconds": 150,
+      "max_cores": 1,
+      "max_threads": 1
+    },
+    "missing_results": [],
+    "invalid_results": []
+  },
+  "execution_artifacts": [
+    "d2.py",
+    "audit.py",
+    "census.cpp",
+    "primitive_sweep.cpp"
+  ],
+  "input_artifacts": [
+    {
+      "path": "d2.py",
+      "sha256": "5b92b639d25ead4f3344137a900ffb0e7f9a2b57a23e4381293b2bd14a385fd2",
+      "sha256_after": "5b92b639d25ead4f3344137a900ffb0e7f9a2b57a23e4381293b2bd14a385fd2"
+    },
+    {
+      "path": "audit.py",
+      "sha256": "299a78e9d0e7bf6a8d93b386261f692ca8c8a0239f6dd69a5ca5a34286b7f6a5",
+      "sha256_after": "299a78e9d0e7bf6a8d93b386261f692ca8c8a0239f6dd69a5ca5a34286b7f6a5"
+    },
+    {
+      "path": "census.cpp",
+      "sha256": "42bbd3b6ab77b4281d83fd4803f1762dcc071fb6661cb62139c51a516ff1ffb8",
+      "sha256_after": "42bbd3b6ab77b4281d83fd4803f1762dcc071fb6661cb62139c51a516ff1ffb8"
+    },
+    {
+      "path": "primitive_sweep.cpp",
+      "sha256": "26832d639d096eb6935427fa00c79669fc8f583538ec30f1363148874bba89dd",
+      "sha256_after": "26832d639d096eb6935427fa00c79669fc8f583538ec30f1363148874bba89dd"
+    }
+  ],
+  "output_directory": "evidence/canonical-census-001",
+  "declared_results": [
+    "evidence/canonical-census-001/RESULT.json"
+  ],
+  "outputs": [
+    {
+      "path": "evidence/canonical-census-001/stdout.txt",
+      "sha256": "286003fcc60920a50e0ca9934a323c1c87cffde349b310002d7c388a48487cef",
+      "kind": "log"
+    },
+    {
+      "path": "evidence/canonical-census-001/stderr.txt",
+      "sha256": "b9942f74f2925c10da26c6812d0f3f313427d03c72d76ebbc564b0968e3d2e83",
+      "kind": "log"
+    },
+    {
+      "path": "evidence/canonical-census-001/RESULT.json",
+      "sha256": "763d9c7706859c38ae856cd53bde989b4658cceaf06dc2a484040031f56b9584",
+      "kind": "result"
+    }
+  ],
+  "checks": [
+    {
+      "check": "input hashes unchanged",
+      "passed": true
+    },
+    {
+      "check": "process exited successfully within enforced limits",
+      "passed": true
+    },
+    {
+      "check": "declared result files are present and regular",
+      "passed": true
+    }
+  ],
+  "result": "Run completed; mathematical assertion requires interpretation and review.",
+  "residual_risks": [
+    "Command success does not establish the mathematical interpretation.",
+    "Only listed input artifacts are pinned; external dependencies need recorded versions.",
+    "The thread cap uses conventional environment variables; a child program may ignore them.",
+    "The POSIX CPU-time limit is per process, not an aggregate descendant budget."
+  ]
+}

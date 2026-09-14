@@ -23,6 +23,7 @@ def instructions(word):
         i=b'xyz'.index(payload); return i,()
     result=[]
     for j,t in enumerate(payload):
+        if t & 0x80: raise ValueError('reserved high bit must be zero in D2v1')
         op=(t>>6)&1;a=(t>>3)&7;b=t&7;n=3+j
         if a>=n or b>=n: raise ValueError('forward/absent register reference')
         result.append((op,a,b))

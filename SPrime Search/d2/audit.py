@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from pathlib import Path
-import csv,hashlib,json,subprocess,tempfile
+import argparse,csv,hashlib,json,subprocess,tempfile
 from d2 import decode,eval_row,rank,unrank,to_float,from_float,HEADER,TOTAL
 ROOT=Path(__file__).resolve().parent
 ACCEPT=(0x52,0x5a,0x72,0x7a)
@@ -8,7 +8,10 @@ NAMES={0:'FALSE',1:'NOR',2:'NOT_A_AND_B',3:'NOT_A',4:'A_AND_NOT_B',5:'NOT_B',6:'
 def run(exe,out): subprocess.run([str(exe),str(out)],check=True,timeout=45)
 def compile(src,out): subprocess.run(['g++','-O3','-std=c++17',str(src),'-o',str(out)],check=True,timeout=45)
 def main():
- out=ROOT/'evidence';out.mkdir(exist_ok=True)
+ parser=argparse.ArgumentParser();parser.add_argument('--output',type=Path,default=ROOT/'evidence');args=parser.parse_args()
+ out=args.output;out.mkdir(parents=True,exist_ok=True)
+ if any((out/name).exists() for name in ('RESULT.json','census.tsv','primitive_sweep.tsv')):
+  raise FileExistsError('audit outputs already exist; select a fresh --output directory')
  with tempfile.TemporaryDirectory() as td:
   td=Path(td); c=td/'census'; ps=td/'sweep'; compile(ROOT/'census.cpp',c); compile(ROOT/'primitive_sweep.cpp',ps)
   t1=td/'c1.tsv';t2=td/'c2.tsv';p1=td/'p1.tsv';p2=td/'p2.tsv';run(c,t1);run(c,t2);run(ps,p1);run(ps,p2)
