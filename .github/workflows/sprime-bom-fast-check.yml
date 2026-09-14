@@ -64,12 +64,20 @@ jobs:
           cmp "$tmp/run1/SUMMARY.json" "$tmp/run2/SUMMARY.json"
           cmp "$tmp/run1/TRAINING.json" "$tmp/run2/TRAINING.json"
           python3 - "$tmp/run1" <<'PY'
-          import json,sys
+          import json,subprocess,sys
           from pathlib import Path
           root=Path(sys.argv[1])
           s=json.loads((root/'SUMMARY.json').read_text())
           t=json.loads((root/'TRAINING.json').read_text())
           v=json.loads((root/'VERIFICATION.json').read_text())
+          def committed(name):
+              raw=subprocess.check_output(['git','show',f'HEAD:SPrime Search/decision-field/bom/fast/evidence/{name}'])
+              return json.loads(raw)
+          kept_s=committed('SUMMARY.json')
+          kept_t=committed('TRAINING.json')
+          kept_v=committed('VERIFICATION.json')
+          assert s == kept_s
+          assert t == kept_t
           assert s['status']=='PASS_BOUNDED'
           assert t['test']['exact_agreement'] is True
           assert t['test']['promoted'] is True
@@ -81,7 +89,7 @@ jobs:
           assert v['z3_available'] is True
           assert len(v['z3_exact_checks'])==6
           assert v['native_cpp_compiled_and_agreed'] is True
-          print('FAST_SUMMARY='+json.dumps(s,sort_keys=True,separators=(',',':')))
-          print('FAST_TRAINING='+json.dumps(t,sort_keys=True,separators=(',',':')))
-          print('FAST_VERIFICATION='+json.dumps(v,sort_keys=True,separators=(',',':')))
+          for key in ('claim_ceiling','native_cpp_compiled_and_agreed','parent_frontier_sha256','research_grounding_sha256','source_sha256','wolfram_check_sha256','z3_available','z3_exact_checks','z3_version'):
+              assert v[key] == kept_v[key], key
+          print('PASS fast BOM scientific replay, trained-ordering gate, and verification quorum')
           PY
