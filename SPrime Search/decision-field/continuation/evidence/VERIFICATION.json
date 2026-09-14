@@ -1,0 +1,6 @@
+{
+  "status":"PASS",
+  "native_replays_identical":true,
+  "scope":"four-state deterministic labeled transition systems; terminal label is state-0 membership; one-action quotient compared with two-action quotient",
+  "source_hash_policy":"Fresh audit SHA-256 values are checked by CI against the exact checked-out source bytes; no manually copied hash table is treated as authority."
+}

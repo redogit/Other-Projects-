@@ -2,7 +2,7 @@ name: SPrime Decision Field
 
 on:
   push:
-    branches: [main, sprime-decision-field-pass06, sprime-schedule-field-pass07, sprime-partial-observation-pass08, sprime-observation-lattice-pass09]
+    branches: [main, sprime-decision-field-pass06, sprime-schedule-field-pass07, sprime-partial-observation-pass08, sprime-observation-lattice-pass09, sprime-continuation-pass10]
     paths:
       - 'SPrime Search/decision-field/**'
       - '.github/workflows/sprime-decision-field-check.yml'
@@ -153,4 +153,30 @@ jobs:
           assert fresh['minimal_sensor_antichain_distribution']=={'1':7168,'2':1392,'4':1872,'6':264}
           assert fresh['native']['same_profile_mixed_systems']=={'2_classes_2+2':3264,'2_classes_3+1':3528,'3_classes_2+1+1':3264}
           print('PASS deterministic Pass 09 observation-lattice evidence and exact source hashes')
+          PY
+
+      - name: Re-run Pass 10 continuation quotient twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          src="SPrime Search/decision-field/continuation"; tmp="$(mktemp -d)"
+          python3 "$src/audit.py" --out "$tmp/run1"; python3 "$src/audit.py" --out "$tmp/run2"
+          cmp "$tmp/run1/SUMMARY.json" "$tmp/run2/SUMMARY.json"; cmp "$tmp/run1/VERIFICATION.json" "$tmp/run2/VERIFICATION.json"
+          python3 - "$tmp/run1/SUMMARY.json" "$tmp/run1/VERIFICATION.json" <<'PY'
+          import hashlib, json, subprocess, sys
+          from pathlib import Path
+          fresh=json.load(open(sys.argv[1])); ver=json.load(open(sys.argv[2]))
+          committed=json.loads(subprocess.check_output(['git','show','HEAD:SPrime Search/decision-field/continuation/evidence/SUMMARY.json']))
+          committed_ver=json.loads(subprocess.check_output(['git','show','HEAD:SPrime Search/decision-field/continuation/evidence/VERIFICATION.json']))
+          assert fresh == committed
+          assert ver['status'] == committed_ver['status'] == 'PASS' and ver['scope'] == committed_ver['scope']
+          assert ver['native_replays_identical'] is committed_ver['native_replays_identical'] is True
+          assert 'exact checked-out source bytes' in committed_ver['source_hash_policy']
+          src=Path('SPrime Search/decision-field/continuation')
+          for name,expected in ver['source_sha256'].items(): assert hashlib.sha256((src/name).read_bytes()).hexdigest()==expected
+          assert fresh['systems']==65_536 and fresh['state_pairs_checked']==393_216
+          assert fresh['action_expansion_strict_splits']==31_488
+          assert fresh['native']['maximum_shortest_distinguishing_word']==2
+          assert fresh['depth2_witness']['shortest_distinguishing_word']==[1,1]
+          print('PASS deterministic Pass 10 continuation evidence and exact source hashes')
           PY
