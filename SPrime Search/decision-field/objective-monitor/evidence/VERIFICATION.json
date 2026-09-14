@@ -1,0 +1,13 @@
+{
+  "claim_ceiling": "bounded deterministic finite result; not a universal memory or semantics theorem",
+  "native_replays_identical": true,
+  "python_native_exact_match": true,
+  "scope": "exact four-state/two-action sticky objective-monitor collision census",
+  "source_hash_policy": "SHA-256 of exact checked-out source bytes used by the audit",
+  "source_sha256": {
+    "CONTRACT.md": "ae03b5cf090e583adb828090d18450ad3dbc33d3ba65acc67ab5a9f27f0e612c",
+    "native_objective_monitor.cpp": "e3533598f4e7b1ed63e890bde3f38030718cf194375e59ea0698b715de43b3ec",
+    "objective_monitor.py": "5a7f7e783539d178ecfeeab8dd71d5d0c4cf0dd272bc52d4426d7adccc244648"
+  },
+  "status": "PASS"
+}

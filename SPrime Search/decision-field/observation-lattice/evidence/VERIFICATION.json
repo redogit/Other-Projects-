@@ -1,0 +1,6 @@
+{
+  "status":"PASS",
+  "native_replays_identical":true,
+  "scope":"four-state, two-action, singleton absorbing-target deterministic memoryless control; observation sufficiency is task/controller-class relative",
+  "source_hash_policy":"Fresh audit SHA-256 values are checked by CI against the exact checked-out source bytes; no manually copied hash table is treated as authority."
+}

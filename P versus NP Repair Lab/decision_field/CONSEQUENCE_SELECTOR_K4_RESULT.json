@@ -1,0 +1,55 @@
+{
+  "experiment": "DF-PNP-02-CONSEQUENCE-SELECTOR-K4",
+  "status": "EXECUTED_BOUNDED_NEGATIVE_RESULT",
+  "source": {
+    "library_archive": "SAT64_GUARD_FEEDBACK_2026-09-13.zip",
+    "archive_sha256_current_materialization": "3bf2c01830d8174341ab56d9172b777877178cfca001733455637b449a6d5d98",
+    "adaptive_probe_sha256": "967e7c3dbe03d6b7ead75dbdbe0efce7e7e1658fdc45ef2b140ecf83450914f7",
+    "feedback_sha256": "70638b94c01db4592abfb518cbdc9fffe9cab2366c71e088077f684d3e54808a",
+    "verify_feedback_sha256": "2b705ecacc377694ed55ea32151500ccbbc94663e04cd7ee7070a7a13ee46780",
+    "verify_trees_sha256": "b016c0d0246533cb9e5d3ec52ee263c46a97dbb98a6cd255884eb1bf200e867b",
+    "condition_adapter_sha256": "72ebc1896a776093d13df4e9dd60644aeb87c9629f106b914d2a895bac1cc7f5",
+    "selector_adapter_local_sha256": "2e14405c3109115d46f8c91cc18131d705689889145794bea9ac85b3db160b91"
+  },
+  "baseline_replay": {
+    "all_original": [
+      {"name":"compiler_0","status":"UNSAT","states":7,"max_depth":2,"seconds":0.39697445699994205},
+      {"name":"compiler_1","status":"SAT","states":3,"max_depth":2,"seconds":0.07845303999988573},
+      {"name":"balanced_0","status":"SAT","states":6,"max_depth":2,"seconds":4.115413847999889},
+      {"name":"balanced_4","status":"UNSAT","states":7,"max_depth":2,"seconds":3.344258148000108}
+    ],
+    "tree_verifier": "PASS_ALL_4",
+    "historical_state_counts_reproduced_exactly": true,
+    "free_only_full_panel_replay": "INCONCLUSIVE_HOST_TIMEOUT_AFTER_FIRST_3_CASES",
+    "free_only_first_3_state_counts_reproduced": [21,12,5]
+  },
+  "consequence_k4": [
+    {
+      "name":"compiler_0","status":"UNSAT","states":7,"max_depth":2,"seconds_total":0.5409658250000575,
+      "planning_candidates":12,"planning_branch_probes":24,"planning_seconds":0.45161271300003136,
+      "planning_row_operations":3692,"selected_tree_signature_same_as_all_original":true
+    },
+    {
+      "name":"compiler_1","status":"SAT","states":3,"max_depth":2,"seconds_total":0.31868057600013344,
+      "planning_candidates":8,"planning_branch_probes":16,"planning_seconds":0.27255700500018065,
+      "planning_row_operations":2312,"selected_tree_signature_same_as_all_original":true
+    },
+    {
+      "name":"balanced_0","status":"SAT","states":6,"max_depth":2,"seconds_total":15.21720710999989,
+      "planning_candidates":12,"planning_branch_probes":24,"planning_seconds":12.892797187000042,
+      "planning_row_operations":25680,"selected_tree_signature_same_as_all_original":false,
+      "difference":"same root variable and state count; second-level variable differs on one branch"
+    },
+    {
+      "name":"balanced_4","status":"UNSAT","states":7,"max_depth":2,"seconds_total":12.993434637999826,
+      "planning_candidates":12,"planning_branch_probes":24,"planning_seconds":10.371009979000064,
+      "planning_row_operations":25413,"selected_tree_signature_same_as_all_original":false,
+      "difference":"same root variable and state count; second-level variable differs on one branch"
+    }
+  ],
+  "independent_tree_verifier": "PASS_ALL_4; SAT models and UNSAT split trees checked; specified corruptions rejected",
+  "result": "The K=4 exact one-step consequence score changed some internal branch choices but reduced the visited-state count on none of the four controls. It therefore failed to repay its additional exact planning probes on this panel.",
+  "timing_boundary": "Absolute wall times are host-dependent and the full free-only replay timed out on this host. The more stable negative facts are unchanged state counts, 16-24 additional exact planning probes, additional row operations, and independently verified result trees.",
+  "research_consequence": "Do not promote exact one-step component-burden lookahead as the next selector. The next selector must use a cheaper predictive feature or identify a consequential partition that the occurrence rule misses without re-solving many child states during planning.",
+  "claim_ceiling": "Four-case bounded negative result about this exact K=4 planner. It is not a lower bound on lookahead, not a general heuristic ordering, and not a P-versus-NP result. No Hodge evidence is used."
+}
