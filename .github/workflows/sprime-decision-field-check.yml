@@ -2,7 +2,7 @@ name: SPrime Decision Field
 
 on:
   push:
-    branches: [main, sprime-decision-field-pass06]
+    branches: [main, sprime-decision-field-pass06, sprime-schedule-field-pass07]
     paths:
       - 'SPrime Search/decision-field/**'
       - '.github/workflows/sprime-decision-field-check.yml'
@@ -35,6 +35,7 @@ jobs:
           git checkout --detach FETCH_HEAD
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           python3 --version
+          g++ --version
 
       - name: Re-run bounded decision-field audits
         shell: bash
@@ -87,3 +88,30 @@ jobs:
           git diff --exit-code -- \
             "SPrime Search/decision-field/evidence/HARD_STRESS.json" \
             "SPrime Search/decision-field/evidence/HARDENING_VERIFICATION.json"
+
+      - name: Re-run Pass 07 schedule semantics twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          src="SPrime Search/decision-field/schedule"
+          tmp="$(mktemp -d)"
+          cp -a "$src" "$tmp/run1"
+          cp -a "$src" "$tmp/run2"
+          rm -f "$tmp/run1/evidence/SUMMARY.json" "$tmp/run1/evidence/VERIFICATION.json"
+          rm -f "$tmp/run2/evidence/SUMMARY.json" "$tmp/run2/evidence/VERIFICATION.json"
+          (cd "$tmp/run1" && python3 audit.py)
+          (cd "$tmp/run2" && python3 audit.py)
+          cmp "$tmp/run1/evidence/SUMMARY.json" "$tmp/run2/evidence/SUMMARY.json"
+          python3 - "$tmp/run1/evidence/SUMMARY.json" <<'PY'
+          import json, subprocess, sys
+          fresh=json.load(open(sys.argv[1]))
+          raw=subprocess.check_output(['git','show','HEAD:SPrime Search/decision-field/schedule/evidence/SUMMARY.json'])
+          committed=json.loads(raw)
+          assert fresh == committed
+          assert fresh['status'] == 'PASS_BOUNDED'
+          assert fresh['associativity_triples_exhausted_native'] == 16_777_216
+          assert fresh['native_ordered_map_pair_mask_game_cases'] == 1_048_576
+          assert fresh['witness_context01_semigroup_size'] == 12
+          assert fresh['alternating_schedule_minimum_memory_bits'] == 1
+          print('PASS deterministic Pass 07 schedule evidence')
+          PY
