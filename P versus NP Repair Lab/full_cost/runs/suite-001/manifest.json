@@ -1,0 +1,199 @@
+{
+  "schema_version": 2,
+  "claim_id": "PNP_V6_FINITE_FULL_COST_SELECTOR_AUDIT",
+  "repository": {
+    "commit": "unavailable",
+    "dirty": true
+  },
+  "command": [
+    "python3",
+    "run_suite.py",
+    "--output",
+    "runs/suite-001"
+  ],
+  "environment": {
+    "software": [
+      {
+        "name": "runner-python",
+        "version": "3.12.14"
+      },
+      {
+        "name": "g++",
+        "version": "13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04)"
+      },
+      {
+        "name": "Python",
+        "version": "3.12.14"
+      }
+    ],
+    "hardware": "Linux-6.18.44-x86_64-with-glibc2.39"
+  },
+  "mathematics": {
+    "assertion_tested": "Exact finite NAND DAG class construction, symmetry-aware greedy certificate construction, historical v5 calibration, and bounded comparison of all-ones versus every translation-weight representative.",
+    "coefficient_domain": "Boolean truth tables in uint16_t, exact bit operations and integer counts",
+    "conventions": "Input x encodes variable j in bit j; table bit x is f(x). Variables are initial signals; fanout and repeated NAND inputs are allowed. Constants are not free and enter only when generated. At most g NAND gates; any variable or computed gate may be output. Deterministic tie break (survivor count, coordinate, output bit). Pair actions impose equal bits at x and x xor t; representatives t=2^w-1.",
+    "inputs": [
+      "constructor.cpp",
+      "run_suite.py",
+      "contract.json"
+    ],
+    "bounds": {
+      "variables": [
+        2,
+        3,
+        4
+      ],
+      "maximum_gates": 6,
+      "cases": [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          4,
+          6
+        ]
+      ],
+      "independent_syntactic_class_crosscheck": "all declared n<=3 cases",
+      "all_action_scalar_path_crosscheck": "all emitted routes in all declared cases",
+      "wall_seconds": 120,
+      "address_space_bytes_per_process": 1073741824
+    },
+    "non_claims": [
+      "No general P versus NP conclusion",
+      "No asymptotic lower bound",
+      "No formula lower-bound transfer",
+      "No universal selector optimality",
+      "No calibrated wall-time superiority from one instrumented execution"
+    ]
+  },
+  "randomness": {
+    "used": false,
+    "generator": "",
+    "seed": null
+  },
+  "run": {
+    "started_at": "2026-09-14T04:18:17.842461+00:00",
+    "runtime_seconds": 5.932544,
+    "exit_status": 0,
+    "status": "completed",
+    "timeout_seconds": 120.0,
+    "max_output_bytes": 1048576,
+    "resource_limits": {
+      "memory_bytes": 1073741824,
+      "cpu_seconds": 120,
+      "max_cores": 1,
+      "max_threads": 1
+    },
+    "missing_results": [],
+    "invalid_results": []
+  },
+  "execution_artifacts": [
+    "constructor.cpp",
+    "run_suite.py",
+    "contract.json"
+  ],
+  "input_artifacts": [
+    {
+      "path": "constructor.cpp",
+      "sha256": "0040da3e086a1d89532eef24f320b1b52d3617bee2ea85b688f8b11254f5aaa2",
+      "sha256_after": "0040da3e086a1d89532eef24f320b1b52d3617bee2ea85b688f8b11254f5aaa2"
+    },
+    {
+      "path": "run_suite.py",
+      "sha256": "c47ee80fedde3006295e66e5b831814b9867ddac1c1f208ce8c6565ef9a5465b",
+      "sha256_after": "c47ee80fedde3006295e66e5b831814b9867ddac1c1f208ce8c6565ef9a5465b"
+    },
+    {
+      "path": "contract.json",
+      "sha256": "b66cf9a66e7e6d894cac9db59a8b367011278540b018765eb679b5f67a3af369",
+      "sha256_after": "b66cf9a66e7e6d894cac9db59a8b367011278540b018765eb679b5f67a3af369"
+    }
+  ],
+  "output_directory": "runs/suite-001",
+  "declared_results": [
+    "runs/suite-001/results.json"
+  ],
+  "outputs": [
+    {
+      "path": "runs/suite-001/stdout.txt",
+      "sha256": "5af03f76979c8a77b4eed691980b3cca7c97943054c03f1a5fae3c707b4fc007",
+      "kind": "log"
+    },
+    {
+      "path": "runs/suite-001/stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "log"
+    },
+    {
+      "path": "runs/suite-001/results.json",
+      "sha256": "6e590e7a22f11fa82c8fd82c80929372d20eae5f488a53bbce9570f3aaaa91f1",
+      "kind": "result"
+    }
+  ],
+  "checks": [
+    {
+      "check": "input hashes unchanged",
+      "passed": true
+    },
+    {
+      "check": "process exited successfully within enforced limits",
+      "passed": true
+    },
+    {
+      "check": "declared result files are present and regular",
+      "passed": true
+    }
+  ],
+  "result": "Run completed; mathematical assertion requires interpretation and review.",
+  "residual_risks": [
+    "Command success does not establish the mathematical interpretation.",
+    "Only listed input artifacts are pinned; external dependencies need recorded versions.",
+    "The thread cap uses conventional environment variables; a child program may ignore them.",
+    "The POSIX CPU-time limit is per process, not an aggregate descendant budget."
+  ]
+}

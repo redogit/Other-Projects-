@@ -171,3 +171,11 @@ costs; six payload bytes do not contain their complete environment.
 The useful next question is not simply whether more strings can be generated.
 It is which limitation belongs to the representation, which belongs to the allowed
 operations, and which belongs to missing evidence about the intended result.
+
+## September 14 repair: validated, bounded query compilation
+
+[Semantic query cache repair](CACHE_REPAIR_2026-09-14.md) fixes a warm-cache type
+validation bypass, retains at most 128 compiled plans, and adds explicit
+`clear_query_cache()` and `query_cache_info()` operations. Existing D1 semantics
+and scientific outputs are preserved. New versioned publication records keep
+the historical evidence intact while restoring current verification.

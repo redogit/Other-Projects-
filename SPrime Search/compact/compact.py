@@ -15,6 +15,7 @@ for _k in range(1, MAX_GATES+1):
         _n *= (3+_j)**2
     TOTALS.append(_n)
 TOTAL = sum(TOTALS)
+QUERY_CACHE_LIMIT = 128
 
 
 def integer(v: int, lo: int, hi: int, label: str) -> None:
@@ -109,41 +110,72 @@ def candidates(labels: dict[int,int]) -> tuple[int,...]:
     return tuple(f for f in range(256) if all((f >> r)&1 == v for r,v in labels.items()))
 
 
-@lru_cache(None)
+def _validate_tables(tables: tuple[int,...]) -> None:
+    # Validate before memo lookup: bool/int and float/int tuples compare equal
+    # as Python cache keys. A warm cache must not bypass the exact-type rule.
+    if type(tables) is not tuple or not tables:
+        raise ValueError('expected a nonempty sorted tuple of distinct behaviors')
+    for table in tables:
+        integer(table,0,255,'behavior')
+    if tuple(sorted(set(tables))) != tables:
+        raise ValueError('expected a nonempty sorted tuple of distinct behaviors')
+
+
+@lru_cache(maxsize=QUERY_CACHE_LIMIT)
 def _plan_cached(tables: tuple[int,...]) -> dict:
     """Unit-cost exact output-oracle questions; unknown answers stay unknown.
 
     This is a proposed specification query, not an oracle that supplies answers.
     Histories, probabilities and encoding multiplicities are deliberately absent.
     """
-    if not tables or tuple(sorted(set(tables))) != tables:
-        raise ValueError('expected a nonempty sorted tuple of distinct behaviors')
-    for table in tables:
-        integer(table,0,255,'behavior')
-    if len(tables) == 1:
-        return {'questions': 0, 'table': tables[0]}
-    best = None
-    for row in range(8):
-        groups = tuple(tuple(f for f in tables if (f >> row)&1 == bit) for bit in (0,1))
-        if not all(groups):
-            continue
-        children = [_plan_cached(group) for group in groups]
-        candidate = {'questions': 1+max(c['questions'] for c in children),
-                     'row': row, 'answers': children}
-        if best is None or candidate['questions'] < best['questions']:
-            best = candidate
-    if best is None:
-        raise RuntimeError('distinct truth tables were not distinguishable')
-    return best
+    # One compilation can visit at most 3**8 row restrictions. Retain this memo
+    # only for the build, so bounded inter-request eviction cannot cause the
+    # build to repeatedly recompute its own subproblems.
+    memo = {}
+    def build(state):
+        if state in memo:
+            return memo[state]
+        if len(state) == 1:
+            best = {'questions': 0, 'table': state[0]}
+        else:
+            best = None
+            for row in range(8):
+                groups = tuple(tuple(f for f in state if (f >> row)&1 == bit) for bit in (0,1))
+                if not all(groups):
+                    continue
+                children = [build(group) for group in groups]
+                candidate = {'questions': 1+max(c['questions'] for c in children),
+                             'row': row, 'answers': children}
+                if best is None or candidate['questions'] < best['questions']:
+                    best = candidate
+            if best is None:
+                raise RuntimeError('distinct truth tables were not distinguishable')
+        memo[state] = best
+        return best
+    try:
+        return build(tables)
+    finally:
+        memo.clear()
 
 
 def query_plan(tables: tuple[int,...]) -> dict:
-    """Return an isolated plan; callers cannot mutate cached decisions."""
+    """Compile this exact semantic state before use; return an isolated plan."""
+    _validate_tables(tables)
     return deepcopy(_plan_cached(tables))
 
 
+def query_cache_info():
+    """Return retained-plan counts and cache hits/misses, not byte/heap usage."""
+    return _plan_cached.cache_info()
+
+
+def clear_query_cache() -> None:
+    """Release retained plans; caller-owned plans survive. No GC/RSS guarantee."""
+    _plan_cached.cache_clear()
+
+
 def refine(tables: tuple[int,...], row: int, answer: int | None) -> tuple[int,...]:
-    query_plan(tables)  # validate the incoming semantic state
+    _validate_tables(tables)
     integer(row,0,7,'row')
     if answer is None:
         return tables

@@ -1,0 +1,1 @@
+{"status": "passed", "case_count": 21, "route_count": 84, "greedy_steps": 209}

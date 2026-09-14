@@ -1,0 +1,1 @@
+{"exhaustive_systems": 24576, "sampled_systems": 128, "failures": 0, "trap_repair": {"status": "optimal", "candidate": 7, "minimum_distance": 3, "minimum_count": 1, "visited": 8, "clause_checks": 29}}
