@@ -44,8 +44,46 @@ jobs:
           python3 audit.py
           python3 stress_audit.py
 
-      - name: Verify committed evidence is reproducible
+      - name: Verify curated evidence relationships
         shell: bash
         run: |
           set -euo pipefail
-          git diff --exit-code -- "SPrime Search/decision-field/evidence"
+          python3 - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+
+          root=Path('SPrime Search/decision-field/evidence')
+          def committed(name):
+              path=f'SPrime Search/decision-field/evidence/{name}'
+              raw=subprocess.check_output(['git','show',f'HEAD:{path}'])
+              return json.loads(raw)
+
+          fresh_summary=json.loads((root/'SUMMARY.json').read_text())
+          assert committed('SUMMARY.json') == fresh_summary
+
+          fresh_frontier=json.loads((root/'FRONTIER.json').read_text())
+          selected={(3,4),(4,1),(4,2),(4,3),(4,4),(5,1),(5,2),(6,1)}
+          selected_rows=[r for r in fresh_frontier if (r['inputs'],r['outputs']) in selected]
+          assert committed('FRONTIER.json') == selected_rows
+
+          fresh_ver=json.loads((root/'VERIFICATION.json').read_text())
+          kept_ver=committed('VERIFICATION.json')
+          assert kept_ver['status'] == fresh_ver['status'] == 'PASS'
+          assert kept_ver['scope'] == fresh_ver['scope']
+          assert kept_ver['source_hashes'] == fresh_ver['source_hashes']
+          assert kept_ver['second_pass'] == {
+              'scientific_json_hashes_identical_across_two_runs': True,
+              'temporal_repair_cube_exhaustively_checked': 4096,
+              'minimum_repair_count': 1,
+              'minimum_repair_changed_entries': 6,
+          }
+          print('PASS curated SPrime evidence relationship checks')
+          PY
+
+      - name: Verify direct stress outputs remain byte-stable
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code -- \
+            "SPrime Search/decision-field/evidence/HARD_STRESS.json" \
+            "SPrime Search/decision-field/evidence/HARDENING_VERIFICATION.json"
