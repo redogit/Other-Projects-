@@ -1,0 +1,22 @@
+{
+  "base_pr": 11,
+  "date": "2026-09-14",
+  "defects_found": [
+    {"before":"A4/A5/B4/T4 float tags accepted payload bits beyond their declared behavior widths.","classification":"implementation boundary defect","id":"DF06-FLOAT-CANONICAL-001","repair":"format-specific payload widths enforced by both to_float and from_float.","valid_scientific_outputs_changed":false},
+    {"before":"get_next accepted negative and >32-bit transition ranks; algebraic_degree/eval_anf/truth_from_anf had inconsistent n/coefficient validation.","classification":"implementation boundary defect","id":"DF06-RANK-BOUNDARY-002","repair":"shared exact integer/domain validation added.","valid_scientific_outputs_changed":false}
+  ],
+  "environment":{"platform":"Linux-6.18.44-x86_64-with-glibc2.41","python":"3.13.5"},
+  "hard_checks":{"36bit_prefix_cases":384,"A4_lexical_payloads":262144,"A4_weight_distribution_checked":65536,"A5_independent_checks":20032,"A6_function_count":18446744073709551616,"A6_split_checks":100064,"A6_two_A5_text_checks":20000,"T4_basis_checks":32,"api_negative_cases":10,"associativity_samples":200000,"carrier_boundary_mutations":784,"composition_pairs":65536,"context_partition_cases":5000,"finite_binary64_patterns":18437736874454810624,"finite_pattern_shortfall":9007199254740992,"float_invalid_cases":24,"float_valid_cases":39338,"frontier_cells":24,"independent_anf_coefficients":65814,"noncommuting_ordered_pairs":62712,"only_fixed_local_maps":125,"repair_cube_random_cases":750,"switch_created_cycles":{"2":2700,"3":264,"4":0},"switch_pairs":15625,"unique_attractor_created_cycles":{"2":960,"3":48,"4":0},"unique_attractor_switch_pairs":4096,"unique_fixed_attractor_maps":64},
+  "hard_result_sha256":"87fc82e236451e5f377321c30faa5136adc0fa7d0d23751bdcf1ca7bcd172982",
+  "new_boundary":{"A6_split_checks":100064,"A6_two_A5_text_checks":20000,"canonical_exact_A6_fallback":"two A5 carriers via low/high 32-row Shannon split","finite_binary64_patterns":"18437736874454810624","finite_pattern_shortfall":"9007199254740992","one_finite_binary64_carrier_complete_A6_impossible":true,"six_input_one_output_functions":"18446744073709551616"},
+  "non_claims":["No formal proof assistant.","No natural-language semantics validated.","Randomized checks are deterministic samples, not exhaustive where explicitly labeled.","Switching-context pair censuses are exhaustive only in their stated finite local-map families."],
+  "original_scientific_summary_byte_identical_after_repair":true,
+  "original_summary_sha256":"cdef337d6b6aa1e69100d3abe58fb702b13a9a26e0c1af2d3d4b2326ccc4a405",
+  "repaired_summary_sha256":"cdef337d6b6aa1e69100d3abe58fb702b13a9a26e0c1af2d3d4b2326ccc4a405",
+  "status":"PASS_AFTER_REPAIR",
+  "structural_counterexamples":[
+    {"example":{"a_byte":4,"a_map":[0,1,0,0],"b_after_a_byte":89,"b_byte":41,"b_map":[1,2,2,0],"composition_cycles":[2],"composition_map":[1,2,1,1]},"id":"DF06-SWITCHING-CONTEXT-001","only_fixed_point_local_maps":125,"ordered_pairs_tested":15625,"pairs_creating_2_cycle":2700,"pairs_creating_3_cycle":264,"statement":"Fixed-context cycle profiles do not characterize switching-context dynamics."},
+    {"example":{"a_byte":5,"a_map":[1,1,0,0],"a_unique_attractor":1,"b_after_a_byte":10,"b_byte":8,"b_map":[0,2,0,0],"b_unique_attractor":0,"composition_cycles":[2],"composition_map":[2,2,0,0]},"id":"DF06-UNIQUE-ATTRACTOR-SWITCH-002","ordered_pairs_tested":4096,"pairs_creating_2_cycle":960,"pairs_creating_3_cycle":48,"statement":"Even two local maps that each converge to a unique fixed-point attractor can generate a periodic orbit when alternated.","unique_fixed_attractor_maps":64}
+  ],
+  "two_runs_identical":true
+}
