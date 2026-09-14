@@ -152,3 +152,35 @@ jobs:
           assert hidden['q2_controllers_exhausted'] == 16_777_216 and hidden['q2_winning'] == 360_448
           print('PASS deterministic Pass 08 partial-observation evidence and exact source hashes')
           PY
+
+      - name: Re-run decision-field BOM twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s "SPrime Search/decision-field/bom/tests" -v
+          tmp="$(mktemp -d)"
+          python3 "SPrime Search/decision-field/bom/audit.py" --out "$tmp/run1"
+          python3 "SPrime Search/decision-field/bom/audit.py" --out "$tmp/run2"
+          cmp "$tmp/run1/SUMMARY.json" "$tmp/run2/SUMMARY.json"
+          cmp "$tmp/run1/FRONTIER.json" "$tmp/run2/FRONTIER.json"
+          python3 - "$tmp/run1" <<'PY'
+          import json, subprocess, sys
+          from pathlib import Path
+          fresh=Path(sys.argv[1])
+          def committed(name):
+              raw=subprocess.check_output(['git','show',f'HEAD:SPrime Search/decision-field/bom/evidence/{name}'])
+              return json.loads(raw)
+          summary=json.loads((fresh/'SUMMARY.json').read_text())
+          frontier=json.loads((fresh/'FRONTIER.json').read_text())
+          verification=json.loads((fresh/'VERIFICATION.json').read_text())
+          assert summary == committed('SUMMARY.json')
+          assert frontier == committed('FRONTIER.json')
+          assert summary['status'] == 'PASS_BOUNDED'
+          assert summary['pareto_frontier_ids'] == ['openloop.312','pass08.fused_commit']
+          assert verification['status'] == 'PASS'
+          assert verification['reference_sources_verified'] is True
+          assert verification['reference_semantics_match'] is True
+          assert verification['reference_sha256_before'] == verification['reference_sha256_after']
+          print('BOM_VERIFICATION_JSON=' + json.dumps(verification, sort_keys=True, separators=(',',':')))
+          print('PASS deterministic BOM scientific evidence and reference-source lock')
+          PY
