@@ -1,0 +1,45 @@
+{
+  "claim_id": "D2_CANONICAL_CENSUS_20260914",
+  "mathematics": {
+    "assertion_tested": "Canonical D2v1 census and all-primitive sweep reproduce inherited finite results in two native passes",
+    "coefficient_domain": "Exact Boolean tables, integers, IEEE binary64 bit patterns",
+    "conventions": "Three input variables x,y,z use row bits 2,1,0; instruction bit 7 reserved zero; bit 6 selects NAND/XOR; operands are 3-bit prior register indexes",
+    "inputs": [
+      "Source-pinned D2v1 language at PR4 predecessor 614f6823a6bbe6cbff64470ed53df646252a1f09"
+    ],
+    "bounds": {
+      "variables": 3,
+      "operations_max": 5,
+      "nonterminal_words_per_pass": 205315794,
+      "passes": 2,
+      "second_binary_primitives": 16
+    },
+    "non_claims": [
+      "No P-versus-NP result",
+      "No natural-language semantic validity",
+      "No whole transform-wave package validation",
+      "No timing speedup claim"
+    ]
+  },
+  "execution_artifacts": [
+    "d2.py",
+    "audit.py",
+    "census.cpp",
+    "primitive_sweep.cpp"
+  ],
+  "software": [
+    {
+      "name": "Python",
+      "version": "3.12.14"
+    },
+    {
+      "name": "g++",
+      "version": "recorded by run environment; C++17 -O3"
+    }
+  ],
+  "randomness": {
+    "used": false,
+    "generator": "",
+    "seed": null
+  }
+}

@@ -1,0 +1,10 @@
+k=1 total=18 behavior=10
+k=2 total=576 behavior=36
+k=3 total=28800 behavior=101
+k=4 total=2073600 behavior=223
+k=5 total=203212800 behavior=256
+k=1 total=18 behavior=10
+k=2 total=576 behavior=36
+k=3 total=28800 behavior=101
+k=4 total=2073600 behavior=223
+k=5 total=203212800 behavior=256
