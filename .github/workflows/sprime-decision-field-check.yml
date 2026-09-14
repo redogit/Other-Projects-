@@ -2,7 +2,7 @@ name: SPrime Decision Field
 
 on:
   push:
-    branches: [main, sprime-decision-field-pass06, sprime-schedule-field-pass07, sprime-partial-observation-pass08]
+    branches: [main, sprime-decision-field-pass06, sprime-schedule-field-pass07, sprime-partial-observation-pass08, sprime-observation-lattice-pass09]
     paths:
       - 'SPrime Search/decision-field/**'
       - '.github/workflows/sprime-decision-field-check.yml'
@@ -52,23 +52,16 @@ jobs:
           python3 - <<'PY'
           import json, subprocess
           from pathlib import Path
-
           root=Path('SPrime Search/decision-field/evidence')
           def committed(name):
               path=f'SPrime Search/decision-field/evidence/{name}'
-              raw=subprocess.check_output(['git','show',f'HEAD:{path}'])
-              return json.loads(raw)
-
+              return json.loads(subprocess.check_output(['git','show',f'HEAD:{path}']))
           fresh_summary=json.loads((root/'SUMMARY.json').read_text())
           assert committed('SUMMARY.json') == fresh_summary
-
           fresh_frontier=json.loads((root/'FRONTIER.json').read_text())
           selected={(3,4),(4,1),(4,2),(4,3),(4,4),(5,1),(5,2),(6,1)}
-          selected_rows=[r for r in fresh_frontier if (r['inputs'],r['outputs']) in selected]
-          assert committed('FRONTIER.json') == selected_rows
-
-          fresh_ver=json.loads((root/'VERIFICATION.json').read_text())
-          kept_ver=committed('VERIFICATION.json')
+          assert committed('FRONTIER.json') == [r for r in fresh_frontier if (r['inputs'],r['outputs']) in selected]
+          fresh_ver=json.loads((root/'VERIFICATION.json').read_text()); kept_ver=committed('VERIFICATION.json')
           assert kept_ver['status'] == fresh_ver['status'] == 'PASS'
           assert kept_ver['scope'] == fresh_ver['scope']
           assert kept_ver['source_hashes'] == fresh_ver['source_hashes']
@@ -93,22 +86,15 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          src="SPrime Search/decision-field/schedule"
-          tmp="$(mktemp -d)"
-          cp -a "$src" "$tmp/run1"
-          cp -a "$src" "$tmp/run2"
-          rm -f "$tmp/run1/evidence/SUMMARY.json" "$tmp/run1/evidence/VERIFICATION.json"
-          rm -f "$tmp/run2/evidence/SUMMARY.json" "$tmp/run2/evidence/VERIFICATION.json"
-          (cd "$tmp/run1" && python3 audit.py)
-          (cd "$tmp/run2" && python3 audit.py)
+          src="SPrime Search/decision-field/schedule"; tmp="$(mktemp -d)"
+          cp -a "$src" "$tmp/run1"; cp -a "$src" "$tmp/run2"
+          rm -f "$tmp/run1/evidence/SUMMARY.json" "$tmp/run1/evidence/VERIFICATION.json" "$tmp/run2/evidence/SUMMARY.json" "$tmp/run2/evidence/VERIFICATION.json"
+          (cd "$tmp/run1" && python3 audit.py); (cd "$tmp/run2" && python3 audit.py)
           cmp "$tmp/run1/evidence/SUMMARY.json" "$tmp/run2/evidence/SUMMARY.json"
           python3 - "$tmp/run1/evidence/SUMMARY.json" <<'PY'
           import json, subprocess, sys
-          fresh=json.load(open(sys.argv[1]))
-          raw=subprocess.check_output(['git','show','HEAD:SPrime Search/decision-field/schedule/evidence/SUMMARY.json'])
-          committed=json.loads(raw)
-          assert fresh == committed
-          assert fresh['status'] == 'PASS_BOUNDED'
+          fresh=json.load(open(sys.argv[1])); committed=json.loads(subprocess.check_output(['git','show','HEAD:SPrime Search/decision-field/schedule/evidence/SUMMARY.json']))
+          assert fresh == committed and fresh['status'] == 'PASS_BOUNDED'
           assert fresh['associativity_triples_exhausted_native'] == 16_777_216
           assert fresh['native_ordered_map_pair_mask_game_cases'] == 1_048_576
           assert fresh['witness_context01_semigroup_size'] == 12
@@ -120,12 +106,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          src="SPrime Search/decision-field/partial-observation"
-          tmp="$(mktemp -d)"
-          python3 "$src/audit.py" --out "$tmp/run1"
-          python3 "$src/audit.py" --out "$tmp/run2"
-          cmp "$tmp/run1/SUMMARY.json" "$tmp/run2/SUMMARY.json"
-          cmp "$tmp/run1/VERIFICATION.json" "$tmp/run2/VERIFICATION.json"
+          src="SPrime Search/decision-field/partial-observation"; tmp="$(mktemp -d)"
+          python3 "$src/audit.py" --out "$tmp/run1"; python3 "$src/audit.py" --out "$tmp/run2"
+          cmp "$tmp/run1/SUMMARY.json" "$tmp/run2/SUMMARY.json"; cmp "$tmp/run1/VERIFICATION.json" "$tmp/run2/VERIFICATION.json"
           python3 - "$tmp/run1/SUMMARY.json" "$tmp/run1/VERIFICATION.json" <<'PY'
           import hashlib, json, subprocess, sys
           from pathlib import Path
@@ -133,22 +116,41 @@ jobs:
           committed=json.loads(subprocess.check_output(['git','show','HEAD:SPrime Search/decision-field/partial-observation/evidence/SUMMARY.json']))
           committed_ver=json.loads(subprocess.check_output(['git','show','HEAD:SPrime Search/decision-field/partial-observation/evidence/VERIFICATION.json']))
           assert fresh == committed
-          assert ver['status'] == committed_ver['status'] == 'PASS'
-          assert ver['scope'] == committed_ver['scope']
+          assert ver['status'] == committed_ver['status'] == 'PASS' and ver['scope'] == committed_ver['scope']
           assert ver['native_replays_identical'] is committed_ver['native_replays_identical'] is True
           assert 'exact checked-out source bytes' in committed_ver['source_hash_policy']
           src=Path('SPrime Search/decision-field/partial-observation')
-          for name, expected in ver['source_sha256'].items():
-              actual=hashlib.sha256((src/name).read_bytes()).hexdigest()
-              assert actual == expected, (name, actual, expected)
-          assert fresh['status'] == 'PASS_BOUNDED'
+          for name,expected in ver['source_sha256'].items(): assert hashlib.sha256((src/name).read_bytes()).hexdigest()==expected
           census=fresh['native_absorbing_target_census']
-          assert census['model_partition_cases'] == 245_760
-          assert census['refinement_implications_checked'] == 983_040
-          assert census['belief_win_memoryless_fail_cases'] == 21_024
-          assert fresh['partial_observation']['independent_horizon_beliefs_checked'] == 49_500
-          hidden=fresh['hidden_mode']
-          assert hidden['q1_controllers_exhausted'] == 256 and hidden['q1_winning'] == 0
-          assert hidden['q2_controllers_exhausted'] == 16_777_216 and hidden['q2_winning'] == 360_448
+          assert census['model_partition_cases']==245_760 and census['refinement_implications_checked']==983_040 and census['belief_win_memoryless_fail_cases']==21_024
+          assert fresh['partial_observation']['independent_horizon_beliefs_checked']==49_500
+          hidden=fresh['hidden_mode']; assert hidden['q1_controllers_exhausted']==256 and hidden['q1_winning']==0
+          assert hidden['q2_controllers_exhausted']==16_777_216 and hidden['q2_winning']==360_448
           print('PASS deterministic Pass 08 partial-observation evidence and exact source hashes')
+          PY
+
+      - name: Re-run Pass 09 observation-lattice semantics twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          src="SPrime Search/decision-field/observation-lattice"; tmp="$(mktemp -d)"
+          python3 "$src/audit.py" --out "$tmp/run1"; python3 "$src/audit.py" --out "$tmp/run2"
+          cmp "$tmp/run1/SUMMARY.json" "$tmp/run2/SUMMARY.json"; cmp "$tmp/run1/VERIFICATION.json" "$tmp/run2/VERIFICATION.json"
+          python3 - "$tmp/run1/SUMMARY.json" "$tmp/run1/VERIFICATION.json" <<'PY'
+          import hashlib, json, subprocess, sys
+          from pathlib import Path
+          fresh=json.load(open(sys.argv[1])); ver=json.load(open(sys.argv[2]))
+          committed=json.loads(subprocess.check_output(['git','show','HEAD:SPrime Search/decision-field/observation-lattice/evidence/SUMMARY.json']))
+          committed_ver=json.loads(subprocess.check_output(['git','show','HEAD:SPrime Search/decision-field/observation-lattice/evidence/VERIFICATION.json']))
+          assert fresh == committed
+          assert ver['status'] == committed_ver['status'] == 'PASS' and ver['scope'] == committed_ver['scope']
+          assert ver['native_replays_identical'] is committed_ver['native_replays_identical'] is True
+          assert 'exact checked-out source bytes' in committed_ver['source_hash_policy']
+          src=Path('SPrime Search/decision-field/observation-lattice')
+          for name,expected in ver['source_sha256'].items(): assert hashlib.sha256((src/name).read_bytes()).hexdigest()==expected
+          assert fresh['systems']==16_384 and fresh['partitions']==15
+          assert fresh['native']['partition_cases']==245_760 and fresh['native']['policy_partition_theorem_cases']==245_760
+          assert fresh['minimal_sensor_antichain_distribution']=={'1':7168,'2':1392,'4':1872,'6':264}
+          assert fresh['native']['same_profile_mixed_systems']=={'2_classes_2+2':3264,'2_classes_3+1':3528,'3_classes_2+1+1':3264}
+          print('PASS deterministic Pass 09 observation-lattice evidence and exact source hashes')
           PY
