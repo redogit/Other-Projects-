@@ -1,0 +1,10 @@
+{
+  "contract": "answers are required outputs at rows 011 and 101; context-supplied, never inferred from representation count",
+  "mapping": {
+    "0,0": {"table": "0x52", "word_hex": "4432000a1c55"},
+    "0,1": {"table": "0x72", "word_hex": "4432004b145d"},
+    "1,0": {"table": "0x5a", "word_hex": "443242"},
+    "1,1": {"table": "0x7a", "word_hex": "443201035325"}
+  },
+  "unknown_answer": "retain all candidates consistent with known answers; do not select by encoding multiplicity"
+}
