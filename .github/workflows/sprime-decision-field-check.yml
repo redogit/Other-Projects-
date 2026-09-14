@@ -173,14 +173,20 @@ jobs:
           summary=json.loads((fresh/'SUMMARY.json').read_text())
           frontier=json.loads((fresh/'FRONTIER.json').read_text())
           verification=json.loads((fresh/'VERIFICATION.json').read_text())
+          kept_ver=committed('VERIFICATION.json')
           assert summary == committed('SUMMARY.json')
           assert frontier == committed('FRONTIER.json')
           assert summary['status'] == 'PASS_BOUNDED'
           assert summary['pareto_frontier_ids'] == ['openloop.312','pass08.fused_commit']
-          assert verification['status'] == 'PASS'
+          assert verification['status'] == kept_ver['status'] == 'PASS'
+          for key in (
+              'deterministic_ordering','invalid_candidates','reference_semantics_match',
+              'reference_sha256_before','reference_sha256_after','reference_sources_verified',
+              'scope','source_sha256',
+          ):
+              assert verification[key] == kept_ver[key], key
           assert verification['reference_sources_verified'] is True
           assert verification['reference_semantics_match'] is True
           assert verification['reference_sha256_before'] == verification['reference_sha256_after']
-          print('BOM_VERIFICATION_JSON=' + json.dumps(verification, sort_keys=True, separators=(',',':')))
-          print('PASS deterministic BOM scientific evidence and reference-source lock')
+          print('PASS deterministic BOM scientific evidence and committed reference-source lock')
           PY
