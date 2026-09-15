@@ -2,6 +2,12 @@
 
 Implementation home for the Human Expression Archive, 1,024-byte section carriers, and bounded learning-compression tools, explicitly selected by the user on September 13, 2026.
 
+## Active federation
+
+The [Active Federation bridge](federation/README.md) lists only the projects that are current/runnable/executed on inspected `main`, with a machine-readable [active project registry](federation/active-projects.json). Open PRs and preserved-only lineages are not silently promoted.
+
+`CONNECTED != MERGED` · `OPEN_PR != ACTIVE_MAIN` · `FINITE_RESULT != UNIVERSAL_RESULT`
+
 ## Projects
 
 - [ChatGPT and Conscience](ChatGPT%20and%20Conscience/README.md) — the existing cooperation lab. Its code, patches, evidence and source locks are unchanged by the archive publication.
