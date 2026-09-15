@@ -1,7 +1,7 @@
 # S'1 Models — Dimensional Deformation Lab Design
 
 Date: 2026-09-15
-Status: DESIGN_APPROVED_IN_CHAT / IMPLEMENTATION_NOT_STARTED
+Status: DRAFT_FOR_USER_REVIEW / IMPLEMENTATION_NOT_STARTED
 Owner: `redogit/Other-Projects-`
 Peer observer/router: `redogit/conscience64`
 
@@ -9,7 +9,7 @@ Peer observer/router: `redogit/conscience64`
 
 Build a small, local, playful dimensional-deformation lab that reuses the existing 4D Compass orientation grammar, observer experiments, faithful-transport discipline, and provenance boundaries.
 
-The first objective is not to prove a physical or mathematical conjecture. It is to let people play with a 4D-oriented object, observe 3D deformations under controlled 1° transformations, save exact replayable experiences, and accumulate an inspectable local experience graph.
+The first objective is not to prove a physical or mathematical conjecture. It is to let people play with a 4D-oriented object, observe controlled 3D visualization deformations under 1° transformations, save exact replayable experiences, and accumulate an inspectable local experience graph.
 
 The lab should make it easy to ask:
 
@@ -55,19 +55,23 @@ The first experiment uses three synchronized views.
 
 ### A. Smooth 3D hypersurface in 4D
 
-Use a smooth `S^3`-like enclosing shell around the 4D object.
+Use a smooth `S^3`-like 3D reference shell embedded in the 4D model space.
+
+This shell is a **synthetic observer/reference surface**. Experiment 0 does not claim that a mathematical or physical 4D object literally deforms surrounding physical space.
 
 Purpose:
 
-- expose smooth local stretch;
-- curvature change;
+- expose smooth local stretch in the declared mapping/projection;
+- curvature change in the displayed shell;
 - orientation change;
 - local volume-element change;
 - deformation fields without corners/seams dominating the signal.
 
 ### B. Tesseract boundary
 
-Use the 3D boundary of a 4D cube/tesseract, represented as eight connected 3D cubic cells.
+Use a 3D tesseract-boundary reference made from eight connected 3D cubic cells.
+
+This is also a synthetic reference surface, not evidence of a physical boundary around the object.
 
 Purpose:
 
@@ -77,9 +81,17 @@ Purpose:
 
 ### C. Synchronized comparison view
 
-Apply the same declared 1° transformation to both A and B and compare what survives the change of shell representation.
+Apply the same declared object transformation and observer mapping to both A and B and compare the resulting visualization signatures.
 
 C is not a third independent geometric object. It is the controlled comparison surface.
+
+The initial scientific statement is therefore:
+
+`declared 4D transform + declared observer/reference mapping -> measurable 3D visualization deformation`
+
+not:
+
+`4D object -> proven physical deformation of space`.
 
 ## Controlled transformation rule
 
@@ -304,12 +316,37 @@ Pipeline:
 
 `PLAY -> SAVE -> COMPARE -> CLASSIFY -> GRAPH -> REPLAY/REFRAME`
 
-Classification is local and inspectable:
+Classification is local and inspectable.
 
-- exact repeat;
-- variation;
-- new branch;
-- counterexample.
+### Deterministic v0 classification
+
+`exact repeat`
+
+- same normalized initial-state identity;
+- same shell/reference-surface identity;
+- same operator-semantics version;
+- same ordered action sequence;
+- same observer/frame identity for the compared save.
+
+An exact repeat reuses the existing experience node and adds a new occurrence record.
+
+`variation`
+
+- shares a declared parent or non-empty normalized action prefix with an existing trajectory;
+- then differs in at least one subsequent action, shell/reference surface, or observer/frame.
+
+`new branch`
+
+- no existing non-root trajectory has the same normalized action prefix through the first consequential move.
+
+`counterexample`
+
+- requires an explicit stored expectation/invariant from a prior record;
+- the new replayable observation contradicts that expectation under the same declared comparison contract.
+
+Unusual behavior alone is not a counterexample.
+
+If classification cannot be established deterministically, retain `UNRESOLVED` rather than manufacturing novelty.
 
 ### Repetition rule
 
@@ -436,10 +473,11 @@ Implementation should include at least:
 5. smooth-shell and tesseract-boundary test fixtures;
 6. exact-repeat graph classification tests;
 7. variation/new-branch/counterexample classification fixtures;
-8. operator-version migration/rejection tests;
-9. corrupted-save rejection tests;
-10. accessibility-oriented keyboard and reduced-motion checks;
-11. explicit Hodge/open-problem claim-ceiling checks in docs/UI text.
+8. `UNRESOLVED` classification tests when deterministic classification is not available;
+9. operator-version migration/rejection tests;
+10. corrupted-save rejection tests;
+11. accessibility-oriented keyboard and reduced-motion checks;
+12. explicit Hodge/open-problem claim-ceiling checks in docs/UI text.
 
 A passing software suite establishes implementation behavior only.
 
@@ -461,8 +499,8 @@ The smallest useful implementation should contain only:
 
 - one local browser surface;
 - one 4D-oriented object representation;
-- smooth `S^3`-like shell view;
-- tesseract-boundary view;
+- smooth `S^3`-like synthetic reference-shell view;
+- tesseract-boundary synthetic reference view;
 - synchronized comparison view;
 - 1° `xw`, `yw`, `zw` moves;
 - immutable mirror;
@@ -491,12 +529,12 @@ A person can:
 1. open the lab locally;
 2. play with the object without needing the mathematical formalism;
 3. apply 1° moves one at a time;
-4. switch/compare smooth and tesseract shells;
-5. see live vs mirror deformation under the same observer;
+4. switch/compare smooth and tesseract reference surfaces;
+5. see live vs mirror visualization deformation under the same observer;
 6. save an experiment locally;
 7. replay it deterministically;
 8. reframe the same preserved event without rewriting it;
-9. see whether the new save is a repeat, variation, branch, or counterexample relative to local history;
+9. see whether the new save is a repeat, variation, branch, counterexample, or unresolved relative to local history;
 10. clear/export local history explicitly.
 
 The lab is successful as software when those behaviors work reproducibly. Any deeper mathematical/scientific interpretation remains a separate research claim with its own evidence obligations.
