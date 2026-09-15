@@ -19,5 +19,15 @@ add_mlir_dialect_library(PNPEvidence
   LINK_LIBS PUBLIC MLIRIR
 )
 
+add_mlir_library(PNPRegistration
+  RegisterDialects.cpp
+  ADDITIONAL_HEADER_DIRS ${PROJECT_SOURCE_DIR}/include
+  LINK_LIBS PUBLIC
+    MLIRIR
+    PNPCore
+    PNPCarrier
+    PNPEvidence
+)
+
 add_library(PNPMLIR INTERFACE)
-target_link_libraries(PNPMLIR INTERFACE PNPCore PNPCarrier PNPEvidence)
+target_link_libraries(PNPMLIR INTERFACE PNPRegistration)
