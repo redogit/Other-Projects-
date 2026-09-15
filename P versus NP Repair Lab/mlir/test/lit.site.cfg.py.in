@@ -1,0 +1,11 @@
+@LIT_SITE_CFG_IN_HEADER@
+
+import os
+import sys
+
+config.llvm_tools_dir = lit_config.substitute("@LLVM_TOOLS_BINARY_DIR@")
+config.pnpmlir_binary_dir = lit_config.substitute("@PNPMLIR_BINARY_DIR@")
+config.pnpmlir_source_dir = lit_config.substitute("@PNPMLIR_SOURCE_DIR@")
+config.pnpmlir_site_config = __file__
+
+lit_config.load_config(config, os.path.join(config.pnpmlir_source_dir, "test", "lit.cfg.py"))
