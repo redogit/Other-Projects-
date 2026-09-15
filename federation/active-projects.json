@@ -1,0 +1,31 @@
+{
+  "schema": "other-projects/active-federation/v1",
+  "checkedRevision": "a61fc8b610f18d6056778d549a680144a6579c29",
+  "authority": "THIS_REPOSITORY_ONLY",
+  "activationRule": "Current main implementation/publication with runnable or executed bounded state. Open-PR-only work is pending, not active.",
+  "boundaries": ["CONNECTED != MERGED","OPEN_PR != ACTIVE_MAIN","LOCAL_RUNNABLE != PRODUCTION_SERVICE","FINITE_RESULT != UNIVERSAL_RESULT","RELATION != EVIDENCE_TRANSFER"],
+  "active": [
+    {"id":"human-expression-archive","path":"Human Expression Archive/","state":"CURRENT_BOUNDED_PUBLICATION","relation":"CULTURE_AND_HISTORY"},
+    {"id":"s1024","path":"S1024 Compression Lab/","state":"ACTIVE_LOCAL_TOOL","relation":"CARRIER_AND_ENGINEERING"},
+    {"id":"context-discovery","path":"Context Discovery/","state":"EXECUTED_BOUNDED_RESEARCH","relation":"RESEARCH_PEER"},
+    {"id":"sprime-search","path":"SPrime Search/","state":"ACTIVE_BOUNDED_RESEARCH_TOOL","relation":"RESEARCH_AND_TOOL"},
+    {"id":"blank-page-lab","path":"Blank Page Lab/","state":"ACTIVE_LOCAL_RESEARCH_AID","relation":"RESEARCH_AND_TEACHING"},
+    {"id":"hodge-span-lab","path":"Hodge Span Lab/","state":"ACTIVE_LOCAL_RESEARCH_AID","relation":"SUPPORTS_TEST_DESIGN","boundary":"does not authenticate Hodge geometry or prove Hodge"},
+    {"id":"knowledge-garden","path":"knowledge-garden/","state":"ACTIVE_LOCAL_NAVIGATION_TOOL","relation":"FEDERATED_NAVIGATION"},
+    {"id":"decision-field-operator-lab","path":"Decision Field Operator Lab/","state":"ACTIVE_EXACT_CALIBRATION_LAB","relation":"PROVIDES_VERIFIED_FINITE_OPERATORS","boundary":"XOR is not a universal balance law"},
+    {"id":"p-vs-np-repair-lab","path":"P versus NP Repair Lab/","state":"ACTIVE_OPEN_RESEARCH_LAB","relation":"OPEN_MATH_RESEARCH","boundary":"P versus NP remains open"},
+    {"id":"decision-field-mmorpg","path":"Decision Field MMORPG/","state":"ACTIVE_LOCAL_GAME_PROTOTYPE","relation":"PLAY_AND_RESEARCH_GENERATOR","boundary":"client-side prototype is not an authoritative MMO"},
+    {"id":"chatgpt-conscience","path":"ChatGPT and Conscience/","state":"ACTIVE_LOCAL_COOPERATION_LAB","relation":"COOPERATION_AND_PROVENANCE","boundary":"candidate sandbox is not deployed Conscience64"}
+  ],
+  "pendingReview": [
+    {"pr":34,"name":"P-vs-NP MLIR foundation parity","state":"DRAFT"},
+    {"pr":33,"name":"recursive MLIR carrier-wave design","state":"OPEN_REVIEW"},
+    {"pr":26,"name":"fast BOM execution and trained decision questions","state":"DRAFT"},
+    {"pr":25,"name":"Science Hub design","state":"DESIGN_ONLY_DRAFT"},
+    {"pr":23,"name":"P-vs-NP publication handoff repair","state":"OPEN_REVIEW"}
+  ],
+  "externalPeers": [
+    {"repo":"redogit/redogit","relation":"FEDERATION_INDEX","url":"https://github.com/redogit/redogit/blob/main/ACTIVE_FEDERATION.md"},
+    {"repo":"redogit/conscience64","relation":"ACTIVE_RESEARCH_AND_PUBLIC_SURFACES","url":"https://github.com/redogit/conscience64/tree/main/research/bridges/redogit-federation"}
+  ]
+}
