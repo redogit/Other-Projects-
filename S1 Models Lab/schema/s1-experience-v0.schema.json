@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "s1-experience/v0",
+  "type": "object",
+  "required": ["schema","id","initialState","mirrorId","shell","actions","observer","observerField","operatorVersion","comparisons","relations","provenance"],
+  "properties": {
+    "schema": {"const": "s1-experience/v0"},
+    "operatorVersion": {"const": "S'1-Ops v0"},
+    "shell": {"enum": ["s3-sample","tesseract-boundary","comparison"]},
+    "actions": {"type":"array","items":{"type":"object","required":["plane","degrees"],"properties":{"plane":{"enum":["xw","yw","zw"]},"degrees":{"enum":[-1,1]}},"additionalProperties":false}},
+    "observerField": {
+      "type":"object",
+      "required":["version","taskVersion","densityId","calibrations"],
+      "properties": {
+        "version":{"const":"s1-observer-field/v0"},
+        "taskVersion":{"const":"s1-observer-task/v0"},
+        "densityId":{"type":"string"},
+        "calibrations":{"type":"array"}
+      },
+      "additionalProperties":false
+    }
+  }
+}
