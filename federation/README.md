@@ -27,11 +27,13 @@ RELATION != EVIDENCE_TRANSFER
 - [P versus NP Repair Lab](../P%20versus%20NP%20Repair%20Lab/) — active open research; `P ?= NP` remains open.
 - [Decision Field MMORPG](../Decision%20Field%20MMORPG/) — client-side game/research prototype, not authoritative MMO infrastructure.
 - [ChatGPT and Conscience](../ChatGPT%20and%20Conscience/) — local cooperation/sandbox lab, not deployed Conscience64.
+- [Generalized Semantic Fitting Language](../Generalized%20Semantic%20Fitting%20Language/) — bounded executable semantic-rotation/fitting language; `FIT != TRUTH` and v0 machine reconstruction is not participant or universal semantic validation.
 
 ## Review-stage lines intentionally not activated
 
 Open PRs are not treated as active `main` merely because they contain promising evidence:
 
+- PR #46 — S'1 Experiment 0 dimensional-deformation lab — draft.
 - PR #34 — P-vs-NP MLIR foundation parity — draft.
 - PR #33 — recursive MLIR carrier-wave design — open review.
 - PR #26 — fast BOM execution / trained decision questions — draft.
