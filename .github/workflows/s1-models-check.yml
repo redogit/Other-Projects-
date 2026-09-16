@@ -1,0 +1,75 @@
+name: S1 Models Check
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'S1 Models Lab/**'
+      - '.github/workflows/s1-models-check.yml'
+  pull_request:
+    paths:
+      - 'S1 Models Lab/**'
+      - '.github/workflows/s1-models-check.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: s1-models-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      VERIFY_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - name: Fetch exact verification commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$VERIFY_SHA"
+          git init "$GITHUB_WORKSPACE"
+          cd "$GITHUB_WORKSPACE"
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git fetch --depth=1 origin "$VERIFY_SHA"
+          git checkout --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "$VERIFY_SHA"
+
+      - name: Require Node 22 or newer
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --version
+          test "$(node -p "Number(process.versions.node.split('.')[0])")" -ge 22
+
+      - name: Run bounded S1 tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "S1 Models Lab"
+          npm test
+
+      - name: Run real-browser S1 smoke
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "S1 Models Lab"
+          node browser-smoke.mjs
+
+      - name: Verify deterministic S1 audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "S1 Models Lab"
+          node audit.mjs --source-revision "$VERIFY_SHA" --out /tmp/s1-audit-a.json
+          node audit.mjs --source-revision "$VERIFY_SHA" --out /tmp/s1-audit-b.json
+          cmp /tmp/s1-audit-a.json /tmp/s1-audit-b.json
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const audit = JSON.parse(fs.readFileSync('/tmp/s1-audit-a.json', 'utf8'));
+          if (audit.scientificValidation !== false) process.exit(1);
+          if (Object.values(audit.checks).some(value => value !== true)) process.exit(1);
+          NODE

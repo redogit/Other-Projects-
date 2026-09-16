@@ -1,0 +1,20 @@
+:root { font-family: system-ui, sans-serif; line-height: 1.45; color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { width: min(1100px, 96vw); margin: 0 auto; padding: 1.25rem; }
+header { padding: 1rem 0 1.5rem; }
+.eyebrow { font-size: .85rem; text-transform: uppercase; letter-spacing: .08em; }
+.panel { border: 1px solid currentColor; border-radius: .75rem; padding: 1rem; margin: 1rem 0; }
+.button-grid { display: flex; flex-wrap: wrap; gap: .65rem; align-items: center; }
+.range-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: .75rem; margin-bottom: .75rem; }
+button, select, input { font: inherit; }
+button, .file-button { min-height: 2.75rem; padding: .55rem .8rem; border: 2px solid currentColor; border-radius: .45rem; cursor: pointer; }
+.file-button { display: inline-flex; align-items: center; }
+#import-file { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); }
+#import-file:focus-visible + .file-button { outline: 3px solid currentColor; outline-offset: 3px; }
+canvas { width: 100%; min-height: 360px; border: 1px solid currentColor; background: Canvas; color: CanvasText; }
+#inspection { white-space: pre-wrap; min-height: 8rem; padding: .75rem; border: 1px dashed currentColor; }
+#status { display: block; margin-top: .75rem; min-height: 1.5rem; }
+:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; } }
+@media (forced-colors: active) { .panel, button, .file-button, canvas, #inspection { border-color: CanvasText; } }

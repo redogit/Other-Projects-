@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "s1-experience/v0",
+  "type": "object",
+  "required": [
+    "schema", "id", "initialState", "mirrorId", "shell", "actions", "observer",
+    "observerField", "checkpoints", "operatorVersion", "comparisons", "relations", "provenance"
+  ],
+  "properties": {
+    "schema": {"const": "s1-experience/v0"},
+    "id": {"type": "string", "pattern": "^[0-9a-f]{16}$"},
+    "initialState": {"type": "string", "minLength": 1},
+    "mirrorId": {"type": "string", "minLength": 1},
+    "shell": {"enum": ["s3-sample", "tesseract-boundary", "comparison"]},
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["plane", "degrees"],
+        "properties": {
+          "plane": {"enum": ["xw", "yw", "zw"]},
+          "degrees": {"enum": [-1, 1]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "observer": {
+      "type": "object",
+      "required": ["yaw", "pitch", "roll", "wPerspective"],
+      "properties": {
+        "yaw": {"type": "number"},
+        "pitch": {"type": "number"},
+        "roll": {"type": "number"},
+        "wPerspective": {"type": "number", "minimum": 0, "exclusiveMaximum": 1}
+      },
+      "additionalProperties": false
+    },
+    "observerField": {
+      "type": "object",
+      "required": ["version", "taskVersion", "densityId", "calibrations"],
+      "properties": {
+        "version": {"const": "s1-observer-field/v0"},
+        "taskVersion": {"const": "s1-observer-task/v0"},
+        "densityId": {"type": "string", "minLength": 1},
+        "calibrations": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {"type": "number"},
+              {
+                "type": "object",
+                "required": ["observerId", "calibration"],
+                "properties": {
+                  "observerId": {"type": "string", "minLength": 1},
+                  "calibration": {"type": "number"}
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "checkpoints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["actionIndex"],
+        "properties": {
+          "actionIndex": {"type": "integer", "minimum": 0},
+          "label": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "operatorVersion": {"const": "S'1-Ops v0"},
+    "comparisons": {
+      "type": "object",
+      "required": ["obligation", "againstMirror", "againstPrevious"],
+      "properties": {
+        "obligation": {"type": "string", "minLength": 1},
+        "againstMirror": {"$ref": "#/$defs/comparison"},
+        "againstPrevious": {"$ref": "#/$defs/comparison"}
+      },
+      "additionalProperties": false
+    },
+    "relations": {
+      "type": "object",
+      "required": ["parentId", "relatedIds"],
+      "properties": {
+        "familyId": {"type": "string", "minLength": 1},
+        "parentId": {"anyOf": [{"type":"null"},{"type":"string","minLength":1}]},
+        "relatedIds": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "testsInvariantId": {"type": "string", "minLength": 1},
+        "invariantResult": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "provenance": {"type": "object"}
+  },
+  "$defs": {
+    "comparison": {
+      "type": "object",
+      "required": ["equal", "maxAbsDelta"],
+      "properties": {
+        "equal": {"type": "boolean"},
+        "maxAbsDelta": {"type": "number", "minimum": 0}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

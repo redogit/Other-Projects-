@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>S'1 Models Lab — Experiment 0</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">Experiment 0 · local only · no hidden telemetry</p>
+      <h1>S'1 Models Lab</h1>
+      <p>Play with exact one-degree 4D rotations while an immutable mirror remains fixed. These are synthetic observer/reference surfaces; software verification is not scientific validation.</p>
+    </header>
+
+    <section class="panel controls" aria-labelledby="move-title">
+      <h2 id="move-title">One-degree moves</h2>
+      <div class="button-grid">
+        <button id="xw-plus" data-plane="xw" data-degrees="1">xw +1°</button>
+        <button id="xw-minus" data-plane="xw" data-degrees="-1">xw −1°</button>
+        <button id="yw-plus" data-plane="yw" data-degrees="1">yw +1°</button>
+        <button id="yw-minus" data-plane="yw" data-degrees="-1">yw −1°</button>
+        <button id="zw-plus" data-plane="zw" data-degrees="1">zw +1°</button>
+        <button id="zw-minus" data-plane="zw" data-degrees="-1">zw −1°</button>
+      </div>
+      <label for="shell">View / synthetic reference surface</label>
+      <select id="shell">
+        <option value="s3-sample">Smooth S3-like sample</option>
+        <option value="tesseract-boundary">Tesseract boundary sample</option>
+        <option value="comparison">Comparison overlay</option>
+      </select>
+    </section>
+
+    <section class="panel observer-controls" aria-labelledby="observer-title">
+      <h2 id="observer-title">Observer frame</h2>
+      <div class="range-grid">
+        <label>Yaw <input id="yaw" type="range" min="-1" max="1" step="0.05" value="0"></label>
+        <label>Pitch <input id="pitch" type="range" min="-1" max="1" step="0.05" value="0"></label>
+        <label>Roll <input id="roll" type="range" min="-1" max="1" step="0.05" value="0"></label>
+        <label>W perspective <input id="w-perspective" type="range" min="0" max="0.8" step="0.05" value="0.35"></label>
+      </div>
+      <button id="reframe">Reframe current/saved event</button>
+    </section>
+
+    <section class="panel canvas-panel" aria-labelledby="scene-title">
+      <h2 id="scene-title">Live / mirror scene</h2>
+      <canvas id="scene" width="900" height="560" aria-label="Projected live and immutable mirror point field">Your browser does not support canvas. Use the text inspection below.</canvas>
+      <pre id="inspection" tabindex="0" aria-live="polite"></pre>
+    </section>
+
+    <section class="panel history" aria-labelledby="history-title">
+      <h2 id="history-title">Explicit local history</h2>
+      <label for="saved-events">Saved event</label>
+      <select id="saved-events"><option value="">No saved events</option></select>
+      <div class="button-grid">
+        <button id="save">Save</button>
+        <button id="replay">Replay</button>
+        <button id="export">Export</button>
+        <input id="import-file" type="file" accept="application/json,.json">
+        <label class="file-button" for="import-file">Import</label>
+        <button id="clear">Clear</button>
+      </div>
+      <output id="status" aria-live="polite"></output>
+    </section>
+
+
+    <section class="panel reflection" aria-labelledby="teach-back-title">
+      <h2 id="teach-back-title">Optional teach-back</h2>
+      <label for="teach-back">What did you observe in your own words?</label>
+      <textarea id="teach-back" rows="4" placeholder="Describe what changed, what stayed the same, or what you want to test next."></textarea>
+      <p>This reflection is not part of the experiment record, is not treated as evidence authority, and is not saved by Experiment 0.</p>
+    </section>
+
+    <details class="panel">
+      <summary>Evidence boundaries</summary>
+      <p><code>SOFTWARE_VERIFICATION != SCIENTIFIC_VALIDATION</code></p>
+      <p><code>real 4D != complex dimension 4</code></p>
+      <p><code>OBSERVATIONAL_REPAIR != OBJECT_REPAIR</code></p>
+    </details>
+  </main>
+  <script type="module" src="./app.mjs"></script>
+</body>
+</html>
