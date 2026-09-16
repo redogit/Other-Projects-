@@ -36,6 +36,7 @@ FIT != TRUTH
 - `gsfl_coop.py` — human/machine partner records, tool provenance, cooperation steps, understanding evidence, bounded machine-learning claim states, vocabulary audit, corollaries, and confounds.
 - `gsfl_proverbs.py` — deterministic proverbial fixture generation with separate human, machine, and alternate interpretations plus source/provenance controls.
 - `PROVERBIAL_FIXTURES.md` — proverb fixture contract, corollaries, confounds, and evidence ceiling.
+- `COROLLARIES_AND_CONFOUNDS.md` — consolidated human-readable ledger separating observations, contract corollaries, confounds/controls, and unresolved empirical questions.
 - `test_gsfl_coop.py` and `test_proverb_fixtures.py` — successor-profile tests.
 - `run_coop_audit.py` — frozen human–machine cooperation audit.
 - `run_proverb_generator.py` — deterministic synthetic proverb-like corpus generator.
@@ -57,7 +58,7 @@ The bounded reference audit uses 12 synthetic fixtures plus 2 common English-lan
 
 GSFL v0.1 publishes corollaries only as consequences of declared software contracts. Examples include reconstructible partner attribution, separable tool provenance, semantic admission before fit optimization, useful machine contribution without a machine-learning claim, preserved human/machine distinctions, multiple proverb readings remaining distinct, and synthetic fixtures remaining synthetic.
 
-A corollary is **not** automatically an empirical law about humans, models, cultures, or cognition.
+A corollary is **not** automatically an empirical law about humans, models, cultures, or cognition. See `COROLLARIES_AND_CONFOUNDS.md` for the consolidated ledger and controls.
 
 ### Run the successor tests
 
@@ -103,4 +104,4 @@ GSFL can verify its finite records, parser behavior, deterministic fixtures, pro
 - that lexical or thematic similarity makes cultures equivalent;
 - that synthetic fixtures are inherited cultural knowledge.
 
-See `SPEC.md` for the preserved v0 contract, the approved v0.1 design under `docs/superpowers/specs/`, and `PROVERBIAL_FIXTURES.md` for the proverb-generation successor surface.
+See `SPEC.md` for the preserved v0 contract, the approved v0.1 design under `docs/superpowers/specs/`, `PROVERBIAL_FIXTURES.md` for the proverb-generation successor surface, and `COROLLARIES_AND_CONFOUNDS.md` for the combined corollary/confound ledger.
