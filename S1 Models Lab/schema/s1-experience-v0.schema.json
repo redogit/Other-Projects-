@@ -2,22 +2,70 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "s1-experience/v0",
   "type": "object",
-  "required": ["schema","id","initialState","mirrorId","shell","actions","observer","observerField","operatorVersion","comparisons","relations","provenance"],
+  "required": [
+    "schema", "id", "initialState", "mirrorId", "shell", "actions", "observer",
+    "observerField", "operatorVersion", "comparisons", "relations", "provenance"
+  ],
   "properties": {
     "schema": {"const": "s1-experience/v0"},
-    "operatorVersion": {"const": "S'1-Ops v0"},
-    "shell": {"enum": ["s3-sample","tesseract-boundary","comparison"]},
-    "actions": {"type":"array","items":{"type":"object","required":["plane","degrees"],"properties":{"plane":{"enum":["xw","yw","zw"]},"degrees":{"enum":[-1,1]}},"additionalProperties":false}},
-    "observerField": {
-      "type":"object",
-      "required":["version","taskVersion","densityId","calibrations"],
+    "id": {"type": "string", "pattern": "^[0-9a-f]{16}$"},
+    "initialState": {"type": "string", "minLength": 1},
+    "mirrorId": {"type": "string", "minLength": 1},
+    "shell": {"enum": ["s3-sample", "tesseract-boundary", "comparison"]},
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["plane", "degrees"],
+        "properties": {
+          "plane": {"enum": ["xw", "yw", "zw"]},
+          "degrees": {"enum": [-1, 1]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "observer": {
+      "type": "object",
+      "required": ["yaw", "pitch", "roll", "wPerspective"],
       "properties": {
-        "version":{"const":"s1-observer-field/v0"},
-        "taskVersion":{"const":"s1-observer-task/v0"},
-        "densityId":{"type":"string"},
-        "calibrations":{"type":"array"}
+        "yaw": {"type": "number"},
+        "pitch": {"type": "number"},
+        "roll": {"type": "number"},
+        "wPerspective": {"type": "number", "minimum": 0, "exclusiveMaximum": 1}
       },
-      "additionalProperties":false
-    }
-  }
+      "additionalProperties": false
+    },
+    "observerField": {
+      "type": "object",
+      "required": ["version", "taskVersion", "densityId", "calibrations"],
+      "properties": {
+        "version": {"const": "s1-observer-field/v0"},
+        "taskVersion": {"const": "s1-observer-task/v0"},
+        "densityId": {"type": "string", "minLength": 1},
+        "calibrations": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {"type": "number"},
+              {
+                "type": "object",
+                "required": ["observerId", "calibration"],
+                "properties": {
+                  "observerId": {"type": "string", "minLength": 1},
+                  "calibration": {"type": "number"}
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "operatorVersion": {"const": "S'1-Ops v0"},
+    "comparisons": {"type": "object"},
+    "relations": {"type": "object"},
+    "provenance": {"type": "object"}
+  },
+  "additionalProperties": false
 }

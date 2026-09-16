@@ -62,10 +62,13 @@ export function createMirror(state) {
 
 export function compareStates(a, b, epsilon = 1e-12) {
   if (!Number.isFinite(epsilon) || epsilon < 0) throw new RangeError('epsilon must be finite and non-negative');
-  if (!a || !b || a.points.length !== b.points.length) throw new RangeError('states must have matching point counts');
+  if (!a || !b || !Array.isArray(a.points) || !Array.isArray(b.points) || a.points.length !== b.points.length) {
+    throw new RangeError('states must have matching point counts');
+  }
   let maxAbsDelta = 0;
   const pointDeltas = a.points.map((point, i) => {
     const other = b.points[i];
+    if (!Array.isArray(other) || point.length !== other.length) throw new RangeError('states must have matching point dimensions');
     const delta = point.map((value, j) => value - other[j]);
     for (const value of delta) maxAbsDelta = Math.max(maxAbsDelta, Math.abs(value));
     return Object.freeze(delta);
@@ -75,4 +78,17 @@ export function compareStates(a, b, epsilon = 1e-12) {
     maxAbsDelta,
     pointDeltas: Object.freeze(pointDeltas)
   });
+}
+
+export function materializeTrajectory(points, actions = []) {
+  if (!Array.isArray(actions)) throw new TypeError('actions must be an array');
+  const origin = createState(points);
+  const mirror = createMirror(origin);
+  let previous = origin;
+  let live = origin;
+  for (const move of actions) {
+    previous = live;
+    live = applyMove(live, move);
+  }
+  return Object.freeze({ origin, mirror, previous, live });
 }
