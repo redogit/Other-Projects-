@@ -1,6 +1,6 @@
 {
   "schema": "other-projects/active-federation/v1",
-  "checkedRevision": "a61fc8b610f18d6056778d549a680144a6579c29",
+  "checkedRevision": "a6a5f0c589314431160937a7791028df30a223de",
   "authority": "THIS_REPOSITORY_ONLY",
   "activationRule": "Current main implementation/publication with runnable or executed bounded state. Open-PR-only work is pending, not active.",
   "boundaries": ["CONNECTED != MERGED","OPEN_PR != ACTIVE_MAIN","LOCAL_RUNNABLE != PRODUCTION_SERVICE","FINITE_RESULT != UNIVERSAL_RESULT","RELATION != EVIDENCE_TRANSFER"],
@@ -15,9 +15,11 @@
     {"id":"decision-field-operator-lab","path":"Decision Field Operator Lab/","state":"ACTIVE_EXACT_CALIBRATION_LAB","relation":"PROVIDES_VERIFIED_FINITE_OPERATORS","boundary":"XOR is not a universal balance law"},
     {"id":"p-vs-np-repair-lab","path":"P versus NP Repair Lab/","state":"ACTIVE_OPEN_RESEARCH_LAB","relation":"OPEN_MATH_RESEARCH","boundary":"P versus NP remains open"},
     {"id":"decision-field-mmorpg","path":"Decision Field MMORPG/","state":"ACTIVE_LOCAL_GAME_PROTOTYPE","relation":"PLAY_AND_RESEARCH_GENERATOR","boundary":"client-side prototype is not an authoritative MMO"},
-    {"id":"chatgpt-conscience","path":"ChatGPT and Conscience/","state":"ACTIVE_LOCAL_COOPERATION_LAB","relation":"COOPERATION_AND_PROVENANCE","boundary":"candidate sandbox is not deployed Conscience64"}
+    {"id":"chatgpt-conscience","path":"ChatGPT and Conscience/","state":"ACTIVE_LOCAL_COOPERATION_LAB","relation":"COOPERATION_AND_PROVENANCE","boundary":"candidate sandbox is not deployed Conscience64"},
+    {"id":"gsfl-v0","path":"Generalized Semantic Fitting Language/","state":"ACTIVE_BOUNDED_SEMANTIC_TOOL","relation":"LANGUAGE_AND_HUMAN_SURFACE_FITTING","boundary":"fit is not truth; exact v0 reconstruction is not participant or universal semantic validation"}
   ],
   "pendingReview": [
+    {"pr":46,"name":"S'1 Experiment 0 dimensional-deformation lab","state":"DRAFT"},
     {"pr":34,"name":"P-vs-NP MLIR foundation parity","state":"DRAFT"},
     {"pr":33,"name":"recursive MLIR carrier-wave design","state":"OPEN_REVIEW"},
     {"pr":26,"name":"fast BOM execution and trained decision questions","state":"DRAFT"},
