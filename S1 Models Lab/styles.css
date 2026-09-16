@@ -14,7 +14,7 @@ button, .file-button { min-height: 2.75rem; padding: .55rem .8rem; border: 2px s
 #import-file:focus-visible + .file-button { outline: 3px solid currentColor; outline-offset: 3px; }
 canvas { width: 100%; min-height: 360px; border: 1px solid currentColor; background: Canvas; color: CanvasText; }
 #inspection { white-space: pre-wrap; min-height: 8rem; padding: .75rem; border: 1px dashed currentColor; }
-#status { display: block; margin-top: .75rem; min-height: 1.5rem; }
+#status, #suggestion { display: block; margin-top: .75rem; min-height: 1.5rem; }
 :focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; } }
 @media (forced-colors: active) { .panel, button, .file-button, canvas, #inspection { border-color: CanvasText; } }
