@@ -1,58 +1,83 @@
-# Generalized Semantic Fitting Language (GSFL) v0
+# Generalized Semantic Fitting Language (GSFL)
 
-GSFL is a small reference language for **human-optimized semantic rotation with invariant-preserving fitters**.
+## v0.1 — Human–Machine Cooperation Profile
 
-Its governing pipeline is:
+GSFL v0.1 makes **human understanding, machine learning claim boundaries, cooperation between human and machine partners, and the tools used by those partners** the dominant language surface while preserving the GSFL v0 semantic kernel underneath.
+
+The cooperation cycle is:
 
 ```text
-Meaning
-  -> candidate semantic rotations
-  -> invariant + reconstruction checks
-  -> task-relative fit
-  -> human-facing surface
-  -> reconstruction
-  -> compare with source meaning
+human intent / human understanding goal
+→ machine proposal or machine interpretation
+→ partner cooperation through explicit tools
+→ tool provenance + machine-learning claim boundary
+→ semantic invariant and reconstruction checks
+→ human review / teach-back / task evidence when available
+→ fit among already-admitted representations
+→ corollaries + confounds + reconstructible partner/tool lineage
 ```
 
-The project exists to make a recurring distinction executable:
+The v0.1 reserved vocabulary is machine-audited: more than half of the declared domain terms belong to the `HUMAN`, `MACHINE_LEARNING`, `UNDERSTANDING`, `COOPERATION`, `PARTNER`, or `TOOL` families. That lexical majority proves **language emphasis only**; it does not prove human comprehension, machine learning, good cooperation, or truth.
+
+Core boundaries:
+
+```text
+HUMAN_APPROVAL != HUMAN_UNDERSTANDING
+HUMAN_APPROVAL != GROUND_TRUTH
+MACHINE_OUTPUT != MACHINE_LEARNING_EVIDENCE
+IN_CONTEXT_ADAPTATION != WEIGHT_UPDATE
+TOOL_USE != TOOL_AUTHORITY
+COOPERATION != LOSS_OF_PARTNER_IDENTITY
+FIT != TRUTH
+```
+
+### v0.1 modules
+
+- `gsfl_coop.py` — human/machine partner records, tool provenance, cooperation steps, understanding evidence, bounded machine-learning claim states, vocabulary audit, corollaries, and confounds.
+- `gsfl_proverbs.py` — deterministic proverbial fixture generation with separate human, machine, and alternate interpretations plus source/provenance controls.
+- `PROVERBIAL_FIXTURES.md` — proverb fixture contract, corollaries, confounds, and evidence ceiling.
+- `test_gsfl_coop.py` and `test_proverb_fixtures.py` — successor-profile tests.
+- `run_coop_audit.py` — frozen human–machine cooperation audit.
+- `run_proverb_generator.py` — deterministic synthetic proverb-like corpus generator.
+- `run_proverb_audit.py` — frozen proverbial corollary/confound audit.
+
+### Proverbial Fixture Generation
+
+The proverb layer turns compact sayings into **cooperation fixtures**, not truth authorities. Traditional/common sayings retain attribution uncertainty; synthetic sayings retain synthetic provenance. Human and machine interpretations stay separate, partner disagreement may remain unresolved, and tool traces remain inspectable.
+
+```sh
+python run_proverb_generator.py --seed 20260916 --count 12 \
+  --out examples/proverbial_synthetic_fixtures.json
+python run_proverb_audit.py --check
+```
+
+The bounded reference audit uses 12 synthetic fixtures plus 2 common English-language sayings. It checks deterministic generation, source-status separation, multiple-reading preservation, semantic reconstruction, and confounds such as cultural flattening, false universality, attribution uncertainty, machine-paraphrase-as-human-understanding, popularity-as-truth, and synthetic-provenance laundering.
+
+### Corollary discipline
+
+GSFL v0.1 publishes corollaries only as consequences of declared software contracts. Examples include reconstructible partner attribution, separable tool provenance, semantic admission before fit optimization, useful machine contribution without a machine-learning claim, preserved human/machine distinctions, multiple proverb readings remaining distinct, and synthetic fixtures remaining synthetic.
+
+A corollary is **not** automatically an empirical law about humans, models, cultures, or cognition.
+
+### Run the successor tests
+
+```sh
+python -m unittest -v test_gsfl.py test_gsfl_coop.py test_proverb_fixtures.py
+python run_audit.py --check
+python run_coop_audit.py --check
+python run_proverb_audit.py --check
+```
+
+## v0 — preserved semantic kernel
+
+GSFL v0 remains the bounded executable semantic kernel. It separates declared meaning, invariants, human-facing surface, fit metrics, exact reconstruction, valid rotation, mutation, and semantic decay.
 
 ```text
 VALID_ROTATION != MUTATION != SEMANTIC_DECAY
-```
-
-A representation may become clearer, shorter, more visual, more technical, or more task-local without changing the protected semantic object. If the semantic object changes, GSFL records that separately instead of calling the change a rotation.
-
-## v0 contract
-
-GSFL v0 separates:
-
-- **meaning** — the declared semantic state;
-- **invariants** — meaning keys that must survive every admitted candidate;
-- **surface** — the human-facing representation;
-- **metrics** — declared task-relative fit measurements;
-- **reconstruction** — the meaning reconstructed from the candidate surface in the bounded test;
-- **classification** — valid rotation, mutation, or semantic decay;
-- **admission** — only valid rotations that exactly reconstruct in the v0 surrogate are fit-eligible.
-
-A candidate is classified as:
-
-```text
-SEMANTIC_DECAY  if any declared invariant is missing or changed
-MUTATION        if invariants survive but any other declared meaning changes
-VALID_ROTATION  if the declared meaning is unchanged
-```
-
-Admission is stricter:
-
-```text
 ADMITTED = VALID_ROTATION && exact_v0_reconstruction
 ```
 
-The selected candidate maximizes the declared v0 fit score among admitted candidates, with candidate ID as a deterministic tie-break.
-
-## Fit score
-
-For metrics in `[0, 1]`:
+For v0 metrics in `[0,1]`:
 
 ```text
 benefit = clarity * usefulness * recoverability
@@ -60,73 +85,22 @@ burden  = 1 + cognitive_effort + ambiguity + semantic_loss
 score   = benefit / burden
 ```
 
-This is a **declared bounded surrogate**, not a universal model of human cognition. A future GSFL version may support different fitter objectives while retaining provenance, invariant checks, and reconstruction gates.
+The score is a bounded engineering surrogate rather than a universal model of human cognition. v0 exact reconstruction is a machine-checkable surrogate rather than evidence that a human partner understood the representation.
 
-## Run
+The original N-observer accessibility fixture and frozen v0 audit remain preserved. The v0.1 profile delegates semantic admission to this kernel instead of rewriting its evidence.
 
-Python 3.10+; standard library only.
+## Evidence ceiling
 
-```sh
-python -m unittest -v "Generalized Semantic Fitting Language/test_gsfl.py"
-python "Generalized Semantic Fitting Language/run_audit.py" --check
-python "Generalized Semantic Fitting Language/run_gsfl.py" \
-  "Generalized Semantic Fitting Language/examples/n_observer_accessibility.gsfl"
-```
+GSFL can verify its finite records, parser behavior, deterministic fixtures, provenance fields, semantic admission, vocabulary emphasis, corollary registry, and confound controls. It does not establish:
 
-From inside this directory:
+- that a human understood a representation without human-side evidence;
+- that a model performed persistent internal learning;
+- that in-context adaptation changed model weights;
+- that a tool result is true because a tool produced it;
+- that partner cooperation is socially or morally optimal;
+- that a proverb has one universal meaning;
+- that a common saying has a verified exact origin unless independent evidence establishes it;
+- that lexical or thematic similarity makes cultures equivalent;
+- that synthetic fixtures are inherited cultural knowledge.
 
-```sh
-python -m unittest -v test_gsfl.py
-python run_audit.py --check
-python run_gsfl.py examples/n_observer_accessibility.gsfl
-```
-
-## Example: N-observer accessibility field
-
-`examples/n_observer_accessibility.gsfl` re-expresses the N-observer magnification/accessibility model through several candidate surfaces.
-
-The fixture includes:
-
-- two invariant-preserving rotations;
-- one high-scoring mutation;
-- one high-scoring invariant failure;
-- one concise but reconstruction-lossy surface.
-
-The fitter must select the clearer admitted human surface rather than the numerically attractive invalid candidates.
-
-## Evidence
-
-`evidence/RESULTS.json` is generated by `run_audit.py --write` and checked by `run_audit.py --check`.
-
-The current bounded audit checks:
-
-- deterministic byte-identical repeated execution;
-- N-cardinality preservation;
-- underlying-world-state preservation;
-- valid-rotation classification;
-- mutation detection;
-- semantic-decay detection;
-- reconstruction-based rejection;
-- deterministic selection of the admitted human surface.
-
-## Claim ceiling
-
-GSFL v0 establishes a small executable semantics for **declared finite semantic objects and candidate surfaces**. It does not establish:
-
-- a universal theory of meaning;
-- a universal measure of clarity, usefulness, cognitive effort, ambiguity, or semantic loss;
-- that exact machine reconstruction equals human comprehension;
-- that semantic identity is decidable for arbitrary language;
-- that a high fit score makes a statement true;
-- that cross-domain structural resemblance transfers evidence or authority.
-
-Core boundary:
-
-```text
-FIT != TRUTH
-ROTATION != MUTATION
-RECONSTRUCTION_SURROGATE != HUMAN_VALIDATION
-SOFTWARE_VERIFICATION != UNIVERSAL_SEMANTIC_EQUIVALENCE
-```
-
-See `SPEC.md` for the language contract and `INTEGRATION.md` for project-boundary routing.
+See `SPEC.md` for the preserved v0 contract, the approved v0.1 design under `docs/superpowers/specs/`, and `PROVERBIAL_FIXTURES.md` for the proverb-generation successor surface.
