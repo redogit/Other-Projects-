@@ -43,3 +43,6 @@ jobs:
 
       - name: Verify GSFL operator projection evidence is reproducible
         run: python3 "Decision Field Operator Lab/run_gsfl_operator_audit.py" --check
+
+      - name: Verify GSFL bidirectional macro evidence is reproducible
+        run: python3 "Decision Field Operator Lab/run_gsfl_bidirectional_audit.py" --check

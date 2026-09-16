@@ -1,0 +1,56 @@
+{
+  "schema_version": "0.1.0",
+  "profile_id": "GSFL_V0_1_BIDIRECTIONAL_MACRO_CYCLE",
+  "kind": "COMPOSITE_MACRO_PROFILE",
+  "source_operator_profile": "gsfl-operator-profile.json",
+  "source_operator_projection_merge": "9bd5d535e317bd13af8f86315dfd04f89e81e4df",
+  "source_gsfl_lifecycle": "COMPLETE_BOUNDED_V0_1",
+  "authority_model": "MACRO_COMPOSITION_DOES_NOT_CREATE_PRIMITIVE_AUTHORITY",
+  "cycle_order": ["SEEK", "QUESTION", "REFRAME", "BUILD", "RETURN_INWARD"],
+  "boundaries": [
+    "MACRO != NEW_PRIMITIVE",
+    "OUTWARD_EXPLORATION != VALIDATION",
+    "INWARD_COHERENCE != PROOF",
+    "BUILD != TRUTH",
+    "PROJECTION != SOURCE_MUTATION",
+    "OPERATOR_EXECUTION != AUTHORITY_TRANSFER"
+  ],
+  "macros": [
+    {
+      "id": "SEEK",
+      "phase": "OUTWARD",
+      "purpose": "Acquire bounded observations, grounding route, and tool provenance.",
+      "expansion": ["OBSERVE", "GROUND", "TRACE_TOOL"]
+    },
+    {
+      "id": "QUESTION",
+      "phase": "OUTWARD",
+      "purpose": "Freeze distinctions, compare candidates or claims, and surface confounds.",
+      "expansion": ["DISTINGUISH", "COMPARE", "AUDIT_CONFOUNDS"]
+    },
+    {
+      "id": "REFRAME",
+      "phase": "OUTWARD",
+      "purpose": "Change representation while preserving declared source meaning and invariants.",
+      "expansion": ["MAP", "ROTATE", "RELATE", "PRESERVE"]
+    },
+    {
+      "id": "BUILD",
+      "phase": "OUTWARD",
+      "purpose": "Compose, repair, verify, select, and hand off a bounded successor.",
+      "expansion": ["COMPOSE", "REPAIR", "VERIFY", "SELECT", "HANDOFF"]
+    },
+    {
+      "id": "RETURN_INWARD",
+      "phase": "INWARD",
+      "purpose": "Reconstruct, teach back, derive bounded corollaries, compare, preserve, and fit admitted representations.",
+      "expansion": ["RECONSTRUCT", "TEACH_BACK", "DERIVE_COROLLARIES", "COMPARE", "PRESERVE", "FIT"]
+    }
+  ],
+  "conversation_local_method": {
+    "enabled_for_this_thread": true,
+    "outward": ["SEEK", "QUESTION", "REFRAME", "BUILD"],
+    "inward": ["RETURN_INWARD"],
+    "runtime_boundary": "working method only; does not modify model weights, system instructions, platform policy, or hidden runtime state"
+  }
+}

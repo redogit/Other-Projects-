@@ -165,6 +165,42 @@ PROMOTE
 
 A verified composite can become a reusable builder primitive while its derivation remains available. A second construction with the same semantic key is retained as `DUPLICATE` rather than manufactured into novelty.
 
+## GSFL successor profiles
+
+The canonical six-operator loop above remains unchanged. Additional GSFL behavior is carried through removable successor profiles rather than silently redefining canonical operators.
+
+### GSFL v0.1 operator projection
+
+`gsfl-operator-profile.json` projects the completed GSFL v0.1 operations into reusable operators while preserving separate semantic, evidence, and authority effects.
+
+### GSFL v0.1 bidirectional macro cycle
+
+`gsfl-bidirectional-macro-profile.json` composes those verified operators into five macros:
+
+```text
+SEEK → QUESTION → REFRAME → BUILD → RETURN_INWARD
+```
+
+with exact expansion:
+
+```text
+SEEK          = OBSERVE → GROUND → TRACE_TOOL
+QUESTION      = DISTINGUISH → COMPARE → AUDIT_CONFOUNDS
+REFRAME       = MAP → ROTATE → RELATE → PRESERVE
+BUILD         = COMPOSE → REPAIR → VERIFY → SELECT → HANDOFF
+RETURN_INWARD = RECONSTRUCT → TEACH_BACK → DERIVE_COROLLARIES
+                 → COMPARE → PRESERVE → FIT
+```
+
+The macro profile uses 19 unique existing operators across 21 invocations. It is a composition layer, not a primitive-authority layer. See [`GSFL_BIDIRECTIONAL_MACRO_CYCLE.md`](GSFL_BIDIRECTIONAL_MACRO_CYCLE.md).
+
+```text
+MACRO != NEW_PRIMITIVE
+OUTWARD_EXPLORATION != VALIDATION
+INWARD_COHERENCE != PROOF
+BUILD != TRUTH
+```
+
 ## Run
 
 Python 3.10+; standard library only.
@@ -172,15 +208,18 @@ Python 3.10+; standard library only.
 ```sh
 python -m unittest discover -s "Decision Field Operator Lab" -p "test_*.py" -v
 python "Decision Field Operator Lab/run_audit.py" --check
-python "Decision Field Operator Lab/run_audit.py" --out /tmp/operator-field-evidence
+python "Decision Field Operator Lab/run_gsfl_operator_audit.py" --check
+python "Decision Field Operator Lab/run_gsfl_bidirectional_audit.py" --check
 ```
 
-`--check` reruns the exact finite contract and compares the concise committed `evidence/RESULTS.json` against fresh results. `--out` produces the full `AUDIT.json` and `OPERATOR_TABLE.json` artifacts.
+`run_audit.py --check` reruns the exact finite operator-field contract. The GSFL audit commands independently reproduce the operator-projection and bidirectional-macro successor evidence.
 
 ## Evidence
 
-- `evidence/RESULTS.json` — concise committed results, negative control, balance winners and independent Compass census.
+- `evidence/RESULTS.json` — concise committed finite operator-field results.
+- `evidence/GSFL_OPERATOR_RESULTS.json` — GSFL operator-projection evidence.
+- `evidence/GSFL_BIDIRECTIONAL_RESULTS.json` — bidirectional macro-cycle evidence.
 - generated `AUDIT.json` — full bounded experiment state.
 - generated `OPERATOR_TABLE.json` — full operator periodic table, NAND derivation certificates, algebraic properties, Compass census, enumeration contracts and balance fixtures.
 
-The committed result and generated full artifacts are reproducible from source. They are evidence about the declared finite computation, not a universal mathematical proof.
+The committed results and generated artifacts are reproducible from source. They are evidence about their declared bounded computations, not universal mathematical or semantic proof.

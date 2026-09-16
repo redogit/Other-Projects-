@@ -1,0 +1,51 @@
+{
+  "artifact": "GSFL-v0.1-bidirectional-macro-cycle-audit",
+  "checks": {
+    "bounded_verification_passed": true,
+    "canonical_delegates_present": true,
+    "declared_invariants_preserved": true,
+    "fit_selected_admitted_candidate": true,
+    "fit_truth_confound_detected": true,
+    "higher_scoring_rejected_candidate_not_selected": true,
+    "input_envelope_unchanged": true,
+    "macro_order_exact": true,
+    "output_learning_confound_detected": true,
+    "outward_inward_phases_exact": true,
+    "profile_valid": true,
+    "reconstruction_matches_source": true,
+    "repeat_execution_byte_identical": true,
+    "source_lifecycle_preserved": true,
+    "source_meaning_preserved": true,
+    "tool_provenance_corollary_present": true
+  },
+  "claim_ceiling": [
+    "macro composition does not create primitive authority",
+    "outward exploration is not validation",
+    "inward coherence is not proof",
+    "build is not truth",
+    "operator execution does not transfer authority",
+    "the completed GSFL v0.1 baseline remains unchanged by this successor"
+  ],
+  "execution_sha256": "39e9d78e71fb5c88c0bca474e00a0c834fca62a90d5397e6282b9f98943b8267",
+  "macro_count": 5,
+  "macro_order": [
+    "SEEK",
+    "QUESTION",
+    "REFRAME",
+    "BUILD",
+    "RETURN_INWARD"
+  ],
+  "macro_phases": [
+    "OUTWARD",
+    "OUTWARD",
+    "OUTWARD",
+    "OUTWARD",
+    "INWARD"
+  ],
+  "operator_invocation_count": 21,
+  "profile_id": "GSFL_V0_1_BIDIRECTIONAL_MACRO_CYCLE",
+  "selected_candidate": "human-admitted",
+  "source_gsfl_lifecycle": "COMPLETE_BOUNDED_V0_1",
+  "source_operator_projection_merge": "9bd5d535e317bd13af8f86315dfd04f89e81e4df",
+  "unique_operator_count": 19
+}
