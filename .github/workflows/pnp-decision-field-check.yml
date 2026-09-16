@@ -15,6 +15,9 @@ on:
 permissions:
   contents: read
 
+env:
+  VERIFY_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+
 concurrency:
   group: other-projects-pnp-decision-field-${{ github.ref }}
   cancel-in-progress: true
@@ -24,16 +27,17 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
-      - name: Materialize exact commit
+      - name: Materialize exact verification commit
         shell: bash
         run: |
           set -euo pipefail
+          test -n "$VERIFY_SHA"
           git init "$GITHUB_WORKSPACE"
           cd "$GITHUB_WORKSPACE"
           git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
-          git fetch --depth=1 origin "$GITHUB_SHA"
+          git fetch --depth=1 origin "$VERIFY_SHA"
           git checkout --detach FETCH_HEAD
-          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git rev-parse HEAD)" = "$VERIFY_SHA"
 
       - name: Re-run bounded circuit discriminator and checkpoint invariants
         shell: bash
@@ -132,7 +136,7 @@ jobs:
           PY
           {
             echo '### P-vs-NP publication handoff'
-            echo "- verified source revision: \`$GITHUB_SHA\`"
+            echo "- verified source revision: \`$VERIFY_SHA\`"
             echo '- target branch: `gh-pages`'
             echo '- publication path: pinned candidate branch → reviewable PR → linear-history-compatible merge'
             echo '- this workflow has `contents: read` and does not mutate protected branches'
