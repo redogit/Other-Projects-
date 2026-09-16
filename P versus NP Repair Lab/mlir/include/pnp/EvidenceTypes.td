@@ -4,9 +4,9 @@
 include "mlir/IR/AttrTypeBase.td"
 include "pnp/EvidenceDialect.td"
 
-class PNPEvidence_Type<string name, string mnemonic, list<Trait> traits = []>
+class PNPEvidence_Type<string name, string typeMnemonic, list<Trait> traits = []>
     : TypeDef<PNPEvidence_Dialect, name, traits> {
-  let mnemonic = mnemonic;
+  let mnemonic = typeMnemonic;
 }
 
 def PNPEvidence_CertificateType : PNPEvidence_Type<"Certificate", "certificate"> {
