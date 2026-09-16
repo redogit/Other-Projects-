@@ -1,7 +1,9 @@
 import { assertSupportedMove } from './core.mjs';
+import { normalizeObserver } from './observer.mjs';
 import {
   EXPERIENCE_SCHEMA,
   OPERATOR_VERSION,
+  SHELLS,
   canonicalJson,
   fnv1a64,
   replayIdentity,
@@ -21,7 +23,7 @@ const LEGAL_MOVES = Object.freeze([
   Object.freeze({ plane: 'zw', degrees: -1 })
 ]);
 const MOVE_ORDER = new Map(LEGAL_MOVES.map((move, index) => [`${move.plane}:${move.degrees}`, index]));
-const CONTEXT_KEYS = Object.freeze(['initialState', 'mirrorId', 'operatorVersion', 'actions']);
+const CONTEXT_KEYS = Object.freeze(['initialState', 'mirrorId', 'shell', 'observer', 'operatorVersion', 'actions']);
 const DERIVED_EXPERIENCE_KEYS = Object.freeze(['id', 'replayId', ...CONTEXT_KEYS]);
 
 function deepFreeze(value) {
@@ -60,11 +62,15 @@ function normalizeContext(context) {
   assertOnlyKeys(context, CONTEXT_KEYS, 'suggestion context');
   if (typeof context.initialState !== 'string' || !context.initialState) throw new TypeError('suggestion initialState is required');
   if (typeof context.mirrorId !== 'string' || !context.mirrorId) throw new TypeError('suggestion mirrorId is required');
+  if (!SHELLS.includes(context.shell)) throw new RangeError(`unsupported suggestion shell: ${context.shell}`);
+  const observer = normalizeObserver(context.observer);
   if (context.operatorVersion !== OPERATOR_VERSION) throw new RangeError('unsupported suggestion operator version');
   if (!Array.isArray(context.actions)) throw new TypeError('suggestion actions must be an array');
   return {
     initialState: context.initialState,
     mirrorId: context.mirrorId,
+    shell: context.shell,
+    observer,
     operatorVersion: context.operatorVersion,
     actions: context.actions.map(cloneMove)
   };
@@ -81,6 +87,8 @@ function normalizedExperience(record) {
     replayId: replayIdentity(valid),
     initialState: valid.initialState,
     mirrorId: valid.mirrorId,
+    shell: valid.shell,
+    observer: normalizeObserver(valid.observer),
     operatorVersion: valid.operatorVersion,
     actions: valid.actions.map(cloneMove)
   };
@@ -121,6 +129,8 @@ function validateDataset(dataset) {
     normalizeContext({
       initialState: item.initialState,
       mirrorId: item.mirrorId,
+      shell: item.shell,
+      observer: item.observer,
       operatorVersion: item.operatorVersion,
       actions: item.actions
     });
@@ -137,6 +147,8 @@ export function trainSuggestionModel(dataset) {
       const context = normalizeContext({
         initialState: experience.initialState,
         mirrorId: experience.mirrorId,
+        shell: experience.shell,
+        observer: experience.observer,
         operatorVersion: experience.operatorVersion,
         actions: experience.actions.slice(0, index)
       });
@@ -221,6 +233,8 @@ export function suggestNextMove(model, context) {
     contract: {
       initialState: normalized.initialState,
       mirrorId: normalized.mirrorId,
+      shell: normalized.shell,
+      observer: normalized.observer,
       operatorVersion: normalized.operatorVersion
     },
     provenance: {
