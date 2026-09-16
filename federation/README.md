@@ -4,7 +4,7 @@
 **Authority:** this repository's project status only  
 **Machine-readable registry:** [`active-projects.json`](active-projects.json)
 
-This directory connects the **currently implemented/runnable/executed** Other-Projects lines to the wider redogit federation without merging their evidence, authority, or project identities.
+This directory connects the **currently implemented/runnable/executed** Other-Projects lines to the wider redogit federation without merging their evidence, authority, or project identities. A project may be a complete bounded baseline and still remain active as a stable predecessor for future successors.
 
 ```text
 CONNECTED != MERGED
@@ -12,6 +12,7 @@ OPEN_PR != ACTIVE_MAIN
 LOCAL_RUNNABLE != PRODUCTION_SERVICE
 FINITE_RESULT != UNIVERSAL_RESULT
 RELATION != EVIDENCE_TRANSFER
+COMPLETE_BOUNDED_V0_1 != UNIVERSAL_COMPLETION
 ```
 
 ## Active on inspected `main`
@@ -27,7 +28,7 @@ RELATION != EVIDENCE_TRANSFER
 - [P versus NP Repair Lab](../P%20versus%20NP%20Repair%20Lab/) — active open research; `P ?= NP` remains open.
 - [Decision Field MMORPG](../Decision%20Field%20MMORPG/) — client-side game/research prototype, not authoritative MMO infrastructure.
 - [ChatGPT and Conscience](../ChatGPT%20and%20Conscience/) — local cooperation/sandbox lab, not deployed Conscience64.
-- [Generalized Semantic Fitting Language](../Generalized%20Semantic%20Fitting%20Language/) — active **v0.1 Human–Machine Cooperation Profile** over the preserved v0 semantic kernel. It foregrounds human understanding, bounded machine-learning claims, partner cooperation, tool provenance, corollaries, confounds, and deterministic proverbial fixtures. `HUMAN_APPROVAL != HUMAN_UNDERSTANDING`, `MACHINE_OUTPUT != MACHINE_LEARNING_EVIDENCE`, `TOOL_USE != TOOL_AUTHORITY`, and `PROVERB != EMPIRICAL_EVIDENCE`.
+- [Generalized Semantic Fitting Language](../Generalized%20Semantic%20Fitting%20Language/) — **`COMPLETE_BOUNDED_V0_1`** Human–Machine Cooperation Profile over the preserved v0 semantic kernel. The declared v0.1 implementation, tests, three frozen audits, exact-head CI, public routing, corollary/confound ledger, and recovery packet are complete. It foregrounds human understanding, bounded machine-learning claims, partner cooperation, tool provenance, and proverbial fixtures. `COMPLETE_BOUNDED_V0_1 != UNIVERSAL_COMPLETION`, `HUMAN_APPROVAL != HUMAN_UNDERSTANDING`, `MACHINE_OUTPUT != MACHINE_LEARNING_EVIDENCE`, `TOOL_USE != TOOL_AUTHORITY`, and `PROVERB != EMPIRICAL_EVIDENCE`.
 
 ## Review-stage lines intentionally not activated
 
