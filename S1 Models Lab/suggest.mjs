@@ -22,6 +22,7 @@ const LEGAL_MOVES = Object.freeze([
 ]);
 const MOVE_ORDER = new Map(LEGAL_MOVES.map((move, index) => [`${move.plane}:${move.degrees}`, index]));
 const CONTEXT_KEYS = Object.freeze(['initialState', 'mirrorId', 'operatorVersion', 'actions']);
+const DERIVED_EXPERIENCE_KEYS = Object.freeze(['id', 'replayId', ...CONTEXT_KEYS]);
 
 function deepFreeze(value) {
   if (value && typeof value === 'object' && !Object.isFrozen(value)) {
@@ -115,8 +116,14 @@ function validateDataset(dataset) {
   if (!Array.isArray(dataset.experiences)) throw new TypeError('suggestion dataset experiences must be an array');
   for (const item of dataset.experiences) {
     assertPlainObject(item, 'derived experience');
+    assertOnlyKeys(item, DERIVED_EXPERIENCE_KEYS, 'derived experience');
     if (typeof item.id !== 'string' || !item.id || typeof item.replayId !== 'string' || !item.replayId) throw new TypeError('derived experience ids are required');
-    normalizeContext(item);
+    normalizeContext({
+      initialState: item.initialState,
+      mirrorId: item.mirrorId,
+      operatorVersion: item.operatorVersion,
+      actions: item.actions
+    });
   }
   return dataset;
 }
