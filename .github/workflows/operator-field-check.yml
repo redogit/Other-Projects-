@@ -38,5 +38,8 @@ jobs:
       - name: Run exact bounded tests
         run: python3 -m unittest discover -s "Decision Field Operator Lab" -p "test_*.py" -v
 
-      - name: Verify committed evidence is reproducible
+      - name: Verify committed operator-field evidence is reproducible
         run: python3 "Decision Field Operator Lab/run_audit.py" --check
+
+      - name: Verify GSFL operator projection evidence is reproducible
+        run: python3 "Decision Field Operator Lab/run_gsfl_operator_audit.py" --check
