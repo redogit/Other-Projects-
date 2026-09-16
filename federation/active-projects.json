@@ -1,9 +1,11 @@
 {
   "schema": "other-projects/active-federation/v1",
-  "checkedRevision": "9a25e9de410dba9fd0c3d9f9e62a9701477d8798",
+  "checkedRevision": "ae6789a9947b1961c68e3fc3e5e1d78a8c097284",
   "authority": "THIS_REPOSITORY_ONLY",
+  "developmentAuthority": "main",
+  "publicationSurface": "gh-pages",
   "activationRule": "Current main implementation/publication with runnable or executed bounded state. Open-PR-only work is pending, not active.",
-  "boundaries": ["CONNECTED != MERGED","OPEN_PR != ACTIVE_MAIN","LOCAL_RUNNABLE != PRODUCTION_SERVICE","FINITE_RESULT != UNIVERSAL_RESULT","RELATION != EVIDENCE_TRANSFER","COMPLETE_BOUNDED_V0_1 != UNIVERSAL_COMPLETION"],
+  "boundaries": ["CONNECTED != MERGED","OPEN_PR != ACTIVE_MAIN","DEVELOPMENT != PUBLICATION","LOCAL_RUNNABLE != PRODUCTION_SERVICE","FINITE_RESULT != UNIVERSAL_RESULT","RELATION != EVIDENCE_TRANSFER","SOFTWARE_VERIFICATION != SCIENTIFIC_VALIDATION","COMPLETE_BOUNDED_V0_1 != UNIVERSAL_COMPLETION"],
   "active": [
     {"id":"human-expression-archive","path":"Human Expression Archive/","state":"CURRENT_BOUNDED_PUBLICATION","relation":"CULTURE_AND_HISTORY"},
     {"id":"s1024","path":"S1024 Compression Lab/","state":"ACTIVE_LOCAL_TOOL","relation":"CARRIER_AND_ENGINEERING"},
@@ -13,18 +15,16 @@
     {"id":"hodge-span-lab","path":"Hodge Span Lab/","state":"ACTIVE_LOCAL_RESEARCH_AID","relation":"SUPPORTS_TEST_DESIGN","boundary":"does not authenticate Hodge geometry or prove Hodge"},
     {"id":"knowledge-garden","path":"knowledge-garden/","state":"ACTIVE_LOCAL_NAVIGATION_TOOL","relation":"FEDERATED_NAVIGATION"},
     {"id":"decision-field-operator-lab","path":"Decision Field Operator Lab/","state":"ACTIVE_EXACT_CALIBRATION_LAB","relation":"PROVIDES_VERIFIED_FINITE_OPERATORS","boundary":"XOR is not a universal balance law"},
-    {"id":"p-vs-np-repair-lab","path":"P versus NP Repair Lab/","state":"ACTIVE_OPEN_RESEARCH_LAB","relation":"OPEN_MATH_RESEARCH","boundary":"P versus NP remains open"},
+    {"id":"p-vs-np-repair-lab","path":"P versus NP Repair Lab/","state":"ACTIVE_OPEN_RESEARCH_LAB","relation":"OPEN_MATH_RESEARCH","components":["bounded decision-field experiments","MLIR migration/parity foundation"],"boundary":"P versus NP remains open; MLIR parity is representation/migration evidence only"},
     {"id":"decision-field-mmorpg","path":"Decision Field MMORPG/","state":"ACTIVE_LOCAL_GAME_PROTOTYPE","relation":"PLAY_AND_RESEARCH_GENERATOR","boundary":"client-side prototype is not an authoritative MMO"},
     {"id":"chatgpt-conscience","path":"ChatGPT and Conscience/","state":"ACTIVE_LOCAL_COOPERATION_LAB","relation":"COOPERATION_AND_PROVENANCE","boundary":"candidate sandbox is not deployed Conscience64"},
+    {"id":"s1-models-lab","path":"S1 Models Lab/","state":"ACTIVE_BOUNDED_EXPERIMENT_0","relation":"CONTROLLED_OBSERVER_AND_4D_VISUALIZATION_LAB","boundary":"software verification is not scientific validation; visualization does not establish physical or open-problem claims"},
     {"id":"gsfl","version":"0.1","predecessor":"GSFL v0 semantic kernel","path":"Generalized Semantic Fitting Language/","state":"COMPLETE_BOUNDED_V0_1","lifecycle":"COMPLETE","relation":"HUMAN_MACHINE_UNDERSTANDING_COOPERATION_AND_TOOLS","completionStatus":"Generalized Semantic Fitting Language/COMPLETE_STATUS_V0_1.md","boundary":"complete for the declared v0.1 implementation/audit/publication/recovery scope only; human approval is not human understanding; machine output is not machine-learning evidence; tool use is not authority; proverbs are not empirical evidence; synthetic is not traditional; future successors remain allowed"}
   ],
-  "pendingReview": [
-    {"pr":46,"name":"S'1 Experiment 0 dimensional-deformation lab","state":"DRAFT"},
-    {"pr":34,"name":"P-vs-NP MLIR foundation parity","state":"DRAFT"},
-    {"pr":33,"name":"recursive MLIR carrier-wave design","state":"OPEN_REVIEW"},
-    {"pr":26,"name":"fast BOM execution and trained decision questions","state":"DRAFT"},
-    {"pr":25,"name":"Science Hub design","state":"DESIGN_ONLY_DRAFT"},
-    {"pr":23,"name":"P-vs-NP publication handoff repair","state":"OPEN_REVIEW"}
+  "pendingReview": [],
+  "integratedDesign": [
+    {"name":"Science Hub design","state":"MERGED_DESIGN_ARTIFACT","boundary":"design merge does not imply a deployed service"},
+    {"name":"recursive MLIR carrier-wave design","state":"MERGED_DESIGN_ARTIFACT","boundary":"architecture does not itself establish MLIR parity or a P-vs-NP result"}
   ],
   "externalPeers": [
     {"repo":"redogit/redogit","relation":"FEDERATION_INDEX","url":"https://github.com/redogit/redogit/blob/main/ACTIVE_FEDERATION.md"},
