@@ -1,0 +1,75 @@
+{
+  "agreement_count": 4,
+  "artifact": "GSFL_CONTEXTUAL_MULTICARRIER_REASONING",
+  "boundaries": [
+    "WORD != FIXED_ROLE",
+    "ROLE_BINDING != PERMANENT_DEFINITION",
+    "MULTI_CARRIER != MULTIPLE_INDEPENDENT_WITNESSES",
+    "ANALOGY != EMPIRICAL_EVIDENCE",
+    "COMPUTATION != UNIVERSAL_PROOF",
+    "ANALYSIS != OBSERVATION",
+    "SYMBOL != SUBJECT",
+    "COHERENCE != VALIDATION",
+    "PROMOTION != SOURCE_REWRITE"
+  ],
+  "carrier_count": 4,
+  "carriers": [
+    "SYMBOLIC",
+    "ANALYTICAL",
+    "COMPUTATIONAL",
+    "ANALOGICAL"
+  ],
+  "checks": {
+    "agreement_not_independence": true,
+    "agreement_only_reopened": true,
+    "analogy_introduction_detected": true,
+    "analogy_loss_detected": true,
+    "analogy_preservation_detected": true,
+    "four_carriers_present": true,
+    "interpreters_remain_separate": true,
+    "introduction_detected": true,
+    "loss_detected": true,
+    "multi_role_binding_supported": true,
+    "nine_confounds_detected": true,
+    "positive_fixture_preserves_invariants": true,
+    "same_word_changes_role_with_context": true,
+    "verified_admitted_successor_promoted": true
+  },
+  "confound_ids": [
+    "AGREEMENT_AS_INDEPENDENCE",
+    "AGREEMENT_AS_TRUTH",
+    "ANALOGY_AS_EVIDENCE_TRANSFER",
+    "ANALYSIS_AS_EMPIRICAL_VALIDATION",
+    "COMPUTATION_AS_GENERAL_PROOF",
+    "FIT_BEFORE_ADMISSION",
+    "INTERPRETER_COLLAPSE",
+    "STATIC_ROLE_FALLACY",
+    "SYMBOLIC_COMPRESSION_AS_TRUTH"
+  ],
+  "execution_sha256": "d486da9798a729dd658723c27c45c88b9fef9f3907ac38d9597988be65c58cc8",
+  "gate_controls": {
+    "agreement_only": "REOPEN",
+    "verified_admitted": "PROMOTE_SUCCESSOR"
+  },
+  "independence_state": "NOT_ESTABLISHED",
+  "role_examples": {
+    "gate_boundary": [
+      "GATE"
+    ],
+    "gate_transition": [
+      "CARRIER",
+      "TRANSITION"
+    ],
+    "human_turn": [
+      "DIRECTION"
+    ],
+    "machine_turn": [
+      "TRANSFORM"
+    ],
+    "wave_multi_role": [
+      "PROPAGATION",
+      "CARRIER"
+    ]
+  },
+  "source_lifecycle": "COMPLETE_BOUNDED_V0_1"
+}

@@ -87,6 +87,21 @@ class OperatorSkillRegistryTests(unittest.TestCase):
         primitive_ids = {row["id"] for row in json.loads((ROOT / "gsfl-operator-profile.json").read_text(encoding="utf-8"))["operators"]}
         self.assertTrue(set(macro_profile["cycle_order"]).isdisjoint(primitive_ids))
 
+    def test_contextual_multicarrier_is_successor_reasoning_profile_only(self):
+        self.assertEqual(self.data["canonical_loop"], EXPECTED)
+        reasoning_profiles = {row["id"]: row for row in self.data.get("reasoning_profiles", [])}
+        self.assertIn("GSFL_CONTEXTUAL_MULTICARRIER_REASONING", reasoning_profiles)
+        ref = reasoning_profiles["GSFL_CONTEXTUAL_MULTICARRIER_REASONING"]
+        self.assertEqual("SUCCESSOR_REASONING_PROFILE_ONLY", ref["authority"])
+        self.assertTrue(ref["canonical_loop_unchanged"])
+        self.assertEqual(4, ref["carrier_count"])
+        path = ROOT / ref["registry"]
+        self.assertTrue(path.is_file(), path)
+        profile = json.loads(path.read_text(encoding="utf-8"))
+        self.assertEqual("GSFL_CONTEXTUAL_MULTICARRIER_REASONING", profile["profile_id"])
+        self.assertEqual(["SYMBOLIC", "ANALYTICAL", "COMPUTATIONAL", "ANALOGICAL"], profile["carriers"])
+        self.assertEqual("CONTEXTUAL_BINDING_AND_CARRIER_COMPARISON_DO_NOT_CREATE_TRUTH_AUTHORITY", profile["authority_model"])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -46,3 +46,6 @@ jobs:
 
       - name: Verify GSFL bidirectional macro evidence is reproducible
         run: python3 "Decision Field Operator Lab/run_gsfl_bidirectional_audit.py" --check
+
+      - name: Verify contextual multicarrier reasoning evidence is reproducible
+        run: python3 "Decision Field Operator Lab/run_contextual_multicarrier_audit.py" --check

@@ -1,0 +1,30 @@
+{
+  "schema_version": "0.1.0",
+  "profile_id": "GSFL_CONTEXTUAL_MULTICARRIER_REASONING",
+  "kind": "SUCCESSOR_REASONING_PROFILE",
+  "source_gsfl_lifecycle": "COMPLETE_BOUNDED_V0_1",
+  "source_operator_projection_merge": "9bd5d535e317bd13af8f86315dfd04f89e81e4df",
+  "source_bidirectional_macro_merge": "29c882f78b9762dafc56737b6f9ef0d95cf3c83e",
+  "authority_model": "CONTEXTUAL_BINDING_AND_CARRIER_COMPARISON_DO_NOT_CREATE_TRUTH_AUTHORITY",
+  "carriers": ["SYMBOLIC", "ANALYTICAL", "COMPUTATIONAL", "ANALOGICAL"],
+  "role_binding": {
+    "context_fields": ["surface", "context", "interpreter", "time_label", "obligation", "relations", "role_hints"],
+    "multiple_active_roles_allowed": true,
+    "interpreter_local": true,
+    "time_local": true,
+    "support_score_boundary": "ROLE_SUPPORT_SCORE != TRUTH_PROBABILITY"
+  },
+  "promotion_dispositions": ["PRESERVE", "PROMOTE_SUCCESSOR", "REOPEN", "REJECT", "UNRESOLVED"],
+  "boundaries": [
+    "WORD != FIXED_ROLE",
+    "ROLE_BINDING != PERMANENT_DEFINITION",
+    "MULTI_ROLE != AMBIGUITY_FAILURE",
+    "CARRIER_AGREEMENT != INDEPENDENT_VERIFICATION",
+    "ANALOGY != EVIDENCE_TRANSFER",
+    "COMPUTATIONAL_WITNESS != GENERAL_PROOF",
+    "ANALYTICAL_COHERENCE != EMPIRICAL_VALIDATION",
+    "SYMBOLIC_COMPRESSION != TRUTH",
+    "CONTEXTUAL_ROLE_RESOLUTION != UNIVERSAL_SEMANTIC_PARSER",
+    "PROMOTION != SOURCE_REWRITE"
+  ]
+}
