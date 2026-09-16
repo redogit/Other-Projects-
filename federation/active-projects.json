@@ -1,6 +1,6 @@
 {
   "schema": "other-projects/active-federation/v1",
-  "checkedRevision": "a6a5f0c589314431160937a7791028df30a223de",
+  "checkedRevision": "aa9e9834d3317e28fb815a47c2573960dee6fd8e",
   "authority": "THIS_REPOSITORY_ONLY",
   "activationRule": "Current main implementation/publication with runnable or executed bounded state. Open-PR-only work is pending, not active.",
   "boundaries": ["CONNECTED != MERGED","OPEN_PR != ACTIVE_MAIN","LOCAL_RUNNABLE != PRODUCTION_SERVICE","FINITE_RESULT != UNIVERSAL_RESULT","RELATION != EVIDENCE_TRANSFER"],
@@ -16,7 +16,7 @@
     {"id":"p-vs-np-repair-lab","path":"P versus NP Repair Lab/","state":"ACTIVE_OPEN_RESEARCH_LAB","relation":"OPEN_MATH_RESEARCH","boundary":"P versus NP remains open"},
     {"id":"decision-field-mmorpg","path":"Decision Field MMORPG/","state":"ACTIVE_LOCAL_GAME_PROTOTYPE","relation":"PLAY_AND_RESEARCH_GENERATOR","boundary":"client-side prototype is not an authoritative MMO"},
     {"id":"chatgpt-conscience","path":"ChatGPT and Conscience/","state":"ACTIVE_LOCAL_COOPERATION_LAB","relation":"COOPERATION_AND_PROVENANCE","boundary":"candidate sandbox is not deployed Conscience64"},
-    {"id":"gsfl-v0","path":"Generalized Semantic Fitting Language/","state":"ACTIVE_BOUNDED_SEMANTIC_TOOL","relation":"LANGUAGE_AND_HUMAN_SURFACE_FITTING","boundary":"fit is not truth; exact v0 reconstruction is not participant or universal semantic validation"}
+    {"id":"gsfl","version":"0.1","predecessor":"GSFL v0 semantic kernel","path":"Generalized Semantic Fitting Language/","state":"ACTIVE_BOUNDED_HUMAN_MACHINE_COOPERATION_PROFILE","relation":"HUMAN_MACHINE_UNDERSTANDING_COOPERATION_AND_TOOLS","boundary":"human approval is not human understanding; machine output is not machine-learning evidence; tool use is not authority; proverbs are not empirical evidence; synthetic is not traditional"}
   ],
   "pendingReview": [
     {"pr":46,"name":"S'1 Experiment 0 dimensional-deformation lab","state":"DRAFT"},

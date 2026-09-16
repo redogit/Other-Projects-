@@ -27,7 +27,7 @@ RELATION != EVIDENCE_TRANSFER
 - [P versus NP Repair Lab](../P%20versus%20NP%20Repair%20Lab/) — active open research; `P ?= NP` remains open.
 - [Decision Field MMORPG](../Decision%20Field%20MMORPG/) — client-side game/research prototype, not authoritative MMO infrastructure.
 - [ChatGPT and Conscience](../ChatGPT%20and%20Conscience/) — local cooperation/sandbox lab, not deployed Conscience64.
-- [Generalized Semantic Fitting Language](../Generalized%20Semantic%20Fitting%20Language/) — bounded executable semantic-rotation/fitting language; `FIT != TRUTH` and v0 machine reconstruction is not participant or universal semantic validation.
+- [Generalized Semantic Fitting Language](../Generalized%20Semantic%20Fitting%20Language/) — active **v0.1 Human–Machine Cooperation Profile** over the preserved v0 semantic kernel. It foregrounds human understanding, bounded machine-learning claims, partner cooperation, tool provenance, corollaries, confounds, and deterministic proverbial fixtures. `HUMAN_APPROVAL != HUMAN_UNDERSTANDING`, `MACHINE_OUTPUT != MACHINE_LEARNING_EVIDENCE`, `TOOL_USE != TOOL_AUTHORITY`, and `PROVERB != EMPIRICAL_EVIDENCE`.
 
 ## Review-stage lines intentionally not activated
 
