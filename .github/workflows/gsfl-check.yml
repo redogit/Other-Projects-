@@ -35,8 +35,14 @@ jobs:
           git checkout --detach FETCH_HEAD
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
 
-      - name: Run GSFL v0 tests
+      - name: Run GSFL v0 and v0.1 tests
         run: python3 -m unittest discover -s "Generalized Semantic Fitting Language" -p "test_*.py" -v
 
-      - name: Verify frozen bounded evidence
+      - name: Verify frozen v0 semantic evidence
         run: python3 "Generalized Semantic Fitting Language/run_audit.py" --check
+
+      - name: Verify frozen human-machine cooperation evidence
+        run: python3 "Generalized Semantic Fitting Language/run_coop_audit.py" --check
+
+      - name: Verify frozen proverbial fixture evidence
+        run: python3 "Generalized Semantic Fitting Language/run_proverb_audit.py" --check
