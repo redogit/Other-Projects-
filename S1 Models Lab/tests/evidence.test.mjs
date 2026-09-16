@@ -8,10 +8,13 @@ test('frozen Experiment 0 summary pins the verified implementation without scien
   const summary = JSON.parse(await readFile(summaryUrl, 'utf8'));
   assert.equal(summary.schema, 's1-experiment-0-evidence/v0');
   assert.match(summary.implementationRevision, /^[0-9a-f]{40}$/);
-  assert.equal(summary.implementationRevision, '66f68a98e532488bddf44c8de9a0878e760ec7a2');
-  assert.equal(summary.implementationCi.runId, 35095361999);
+  assert.equal(summary.implementationRevision, '4c5b3d0e599c029cc05478eaa5119b00d096e3c4');
+  assert.equal(summary.implementationCi.workflow, 'S1 Models Check');
+  assert.equal(summary.implementationCi.runId, 35125214829);
   assert.equal(summary.implementationCi.conclusion, 'success');
-  assert.deepEqual(summary.implementationTests, { total: 48, passed: 48, failed: 0 });
+  assert.deepEqual(summary.implementationTests, { total: 46, passed: 46, failed: 0 });
+  assert.equal(summary.browserSmoke.conclusion, 'success');
+  assert.deepEqual(summary.browserSmoke.checks, ['boot','move','save','replay','shell-reframe','observer','reframe','clear']);
   assert.equal(summary.audit.scientificValidation, false);
   assert.equal(Object.values(summary.audit.checks).length, 18);
   assert.equal(Object.values(summary.audit.checks).every(Boolean), true);
@@ -22,6 +25,7 @@ test('frozen Experiment 0 summary pins the verified implementation without scien
     'SOFTWARE_VERIFICATION != SCIENTIFIC_VALIDATION',
     'real 4D != complex dimension 4',
     'OBSERVATIONAL_REPAIR != OBJECT_REPAIR',
-    'FEATURE_AT_ONE_MESH != CONTINUUM_INVARIANT'
+    'FEATURE_AT_ONE_MESH != CONTINUUM_INVARIANT',
+    'functional browser smoke != rendered usability or assistive-technology validation'
   ]) assert.ok(summary.evidenceBoundaries.includes(required));
 });
