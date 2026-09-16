@@ -11,6 +11,7 @@ Python 3.10+, standard library only. From the repository root:
 
 ```sh
 python "Hodge Span Lab/span.py" "Hodge Span Lab/example.json"
+python "Hodge Span Lab/bridge.py" "Hodge Span Lab/bridge_calibration.json"
 python -m unittest discover -s "Hodge Span Lab" -p 'test_*.py' -v
 ```
 
@@ -25,6 +26,41 @@ The returned covector pairs to zero with every supplied cycle vector but not wit
 the missing target. Anyone can check those dot products without trusting the elimination routine.
 Zero/duplicate vectors are allowed and do not increase rank. An empty target list
 is vacuously contained and is not evidence of geometric completeness.
+
+## Deformation candidate bridge
+
+`bridge.py` is the bounded issue-43 adapter. It preserves the complete ordered S'1
+action chronology, separately compresses that chronology to the exact signed
+`[xw, yw, zw]` one-degree count vector, applies only a declared exact rational
+matrix into the Hodge Span Lab basis, and tests exactly one derived candidate
+against the supplied cycle-vector span.
+
+The committed synthetic calibration has one `zw +1°` action. Its compressed
+signature is `[0,0,1]`; the declared synthetic identity map therefore produces
+candidate `[0,0,1]`. Against the supplied calibration rows `[1,0,0]`, `[2,0,0]`,
+and `[0,1,0]`, the exact span calculation reports that candidate outside their
+rational span and returns a separating covector. This is a property of the declared
+synthetic coordinates only.
+
+The bridge carrier retains source/map/template hashes and the full chronology.
+The compressed signature is explicitly marked
+`signed-plane-count-only-not-full-deformation-equivalence`: two differently ordered
+rotation histories can have the same count vector and the same derived candidate
+without being the same deformation. The candidate derivation therefore depends on
+the compressed signature only, while provenance preserves the distinction between
+its source histories.
+
+Evidence boundaries are strict:
+
+- `real 4D != complex dimension 4`;
+- `compressed signature equality != full deformation equivalence`;
+- `visual/geometric deformation != algebraic cycle`;
+- `candidate direction != Hodge class`;
+- `span/rank/separation software result != proof of algebraicity or completeness`;
+- the Hodge conjecture remains open.
+
+If an exact basis-matched algebraic map cannot be written, the bridge fails closed.
+It does not infer or invent one from visual similarity.
 
 ## Before a result can support geometry
 
@@ -56,9 +92,11 @@ join nonvanishing or any theorem dependency. No P-versus-NP reduction is propose
 
 Tests include all 81 two-by-two integer matrices with entries in {-1,0,1}, using an
 independent determinant rank oracle, and direct dot-product checks for every returned
-separator in that family. Additional cases cover duplicates, exact fractions, empty
-spans and malformed inputs. This is bounded software verification, not independent
-geometric replication. Recorded execution is under `evidence/hodge-span-001/`.
+separator in that family. Bridge tests cover exact rational mapping, basis mismatch,
+invalid deformation moves, deterministic provenance hashing, chronology-preserving
+compression, compression-loss boundaries, one-target isolation, and the executable
+calibration. This is bounded software verification, not independent geometric replication.
+Recorded span execution is under `evidence/hodge-span-001/`.
 
 Original code and prose are new assistant-authored research tooling at the user's request.
 Linked research retains its own provenance and license. No third-party dataset or private archive is bundled.
