@@ -20,6 +20,16 @@
       "canonical_loop_unchanged": true
     }
   ],
+  "macro_profiles": [
+    {
+      "id": "GSFL_V0_1_BIDIRECTIONAL_MACRO_CYCLE",
+      "registry": "gsfl-bidirectional-macro-profile.json",
+      "source_operator_profile": "GSFL_V0_1_OPERATOR_PROJECTION",
+      "authority": "COMPOSITION_ONLY_NOT_PRIMITIVE",
+      "canonical_loop_unchanged": true,
+      "cycle": ["SEEK", "QUESTION", "REFRAME", "BUILD", "RETURN_INWARD"]
+    }
+  ],
   "coordination": "COORDINATION.md",
   "cross_project_rule": "inform_pressure_test_locate_or_propose_without_automatic_evidence_authority_identity_applicability_or_admission_transfer",
   "unknown_policy": "explicit_not_forced",
