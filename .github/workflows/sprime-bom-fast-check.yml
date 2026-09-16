@@ -1,0 +1,99 @@
+name: SPrime BOM Fast Pass 09
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'SPrime Search/decision-field/bom/fast/**'
+      - '.github/workflows/sprime-bom-fast-check.yml'
+  pull_request:
+    paths:
+      - 'SPrime Search/decision-field/bom/fast/**'
+      - '.github/workflows/sprime-bom-fast-check.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  VERIFY_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+
+concurrency:
+  group: sprime-bom-fast-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-fast:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Materialize exact verification commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$VERIFY_SHA"
+          git init "$GITHUB_WORKSPACE"
+          cd "$GITHUB_WORKSPACE"
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git fetch --depth=1 origin "$VERIFY_SHA"
+          git checkout --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "$VERIFY_SHA"
+          python3 --version
+          g++ --version
+
+      - name: Install pinned Z3 verifier
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --no-cache-dir 'z3-solver==5.1.0.0'
+          python3 - <<'PY'
+          import z3
+          assert z3.get_version_string() == '5.1.0'
+          print('Z3', z3.get_version_string())
+          PY
+
+      - name: Run fast BOM unit and cross-verifier tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s "SPrime Search/decision-field/bom/fast/tests" -v
+
+      - name: Replay fast BOM audit twice with Z3 required
+        shell: bash
+        run: |
+          set -euo pipefail
+          tmp="$(mktemp -d)"
+          python3 "SPrime Search/decision-field/bom/fast/audit.py" --require-z3 --out "$tmp/run1"
+          python3 "SPrime Search/decision-field/bom/fast/audit.py" --require-z3 --out "$tmp/run2"
+          cmp "$tmp/run1/SUMMARY.json" "$tmp/run2/SUMMARY.json"
+          cmp "$tmp/run1/TRAINING.json" "$tmp/run2/TRAINING.json"
+          python3 - "$tmp/run1" <<'PY'
+          import json,subprocess,sys
+          from pathlib import Path
+          root=Path(sys.argv[1])
+          s=json.loads((root/'SUMMARY.json').read_text())
+          t=json.loads((root/'TRAINING.json').read_text())
+          v=json.loads((root/'VERIFICATION.json').read_text())
+          def committed(name):
+              raw=subprocess.check_output(['git','show',f'HEAD:SPrime Search/decision-field/bom/fast/evidence/{name}'])
+              return json.loads(raw)
+          kept_s=committed('SUMMARY.json')
+          kept_t=committed('TRAINING.json')
+          kept_v=committed('VERIFICATION.json')
+          assert s == kept_s
+          assert t == kept_t
+          assert s['status']=='PASS_BOUNDED'
+          assert t['test']['exact_agreement'] is True
+          assert t['test']['promoted'] is True
+          assert t['corrupted_label_control']['promoted'] is False
+          assert s['training_test_expansion_reduction'] > 0
+          assert s['hard_family_expansion_reduction'] > 0
+          assert s['wolfram_crosscheck']['verified'] is True
+          assert v['status']=='PASS'
+          assert v['z3_available'] is True
+          assert len(v['z3_exact_checks'])==6
+          assert v['native_cpp_compiled_and_agreed'] is True
+          for key in ('claim_ceiling','native_cpp_compiled_and_agreed','parent_frontier_sha256','research_grounding_sha256','source_sha256','wolfram_check_sha256','z3_available','z3_exact_checks','z3_version'):
+              assert v[key] == kept_v[key], key
+          print('PASS fast BOM scientific replay, trained-ordering gate, and verification quorum')
+          PY
