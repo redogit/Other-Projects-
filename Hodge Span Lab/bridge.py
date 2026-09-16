@@ -1,14 +1,16 @@
 """Exact deformation-signature to rational Hodge-span candidate adapter.
 
-This module does not identify Hodge classes or algebraic cycles.  It converts one
+This module does not identify Hodge classes or algebraic cycles. It converts one
 explicitly declared S'1 deformation signature through one explicit rational
 linear map, then asks the existing Hodge Span Lab exactly one supplied-span
 question about the derived candidate.
 """
+import argparse
 from copy import deepcopy
 from fractions import Fraction
 import hashlib
 import json
+from pathlib import Path
 
 from span import analyze, scalar
 
@@ -215,8 +217,30 @@ def execute_bridge(source, mapping, hodge_template):
         },
         'authority': 'candidate-test-only',
         'claim_ceiling': (
-            'Synthetic/exact coordinate bridge only. A deformation signature is not a Hodge class; '
-            'a candidate direction is not an algebraic cycle; supplied-span containment or separation '
-            'does not authenticate geometry, completeness, algebraicity, or prove/disprove the Hodge conjecture.'
+            'Synthetic/exact coordinate bridge only. Real 4D is not complex dimension 4. '
+            'A deformation signature is not a Hodge class; a candidate direction is not an algebraic cycle; '
+            'supplied-span containment or separation does not authenticate geometry, completeness, algebraicity, '
+            'or prove/disprove the Hodge conjecture.'
         ),
     }
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('input', type=Path, help='JSON object with source, map, and hodge_template')
+    args = parser.parse_args()
+    try:
+        raw = args.input.read_bytes()
+        if len(raw) > 1_000_000:
+            raise ValueError('bridge input exceeds 1 MB')
+        payload = json.loads(raw)
+        _plain_dict(payload, 'bridge calibration input')
+        _only_keys(payload, {'source', 'map', 'hodge_template'}, 'bridge calibration input')
+        result = execute_bridge(payload.get('source'), payload.get('map'), payload.get('hodge_template'))
+        print(json.dumps(result, sort_keys=True, indent=2))
+    except (ValueError, TypeError, KeyError, ZeroDivisionError, OSError, json.JSONDecodeError) as exc:
+        parser.exit(2, f'Invalid bridge input: {exc}\n')
+
+
+if __name__ == '__main__':
+    main()
