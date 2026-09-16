@@ -64,6 +64,12 @@
       <output id="status" aria-live="polite"></output>
     </section>
 
+    <section class="panel suggestion" aria-labelledby="suggest-title">
+      <h2 id="suggest-title">Optional next move</h2>
+      <button id="suggest">Suggest next move</button>
+      <output id="suggestion" aria-live="polite">No suggestion requested.</output>
+      <p>Suggestions are derived locally from preserved experience records. They remain optional, are not saved into <code>S'1_Experience</code>, and do not become scientific evidence or authority.</p>
+    </section>
 
     <section class="panel reflection" aria-labelledby="teach-back-title">
       <h2 id="teach-back-title">Optional teach-back</h2>
@@ -77,6 +83,7 @@
       <p><code>SOFTWARE_VERIFICATION != SCIENTIFIC_VALIDATION</code></p>
       <p><code>real 4D != complex dimension 4</code></p>
       <p><code>OBSERVATIONAL_REPAIR != OBJECT_REPAIR</code></p>
+      <p><code>SUGGESTION != EXPERIENCE_AUTHORITY</code></p>
     </details>
   </main>
   <script type="module" src="./app.mjs"></script>

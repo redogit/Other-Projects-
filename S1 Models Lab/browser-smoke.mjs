@@ -1,5 +1,6 @@
 import { createServer } from 'node:http';
-import { readFile, mkdtemp, readFile as readText, rm } from 'node:fs/promises';
+import { createServer as createTcpServer } from 'node:net';
+import { readFile, mkdtemp, rm } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { extname, join, normalize, resolve, sep } from 'node:path';
@@ -38,6 +39,19 @@ function staticServer() {
       res.end('not found');
     }
   });
+}
+
+async function reserveTcpPort() {
+  const probe = createTcpServer();
+  await new Promise((resolveListen, rejectListen) => {
+    probe.once('error', rejectListen);
+    probe.listen(0, '127.0.0.1', resolveListen);
+  });
+  const address = probe.address();
+  const port = address?.port;
+  await new Promise(resolveClose => probe.close(resolveClose));
+  if (!Number.isInteger(port) || port <= 0) throw new Error('failed to reserve Chrome DevTools port');
+  return port;
 }
 
 async function connectCdp(port) {
@@ -111,27 +125,22 @@ try {
   const address = server.address();
   const appUrl = `http://127.0.0.1:${address.port}/`;
   const browser = browserBinary();
+  const debugPort = await reserveTcpPort();
   chrome = spawn(browser, [
     '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage',
-    '--remote-debugging-port=0', `--user-data-dir=${profile}`, 'about:blank'
+    '--remote-debugging-address=127.0.0.1', `--remote-debugging-port=${debugPort}`,
+    `--user-data-dir=${profile}`, 'about:blank'
   ], { stdio: ['ignore', 'ignore', 'pipe'] });
   let browserStderr = '';
   chrome.stderr.on('data', chunk => { browserStderr += chunk.toString(); });
 
-  const activePortFile = join(profile, 'DevToolsActivePort');
-  let debugPort;
-  for (let i = 0; i < 80; i++) {
-    try {
-      const lines = (await readText(activePortFile, 'utf8')).trim().split(/\r?\n/);
-      debugPort = Number(lines[0]);
-      if (Number.isInteger(debugPort) && debugPort > 0) break;
-    } catch {}
-    if (chrome.exitCode !== null) throw new Error(`Chrome exited before DevTools became ready: ${browserStderr}`);
-    await delay(100);
+  let cdp;
+  try {
+    cdp = await connectCdp(debugPort);
+  } catch (error) {
+    if (chrome.exitCode !== null) throw new Error(`Chrome exited before DevTools became ready: ${browserStderr || error.message}`);
+    throw new Error(`${error.message}; Chrome stderr: ${browserStderr || '(empty)'}`);
   }
-  if (!debugPort) throw new Error(`Chrome DevTools port was not published: ${browserStderr}`);
-
-  const cdp = await connectCdp(debugPort);
   ws = cdp.ws;
   const { send, exceptions } = cdp;
   await send('Page.enable');
@@ -179,7 +188,7 @@ try {
   requireMatch(result.clearStatus, /^Local S1 history cleared\.$/, 'clear');
   if (exceptions.length) throw new Error(`browser runtime exception(s): ${exceptions.join(' | ')}`);
 
-  process.stdout.write(JSON.stringify({ browser, appUrl, checks: ['boot','move','save','replay','shell-reframe','observer','reframe','clear'] }, null, 2) + '\n');
+  process.stdout.write(JSON.stringify({ browser, appUrl, debugPort, checks: ['boot','move','save','replay','shell-reframe','observer','reframe','clear'] }, null, 2) + '\n');
 } finally {
   try { ws?.close(); } catch {}
   if (chrome && chrome.exitCode === null) {
