@@ -1,4 +1,4 @@
-name: Verify and publish P-vs-NP decision-field checkpoint
+name: Verify P-vs-NP decision-field checkpoint
 
 on:
   pull_request:
@@ -13,27 +13,31 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+
+env:
+  VERIFY_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
 
 concurrency:
   group: other-projects-pnp-decision-field-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  verify-publish:
+  verify:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
-      - name: Materialize exact commit
+      - name: Materialize exact verification commit
         shell: bash
         run: |
           set -euo pipefail
+          test -n "$VERIFY_SHA"
           git init "$GITHUB_WORKSPACE"
           cd "$GITHUB_WORKSPACE"
           git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
-          git fetch --depth=1 origin "$GITHUB_SHA"
+          git fetch --depth=1 origin "$VERIFY_SHA"
           git checkout --detach FETCH_HEAD
-          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git rev-parse HEAD)" = "$VERIFY_SHA"
 
       - name: Re-run bounded circuit discriminator and checkpoint invariants
         shell: bash
@@ -112,13 +116,28 @@ jobs:
             exit 1
           fi
 
-      - name: Publish exact main revision to gh-pages source branch
+      - name: Hold protected publication boundary
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         shell: bash
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          cd "$GITHUB_WORKSPACE"
-          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git push --force origin "$GITHUB_SHA:refs/heads/gh-pages"
+          python3 - <<'PY'
+          from pathlib import Path
+
+          workflow = Path('.github/workflows/pnp-decision-field-check.yml').read_text(encoding='utf-8')
+          forbidden = (
+              'git' + ' push ' + '--force',
+              'git' + ' push ' + '-f',
+          )
+          for token in forbidden:
+              if token in workflow:
+                  raise SystemExit(f'forbidden direct publication mutation remains: {token}')
+          print('PASS - verifier is non-mutating; publication requires protected PR flow')
+          PY
+          {
+            echo '### P-vs-NP publication handoff'
+            echo "- verified source revision: \`$VERIFY_SHA\`"
+            echo '- target branch: `gh-pages`'
+            echo '- publication path: pinned candidate branch → reviewable PR → linear-history-compatible merge'
+            echo '- this workflow has `contents: read` and does not mutate protected branches'
+          } >> "$GITHUB_STEP_SUMMARY"
