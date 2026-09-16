@@ -76,8 +76,15 @@ function currentRecord() {
     actions: live.actions,
     observer,
     observerField: currentFieldSnapshot(),
-    comparisons: { obligation: 'live-vs-mirror', maxAbsDelta: compareStates(live, mirror).maxAbsDelta },
-    relations: { familyId, parentId },
+    checkpoints: live.actions.length === 0
+      ? [{ actionIndex: 0, label: 'origin' }]
+      : [{ actionIndex: 0, label: 'origin' }, { actionIndex: live.actions.length, label: 'current' }],
+    comparisons: {
+      obligation: 'live-vs-mirror',
+      againstMirror: (() => { const c = compareStates(live, mirror); return { equal: c.equal, maxAbsDelta: c.maxAbsDelta }; })(),
+      againstPrevious: (() => { const c = compareStates(live, previousLive); return { equal: c.equal, maxAbsDelta: c.maxAbsDelta }; })()
+    },
+    relations: { familyId, parentId, relatedIds: parentId ? [parentId] : [] },
     provenance: { source: 'S1 Models Lab Experiment 0', localOnly: true }
   });
 }

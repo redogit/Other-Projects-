@@ -4,7 +4,7 @@
   "type": "object",
   "required": [
     "schema", "id", "initialState", "mirrorId", "shell", "actions", "observer",
-    "observerField", "operatorVersion", "comparisons", "relations", "provenance"
+    "observerField", "checkpoints", "operatorVersion", "comparisons", "relations", "provenance"
   ],
   "properties": {
     "schema": {"const": "s1-experience/v0"},
@@ -62,10 +62,53 @@
       },
       "additionalProperties": false
     },
+    "checkpoints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["actionIndex"],
+        "properties": {
+          "actionIndex": {"type": "integer", "minimum": 0},
+          "label": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    },
     "operatorVersion": {"const": "S'1-Ops v0"},
-    "comparisons": {"type": "object"},
-    "relations": {"type": "object"},
+    "comparisons": {
+      "type": "object",
+      "required": ["obligation", "againstMirror", "againstPrevious"],
+      "properties": {
+        "obligation": {"type": "string", "minLength": 1},
+        "againstMirror": {"$ref": "#/$defs/comparison"},
+        "againstPrevious": {"$ref": "#/$defs/comparison"}
+      },
+      "additionalProperties": false
+    },
+    "relations": {
+      "type": "object",
+      "required": ["parentId", "relatedIds"],
+      "properties": {
+        "familyId": {"type": "string", "minLength": 1},
+        "parentId": {"anyOf": [{"type":"null"},{"type":"string","minLength":1}]},
+        "relatedIds": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "testsInvariantId": {"type": "string", "minLength": 1},
+        "invariantResult": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
     "provenance": {"type": "object"}
+  },
+  "$defs": {
+    "comparison": {
+      "type": "object",
+      "required": ["equal", "maxAbsDelta"],
+      "properties": {
+        "equal": {"type": "boolean"},
+        "maxAbsDelta": {"type": "number", "minimum": 0}
+      },
+      "additionalProperties": false
+    }
   },
   "additionalProperties": false
 }

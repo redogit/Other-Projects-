@@ -4,7 +4,7 @@ import { normalizeObserver, projectState } from './observer.mjs';
 export const EXPERIENCE_SCHEMA = 's1-experience/v0';
 export const OPERATOR_VERSION = "S'1-Ops v0";
 export const SHELLS = Object.freeze(['s3-sample', 'tesseract-boundary', 'comparison']);
-const INPUT_KEYS = Object.freeze(['initialState','mirrorId','shell','actions','observer','observerField','comparisons','relations','provenance']);
+const INPUT_KEYS = Object.freeze(['initialState','mirrorId','shell','actions','observer','observerField','checkpoints','comparisons','relations','provenance']);
 const RECORD_KEYS = Object.freeze(['schema','id','operatorVersion',...INPUT_KEYS]);
 
 function assertOnlyKeys(value, allowed, label) {
@@ -77,10 +77,63 @@ function validateObserverField(field) {
   }
 }
 
+function validateCheckpoints(checkpoints, actionCount) {
+  if (!Array.isArray(checkpoints)) throw new TypeError('checkpoints must be an array');
+  const normalized = checkpoints.map(checkpoint => {
+    if (!checkpoint || typeof checkpoint !== 'object' || Array.isArray(checkpoint)) throw new TypeError('checkpoint must be an object');
+    assertOnlyKeys(checkpoint, ['actionIndex','label'], 'checkpoint');
+    if (!Number.isSafeInteger(checkpoint.actionIndex) || checkpoint.actionIndex < 0 || checkpoint.actionIndex > actionCount) {
+      throw new RangeError('checkpoint actionIndex must be within the saved action chronology');
+    }
+    if (checkpoint.label !== undefined && (typeof checkpoint.label !== 'string' || checkpoint.label.length === 0)) {
+      throw new TypeError('checkpoint label must be a non-empty string');
+    }
+    return checkpoint.label === undefined ? { actionIndex: checkpoint.actionIndex } : { actionIndex: checkpoint.actionIndex, label: checkpoint.label };
+  });
+  const seen = new Set();
+  for (const checkpoint of normalized) {
+    const key = `${checkpoint.actionIndex}:${checkpoint.label ?? ''}`;
+    if (seen.has(key)) throw new RangeError('duplicate checkpoint');
+    seen.add(key);
+  }
+  return normalized;
+}
+
+function validateComparison(summary, label) {
+  if (!summary || typeof summary !== 'object' || Array.isArray(summary)) throw new TypeError(`${label} must be an object`);
+  assertOnlyKeys(summary, ['equal','maxAbsDelta'], label);
+  if (typeof summary.equal !== 'boolean') throw new TypeError(`${label}.equal must be boolean`);
+  if (!Number.isFinite(summary.maxAbsDelta) || summary.maxAbsDelta < 0) throw new RangeError(`${label}.maxAbsDelta must be finite and non-negative`);
+  return { equal: summary.equal, maxAbsDelta: summary.maxAbsDelta };
+}
+
+function validateComparisons(comparisons) {
+  if (!comparisons || typeof comparisons !== 'object' || Array.isArray(comparisons)) throw new TypeError('comparisons must be an object');
+  assertOnlyKeys(comparisons, ['obligation','againstMirror','againstPrevious'], 'comparisons');
+  if (typeof comparisons.obligation !== 'string' || !comparisons.obligation) throw new TypeError('comparison obligation is required');
+  return {
+    obligation: comparisons.obligation,
+    againstMirror: validateComparison(comparisons.againstMirror, 'againstMirror'),
+    againstPrevious: validateComparison(comparisons.againstPrevious, 'againstPrevious')
+  };
+}
+
 function validateRelations(relations) {
   if (!relations || typeof relations !== 'object' || Array.isArray(relations)) throw new TypeError('relations must be an object');
-  if (relations.testsInvariantId !== undefined && typeof relations.testsInvariantId !== 'string') throw new TypeError('testsInvariantId must be a string');
+  assertOnlyKeys(relations, ['familyId','parentId','relatedIds','testsInvariantId','invariantResult'], 'relations');
+  if (relations.familyId !== undefined && (typeof relations.familyId !== 'string' || !relations.familyId)) throw new TypeError('familyId must be a non-empty string');
+  const parentId = relations.parentId ?? null;
+  if (parentId !== null && (typeof parentId !== 'string' || !parentId)) throw new TypeError('parentId must be null or a non-empty string');
+  const relatedIds = relations.relatedIds ?? [];
+  if (!Array.isArray(relatedIds) || relatedIds.some(id => typeof id !== 'string' || !id)) throw new TypeError('relatedIds must contain non-empty strings');
+  if (new Set(relatedIds).size !== relatedIds.length) throw new RangeError('relatedIds must be unique');
+  if (relations.testsInvariantId !== undefined && (typeof relations.testsInvariantId !== 'string' || !relations.testsInvariantId)) throw new TypeError('testsInvariantId must be a non-empty string');
   if (relations.invariantResult !== undefined && typeof relations.invariantResult !== 'boolean') throw new TypeError('invariantResult must be boolean');
+  const out = { parentId, relatedIds: [...relatedIds] };
+  if (relations.familyId !== undefined) out.familyId = relations.familyId;
+  if (relations.testsInvariantId !== undefined) out.testsInvariantId = relations.testsInvariantId;
+  if (relations.invariantResult !== undefined) out.invariantResult = relations.invariantResult;
+  return out;
 }
 
 function makeBase(input) {
@@ -92,8 +145,9 @@ function makeBase(input) {
   for (const move of input.actions) assertSupportedMove(move);
   const observer = normalizeObserver(input.observer);
   validateObserverField(input.observerField);
-  if (!input.comparisons || typeof input.comparisons !== 'object' || Array.isArray(input.comparisons)) throw new TypeError('comparisons must be an object');
-  validateRelations(input.relations);
+  const checkpoints = validateCheckpoints(input.checkpoints ?? [], input.actions.length);
+  const comparisons = validateComparisons(input.comparisons);
+  const relations = validateRelations(input.relations);
   if (!input.provenance || typeof input.provenance !== 'object' || Array.isArray(input.provenance)) throw new TypeError('provenance must be an object');
 
   return {
@@ -104,9 +158,10 @@ function makeBase(input) {
     actions: input.actions.map(move => ({ plane: move.plane, degrees: move.degrees })),
     observer,
     observerField: cloneCanonical(input.observerField),
+    checkpoints: cloneCanonical(checkpoints),
     operatorVersion: OPERATOR_VERSION,
-    comparisons: cloneCanonical(input.comparisons),
-    relations: cloneCanonical(input.relations),
+    comparisons: cloneCanonical(comparisons),
+    relations: cloneCanonical(relations),
     provenance: cloneCanonical(input.provenance)
   };
 }
@@ -128,6 +183,18 @@ export function validateExperience(record) {
   const rebuilt = makeExperience(payload);
   if (typeof record.id !== 'string' || record.id !== rebuilt.id) throw new RangeError('experience id does not match canonical payload');
   return rebuilt;
+}
+
+export function replayIdentity(record) {
+  const valid = validateExperience(record);
+  return fnv1a64(canonicalJson({
+    initialState: valid.initialState,
+    mirrorId: valid.mirrorId,
+    shell: valid.shell,
+    operatorVersion: valid.operatorVersion,
+    actions: valid.actions,
+    observer: valid.observer
+  }));
 }
 
 function lookupGeometry(registry, id) {
@@ -159,7 +226,8 @@ function eventsOf(graph) {
 export function classifyExperience(record, graph) {
   const valid = validateExperience(record);
   const events = eventsOf(graph);
-  if (events.some(existing => existing.id === valid.id)) return 'repeat';
+  const identity = replayIdentity(valid);
+  if (events.some(existing => replayIdentity(existing) === identity)) return 'repeat';
 
   const invId = valid.relations.testsInvariantId;
   if (invId && typeof valid.relations.invariantResult === 'boolean' && Array.isArray(graph?.invariants)) {
@@ -168,21 +236,34 @@ export function classifyExperience(record, graph) {
   }
 
   const hasFamily = typeof valid.relations.familyId === 'string' && valid.relations.familyId.length > 0;
-  const hasParentField = Object.hasOwn(valid.relations, 'parentId');
-  if (hasFamily && hasParentField) {
-    const parentId = valid.relations.parentId;
-    const siblings = events.filter(existing => existing.relations?.familyId === valid.relations.familyId && existing.relations?.parentId === parentId);
+  if (!hasFamily) return 'unresolved';
+
+  const sameContract = existing =>
+    existing.initialState === valid.initialState &&
+    existing.mirrorId === valid.mirrorId &&
+    existing.operatorVersion === valid.operatorVersion &&
+    existing.comparisons?.obligation === valid.comparisons.obligation;
+  const familyEvents = events.filter(existing => existing.relations?.familyId === valid.relations.familyId);
+  const contractFamily = familyEvents.filter(sameContract);
+  const parentId = valid.relations.parentId;
+
+  if (parentId !== null) {
+    const parent = events.find(existing => existing.id === parentId);
+    if (!parent || !sameContract(parent) || parent.relations?.familyId !== valid.relations.familyId) return 'unresolved';
+    const siblings = contractFamily.filter(existing => existing.relations?.parentId === parentId);
     return siblings.length === 0 ? 'new-branch' : 'variation';
   }
 
-  if (hasFamily && events.some(existing => existing.relations?.familyId === valid.relations.familyId)) return 'variation';
-  return 'unresolved';
+  if (contractFamily.length > 0) return 'variation';
+  if (familyEvents.length > 0) return 'unresolved';
+  return 'new-branch';
 }
 
 export function appendExperience(graph, record, classification = classifyExperience(record, graph)) {
   const valid = validateExperience(record);
   const existingEvents = Array.isArray(graph?.events) ? graph.events : [];
-  if (existingEvents.some(entry => (entry?.event ?? entry)?.id === valid.id)) return graph;
+  const identity = replayIdentity(valid);
+  if (existingEvents.some(entry => replayIdentity(entry?.event ?? entry) === identity)) return graph;
   const invariants = Array.isArray(graph?.invariants) ? graph.invariants : [];
   return deepFreeze({
     ...(graph && typeof graph === 'object' ? cloneCanonical(graph) : {}),

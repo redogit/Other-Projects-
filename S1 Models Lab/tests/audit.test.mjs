@@ -10,7 +10,8 @@ test('audit reports deterministic bounded software evidence',()=>{
   for (const key of [
     'mirrorUnchanged','replayEqualsDirect','previousStepExact','sameObserver','allTesseractCells',
     'graphRepeat','graphNewBranch','graphVariation','graphRebuilt','corruptSaveRejected',
-    'duplicateImportCoalesced','unknownAuthorityRejected'
+    'duplicateImportCoalesced','unknownAuthorityRejected','recordMinimumExplicit','repeatByReplayIdentity',
+    'operatorJoin','operatorDifferenceDirectional','operatorInteractionOrdered','operatorQuotient'
   ]) assert.equal(a.checks[key],true,`${key} must pass`);
   assert.ok(a.metrics.s3MaxRadiusResidual<1e-10);
 });

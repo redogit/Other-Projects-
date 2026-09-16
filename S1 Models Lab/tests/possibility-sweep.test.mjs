@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import { createState, createMirror, applyMove, compareStates } from '../core.mjs';
 import { sampleS3 } from '../geometry.mjs';
 import { DEFAULT_OBSERVER, normalizeObserver, projectPair } from '../observer.mjs';
-import { makeExperience, replayExperience } from '../experience.mjs';
+import { makeExperience, replayExperience, canonicalJson } from '../experience.mjs';
+import { S1_NEUTRAL, makeObserverFrame, joinModels, differenceModels, interactModels, quotientModel } from '../operators.mjs';
 import { MemoryStore, LocalExperienceStore } from '../storage.mjs';
 
 const moves = Object.freeze([
@@ -22,8 +23,8 @@ function record(actions) {
   return makeExperience({
     initialState:geom.id, mirrorId:`mirror:${geom.id}`, shell:geom.id, actions,
     observer:DEFAULT_OBSERVER,
-    observerField:{version:'s1-observer-field/v0',taskVersion:'s1-observer-task/v0',densityId:'sweep',calibrations:[]},
-    comparisons:{obligation:'live-vs-mirror'}, relations:{familyId:'sweep'}, provenance:{source:'bounded-possibility-sweep'}
+    observerField:{version:'s1-observer-field/v0',taskVersion:'s1-observer-task/v0',densityId:'sweep',calibrations:[]}, checkpoints:[],
+    comparisons:{obligation:'live-vs-mirror',againstMirror:{equal:actions.length===0,maxAbsDelta:actions.length===0?0:0.01},againstPrevious:{equal:actions.length===0,maxAbsDelta:actions.length===0?0:0.01}}, relations:{familyId:'sweep',parentId:null,relatedIds:[]}, provenance:{source:'bounded-possibility-sweep'}
   });
 }
 
@@ -72,4 +73,45 @@ test('representative malformed storage possibilities are atomic', () => {
     JSON.stringify([{event:{...record([]),id:'0000000000000000'},occurrences:1}])
   ];
   for(const payload of malformed){assert.throws(()=>store.importJson(payload));assert.equal(store.exportJson(),before);}
+});
+
+
+test('bounded operator algebra cross-product is deterministic, immutable, and source-linked', () => {
+  const experiences=[record([]), ...moves.map(move=>record([move]))];
+  const corpus=[S1_NEUTRAL, ...experiences];
+  let pairs=0;
+  for (const a of corpus) for (const b of corpus) {
+    const beforeA=canonicalJson(a), beforeB=canonicalJson(b);
+    const joinA=joinModels(a,b), joinB=joinModels(a,b);
+    const diffA=differenceModels(a,b), diffB=differenceModels(a,b);
+    const interactionA=interactModels(a,b), interactionB=interactModels(a,b);
+    assert.equal(joinA.id,joinB.id);
+    assert.equal(diffA.id,diffB.id);
+    assert.equal(interactionA.id,interactionB.id);
+    assert.equal(Object.isFrozen(joinA),true);
+    assert.equal(Object.isFrozen(diffA),true);
+    assert.equal(Object.isFrozen(interactionA),true);
+    assert.equal(canonicalJson(a),beforeA);
+    assert.equal(canonicalJson(b),beforeB);
+    pairs++;
+  }
+  assert.equal(pairs,64);
+
+  const frames=[
+    makeObserverFrame(DEFAULT_OBSERVER),
+    makeObserverFrame({...DEFAULT_OBSERVER,yaw:.25}),
+    makeObserverFrame({...DEFAULT_OBSERVER,pitch:-.25}),
+    makeObserverFrame({...DEFAULT_OBSERVER,wPerspective:.8})
+  ];
+  let quotients=0;
+  for (const experience of experiences) for (const frame of frames) {
+    const before=canonicalJson(experience);
+    const q1=quotientModel(experience,frame,registry), q2=quotientModel(experience,frame,registry);
+    assert.equal(q1.id,q2.id);
+    assert.equal(q1.sourceId,experience.id);
+    assert.equal(q1.frameId,frame.id);
+    assert.equal(canonicalJson(experience),before);
+    quotients++;
+  }
+  assert.equal(quotients,28);
 });

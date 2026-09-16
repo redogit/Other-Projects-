@@ -4,6 +4,7 @@ import { createState, createMirror, applyMove, compareStates, materializeTraject
 import { sampleS3, sampleTesseractBoundary } from './geometry.mjs';
 import { DEFAULT_OBSERVER, normalizeObserver, projectPair } from './observer.mjs';
 import { makeExperience, replayExperience, classifyExperience, appendExperience, rebuildExperienceGraph } from './experience.mjs';
+import { S1_NEUTRAL, makeObserverFrame, joinModels, differenceModels, interactModels, quotientModel } from './operators.mjs';
 import { MemoryStore, LocalExperienceStore } from './storage.mjs';
 
 function makeFixture(geometry, actions, relations={familyId:'audit',parentId:null}) {
@@ -14,8 +15,9 @@ function makeFixture(geometry, actions, relations={familyId:'audit',parentId:nul
     actions,
     observer: DEFAULT_OBSERVER,
     observerField: {version:'s1-observer-field/v0',taskVersion:'s1-observer-task/v0',densityId:'audit',calibrations:[]},
-    comparisons: {obligation:'live-vs-mirror'},
-    relations,
+    checkpoints: [],
+    comparisons: {obligation:'live-vs-mirror',againstMirror:{equal:actions.length===0,maxAbsDelta:actions.length===0?0:0.01},againstPrevious:{equal:actions.length===0,maxAbsDelta:actions.length===0?0:0.01}},
+    relations: {...relations, relatedIds: relations.relatedIds ?? []},
     provenance: {source:'audit-fixture'}
   });
 }
@@ -55,6 +57,23 @@ export function runAudit({ sourceRevision, runtimeVersion = process.version }) {
   const duplicateImportCoalesced=duplicateRows.length===1 && duplicateRows[0].occurrences===5;
   let unknownAuthorityRejected=false; try { replayExperience({...record,hiddenAuthority:'smuggled'},registry); } catch { unknownAuthorityRejected=true; }
 
+  const operatorPeer=makeFixture(s3,[{plane:'yw',degrees:1}]);
+  const joined=joinModels(record,operatorPeer);
+  const diffAB=differenceModels(record,operatorPeer);
+  const diffBA=differenceModels(operatorPeer,record);
+  const interactionAB=interactModels(record,operatorPeer);
+  const interactionBA=interactModels(operatorPeer,record);
+  const frame=makeObserverFrame({...DEFAULT_OBSERVER,yaw:.15});
+  const quotient=quotientModel(record,frame,registry);
+  const neutralJoin=joinModels(S1_NEUTRAL,record);
+  const secondOccurrence=makeExperience({
+    initialState:record.initialState, mirrorId:record.mirrorId, shell:record.shell, actions:record.actions,
+    observer:record.observer, observerField:record.observerField, checkpoints:record.checkpoints,
+    comparisons:record.comparisons, relations:{...record.relations,relatedIds:['context-only']},
+    provenance:{source:'audit-second-occurrence'}
+  });
+  const repeatByReplayIdentity=classifyExperience(secondOccurrence,{events:[{event:record,classification:'new-branch'}],invariants:[]})==='repeat';
+
   return Object.freeze({
     schema:'s1-experiment-0-audit/v0',
     sourceRevision,
@@ -73,7 +92,13 @@ export function runAudit({ sourceRevision, runtimeVersion = process.version }) {
       graphRebuilt: rebuiltGraph.events.length === 2 && rebuiltGraph.events.some(entry => entry.event.id === root.id) && rebuiltGraph.events.some(entry => entry.event.id === child.id),
       corruptSaveRejected,
       duplicateImportCoalesced,
-      unknownAuthorityRejected
+      unknownAuthorityRejected,
+      recordMinimumExplicit: Array.isArray(record.checkpoints) && !!record.comparisons.againstMirror && !!record.comparisons.againstPrevious && Array.isArray(record.relations.relatedIds),
+      repeatByReplayIdentity,
+      operatorJoin: joined.memberIds.length === 2 && joined.chronology[0] === record.id && neutralJoin.memberIds.length === 1,
+      operatorDifferenceDirectional: diffAB.id !== diffBA.id && diffAB.sourceIds[0] === record.id,
+      operatorInteractionOrdered: interactionAB.id !== interactionBA.id && interactionAB.sourceIds[0] === record.id,
+      operatorQuotient: quotient.sourceId === record.id && quotient.frameId === frame.id && quotient.projected.length === s3.points4.length
     }),
     metrics:Object.freeze({s3MaxRadiusResidual:maxRadiusResidual,actionCount:actions.length,pointCount:s3.points4.length})
   });

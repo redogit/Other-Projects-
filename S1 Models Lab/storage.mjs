@@ -1,4 +1,4 @@
-import { validateExperience, canonicalJson } from './experience.mjs';
+import { validateExperience, replayIdentity, canonicalJson } from './experience.mjs';
 
 export class MemoryStore {
   constructor() { this.map = new Map(); this.writeCount = 0; }
@@ -28,14 +28,15 @@ export class LocalExperienceStore {
     for (const row of rows) {
       if (!row || typeof row !== 'object' || !Number.isSafeInteger(row.occurrences) || row.occurrences < 1) throw new TypeError('invalid stored row');
       const event = validateExperience(row.event);
-      const existing = byId.get(event.id);
+      const identity = replayIdentity(event);
+      const existing = byId.get(identity);
       if (existing) {
         const total = existing.occurrences + row.occurrences;
         if (!Number.isSafeInteger(total)) throw new RangeError('occurrence total exceeds safe integer range');
         existing.occurrences = total;
       } else {
         const normalized = { event, occurrences: row.occurrences };
-        byId.set(event.id, normalized);
+        byId.set(identity, normalized);
         merged.push(normalized);
       }
     }
@@ -57,7 +58,8 @@ export class LocalExperienceStore {
   save(record) {
     const event = validateExperience(record);
     const rows = this.list().map(row => ({ event: row.event, occurrences: row.occurrences }));
-    const found = rows.find(row => row.event.id === event.id);
+    const identity = replayIdentity(event);
+    const found = rows.find(row => replayIdentity(row.event) === identity);
     if (found) found.occurrences += 1;
     else rows.push({ event, occurrences: 1 });
     this._write(rows);
