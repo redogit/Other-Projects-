@@ -182,7 +182,15 @@ try {
   process.stdout.write(JSON.stringify({ browser, appUrl, checks: ['boot','move','save','replay','shell-reframe','observer','reframe','clear'] }, null, 2) + '\n');
 } finally {
   try { ws?.close(); } catch {}
-  if (chrome && chrome.exitCode === null) chrome.kill('SIGTERM');
+  if (chrome && chrome.exitCode === null) {
+    const exited = new Promise(resolveExit => chrome.once('exit', resolveExit));
+    chrome.kill('SIGTERM');
+    await Promise.race([exited, delay(2000)]);
+    if (chrome.exitCode === null) {
+      chrome.kill('SIGKILL');
+      await Promise.race([exited, delay(1000)]);
+    }
+  }
   await new Promise(resolveClose => server.close(resolveClose));
-  await rm(profile, { recursive: true, force: true });
+  await rm(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
 }
