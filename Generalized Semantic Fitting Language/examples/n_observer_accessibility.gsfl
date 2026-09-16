@@ -1,0 +1,64 @@
+# GSFL v0 example: rotate the N-observer magnification model toward a human surface
+# while preserving the declared semantic object.
+GSFL 0
+OBJECT n-observer-accessibility-field
+MEANING cardinality="N"
+MEANING world_state="unchanged"
+MEANING observation_geometry="independent"
+MEANING presentation_geometry="independent"
+MEANING purpose="human-accessible observation"
+PRESERVE cardinality
+PRESERVE world_state
+PRESERVE observation_geometry
+PRESERVE presentation_geometry
+
+ROTATE technical
+SURFACE "An N-cardinality observer field maps independently selected source regions through observer-local transforms into independently placed presentation regions while preserving underlying desktop state."
+METRIC clarity=0.66 usefulness=0.92 recoverability=0.96 cognitive_effort=0.72 ambiguity=0.05 semantic_loss=0
+RECONSTRUCT cardinality="N"
+RECONSTRUCT world_state="unchanged"
+RECONSTRUCT observation_geometry="independent"
+RECONSTRUCT presentation_geometry="independent"
+RECONSTRUCT purpose="human-accessible observation"
+END
+
+ROTATE human
+SURFACE "Use as many observers as needed. Each can watch and present a different view, but none of them changes the desktop being observed."
+METRIC clarity=0.98 usefulness=0.96 recoverability=0.97 cognitive_effort=0.12 ambiguity=0.03 semantic_loss=0
+RECONSTRUCT cardinality="N"
+RECONSTRUCT world_state="unchanged"
+RECONSTRUCT observation_geometry="independent"
+RECONSTRUCT presentation_geometry="independent"
+RECONSTRUCT purpose="human-accessible observation"
+END
+
+ROTATE attractive-mutation
+SURFACE "N observers collaboratively modify the desktop until it fits the user."
+SET purpose="adaptive desktop modification"
+METRIC clarity=1 usefulness=1 recoverability=1 cognitive_effort=0 ambiguity=0 semantic_loss=0
+RECONSTRUCT cardinality="N"
+RECONSTRUCT world_state="unchanged"
+RECONSTRUCT observation_geometry="independent"
+RECONSTRUCT presentation_geometry="independent"
+RECONSTRUCT purpose="adaptive desktop modification"
+END
+
+ROTATE invariant-decay
+SURFACE "The observers may rewrite the desktop state as they magnify it."
+SET world_state="modified"
+METRIC clarity=1 usefulness=1 recoverability=1 cognitive_effort=0 ambiguity=0 semantic_loss=0
+RECONSTRUCT cardinality="N"
+RECONSTRUCT world_state="modified"
+RECONSTRUCT observation_geometry="independent"
+RECONSTRUCT presentation_geometry="independent"
+RECONSTRUCT purpose="human-accessible observation"
+END
+
+ROTATE lossy-summary
+SURFACE "Many magnifiers, one screen."
+METRIC clarity=1 usefulness=0.7 recoverability=0.4 cognitive_effort=0.01 ambiguity=0.25 semantic_loss=0.4
+RECONSTRUCT cardinality="N"
+RECONSTRUCT world_state="unchanged"
+END
+
+FIT

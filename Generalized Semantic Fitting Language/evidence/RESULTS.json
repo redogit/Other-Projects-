@@ -1,0 +1,41 @@
+{
+  "admitted_candidates": [
+    "human",
+    "technical"
+  ],
+  "artifact": "GSFL-v0-bounded-audit",
+  "candidate_count": 5,
+  "checks": {
+    "attractive-mutation_admission": true,
+    "attractive-mutation_classification": true,
+    "human_admission": true,
+    "human_classification": true,
+    "invariant-decay_admission": true,
+    "invariant-decay_classification": true,
+    "lossy-summary_admission": true,
+    "lossy-summary_classification": true,
+    "n_cardinality_preserved": true,
+    "repeat_execution_byte_identical": true,
+    "selected_human_surface": true,
+    "source_world_state_preserved": true,
+    "technical_admission": true,
+    "technical_classification": true
+  },
+  "claim_ceiling": [
+    "bounded reference implementation only",
+    "declared metrics are task-relative surrogates, not universal human cognition measures",
+    "exact reconstruction in v0 is a machine-checkable surrogate, not participant comprehension evidence",
+    "software verification does not establish universal semantic equivalence"
+  ],
+  "classifications": {
+    "attractive-mutation": "MUTATION",
+    "human": "VALID_ROTATION",
+    "invariant-decay": "SEMANTIC_DECAY",
+    "lossy-summary": "VALID_ROTATION",
+    "technical": "VALID_ROTATION"
+  },
+  "example": "examples/n_observer_accessibility.gsfl",
+  "execution_sha256": "1aa97148d126ed1ae2e2cbfc4b5056078428d4a95aa0ad144ba9587ff9162d6c",
+  "gsfl_version": 0,
+  "selected_candidate": "human"
+}

@@ -1,0 +1,42 @@
+name: Generalized Semantic Fitting Language
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Generalized Semantic Fitting Language/**'
+      - '.github/workflows/gsfl-check.yml'
+  pull_request:
+    paths:
+      - 'Generalized Semantic Fitting Language/**'
+      - '.github/workflows/gsfl-check.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gsfl-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Fetch exact public commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init "$GITHUB_WORKSPACE"
+          cd "$GITHUB_WORKSPACE"
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git fetch --depth=1 origin "$GITHUB_SHA"
+          git checkout --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+
+      - name: Run GSFL v0 tests
+        run: python3 -m unittest discover -s "Generalized Semantic Fitting Language" -p "test_*.py" -v
+
+      - name: Verify frozen bounded evidence
+        run: python3 "Generalized Semantic Fitting Language/run_audit.py" --check
