@@ -159,7 +159,7 @@ def search(out, n, clauses, k=4, node_cap=63, depth_cap=8):
     }
 
 
-def main(outdir, k=4, cases=('compiler_0', 'compiler_1', 'balanced_0', 'balanced_4')):
+def main(outdir, k=4, cases=('compiler_0', 'compiler_1', 'balanced_0', 'balanced_4'), record_exporter=None):
     out = Path(outdir)
     out.mkdir(parents=True, exist_ok=True)
     panel = []
@@ -183,6 +183,8 @@ def main(outdir, k=4, cases=('compiler_0', 'compiler_1', 'balanced_0', 'balanced
         r.update(name=name, n=n, known_status=expected)
         if r['status'] != 'UNKNOWN':
             assert r['status'] == expected
+        if record_exporter is not None:
+            record_exporter(name, dict(r), dest)
         panel.append(r)
         print(json.dumps(r), flush=True)
     write(out / 'SUMMARY.json', {'k': k, 'rows': panel, 'universal_goal_status': 'OPEN'})
