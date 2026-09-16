@@ -49,6 +49,13 @@ jobs:
           cd "S1 Models Lab"
           npm test
 
+      - name: Run real-browser S1 smoke
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "S1 Models Lab"
+          node browser-smoke.mjs
+
       - name: Verify deterministic S1 audit
         shell: bash
         run: |
