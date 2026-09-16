@@ -67,3 +67,16 @@ Then open <http://127.0.0.1:4317>. See the [API contract](knowledge-garden/opena
 ## Decision Field MMORPG
 
 [Decision Field MMORPG](Decision%20Field%20MMORPG/README.md) turns the decision-field research into a browser MMORPG-style laboratory. The world mutates continuously; failures remain part of the player's local state; and the hidden **Fuzzball** artifact opens bounded Quantum Frontier encounters around genuine unresolved physics questions while preserving `UNRESOLVED` instead of manufacturing solutions.
+
+## Generalized Semantic Fitting Language
+
+[Generalized Semantic Fitting Language](Generalized%20Semantic%20Fitting%20Language/README.md) is the bounded executable reference for human-optimized semantic rotation with invariant-preserving fitters. GSFL v0 separates source meaning, human-facing surface, declared invariants, task-relative fit metrics, exact reconstruction, mutation and semantic decay. Its first concrete fixture rotates the N-observer accessibility model without allowing a higher-scoring semantic mutation to outrank an admitted representation.
+
+Run the local contract with:
+
+```sh
+python -m unittest discover -s "Generalized Semantic Fitting Language" -p "test_*.py" -v
+python "Generalized Semantic Fitting Language/run_audit.py" --check
+```
+
+`FIT != TRUTH` and `ROTATION != MUTATION`; the v0 score is a bounded engineering surrogate rather than a universal cognitive metric.
