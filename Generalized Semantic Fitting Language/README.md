@@ -1,5 +1,7 @@
 # Generalized Semantic Fitting Language (GSFL)
 
+**Lifecycle:** `COMPLETE_BOUNDED_V0_1` — complete for the declared v0.1 implementation, verification, publication, routing, and recovery scope. Future successors remain allowed. See `COMPLETE_STATUS_V0_1.md`.
+
 ## v0.1 — Human–Machine Cooperation Profile
 
 GSFL v0.1 makes **human understanding, machine learning claim boundaries, cooperation between human and machine partners, and the tools used by those partners** the dominant language surface while preserving the GSFL v0 semantic kernel underneath.
@@ -104,4 +106,4 @@ GSFL can verify its finite records, parser behavior, deterministic fixtures, pro
 - that lexical or thematic similarity makes cultures equivalent;
 - that synthetic fixtures are inherited cultural knowledge.
 
-See `SPEC.md` for the preserved v0 contract, the approved v0.1 design under `docs/superpowers/specs/`, `PROVERBIAL_FIXTURES.md` for the proverb-generation successor surface, and `COROLLARIES_AND_CONFOUNDS.md` for the combined corollary/confound ledger.
+See `SPEC.md` for the preserved v0 contract, the approved v0.1 design under `docs/superpowers/specs/`, `PROVERBIAL_FIXTURES.md` for the proverb-generation successor surface, `COROLLARIES_AND_CONFOUNDS.md` for the combined corollary/confound ledger, and `COMPLETE_STATUS_V0_1.md` for the canonical bounded completion state.
