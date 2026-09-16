@@ -73,6 +73,27 @@ class BridgeTests(unittest.TestCase):
         self.assertEqual(result['source']['actions'], actions)
         self.assertEqual(original, source(actions), 'bridge must not mutate source input')
 
+    def test_compressed_signature_never_claims_full_deformation_equivalence(self):
+        b = require_bridge()
+        a = source([
+            {'plane': 'xw', 'degrees': 1},
+            {'plane': 'yw', 'degrees': 1},
+        ])
+        b_source = source([
+            {'plane': 'yw', 'degrees': 1},
+            {'plane': 'xw', 'degrees': 1},
+        ])
+        one = b.execute_bridge(a, identity_map(), hodge_template())
+        two = b.execute_bridge(b_source, identity_map(), hodge_template())
+        self.assertEqual(one['source']['signature_vector'], two['source']['signature_vector'])
+        self.assertEqual(one['bridge']['candidate_vector'], two['bridge']['candidate_vector'])
+        self.assertNotEqual(one['provenance']['source_sha256'], two['provenance']['source_sha256'])
+        self.assertEqual(
+            one['source']['signature_equivalence_scope'],
+            'signed-plane-count-only-not-full-deformation-equivalence',
+        )
+        self.assertEqual(one['bridge']['candidate_derivation_depends_on'], 'signature-vector-only')
+
     def test_synthetic_zw_calibration_yields_exact_missing_direction_certificate(self):
         b = require_bridge()
         result = b.execute_bridge(
