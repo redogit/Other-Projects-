@@ -1,0 +1,113 @@
+{
+  "artifact": "GSFL-v0.1-proverbial-fixture-audit",
+  "checks": {
+    "all_fixture_surfaces_semantically_admitted": true,
+    "fixture_count_14": true,
+    "multiple_readings_corollary_present": true,
+    "no_universal_meaning_claim": true,
+    "repeat_audit_byte_identical": true,
+    "required_cultural_confound_present": true,
+    "required_machine_human_confound_present": true,
+    "required_provenance_confound_present": true,
+    "synthetic_count_12": true,
+    "traditional_count_2": true
+  },
+  "claim_ceiling": [
+    "generated proverb fixtures are bounded semantic/cooperation test surfaces",
+    "traditional/common labels do not establish exact origin",
+    "synthetic fixtures do not acquire cultural provenance",
+    "interpretation preservation does not prove interpretation truth",
+    "machine paraphrase does not establish human understanding"
+  ],
+  "confounds": [
+    {
+      "control": "retain context and do not replace local meanings with one generic global gloss",
+      "id": "CULTURAL_FLATTENING"
+    },
+    {
+      "control": "label applicability as contextual rather than universal",
+      "id": "FALSE_UNIVERSALITY"
+    },
+    {
+      "control": "separate common/traditional status from exact author, date, or culture claims",
+      "id": "ATTRIBUTION_UNCERTAINTY"
+    },
+    {
+      "control": "retain literal and figurative readings as separate candidate interpretations",
+      "id": "LITERAL_FIGURATIVE_COLLAPSE"
+    },
+    {
+      "control": "require human-side evidence such as teach-back or task performance before claiming human understanding",
+      "id": "MACHINE_PARAPHRASE_AS_HUMAN_UNDERSTANDING"
+    },
+    {
+      "control": "do not convert repetition, familiarity, or popularity into factual truth",
+      "id": "POPULARITY_AS_TRUTH"
+    },
+    {
+      "control": "preserve sayings without treating preservation as moral or factual endorsement",
+      "id": "PRESERVATION_AS_ENDORSEMENT"
+    },
+    {
+      "control": "require contextual evidence before calling similar wording or themes culturally equivalent",
+      "id": "LEXICAL_SIMILARITY_AS_CROSS_CULTURAL_EQUIVALENCE"
+    },
+    {
+      "control": "compare unfamiliar and familiar fixtures without ranking familiarity as semantic quality",
+      "id": "FAMILIARITY_BIAS"
+    },
+    {
+      "control": "remember that preserved/popular proverbs are not a representative sample of human experience",
+      "id": "SURVIVORSHIP_OF_SAYINGS"
+    },
+    {
+      "control": "keep proverbial guidance separate from empirical observation and scientific evidence",
+      "id": "PROVERB_AS_EMPIRICAL_EVIDENCE"
+    }
+  ],
+  "corollaries": [
+    {
+      "boundary": "preserving alternatives does not establish that every reading is equally supported",
+      "id": "MULTIPLE_READINGS_REMAIN_DISTINCT",
+      "statement": "Human, machine, and alternate readings can coexist without being collapsed into one authoritative meaning."
+    },
+    {
+      "boundary": "a source label does not establish exact historical origin",
+      "id": "SOURCE_STATUS_PRESERVES_LINEAGE",
+      "statement": "Traditional/common, quoted, translated, and synthetic sayings can remain distinguishable through transport."
+    },
+    {
+      "boundary": "synthetic usefulness does not create cultural provenance",
+      "id": "SYNTHETIC_FIXTURES_CAN_CALIBRATE",
+      "statement": "Synthetic proverb-like fixtures can test cooperation and semantic transport without pretending to be cultural tradition."
+    },
+    {
+      "boundary": "retained disagreement does not by itself resolve the interpretation",
+      "id": "PARTNER_DISAGREEMENT_IS_RETAINABLE",
+      "statement": "Human and machine partners can preserve disagreement as data for review instead of forcing premature consensus."
+    },
+    {
+      "boundary": "memorable wording is not proof",
+      "id": "PROVERB_IS_SURFACE_NOT_EVIDENCE",
+      "statement": "A proverb can be a compact reasoning surface while remaining separate from empirical or factual evidence."
+    },
+    {
+      "boundary": "reconstructible process does not certify output truth",
+      "id": "TOOL_TRACE_SUPPORTS_RECONSTRUCTION",
+      "statement": "Tool and partner traces make the generation/review path reconstructible."
+    }
+  ],
+  "corpus_sha256": "107b88090b7b198fb5e57dca4e86b5f8931f84bb7c8f93f37312067d80ae9d8a",
+  "fixture_count": 14,
+  "generator_seed": 20260916,
+  "observations": [
+    "every fixture preserves source status and provenance as separate fields",
+    "every fixture preserves human and machine interpretations separately",
+    "synthetic and traditional/common fixtures remain distinguishable"
+  ],
+  "profile": "human-machine-cooperation",
+  "source_status_counts": {
+    "SYNTHETIC": 12,
+    "TRADITIONAL_OR_COMMON": 2
+  }
+}
