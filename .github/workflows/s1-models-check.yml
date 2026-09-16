@@ -23,17 +23,20 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      VERIFY_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
     steps:
-      - name: Fetch exact public commit
+      - name: Fetch exact verification commit
         shell: bash
         run: |
           set -euo pipefail
+          test -n "$VERIFY_SHA"
           git init "$GITHUB_WORKSPACE"
           cd "$GITHUB_WORKSPACE"
           git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
-          git fetch --depth=1 origin "$GITHUB_SHA"
+          git fetch --depth=1 origin "$VERIFY_SHA"
           git checkout --detach FETCH_HEAD
-          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git rev-parse HEAD)" = "$VERIFY_SHA"
 
       - name: Require Node 22 or newer
         shell: bash
@@ -61,8 +64,8 @@ jobs:
         run: |
           set -euo pipefail
           cd "S1 Models Lab"
-          node audit.mjs --source-revision "$GITHUB_SHA" --out /tmp/s1-audit-a.json
-          node audit.mjs --source-revision "$GITHUB_SHA" --out /tmp/s1-audit-b.json
+          node audit.mjs --source-revision "$VERIFY_SHA" --out /tmp/s1-audit-a.json
+          node audit.mjs --source-revision "$VERIFY_SHA" --out /tmp/s1-audit-b.json
           cmp /tmp/s1-audit-a.json /tmp/s1-audit-b.json
           node - <<'NODE'
           const fs = require('node:fs');
