@@ -73,6 +73,20 @@ class OperatorSkillRegistryTests(unittest.TestCase):
         self.assertEqual("PROJECTION_DOES_NOT_MUTATE_SOURCE_BASELINE", profile["authority_model"])
         self.assertEqual(23, len(profile["operators"]))
 
+    def test_bidirectional_macros_are_registered_as_composition_only(self):
+        self.assertEqual(self.data["canonical_loop"], EXPECTED)
+        macro_profiles = {row["id"]: row for row in self.data.get("macro_profiles", [])}
+        self.assertIn("GSFL_V0_1_BIDIRECTIONAL_MACRO_CYCLE", macro_profiles)
+        macro_ref = macro_profiles["GSFL_V0_1_BIDIRECTIONAL_MACRO_CYCLE"]
+        self.assertEqual("COMPOSITION_ONLY_NOT_PRIMITIVE", macro_ref["authority"])
+        self.assertTrue(macro_ref["canonical_loop_unchanged"])
+        self.assertEqual(["SEEK", "QUESTION", "REFRAME", "BUILD", "RETURN_INWARD"], macro_ref["cycle"])
+        macro_path = ROOT / macro_ref["registry"]
+        self.assertTrue(macro_path.is_file(), macro_path)
+        macro_profile = json.loads(macro_path.read_text(encoding="utf-8"))
+        primitive_ids = {row["id"] for row in json.loads((ROOT / "gsfl-operator-profile.json").read_text(encoding="utf-8"))["operators"]}
+        self.assertTrue(set(macro_profile["cycle_order"]).isdisjoint(primitive_ids))
+
 
 if __name__ == "__main__":
     unittest.main()
