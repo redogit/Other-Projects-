@@ -30,6 +30,16 @@
       "cycle": ["SEEK", "QUESTION", "REFRAME", "BUILD", "RETURN_INWARD"]
     }
   ],
+  "reasoning_profiles": [
+    {
+      "id": "GSFL_CONTEXTUAL_MULTICARRIER_REASONING",
+      "registry": "contextual-multicarrier-profile.json",
+      "source_macro_profile": "GSFL_V0_1_BIDIRECTIONAL_MACRO_CYCLE",
+      "authority": "SUCCESSOR_REASONING_PROFILE_ONLY",
+      "canonical_loop_unchanged": true,
+      "carrier_count": 4
+    }
+  ],
   "coordination": "COORDINATION.md",
   "cross_project_rule": "inform_pressure_test_locate_or_propose_without_automatic_evidence_authority_identity_applicability_or_admission_transfer",
   "unknown_policy": "explicit_not_forced",
