@@ -1,11 +1,14 @@
 import copy
 import importlib.util
 import json
+import subprocess
+import sys
 import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 BRIDGE_PATH = ROOT / 'bridge.py'
+CALIBRATION_PATH = ROOT / 'bridge_calibration.json'
 if BRIDGE_PATH.exists():
     spec = importlib.util.spec_from_file_location('hodge_bridge', BRIDGE_PATH)
     bridge = importlib.util.module_from_spec(spec)
@@ -153,6 +156,22 @@ class BridgeTests(unittest.TestCase):
         self.assertNotIn('is_hodge_class', text)
         self.assertNotIn('algebraic_cycle_proved', text)
         self.assertIn('candidate direction', result['claim_ceiling'].lower())
+
+    def test_committed_calibration_runs_as_one_deterministic_computation(self):
+        self.assertTrue(CALIBRATION_PATH.exists(), 'bridge_calibration.json must exist')
+        one = subprocess.run(
+            [sys.executable, str(BRIDGE_PATH), str(CALIBRATION_PATH)],
+            cwd=ROOT, text=True, capture_output=True, check=True,
+        )
+        two = subprocess.run(
+            [sys.executable, str(BRIDGE_PATH), str(CALIBRATION_PATH)],
+            cwd=ROOT, text=True, capture_output=True, check=True,
+        )
+        self.assertEqual(one.stdout, two.stdout)
+        result = json.loads(one.stdout)
+        self.assertEqual(result['bridge']['candidate_vector'], ['0', '0', '1'])
+        self.assertFalse(result['consequence']['target_span_contained'])
+        self.assertEqual(result['authority'], 'candidate-test-only')
 
 
 if __name__ == '__main__':
