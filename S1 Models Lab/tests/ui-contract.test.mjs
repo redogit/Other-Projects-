@@ -20,3 +20,11 @@ test('play surface includes optional teach-back without making it record authori
 });
 
 test('live and mirror rendering has a non-color-only distinction',async()=>{const render=await text('render.mjs');assert.match(render,/setLineDash/);assert.match(render,/solid \? 2\.6 : 2\.1/);assert.match(render,/if \(solid\) ctx\.fill\(\); else ctx\.stroke\(\)/);});
+
+test('keyboard focus on clipped import input is projected to the visible import affordance',async()=>{
+  const html=await text('index.html'), css=await text('styles.css');
+  const inputIndex=html.search(/<input[^>]*id=["']import-file["']/);
+  const labelIndex=html.search(/<label[^>]*class=["']file-button["'][^>]*for=["']import-file["']/);
+  assert.ok(inputIndex>=0 && labelIndex>inputIndex,'import input must precede its visible label so adjacent focus styling can reach the label');
+  assert.match(css,/#import-file:focus-visible\s*\+\s*\.file-button/);
+});
