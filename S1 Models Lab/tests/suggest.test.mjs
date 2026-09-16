@@ -14,13 +14,17 @@ function requireSuggest() {
   return suggest;
 }
 
-function record(actions, source = 'fixture') {
+const DEFAULT_OBSERVER = Object.freeze({ yaw: 0, pitch: 0, roll: 0, wPerspective: 0.35 });
+
+function record(actions, source = 'fixture', options = {}) {
+  const shell = options.shell ?? 's3-sample';
+  const observer = options.observer ?? DEFAULT_OBSERVER;
   return makeExperience({
     initialState: 's3-sample',
     mirrorId: 'mirror:s3-sample',
-    shell: 's3-sample',
+    shell,
     actions,
-    observer: { yaw: 0, pitch: 0, roll: 0, wPerspective: 0.35 },
+    observer,
     observerField: {
       version: 's1-observer-field/v0',
       taskVersion: 's1-observer-task/v0',
@@ -44,10 +48,12 @@ const XW_PLUS = Object.freeze({ plane: 'xw', degrees: 1 });
 const YW_PLUS = Object.freeze({ plane: 'yw', degrees: 1 });
 const ZW_MINUS = Object.freeze({ plane: 'zw', degrees: -1 });
 
-function context(actions = []) {
+function context(actions = [], options = {}) {
   return {
     initialState: 's3-sample',
     mirrorId: 'mirror:s3-sample',
+    shell: options.shell ?? 's3-sample',
+    observer: options.observer ?? DEFAULT_OBSERVER,
     operatorVersion: OPERATOR_VERSION,
     actions
   };
@@ -74,6 +80,8 @@ test('derived dataset is versioned and deduplicates replay-equivalent records', 
     duplicateReplayCount: 1
   });
   assert.equal(dataset.experiences.length, 2);
+  assert.equal(dataset.experiences[0].shell, 's3-sample');
+  assert.deepEqual(dataset.experiences[0].observer, DEFAULT_OBSERVER);
   assert.ok(Object.isFrozen(dataset));
 });
 
@@ -89,11 +97,40 @@ test('model returns an observed continuation with provenance but no authority tr
   assert.equal(result.authority, 'suggestion-only');
   assert.equal(result.contract.initialState, 's3-sample');
   assert.equal(result.contract.mirrorId, 'mirror:s3-sample');
+  assert.equal(result.contract.shell, 's3-sample');
+  assert.deepEqual(result.contract.observer, DEFAULT_OBSERVER);
   assert.equal(result.contract.operatorVersion, OPERATOR_VERSION);
   assert.deepEqual(result.provenance.sourceExperienceIds, [a.id]);
   assert.match(result.provenance.datasetVersion, /^s1-suggest-dataset\//);
   assert.match(result.provenance.modelVersion, /^s1-suggest-transition\//);
   assert.ok(Object.isFrozen(result));
+});
+
+test('observer frame and shell remain part of exact observed-continuation identity', () => {
+  const { deriveSuggestionDataset, trainSuggestionModel, suggestNextMove } = requireSuggest();
+  const observerB = { yaw: 0.2, pitch: 0, roll: 0, wPerspective: 0.35 };
+  const observerUnknown = { yaw: 0.4, pitch: 0, roll: 0, wPerspective: 0.35 };
+  const frameA = record([XW_PLUS], 'frame-a');
+  const frameB = record([YW_PLUS], 'frame-b', { observer: observerB });
+  const shellC = record([ZW_MINUS], 'shell-c', { shell: 'comparison' });
+  const model = trainSuggestionModel(deriveSuggestionDataset([frameA, frameB, shellC]));
+
+  const a = suggestNextMove(model, context([]));
+  const b = suggestNextMove(model, context([], { observer: observerB }));
+  const c = suggestNextMove(model, context([], { shell: 'comparison' }));
+  const unknown = suggestNextMove(model, context([], { observer: observerUnknown }));
+
+  assert.equal(a.kind, 'observed');
+  assert.deepEqual(a.move, XW_PLUS);
+  assert.deepEqual(a.provenance.sourceExperienceIds, [frameA.id]);
+  assert.equal(b.kind, 'observed');
+  assert.deepEqual(b.move, YW_PLUS);
+  assert.deepEqual(b.provenance.sourceExperienceIds, [frameB.id]);
+  assert.equal(c.kind, 'observed');
+  assert.deepEqual(c.move, ZW_MINUS);
+  assert.deepEqual(c.provenance.sourceExperienceIds, [shellC.id]);
+  assert.equal(unknown.kind, 'generated');
+  assert.deepEqual(unknown.provenance.sourceExperienceIds, []);
 });
 
 test('unseen prefix gets deterministic generated suggestion explicitly separated from observed paths', () => {
