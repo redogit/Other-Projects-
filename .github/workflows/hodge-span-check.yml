@@ -1,0 +1,46 @@
+name: Hodge Span Check
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Hodge Span Lab/**'
+      - '.github/workflows/hodge-span-check.yml'
+  pull_request:
+    paths:
+      - 'Hodge Span Lab/**'
+      - '.github/workflows/hodge-span-check.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hodge-span-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      VERIFY_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - name: Fetch exact verification commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$VERIFY_SHA"
+          git init "$GITHUB_WORKSPACE"
+          cd "$GITHUB_WORKSPACE"
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git fetch --depth=1 origin "$VERIFY_SHA"
+          git checkout --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "$VERIFY_SHA"
+
+      - name: Run exact Hodge span and bridge tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 --version
+          python3 -m unittest discover -s "Hodge Span Lab" -p 'test_*.py' -v
