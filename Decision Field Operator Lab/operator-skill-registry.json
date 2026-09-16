@@ -11,6 +11,15 @@
     {"id":"REPAIR","skill":"skills/operators/repair/SKILL.md","agent":"agents/operators/repair/AGENT.md","output":"REPAIR_PACKET"},
     {"id":"SELECT","skill":"skills/operators/select/SKILL.md","agent":"agents/operators/select/AGENT.md","output":"SELECTION_DECISION"}
   ],
+  "profiles": [
+    {
+      "id": "GSFL_V0_1_OPERATOR_PROJECTION",
+      "registry": "gsfl-operator-profile.json",
+      "source_lifecycle": "COMPLETE_BOUNDED_V0_1",
+      "authority": "SUCCESSOR_PROJECTION_ONLY",
+      "canonical_loop_unchanged": true
+    }
+  ],
   "coordination": "COORDINATION.md",
   "cross_project_rule": "inform_pressure_test_locate_or_propose_without_automatic_evidence_authority_identity_applicability_or_admission_transfer",
   "unknown_policy": "explicit_not_forced",
