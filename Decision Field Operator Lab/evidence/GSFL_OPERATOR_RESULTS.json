@@ -1,0 +1,38 @@
+{
+  "artifact": "GSFL-v0.1-operator-projection-audit",
+  "boundaries": [
+    "PROJECTION != SOURCE_MUTATION",
+    "OPERATOR_EXECUTION != AUTHORITY_TRANSFER",
+    "FIT != TRUTH",
+    "VERIFY != UNIVERSAL_TRUTH",
+    "MACHINE_OUTPUT != MACHINE_LEARNING_EVIDENCE",
+    "TOOL_USE != TOOL_AUTHORITY",
+    "PROVERB != EMPIRICAL_EVIDENCE"
+  ],
+  "checks": {
+    "attribution_corollary_present": true,
+    "delegate_count_4": true,
+    "fit_selected_admitted_candidate": true,
+    "fit_truth_confound_present": true,
+    "learning_confound_present": true,
+    "native_count_19": true,
+    "operator_count_23": true,
+    "preservation_passed": true,
+    "repair_delegates_canonical": true,
+    "source_completion_merge_pinned": true,
+    "source_lifecycle_complete": true,
+    "source_meaning_preserved": true,
+    "tool_corollary_present": true
+  },
+  "delegate_count": 4,
+  "execution_sha256": "f6aa3f3fdc6aa6e44c048e10e36401682f743861b663a1e80f544afa8a80dbbb",
+  "native_count": 19,
+  "operator_count": 23,
+  "source_contract": {
+    "completion_merge": "cf9d5a35a39b1a7b92f30e24b2789f659e913f04",
+    "lifecycle": "COMPLETE_BOUNDED_V0_1",
+    "project": "Generalized Semantic Fitting Language",
+    "source_status_file": "../Generalized Semantic Fitting Language/COMPLETE_STATUS_V0_1.md",
+    "version": "0.1"
+  }
+}
