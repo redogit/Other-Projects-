@@ -188,10 +188,12 @@ def execute_bridge(source, mapping, hodge_template):
         'signature_rule': 'signed-one-degree-plane-count/v0',
         'signature_basis': list(SOURCE_BASIS),
         'signature_vector': [str(x) for x in signature],
+        'signature_equivalence_scope': 'signed-plane-count-only-not-full-deformation-equivalence',
     }
     bridge_carrier = {
         **normalized_map,
         'candidate_vector': [str(x) for x in candidate],
+        'candidate_derivation_depends_on': 'signature-vector-only',
     }
     consequence = {
         'tested_relation': 'derived-candidate-in-supplied-rational-cycle-span',
@@ -218,6 +220,7 @@ def execute_bridge(source, mapping, hodge_template):
         'authority': 'candidate-test-only',
         'claim_ceiling': (
             'Synthetic/exact coordinate bridge only. Real 4D is not complex dimension 4. '
+            'Equal signed-plane-count signatures or derived candidates do not imply equal full deformation chronology. '
             'A deformation signature is not a Hodge class; a candidate direction is not an algebraic cycle; '
             'supplied-span containment or separation does not authenticate geometry, completeness, algebraicity, '
             'or prove/disprove the Hodge conjecture.'
