@@ -1,0 +1,41 @@
+GSFL 0.1
+OBJECT n-observer-cooperation
+MEANING cardinality="N"
+MEANING world_state="unchanged"
+MEANING purpose="human-machine cooperative accessibility"
+PRESERVE cardinality
+PRESERVE world_state
+HUMAN human-1 role="intent-owner and understanding partner"
+MACHINE machine-1 role="proposal and comparison partner"
+TOOL python purpose="deterministic verification" provenance="local standard-library tests" evidence_group="implementation"
+TOOL windows-docs purpose="API capability reference" provenance="Microsoft documentation" evidence_group="implementation"
+UNDERSTANDING_GOAL "Human partner can explain that N observers change views without changing the desktop."
+UNDERSTANDING_EVIDENCE TEACH_BACK detail="bounded fixture records teach-back as supplied evidence"
+MACHINE_LEARNING IN_CONTEXT_ADAPTATION evidence="machine partner adapts proposals to the current conversation; no weight-update claim"
+COOPERATE human-1 action="state-intent" detail="request N observers optimized for human understanding" tools=none
+COOPERATE machine-1 action="propose" detail="generalize four docks to N independent observers" tools=windows-docs
+COOPERATE machine-1 action="verify" detail="compare candidate semantics and reconstruct invariants" tools=python,windows-docs
+COOPERATE human-1 action="review" detail="select cooperation framing and preserve partner distinctions" tools=none
+ROTATE technical
+SURFACE "N observer transforms preserve desktop state while partner/tool provenance remains explicit."
+METRIC clarity=0.70 usefulness=0.92 recoverability=0.97 cognitive_effort=0.55 ambiguity=0.04 semantic_loss=0
+RECONSTRUCT cardinality="N"
+RECONSTRUCT world_state="unchanged"
+RECONSTRUCT purpose="human-machine cooperative accessibility"
+END
+ROTATE human-cooperative
+SURFACE "The human partner says what needs to be understood; the machine partner proposes clearer views; the partners use tools to verify what stayed the same; the human-facing result keeps both partner roles and tool provenance visible."
+METRIC clarity=0.99 usefulness=0.98 recoverability=0.98 cognitive_effort=0.10 ambiguity=0.02 semantic_loss=0
+RECONSTRUCT cardinality="N"
+RECONSTRUCT world_state="unchanged"
+RECONSTRUCT purpose="human-machine cooperative accessibility"
+END
+ROTATE attractive-mutation
+SURFACE "The machine learns the truth and changes the desktop for the human."
+SET purpose="machine-authoritative desktop modification"
+METRIC clarity=1 usefulness=1 recoverability=1 cognitive_effort=0 ambiguity=0 semantic_loss=0
+RECONSTRUCT cardinality="N"
+RECONSTRUCT world_state="unchanged"
+RECONSTRUCT purpose="machine-authoritative desktop modification"
+END
+FIT
