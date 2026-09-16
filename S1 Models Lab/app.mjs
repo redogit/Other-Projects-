@@ -91,6 +91,14 @@ function currentRecord() {
   });
 }
 
+function refreshSaved(rows = store.list()) {
+  savedSelect.replaceChildren();
+  if (rows.length === 0) savedSelect.append(new Option('No saved events', ''));
+  else for (const row of rows) {
+    savedSelect.append(new Option(`${row.event.id} · ${row.event.actions.length} move(s) · x${row.occurrences}`, row.event.id));
+  }
+}
+
 function currentSuggestionContext() {
   return {
     initialState: geometryId,
@@ -98,14 +106,6 @@ function currentSuggestionContext() {
     operatorVersion: OPERATOR_VERSION,
     actions: live.actions
   };
-}
-
-function refreshSaved(rows = store.list()) {
-  savedSelect.replaceChildren();
-  if (rows.length === 0) savedSelect.append(new Option('No saved events', ''));
-  else for (const row of rows) {
-    savedSelect.append(new Option(`${row.event.id} · ${row.event.actions.length} move(s) · x${row.occurrences}`, row.event.id));
-  }
 }
 
 function rebuildGraphFromStore(rows = store.list()) {
