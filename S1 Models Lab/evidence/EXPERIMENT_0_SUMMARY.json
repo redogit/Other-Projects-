@@ -1,0 +1,60 @@
+{
+  "schema": "s1-experiment-0-evidence/v0",
+  "implementationRevision": "66f68a98e532488bddf44c8de9a0878e760ec7a2",
+  "implementationCi": {
+    "workflow": "S1 Models Check",
+    "runId": 35095361999,
+    "conclusion": "success"
+  },
+  "runtimeVersion": "v22.16.0",
+  "implementationTests": {
+    "total": 48,
+    "passed": 48,
+    "failed": 0
+  },
+  "audit": {
+    "schema": "s1-experiment-0-audit/v0",
+    "scientificValidation": false,
+    "claimCeiling": "bounded deterministic software verification only",
+    "checks": {
+      "mirrorUnchanged": true,
+      "replayEqualsDirect": true,
+      "previousStepExact": true,
+      "sameObserver": true,
+      "allTesseractCells": true,
+      "graphRepeat": true,
+      "graphNewBranch": true,
+      "graphVariation": true,
+      "graphRebuilt": true,
+      "corruptSaveRejected": true,
+      "duplicateImportCoalesced": true,
+      "unknownAuthorityRejected": true,
+      "recordMinimumExplicit": true,
+      "repeatByReplayIdentity": true,
+      "operatorJoin": true,
+      "operatorDifferenceDirectional": true,
+      "operatorInteractionOrdered": true,
+      "operatorQuotient": true
+    },
+    "metrics": {
+      "s3MaxRadiusResidual": 2.220446049250313e-16,
+      "actionCount": 3,
+      "pointCount": 144
+    }
+  },
+  "boundedSweeps": {
+    "legalMovePathsThroughDepth3IncludingEmpty": 259,
+    "operatorOrderedPairs": 64,
+    "observerFrameQuotientCases": 28
+  },
+  "evidenceBoundaries": [
+    "synthetic observer/reference surfaces",
+    "software verification only",
+    "SOFTWARE_VERIFICATION != SCIENTIFIC_VALIDATION",
+    "real 4D != complex dimension 4",
+    "OBSERVATIONAL_REPAIR != OBJECT_REPAIR",
+    "FEATURE_AT_ONE_MESH != CONTINUUM_INVARIANT",
+    "no Hodge, physics, P-vs-NP, or other open-problem promotion",
+    "rendered browser and assistive-technology validation not established in this execution environment"
+  ]
+}
