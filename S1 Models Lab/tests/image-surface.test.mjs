@@ -61,8 +61,8 @@ test('image adapter reuses S1 experience storage and replay instead of creating 
 
   const memory = new MemoryStore();
   const store = new LocalExperienceStore(memory);
-  const saved = store.save(session.experience);
-  assert.equal(saved.event.id, session.experience.id);
+  const savedId = store.save(session.experience);
+  assert.equal(savedId, session.experience.id);
   const exported = store.exportJson();
   const restored = new LocalExperienceStore(new MemoryStore());
   restored.importJson(exported);
