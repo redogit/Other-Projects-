@@ -1,0 +1,55 @@
+{
+  "schema_version": "0.1.0",
+  "profile_id": "GSFL_V0_1_OPERATOR_PROJECTION",
+  "authority_model": "PROJECTION_DOES_NOT_MUTATE_SOURCE_BASELINE",
+  "source_contract": {
+    "project": "Generalized Semantic Fitting Language",
+    "version": "0.1",
+    "lifecycle": "COMPLETE_BOUNDED_V0_1",
+    "completion_merge": "cf9d5a35a39b1a7b92f30e24b2789f659e913f04",
+    "source_status_file": "../Generalized Semantic Fitting Language/COMPLETE_STATUS_V0_1.md"
+  },
+  "canonical_registry": "operator-skill-registry.json",
+  "shared_skill": "skills/operators/gsfl-profile/SKILL.md",
+  "shared_agent": "agents/operators/gsfl-profile/AGENT.md",
+  "boundaries": [
+    "PROJECTION != SOURCE_MUTATION",
+    "OPERATOR_EXECUTION != AUTHORITY_TRANSFER",
+    "FIT != TRUTH",
+    "VERIFY != UNIVERSAL_TRUTH",
+    "MACHINE_OUTPUT != MACHINE_LEARNING_EVIDENCE",
+    "TOOL_USE != TOOL_AUTHORITY",
+    "PROVERB != EMPIRICAL_EVIDENCE"
+  ],
+  "loops": {
+    "semantic": ["OBSERVE", "DISTINGUISH", "GROUND", "MAP", "RELATE", "COMPARE", "ROTATE", "PRESERVE", "VERIFY", "RECONSTRUCT", "REPAIR", "FIT", "SELECT"],
+    "cooperation": ["COOPERATE", "HANDOFF", "TRACE_TOOL", "TEACH_BACK"],
+    "structural": ["COMPOSE", "SPLIT", "MERGE"],
+    "proverbial": ["GENERATE_PROVERB_FIXTURE", "AUDIT_CONFOUNDS", "DERIVE_COROLLARIES"]
+  },
+  "operators": [
+    {"id":"OBSERVE","family":"epistemic","execution":"GSFL_NATIVE","output":"OBSERVATION_PACKET","semantic_effect":"NONE","evidence_effect":"ADD_OBSERVATION","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"},
+    {"id":"DISTINGUISH","family":"epistemic","execution":"DELEGATE_CANONICAL","delegate_to":"DISTINGUISH","output":"DISTINCTION_PACKET","semantic_effect":"NONE","evidence_effect":"NONE","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"},
+    {"id":"GROUND","family":"provenance","execution":"DELEGATE_CANONICAL","delegate_to":"GROUND","output":"GROUNDING_PACKET","semantic_effect":"NONE","evidence_effect":"ADD_GROUNDING","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"},
+    {"id":"MAP","family":"representation","execution":"GSFL_NATIVE","output":"MAPPING_PACKET","semantic_effect":"REPRESENTATION_ONLY","evidence_effect":"NONE","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"},
+    {"id":"RELATE","family":"structure","execution":"GSFL_NATIVE","output":"RELATION_PACKET","semantic_effect":"RELATION_ONLY","evidence_effect":"NONE","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"},
+    {"id":"COMPARE","family":"analysis","execution":"GSFL_NATIVE","output":"COMPARISON_PACKET","semantic_effect":"NONE","evidence_effect":"ADD_COMPARISON","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"},
+    {"id":"ROTATE","family":"semantic_rotation","execution":"GSFL_NATIVE","output":"ROTATION_PACKET","semantic_effect":"REPRESENTATION_ONLY","evidence_effect":"NONE","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"},
+    {"id":"PRESERVE","family":"invariant","execution":"GSFL_NATIVE","output":"PRESERVATION_PACKET","semantic_effect":"NONE","evidence_effect":"ADD_INVARIANT_CHECK","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"},
+    {"id":"COMPOSE","family":"structure","execution":"GSFL_NATIVE","output":"COMPOSITION_PACKET","semantic_effect":"COMPOSITION","evidence_effect":"NONE","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"},
+    {"id":"SPLIT","family":"structure","execution":"GSFL_NATIVE","output":"SPLIT_PACKET","semantic_effect":"STRUCTURAL_REPRESENTATION","evidence_effect":"NONE","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"},
+    {"id":"MERGE","family":"structure","execution":"GSFL_NATIVE","output":"MERGE_PACKET","semantic_effect":"STRUCTURAL_REPRESENTATION","evidence_effect":"NONE","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"},
+    {"id":"COOPERATE","family":"cooperation","execution":"GSFL_NATIVE","output":"COOPERATION_PACKET","semantic_effect":"NONE","evidence_effect":"ADD_ATTRIBUTED_STEP","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"},
+    {"id":"HANDOFF","family":"cooperation","execution":"GSFL_NATIVE","output":"HANDOFF_PACKET","semantic_effect":"NONE","evidence_effect":"ADD_ROUTE","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"},
+    {"id":"TRACE_TOOL","family":"tool_provenance","execution":"GSFL_NATIVE","output":"TOOL_TRACE_PACKET","semantic_effect":"NONE","evidence_effect":"ADD_TOOL_PROVENANCE","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"},
+    {"id":"TEACH_BACK","family":"human_understanding","execution":"GSFL_NATIVE","output":"UNDERSTANDING_EVIDENCE_PACKET","semantic_effect":"NONE","evidence_effect":"ADD_HUMAN_EVIDENCE","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"},
+    {"id":"VERIFY","family":"verification","execution":"GSFL_NATIVE","output":"VERIFICATION_PACKET","semantic_effect":"NONE","evidence_effect":"ADD_BOUNDED_CHECK","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"},
+    {"id":"RECONSTRUCT","family":"reconstruction","execution":"GSFL_NATIVE","output":"RECONSTRUCTION_PACKET","semantic_effect":"NONE","evidence_effect":"ADD_RECONSTRUCTION","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"},
+    {"id":"REPAIR","family":"repair","execution":"DELEGATE_CANONICAL","delegate_to":"REPAIR","output":"REPAIR_PACKET","semantic_effect":"DECLARED_REPAIR","evidence_effect":"NONE","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"},
+    {"id":"FIT","family":"selection","execution":"GSFL_NATIVE","output":"FIT_PACKET","semantic_effect":"SELECT_AMONG_ADMITTED","evidence_effect":"NONE","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"},
+    {"id":"SELECT","family":"selection","execution":"DELEGATE_CANONICAL","delegate_to":"SELECT","output":"SELECTION_DECISION","semantic_effect":"SELECTION","evidence_effect":"NONE","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"},
+    {"id":"GENERATE_PROVERB_FIXTURE","family":"proverbial","execution":"GSFL_NATIVE","output":"PROVERB_FIXTURE_PACKET","semantic_effect":"SYNTHETIC_GENERATION","evidence_effect":"ADD_FIXTURE","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"},
+    {"id":"AUDIT_CONFOUNDS","family":"confound","execution":"GSFL_NATIVE","output":"CONFOUND_AUDIT","semantic_effect":"NONE","evidence_effect":"ADD_CONFOUND_FINDINGS","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"},
+    {"id":"DERIVE_COROLLARIES","family":"corollary","execution":"GSFL_NATIVE","output":"COROLLARY_PACKET","semantic_effect":"NONE","evidence_effect":"DERIVE_CONTRACT_CONSEQUENCES","authority_effect":"NONE","skill":"skills/operators/gsfl-profile/SKILL.md","agent":"agents/operators/gsfl-profile/AGENT.md"}
+  ]
+}
