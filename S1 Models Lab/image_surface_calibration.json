@@ -1,0 +1,20 @@
+{
+  "source": {
+    "schema": "s1-image-surface/v0",
+    "sourceImageId": "synthetic-3x3-grayscale",
+    "width": 3,
+    "height": 3,
+    "channels": 1,
+    "samples": [0, 32, 64, 96, 128, 160, 192, 224, 255],
+    "embedding": "xy-plane-z0-w0"
+  },
+  "actions": [
+    { "plane": "xw", "degrees": 1 }
+  ],
+  "observer": {
+    "yaw": 0,
+    "pitch": 0,
+    "roll": 0,
+    "wPerspective": 0.35
+  }
+}
