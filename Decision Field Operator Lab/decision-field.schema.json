@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://redogit.github.io/schemas/decision-field-v1.json",
+  "title": "Parameterized Decision Field v1",
+  "type": "object",
+  "required": ["possibilities", "relations", "evidence", "goal", "unresolved", "operators"],
+  "properties": {
+    "possibilities": {
+      "description": "Current possibility/condition carrier. Domain-defined.",
+      "type": ["array", "object", "string", "number", "boolean", "null"]
+    },
+    "observer": {
+      "description": "Observer/task/obligation/goal context.",
+      "type": ["object", "array", "string", "number", "boolean", "null"]
+    },
+    "distinctions": {
+      "description": "Task-local consequential distinctions or quotient metadata.",
+      "type": ["array", "object", "null"]
+    },
+    "relations": {
+      "description": "Typed relations over current distinctions/possibilities.",
+      "type": ["array", "object"]
+    },
+    "evidence": {
+      "description": "Evidence/provenance/uncertainty/claim-ceiling ledger.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kind", "detail", "claimCeiling"],
+        "properties": {
+          "kind": {"type": "string"},
+          "detail": {"type": "string"},
+          "certificate": {},
+          "claimCeiling": {"type": "string"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "goal": {
+      "description": "Desired bounded result/acceptance condition. Domain-defined."
+    },
+    "unresolved": {
+      "description": "Explicit unresolved remainder. Domain-defined."
+    },
+    "operators": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "preconditions", "preserves", "mayMutate", "cost", "failureMode"],
+        "properties": {
+          "name": {"type": "string"},
+          "preconditions": {"type": "array"},
+          "preserves": {"type": "array"},
+          "mayMutate": {"type": "array"},
+          "cost": {},
+          "certificate": {},
+          "failureMode": {},
+          "reconstruction": {}
+        },
+        "additionalProperties": true
+      }
+    },
+    "history": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  },
+  "additionalProperties": true
+}
