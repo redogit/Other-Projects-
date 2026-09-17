@@ -2,8 +2,10 @@
 #include "pnp/EvidenceOps.h"
 #include "pnp/EvidenceTypes.h"
 
+#include "mlir/IR/Builders.h"
 #include "mlir/IR/BuiltinAttributes.h"
 #include "mlir/IR/DialectImplementation.h"
+#include "llvm/ADT/TypeSwitch.h"
 
 using namespace mlir;
 using namespace pnp::evidence;
