@@ -2,8 +2,10 @@
 #include "pnp/CarrierOps.h"
 #include "pnp/CarrierTypes.h"
 
+#include "mlir/IR/Builders.h"
 #include "mlir/IR/DialectImplementation.h"
 #include "llvm/ADT/StringRef.h"
+#include "llvm/ADT/TypeSwitch.h"
 
 using namespace mlir;
 using namespace pnp::carrier;
