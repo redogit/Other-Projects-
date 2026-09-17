@@ -1,0 +1,38 @@
+{
+  "source": {
+    "schema": "s1-deformation-source/v0",
+    "source_record_id": "synthetic-issue-43-calibration-zw-plus-1",
+    "initial_state": "s3-sample",
+    "mirror_id": "mirror:s3-sample",
+    "shell": "s3-sample",
+    "operator_version": "S'1-Ops v0",
+    "actions": [
+      {"plane": "zw", "degrees": 1}
+    ]
+  },
+  "map": {
+    "schema": "s1-hodge-linear-map/v0",
+    "source_basis": ["xw", "yw", "zw"],
+    "target_basis": "Synthetic e1,e2,e3; not a cohomology computation",
+    "matrix": [
+      [1, 0, 0],
+      [0, 1, 0],
+      [0, 0, 1]
+    ],
+    "interpretation": "Synthetic calibration identity map from signed one-degree plane counts to the declared synthetic rational basis; not a geometric Hodge map."
+  },
+  "hodge_template": {
+    "schema": "hodge-span/v1",
+    "ambient_dimension": 3,
+    "basis": "Synthetic e1,e2,e3; not a cohomology computation",
+    "cycle_vectors": [
+      [1, 0, 0],
+      [2, 0, 0],
+      [0, 1, 0]
+    ],
+    "target_vectors": [
+      [1, 1, 0],
+      [0, 0, 1]
+    ]
+  }
+}

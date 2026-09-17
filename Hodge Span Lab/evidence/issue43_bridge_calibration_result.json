@@ -1,0 +1,118 @@
+{
+  "authority": "candidate-test-only",
+  "bridge": {
+    "candidate_derivation_depends_on": "signature-vector-only",
+    "candidate_vector": [
+      "0",
+      "0",
+      "1"
+    ],
+    "interpretation": "Synthetic calibration identity map from signed one-degree plane counts to the declared synthetic rational basis; not a geometric Hodge map.",
+    "matrix": [
+      [
+        "1",
+        "0",
+        "0"
+      ],
+      [
+        "0",
+        "1",
+        "0"
+      ],
+      [
+        "0",
+        "0",
+        "1"
+      ]
+    ],
+    "schema": "s1-hodge-linear-map/v0",
+    "source_basis": [
+      "xw",
+      "yw",
+      "zw"
+    ],
+    "target_basis": "Synthetic e1,e2,e3; not a cohomology computation"
+  },
+  "claim_ceiling": "Synthetic/exact coordinate bridge only. Real 4D is not complex dimension 4. Equal signed-plane-count signatures or derived candidates do not imply equal full deformation chronology. A deformation signature is not a Hodge class; a candidate direction is not an algebraic cycle; supplied-span containment or separation does not authenticate geometry, completeness, algebraicity, or prove/disprove the Hodge conjecture.",
+  "consequence": {
+    "cycle_rank": 2,
+    "separation_certificates": [
+      {
+        "annihilating_covector": [
+          "0",
+          "0",
+          "1"
+        ],
+        "target_index": 0,
+        "target_pairing": "1"
+      }
+    ],
+    "target_directions_outside_supplied_cycle_span": 1,
+    "target_rank": 1,
+    "target_span_contained": false,
+    "tested_relation": "derived-candidate-in-supplied-rational-cycle-span",
+    "tested_target_count": 1
+  },
+  "hodge_input": {
+    "ambient_dimension": 3,
+    "basis": "Synthetic e1,e2,e3; not a cohomology computation",
+    "cycle_vectors": [
+      [
+        "1",
+        "0",
+        "0"
+      ],
+      [
+        "2",
+        "0",
+        "0"
+      ],
+      [
+        "0",
+        "1",
+        "0"
+      ]
+    ],
+    "schema": "hodge-span/v1",
+    "target_vectors": [
+      [
+        "0",
+        "0",
+        "1"
+      ]
+    ]
+  },
+  "provenance": {
+    "hodge_template_sha256": "097b41ced7036f1e49ea50bd48ba307c7ac02c552b5e4b4c9a8b31cd50596a0d",
+    "map_sha256": "452b05e45bbdbfa03f1872061811eb0bd9047396a5e94db758c82ca28167ba74",
+    "source_sha256": "0042f0ded5edee8d168e39c1197c6f834181d834d633d03c8a93d8a67a915902",
+    "template_target_count_ignored_for_bridge_test": 2
+  },
+  "schema": "hodge-deformation-bridge-result/v0",
+  "source": {
+    "actions": [
+      {
+        "degrees": 1,
+        "plane": "zw"
+      }
+    ],
+    "initial_state": "s3-sample",
+    "mirror_id": "mirror:s3-sample",
+    "operator_version": "S'1-Ops v0",
+    "schema": "s1-deformation-source/v0",
+    "shell": "s3-sample",
+    "signature_basis": [
+      "xw",
+      "yw",
+      "zw"
+    ],
+    "signature_equivalence_scope": "signed-plane-count-only-not-full-deformation-equivalence",
+    "signature_rule": "signed-one-degree-plane-count/v0",
+    "signature_vector": [
+      "0",
+      "0",
+      "1"
+    ],
+    "source_record_id": "synthetic-issue-43-calibration-zw-plus-1"
+  }
+}
