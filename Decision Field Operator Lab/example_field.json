@@ -1,0 +1,34 @@
+{
+  "possibilities": [0, 1, 2, 3],
+  "observer": {
+    "task": "return target value",
+    "scope": "finite calibration"
+  },
+  "distinctions": {
+    "equivalence": "task-local consequence equality",
+    "active": ["target-membership"]
+  },
+  "relations": [],
+  "evidence": [
+    {
+      "kind": "FINITE_FIXTURE",
+      "detail": "Example only; not a scientific claim.",
+      "claimCeiling": "BOUNDED"
+    }
+  ],
+  "goal": 2,
+  "unresolved": [0, 1, 3],
+  "operators": [
+    {
+      "name": "goal-filter",
+      "preconditions": ["goal is present"],
+      "preserves": ["goal"],
+      "mayMutate": ["possibilities", "unresolved"],
+      "cost": "O(|X|)",
+      "certificate": "goal remains present after filtering",
+      "failureMode": "goal absent",
+      "reconstruction": "identity"
+    }
+  ],
+  "history": []
+}
