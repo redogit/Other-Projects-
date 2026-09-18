@@ -103,3 +103,14 @@ test('carrier construction is deterministic and rejects descriptor or id tamperi
   assert.throws(()=>validateCarrier({...a,id:'0000000000000000'}),/id/i);
   assert.throws(()=>validateCarrier({...a,descriptor:'{}'}),/descriptor/i);
 });
+
+
+test('recursive carrier validation propagates one collision registry through descendants',()=>{
+  const {A,B}=fixtures();
+  const joined=joinCarriers(A,B);
+  const registry=new Map([[A.id,'forced-unequal-canonical-descriptor']]);
+  assert.throws(()=>validateCarrier(joined,registry),/digest collision/i);
+
+  const creationRegistry=new Map([[A.id,'forced-unequal-canonical-descriptor']]);
+  assert.throws(()=>joinCarriers(A,B,creationRegistry),/digest collision/i);
+});
