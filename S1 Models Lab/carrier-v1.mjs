@@ -51,7 +51,7 @@ function normalizePayload(carrier) {
       if (!Array.isArray(carrier.payload.chronology) || carrier.payload.chronology.length < 2) {
         throw new RangeError('join chronology must contain at least two carriers');
       }
-      const chronology = carrier.payload.chronology.map(validateCarrier);
+      const chronology = carrier.payload.chronology.map(item=>validateCarrier(item));
       const memberIds = [...new Set(chronology.map(item=>item.id))].sort();
       if (!Array.isArray(carrier.payload.memberIds) || canonicalJson(carrier.payload.memberIds) !== canonicalJson(memberIds)) {
         throw new RangeError('join memberIds do not match normalized chronology');
