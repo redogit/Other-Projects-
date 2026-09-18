@@ -1,5 +1,7 @@
 # Other Projects
 
+Current owner policy: no third-party commercial access is authorized for owner-controlled original/unlicensed material unless explicitly granted. Existing source-specific licenses remain authoritative. See [COMMERCIAL_ACCESS_POLICY.md](COMMERCIAL_ACCESS_POLICY.md).
+
 Implementation home for the Human Expression Archive, 1,024-byte section carriers, and bounded learning-compression tools, explicitly selected by the user on September 13, 2026.
 
 ## Active federation
