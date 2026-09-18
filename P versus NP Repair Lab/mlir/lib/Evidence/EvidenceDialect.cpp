@@ -15,14 +15,14 @@ using namespace pnp::evidence;
 #define GET_TYPEDEF_CLASSES
 #include "pnp/EvidenceOpsTypes.cpp.inc"
 
-void EvidenceDialect::registerTypes() {
+void PNPEvidenceDialect::registerTypes() {
   addTypes<
 #define GET_TYPEDEF_LIST
 #include "pnp/EvidenceOpsTypes.cpp.inc"
       >();
 }
 
-void EvidenceDialect::initialize() {
+void PNPEvidenceDialect::initialize() {
   addOperations<
 #define GET_OP_LIST
 #include "pnp/EvidenceOps.cpp.inc"
