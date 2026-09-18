@@ -31,7 +31,7 @@ class LLVM23BuildContractTests(unittest.TestCase):
                 self.assertIn('"mlir/IR/Builders.h"', text)
                 self.assertIn('"llvm/ADT/TypeSwitch.h"', text)
 
-    def test_pure_operation_headers_make_side_effect_interfaces_visible(self):
+    def test_generated_op_headers_expose_required_llvm23_interfaces(self):
         for relative in (
             "include/pnp/CoreOps.h",
             "include/pnp/CarrierOps.h",
@@ -39,6 +39,8 @@ class LLVM23BuildContractTests(unittest.TestCase):
         ):
             text = read(relative)
             with self.subTest(relative=relative):
+                self.assertIn('"mlir/Bytecode/BytecodeOpInterface.h"', text)
+                self.assertIn('"mlir/IR/OpImplementation.h"', text)
                 self.assertIn('"mlir/Interfaces/SideEffectInterfaces.h"', text)
 
     def test_dialect_libraries_keep_source_ownership_explicit_and_link_interfaces(self):
