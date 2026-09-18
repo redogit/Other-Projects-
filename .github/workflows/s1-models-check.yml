@@ -70,6 +70,10 @@ jobs:
           node - <<'NODE'
           const fs = require('node:fs');
           const audit = JSON.parse(fs.readFileSync('/tmp/s1-audit-a.json', 'utf8'));
+          if (audit.schema !== 's1-models-audit/v1') process.exit(1);
           if (audit.scientificValidation !== false) process.exit(1);
           if (Object.values(audit.checks).some(value => value !== true)) process.exit(1);
+          if (audit.rigor?.sweep?.pathCount !== 2015539) process.exit(1);
+          if (!audit.claimBoundaries?.includes('FINITE_EXHAUSTIVE_SWEEP != UNBOUNDED_PROOF')) process.exit(1);
           NODE
+          cat /tmp/s1-audit-a.json
