@@ -8,4 +8,7 @@ config.pnpmlir_binary_dir = lit_config.substitute("@PNPMLIR_BINARY_DIR@")
 config.pnpmlir_source_dir = lit_config.substitute("@PNPMLIR_SOURCE_DIR@")
 config.pnpmlir_site_config = __file__
 
+import lit.llvm
+lit.llvm.initialize(lit_config, config)
+
 lit_config.load_config(config, os.path.join(config.pnpmlir_source_dir, "test", "lit.cfg.py"))
