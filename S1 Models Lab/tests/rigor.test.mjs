@@ -83,7 +83,8 @@ test('binary64 budget is finite, monotone, and rejects an unsafe denominator', (
   assert.ok(a > 0);
   assert.ok(b > a);
   assert.ok(Number.isFinite(b));
-  assert.ok(Number.isFinite(binary64AccumulationBudget(Number.MAX_SAFE_INTEGER)));\n  assert.throws(() => binary64AccumulationBudget(Number.MAX_SAFE_INTEGER + 1));
+  assert.ok(Number.isFinite(binary64AccumulationBudget(Number.MAX_SAFE_INTEGER)));
+  assert.throws(() => binary64AccumulationBudget(Number.MAX_SAFE_INTEGER + 1));
 });
 
 test('long-horizon same-plane and mixed inverse probes stay inside their calculated budgets', () => {
