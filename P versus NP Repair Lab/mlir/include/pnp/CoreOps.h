@@ -3,7 +3,10 @@
 
 #include "pnp/CoreAttrs.h"
 #include "pnp/CoreDialect.h"
+#include "mlir/Bytecode/BytecodeOpInterface.h"
 #include "mlir/IR/OpDefinition.h"
+#include "mlir/IR/OpImplementation.h"
+#include "mlir/Interfaces/SideEffectInterfaces.h"
 
 #define GET_OP_CLASSES
 #include "pnp/CoreOps.h.inc"

@@ -2,8 +2,10 @@
 #include "pnp/CarrierOps.h"
 #include "pnp/CarrierTypes.h"
 
+#include "mlir/IR/Builders.h"
 #include "mlir/IR/DialectImplementation.h"
 #include "llvm/ADT/StringRef.h"
+#include "llvm/ADT/TypeSwitch.h"
 
 using namespace mlir;
 using namespace pnp::carrier;
@@ -12,6 +14,9 @@ using namespace pnp::carrier;
 
 #define GET_TYPEDEF_CLASSES
 #include "pnp/CarrierOpsTypes.cpp.inc"
+
+#define GET_OP_CLASSES
+#include "pnp/CarrierOps.cpp.inc"
 
 LogicalResult CarrierType::verify(function_ref<InFlightDiagnostic()> emitError,
                                   StringRef kind) {
@@ -25,14 +30,14 @@ LogicalResult CarrierType::verify(function_ref<InFlightDiagnostic()> emitError,
   return emitError() << "unknown carrier kind '" << kind << "'";
 }
 
-void CarrierDialect::registerTypes() {
+void PNPCarrierDialect::registerTypes() {
   addTypes<
 #define GET_TYPEDEF_LIST
 #include "pnp/CarrierOpsTypes.cpp.inc"
       >();
 }
 
-void CarrierDialect::initialize() {
+void PNPCarrierDialect::initialize() {
   addOperations<
 #define GET_OP_LIST
 #include "pnp/CarrierOps.cpp.inc"

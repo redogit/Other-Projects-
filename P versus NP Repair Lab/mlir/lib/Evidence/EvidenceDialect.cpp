@@ -2,8 +2,10 @@
 #include "pnp/EvidenceOps.h"
 #include "pnp/EvidenceTypes.h"
 
+#include "mlir/IR/Builders.h"
 #include "mlir/IR/BuiltinAttributes.h"
 #include "mlir/IR/DialectImplementation.h"
+#include "llvm/ADT/TypeSwitch.h"
 
 using namespace mlir;
 using namespace pnp::evidence;
@@ -13,14 +15,17 @@ using namespace pnp::evidence;
 #define GET_TYPEDEF_CLASSES
 #include "pnp/EvidenceOpsTypes.cpp.inc"
 
-void EvidenceDialect::registerTypes() {
+#define GET_OP_CLASSES
+#include "pnp/EvidenceOps.cpp.inc"
+
+void PNPEvidenceDialect::registerTypes() {
   addTypes<
 #define GET_TYPEDEF_LIST
 #include "pnp/EvidenceOpsTypes.cpp.inc"
       >();
 }
 
-void EvidenceDialect::initialize() {
+void PNPEvidenceDialect::initialize() {
   addOperations<
 #define GET_OP_LIST
 #include "pnp/EvidenceOps.cpp.inc"

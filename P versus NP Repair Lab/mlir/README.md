@@ -64,8 +64,10 @@ cmake -S "llvm-project-${LLVM_VERSION}.src/llvm" -B build/llvm-${LLVM_VERSION} -
   -DMLIR_ENABLE_BINDINGS_PYTHON=OFF
 
 cmake --build build/llvm-${LLVM_VERSION} --parallel 2 --target \
-  llvm-config llvm-tblgen mlir-tblgen mlir-opt FileCheck not
+  llvm-config llvm-tblgen mlir-tblgen MLIROptLib MLIRIR FileCheck not count
 ```
+
+The bootstrap intentionally builds the libraries and test tools required by `pnp-opt`; it does not build the unrelated stock `mlir-opt` executable merely as a proxy for those dependencies.
 
 Then configure this project with:
 
