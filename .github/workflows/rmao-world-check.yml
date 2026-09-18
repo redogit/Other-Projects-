@@ -1,0 +1,42 @@
+name: Verify RMAO world seed
+
+on:
+  push:
+    branches: [main, 'rmao-world-replacement-*']
+    paths:
+      - 'Decision Field MMORPG/**'
+      - '.github/workflows/rmao-world-check.yml'
+  pull_request:
+    paths:
+      - 'Decision Field MMORPG/**'
+      - '.github/workflows/rmao-world-check.yml'
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: rmao-world-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Materialize exact commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init "$GITHUB_WORKSPACE"
+          cd "$GITHUB_WORKSPACE"
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git fetch --depth=1 origin "$GITHUB_SHA"
+          git checkout --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+      - name: Syntax check transition runtime
+        run: |
+          node --check "Decision Field MMORPG/core.mjs"
+          node --check "Decision Field MMORPG/game.js"
+      - name: Verify inherited deterministic core
+        run: node "Decision Field MMORPG/tests/core.test.mjs"
+      - name: Verify RMAO 3D and limb-graph seed
+        run: node "Decision Field MMORPG/tests/rmao-world.test.mjs"
