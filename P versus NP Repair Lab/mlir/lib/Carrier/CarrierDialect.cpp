@@ -15,6 +15,9 @@ using namespace pnp::carrier;
 #define GET_TYPEDEF_CLASSES
 #include "pnp/CarrierOpsTypes.cpp.inc"
 
+#define GET_OP_CLASSES
+#include "pnp/CarrierOps.cpp.inc"
+
 LogicalResult CarrierType::verify(function_ref<InFlightDiagnostic()> emitError,
                                   StringRef kind) {
   static constexpr StringLiteral allowed[] = {
