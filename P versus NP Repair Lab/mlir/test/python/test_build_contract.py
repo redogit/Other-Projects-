@@ -80,6 +80,13 @@ class LLVM23BuildContractTests(unittest.TestCase):
         self.assertIn("pnp::carrier::PNPCarrierDialect", registry)
         self.assertIn("pnp::evidence::PNPEvidenceDialect", registry)
 
+    def test_lit_site_config_initializes_llvm_before_main_config(self):
+        site = read("test/lit.site.cfg.py.in")
+        initialize = site.index("lit.llvm.initialize(lit_config, config)")
+        load = site.index("lit_config.load_config")
+        self.assertIn("import lit.llvm", site)
+        self.assertLess(initialize, load)
+
     def test_lit_config_imports_the_llvm_config_it_uses(self):
         lit_cfg = read("test/lit.cfg.py")
         self.assertIn("from lit.llvm import llvm_config", lit_cfg)
