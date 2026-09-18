@@ -1,15 +1,15 @@
 {
   "schema": "s1-rigor-v1-evidence/v1",
-  "implementationRevision": "3040d235d8bfb55e3302effff5528ee71ecb5fad",
+  "implementationRevision": "da979d2f9909e15019bae628a2c36ee56603dd79",
   "implementationCi": {
     "workflow": "S1 Models Check",
-    "runId": 35312567016,
+    "runId": 35311853490,
     "conclusion": "success"
   },
   "runtimeVersion": "v22.23.2",
   "implementationTests": {
-    "total": 92,
-    "passed": 92,
+    "total": 89,
+    "passed": 89,
     "failed": 0
   },
   "browserSmoke": {
@@ -29,7 +29,7 @@
   "audit": {
     "schema": "s1-models-audit/v1",
     "baselineAuditSchema": "s1-experiment-0-audit/v0",
-    "sourceRevision": "3040d235d8bfb55e3302effff5528ee71ecb5fad",
+    "sourceRevision": "da979d2f9909e15019bae628a2c36ee56603dd79",
     "scientificValidation": false,
     "claimCeiling": "bounded deterministic software verification only",
     "claimBoundaries": [
@@ -39,7 +39,6 @@
       "PROJECTION_CONDITIONING != OBJECT_PROPERTY",
       "HASH_EQUALITY != PAYLOAD_EQUALITY",
       "OPERATOR_RESULT != SCIENTIFIC_EVIDENCE",
-      "SHARED_TRIG_PRIMITIVE != INDEPENDENT_TRANSCENDENTAL_ORACLE",
       "real 4D != complex dimension 4",
       "Hodge and P-vs-NP remain open"
     ],
@@ -153,7 +152,6 @@
     "PROJECTION_CONDITIONING != OBJECT_PROPERTY",
     "HASH_EQUALITY != PAYLOAD_EQUALITY",
     "OPERATOR_RESULT != SCIENTIFIC_EVIDENCE",
-    "SHARED_TRIG_PRIMITIVE != INDEPENDENT_TRANSCENDENTAL_ORACLE",
     "real 4D != complex dimension 4",
     "Hodge and P-vs-NP remain open",
     "functional browser smoke != rendered usability or assistive-technology validation",
