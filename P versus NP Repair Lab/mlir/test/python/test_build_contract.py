@@ -21,15 +21,18 @@ class LLVM23BuildContractTests(unittest.TestCase):
         self.assertIn("MLIRCoreAttrsIncGen", headers)
 
     def test_generated_definition_translation_units_include_required_support(self):
-        for relative in (
-            "lib/Core/CoreDialect.cpp",
-            "lib/Carrier/CarrierDialect.cpp",
-            "lib/Evidence/EvidenceDialect.cpp",
-        ):
+        expected_op_defs = {
+            "lib/Core/CoreDialect.cpp": "pnp/CoreOps.cpp.inc",
+            "lib/Carrier/CarrierDialect.cpp": "pnp/CarrierOps.cpp.inc",
+            "lib/Evidence/EvidenceDialect.cpp": "pnp/EvidenceOps.cpp.inc",
+        }
+        for relative, generated in expected_op_defs.items():
             text = read(relative)
             with self.subTest(relative=relative):
                 self.assertIn('"mlir/IR/Builders.h"', text)
                 self.assertIn('"llvm/ADT/TypeSwitch.h"', text)
+                self.assertIn("#define GET_OP_CLASSES", text)
+                self.assertIn(f'#include "{generated}"', text)
 
     def test_generated_op_headers_expose_required_llvm23_interfaces(self):
         for relative in (
