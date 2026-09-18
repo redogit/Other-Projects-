@@ -185,16 +185,20 @@ export function validateExperience(record) {
   return rebuilt;
 }
 
-export function replayIdentity(record) {
+export function replayDescriptor(record) {
   const valid = validateExperience(record);
-  return fnv1a64(canonicalJson({
+  return canonicalJson({
     initialState: valid.initialState,
     mirrorId: valid.mirrorId,
     shell: valid.shell,
     operatorVersion: valid.operatorVersion,
     actions: valid.actions,
     observer: valid.observer
-  }));
+  });
+}
+
+export function replayIdentity(record) {
+  return fnv1a64(replayDescriptor(record));
 }
 
 function lookupGeometry(registry, id) {
