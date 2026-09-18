@@ -6,12 +6,14 @@ on:
       - 'P versus NP Repair Lab/decision_field/**'
       - 'P versus NP Repair Lab/mlir/**'
       - '.github/workflows/pnp-decision-field-check.yml'
+      - 'PUBLIC_RELEASE_APPROVAL.json'
   push:
     branches: [main]
     paths:
       - 'P versus NP Repair Lab/decision_field/**'
       - 'P versus NP Repair Lab/mlir/**'
       - '.github/workflows/pnp-decision-field-check.yml'
+      - 'PUBLIC_RELEASE_APPROVAL.json'
   workflow_dispatch:
 
 permissions:
@@ -139,8 +141,8 @@ jobs:
           {
             echo '### P-vs-NP publication handoff'
             echo "- verified source revision: \`$VERIFY_SHA\`"
-            echo '- target branch: `gh-pages`'
-            echo '- publication path: pinned candidate branch → reviewable PR → linear-history-compatible merge'
+            echo '- public projection: held unless `PUBLIC_RELEASE_APPROVAL.json` explicitly approves the exact reviewed revision'
+            echo '- publication path: owner safety review → exact revision approval → separately reviewable public projection change'
             echo '- this workflow has `contents: read` and does not mutate protected branches'
           } >> "$GITHUB_STEP_SUMMARY"
 
