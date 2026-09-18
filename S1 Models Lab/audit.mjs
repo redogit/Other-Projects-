@@ -3,9 +3,26 @@ import { fileURLToPath } from 'node:url';
 import { createState, createMirror, applyMove, compareStates, materializeTrajectory } from './core.mjs';
 import { sampleS3, sampleTesseractBoundary } from './geometry.mjs';
 import { DEFAULT_OBSERVER, normalizeObserver, projectPair } from './observer.mjs';
-import { makeExperience, replayExperience, classifyExperience, appendExperience, rebuildExperienceGraph } from './experience.mjs';
+import { makeExperience, replayExperience, replayDescriptor, classifyExperience, appendExperience, rebuildExperienceGraph } from './experience.mjs';
 import { S1_NEUTRAL, makeObserverFrame, joinModels, differenceModels, interactModels, quotientModel } from './operators.mjs';
 import { MemoryStore, LocalExperienceStore } from './storage.mjs';
+import { guardDigestCollision } from './integrity.mjs';
+import {
+  binary64AccumulationBudget,
+  exhaustiveRotationSweep,
+  longHorizonRotationProbe,
+  observerConditionReport
+} from './rigor.mjs';
+import {
+  CARRIER_VERSION,
+  experienceCarrier,
+  observerFrameCarrier,
+  joinCarriers,
+  differenceCarriers,
+  interactCarriers,
+  quotientCarrier,
+  validateCarrier
+} from './carrier-v1.mjs';
 
 function makeFixture(geometry, actions, relations={familyId:'audit',parentId:null}) {
   return makeExperience({
@@ -19,6 +36,16 @@ function makeFixture(geometry, actions, relations={familyId:'audit',parentId:nul
     comparisons: {obligation:'live-vs-mirror',againstMirror:{equal:actions.length===0,maxAbsDelta:actions.length===0?0:0.01},againstPrevious:{equal:actions.length===0,maxAbsDelta:actions.length===0?0:0.01}},
     relations: {...relations, relatedIds: relations.relatedIds ?? []},
     provenance: {source:'audit-fixture'}
+  });
+}
+
+function probeSummary(probe) {
+  return Object.freeze({
+    moveCount:probe.moveCount,
+    roundingOperationBudget:probe.roundingOperationBudget,
+    errorBudget:probe.errorBudget,
+    maxAbsDelta:probe.maxAbsDelta,
+    normResidual:probe.normResidual
   });
 }
 
@@ -74,33 +101,116 @@ export function runAudit({ sourceRevision, runtimeVersion = process.version }) {
   });
   const repeatByReplayIdentity=classifyExperience(secondOccurrence,{events:[{event:record,classification:'new-branch'}],invariants:[]})==='repeat';
 
+  const sweep=exhaustiveRotationSweep(8);
+  const sweepErrorBudget=binary64AccumulationBudget(8*96);
+  const samePlane=longHorizonRotationProbe({
+    point:[1,0,0,0],
+    actions:[{plane:'xw',degrees:1}],
+    repetitions:1_000_000,
+    expectedAngleDegrees:1_000_000
+  });
+  const mixedInverse=longHorizonRotationProbe({
+    point:[0.5,-0.5,0.5,-0.5],
+    actions:[
+      {plane:'xw',degrees:1},{plane:'yw',degrees:-1},{plane:'zw',degrees:1},
+      {plane:'yw',degrees:1},{plane:'xw',degrees:-1},{plane:'zw',degrees:-1}
+    ],
+    repetitions:50_000,
+    inverseRoundTrip:true
+  });
+  const observerOrdinary=observerConditionReport([1,2,3,0.2],DEFAULT_OBSERVER);
+  const observerStressed=observerConditionReport([1,2,3,-0.9],{...DEFAULT_OBSERVER,wPerspective:0.999999});
+  const observerClamped=observerConditionReport([1,2,3,-10],{...DEFAULT_OBSERVER,wPerspective:0.999999});
+
+  let replayDigestCollisionRejected=false;
+  try {
+    const collisionIndex=new Map();
+    guardDigestCollision(collisionIndex,'forced-audit-digest',replayDescriptor(root),'replay');
+    guardDigestCollision(collisionIndex,'forced-audit-digest',replayDescriptor(child),'replay');
+  } catch(error) {
+    replayDigestCollisionRejected=error instanceof RangeError && /digest collision/i.test(error.message);
+  }
+
+  const carrierA=experienceCarrier(root);
+  const carrierB=experienceCarrier(child);
+  const carrierC=experienceCarrier(sibling);
+  const joinLeft=joinCarriers(joinCarriers(carrierA,carrierB),carrierC);
+  const joinRight=joinCarriers(carrierA,joinCarriers(carrierB,carrierC));
+  const carrierDiffAB=differenceCarriers(carrierA,carrierB);
+  const carrierDiffBA=differenceCarriers(carrierB,carrierA);
+  const carrierInteractionAB=interactCarriers(carrierA,carrierB);
+  const carrierInteractionBA=interactCarriers(carrierB,carrierA);
+  const closedCarrier=interactCarriers(carrierDiffAB,joinCarriers(carrierB,carrierC));
+  const carrierFrame=observerFrameCarrier({...DEFAULT_OBSERVER,yaw:.2,wPerspective:.7});
+  const carrierQuotient=quotientCarrier(closedCarrier,carrierFrame);
+
+  const checks=Object.freeze({
+    mirrorUnchanged: JSON.stringify(mirror) === mirrorBefore,
+    replayEqualsDirect: compareStates(replayed,direct).equal,
+    previousStepExact: compareStates(trajectory.previous,expectedPrevious).equal,
+    sameObserver: pair.observer === auditObserver && pair.live.length === pair.mirror.length,
+    allTesseractCells: JSON.stringify(cells) === JSON.stringify(['w+','w-','x+','x-','y+','y-','z+','z-']),
+    graphRepeat: repeatClass === 'repeat',
+    graphNewBranch: rootClass === 'new-branch' && childClass === 'new-branch',
+    graphVariation: siblingClass === 'variation',
+    graphRebuilt: rebuiltGraph.events.length === 2 && rebuiltGraph.events.some(entry => entry.event.id === root.id) && rebuiltGraph.events.some(entry => entry.event.id === child.id),
+    corruptSaveRejected,
+    duplicateImportCoalesced,
+    unknownAuthorityRejected,
+    recordMinimumExplicit: Array.isArray(record.checkpoints) && !!record.comparisons.againstMirror && !!record.comparisons.againstPrevious && Array.isArray(record.relations.relatedIds),
+    repeatByReplayIdentity,
+    operatorJoin: joined.memberIds.length === 2 && joined.chronology[0] === record.id && neutralJoin.memberIds.length === 1,
+    operatorDifferenceDirectional: diffAB.id !== diffBA.id && diffAB.sourceIds[0] === record.id,
+    operatorInteractionOrdered: interactionAB.id !== interactionBA.id && interactionAB.sourceIds[0] === record.id,
+    operatorQuotient: quotient.sourceId === record.id && quotient.frameId === frame.id && quotient.projected.length === s3.points4.length,
+    rigorDepth8Complete: sweep.pathCount === 2_015_539 && sweep.maxDepth === 8,
+    rigorMatrixWithinBudget: sweep.maxOrthogonalityResidual <= sweepErrorBudget && sweep.maxDeterminantResidual <= sweepErrorBudget,
+    rigorLongHorizonWithinBudget: samePlane.maxAbsDelta <= samePlane.errorBudget && samePlane.normResidual <= samePlane.errorBudget && mixedInverse.maxAbsDelta <= mixedInverse.errorBudget && mixedInverse.normResidual <= mixedInverse.errorBudget,
+    observerConditionBounded: observerOrdinary.denominator > 0.1 && observerStressed.denominator > 0.1,
+    observerClampInformationLoss: observerClamped.clamped === true && observerClamped.informationLoss === true && observerClamped.localScaleSensitivityToW === 0,
+    replayDigestCollisionRejected,
+    carrierV1Closure: validateCarrier(closedCarrier).id === closedCarrier.id,
+    carrierV1JoinNormalized: joinLeft.id === joinRight.id && joinLeft.payload.chronology.map(item=>item.id).join(',') === [carrierA.id,carrierB.id,carrierC.id].join(','),
+    carrierV1Directional: carrierDiffAB.id !== carrierDiffBA.id && carrierInteractionAB.id !== carrierInteractionBA.id,
+    carrierV1Quotient: carrierQuotient.kind === 'quotient' && carrierQuotient.payload.source.id === closedCarrier.id && carrierQuotient.payload.frame.id === carrierFrame.id
+  });
+
   return Object.freeze({
-    schema:'s1-experiment-0-audit/v0',
+    schema:'s1-models-audit/v1',
+    baselineAuditSchema:'s1-experiment-0-audit/v0',
     sourceRevision,
     runtimeVersion,
     scientificValidation:false,
     claimCeiling:'bounded deterministic software verification only',
-    checks:Object.freeze({
-      mirrorUnchanged: JSON.stringify(mirror) === mirrorBefore,
-      replayEqualsDirect: compareStates(replayed,direct).equal,
-      previousStepExact: compareStates(trajectory.previous,expectedPrevious).equal,
-      sameObserver: pair.observer === auditObserver && pair.live.length === pair.mirror.length,
-      allTesseractCells: JSON.stringify(cells) === JSON.stringify(['w+','w-','x+','x-','y+','y-','z+','z-']),
-      graphRepeat: repeatClass === 'repeat',
-      graphNewBranch: rootClass === 'new-branch' && childClass === 'new-branch',
-      graphVariation: siblingClass === 'variation',
-      graphRebuilt: rebuiltGraph.events.length === 2 && rebuiltGraph.events.some(entry => entry.event.id === root.id) && rebuiltGraph.events.some(entry => entry.event.id === child.id),
-      corruptSaveRejected,
-      duplicateImportCoalesced,
-      unknownAuthorityRejected,
-      recordMinimumExplicit: Array.isArray(record.checkpoints) && !!record.comparisons.againstMirror && !!record.comparisons.againstPrevious && Array.isArray(record.relations.relatedIds),
-      repeatByReplayIdentity,
-      operatorJoin: joined.memberIds.length === 2 && joined.chronology[0] === record.id && neutralJoin.memberIds.length === 1,
-      operatorDifferenceDirectional: diffAB.id !== diffBA.id && diffAB.sourceIds[0] === record.id,
-      operatorInteractionOrdered: interactionAB.id !== interactionBA.id && interactionAB.sourceIds[0] === record.id,
-      operatorQuotient: quotient.sourceId === record.id && quotient.frameId === frame.id && quotient.projected.length === s3.points4.length
+    claimBoundaries:Object.freeze([
+      'SOFTWARE_VERIFICATION != SCIENTIFIC_VALIDATION',
+      'FINITE_EXHAUSTIVE_SWEEP != UNBOUNDED_PROOF',
+      'FLOATING_POINT_RESIDUAL != MATHEMATICAL_COUNTEREXAMPLE',
+      'PROJECTION_CONDITIONING != OBJECT_PROPERTY',
+      'HASH_EQUALITY != PAYLOAD_EQUALITY',
+      'OPERATOR_RESULT != SCIENTIFIC_EVIDENCE',
+      'real 4D != complex dimension 4',
+      'Hodge and P-vs-NP remain open'
+    ]),
+    checks,
+    metrics:Object.freeze({s3MaxRadiusResidual:maxRadiusResidual,actionCount:actions.length,pointCount:s3.points4.length}),
+    rigor:Object.freeze({
+      sweep:Object.freeze({...sweep,errorBudget:sweepErrorBudget}),
+      samePlane:probeSummary(samePlane),
+      mixedInverse:probeSummary(mixedInverse),
+      observer:Object.freeze({
+        ordinary:observerOrdinary,
+        stressed:observerStressed,
+        clamped:observerClamped
+      })
     }),
-    metrics:Object.freeze({s3MaxRadiusResidual:maxRadiusResidual,actionCount:actions.length,pointCount:s3.points4.length})
+    carrierV1:Object.freeze({
+      version:CARRIER_VERSION,
+      closed:checks.carrierV1Closure,
+      joinNormalized:checks.carrierV1JoinNormalized,
+      directional:checks.carrierV1Directional,
+      quotientClosed:checks.carrierV1Quotient
+    })
   });
 }
 
