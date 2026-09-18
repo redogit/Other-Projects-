@@ -71,7 +71,7 @@ The optional teach-back text box is deliberately outside `S'1_Experience`: a per
 
 ## Quantified rigor layer v1
 
-`rigor.mjs` is an independent verification sidecar for the shared one-degree rotation and observer contracts. It does not replace `core.mjs`; it checks that implementation from a separately composed 4×4 matrix path.
+`rigor.mjs` is an independent composition/application verification sidecar for the shared one-degree rotation and observer contracts. It does not replace `core.mjs`; it checks that implementation from a separately composed 4×4 matrix path. Both paths use JavaScript's binary64 `Math.sin`/`Math.cos` primitives, so this is **not** an independent transcendental-function oracle.
 
 The declared finite rotation sweep now enumerates every six-way legal move history through depth 8:
 
@@ -127,5 +127,7 @@ These verified closure properties do **not** assert that Carrier/Ops v1 is a gro
 `HASH_EQUALITY != PAYLOAD_EQUALITY`
 
 `OPERATOR_RESULT != SCIENTIFIC_EVIDENCE`
+
+`SHARED_TRIG_PRIMITIVE != INDEPENDENT_TRANSCENDENTAL_ORACLE`
 
 The Experiment 0 frozen evidence remains historical and unchanged. Rigor v1 receives its own successor evidence record after an exact-head implementation checkpoint passes CI.
