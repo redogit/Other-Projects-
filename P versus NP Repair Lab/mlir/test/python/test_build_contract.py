@@ -80,6 +80,11 @@ class LLVM23BuildContractTests(unittest.TestCase):
         self.assertIn("pnp::carrier::PNPCarrierDialect", registry)
         self.assertIn("pnp::evidence::PNPEvidenceDialect", registry)
 
+    def test_lit_config_imports_the_llvm_config_it_uses(self):
+        lit_cfg = read("test/lit.cfg.py")
+        self.assertIn("from lit.llvm import llvm_config", lit_cfg)
+        self.assertIn("llvm_config.use_default_substitutions()", lit_cfg)
+
     def test_reproduction_docs_match_ci_bootstrap_targets(self):
         readme = read("README.md")
         self.assertIn("MLIROptLib MLIRIR FileCheck not count", readme)
