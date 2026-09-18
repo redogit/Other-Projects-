@@ -1,4 +1,5 @@
-import { validateExperience, replayIdentity, canonicalJson } from './experience.mjs';
+import { validateExperience, replayIdentity, replayDescriptor, canonicalJson } from './experience.mjs';
+import { guardDigestCollision } from './integrity.mjs';
 
 export class MemoryStore {
   constructor() { this.map = new Map(); this.writeCount = 0; }
@@ -9,6 +10,41 @@ export class MemoryStore {
 
 function freezeRows(rows) {
   return Object.freeze(rows.map(row => Object.freeze({ event: row.event, occurrences: row.occurrences })));
+}
+
+export function coalesceExperienceRows(
+  rows,
+  { identityFor = replayIdentity, descriptorFor = replayDescriptor } = {}
+) {
+  if (!Array.isArray(rows)) throw new TypeError('stored payload must be an array');
+  if (typeof identityFor !== 'function' || typeof descriptorFor !== 'function') {
+    throw new TypeError('identityFor and descriptorFor must be functions');
+  }
+  const merged = [];
+  const byId = new Map();
+  const descriptorsByDigest = new Map();
+  for (const row of rows) {
+    if (!row || typeof row !== 'object' || !Number.isSafeInteger(row.occurrences) || row.occurrences < 1) {
+      throw new TypeError('invalid stored row');
+    }
+    const event = validateExperience(row.event);
+    const identity = identityFor(event);
+    const descriptor = descriptorFor(event);
+    if (typeof identity !== 'string' || !identity) throw new TypeError('replay identity must be a non-empty string');
+    if (typeof descriptor !== 'string') throw new TypeError('replay descriptor must be a string');
+    guardDigestCollision(descriptorsByDigest, identity, descriptor, 'replay');
+    const existing = byId.get(identity);
+    if (existing) {
+      const total = existing.occurrences + row.occurrences;
+      if (!Number.isSafeInteger(total)) throw new RangeError('occurrence total exceeds safe integer range');
+      existing.occurrences = total;
+    } else {
+      const normalized = { event, occurrences: row.occurrences };
+      byId.set(identity, normalized);
+      merged.push(normalized);
+    }
+  }
+  return merged;
 }
 
 export class LocalExperienceStore {
@@ -22,25 +58,7 @@ export class LocalExperienceStore {
   }
 
   _validateRows(rows) {
-    if (!Array.isArray(rows)) throw new TypeError('stored payload must be an array');
-    const merged = [];
-    const byId = new Map();
-    for (const row of rows) {
-      if (!row || typeof row !== 'object' || !Number.isSafeInteger(row.occurrences) || row.occurrences < 1) throw new TypeError('invalid stored row');
-      const event = validateExperience(row.event);
-      const identity = replayIdentity(event);
-      const existing = byId.get(identity);
-      if (existing) {
-        const total = existing.occurrences + row.occurrences;
-        if (!Number.isSafeInteger(total)) throw new RangeError('occurrence total exceeds safe integer range');
-        existing.occurrences = total;
-      } else {
-        const normalized = { event, occurrences: row.occurrences };
-        byId.set(identity, normalized);
-        merged.push(normalized);
-      }
-    }
-    return merged;
+    return coalesceExperienceRows(rows);
   }
 
   list() {
@@ -58,11 +76,8 @@ export class LocalExperienceStore {
   save(record) {
     const event = validateExperience(record);
     const rows = this.list().map(row => ({ event: row.event, occurrences: row.occurrences }));
-    const identity = replayIdentity(event);
-    const found = rows.find(row => replayIdentity(row.event) === identity);
-    if (found) found.occurrences += 1;
-    else rows.push({ event, occurrences: 1 });
-    this._write(rows);
+    const merged = coalesceExperienceRows([...rows, { event, occurrences: 1 }]);
+    this._write(merged);
     return event.id;
   }
 
