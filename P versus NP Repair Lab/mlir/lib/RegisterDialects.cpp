@@ -6,7 +6,7 @@
 #include "mlir/IR/DialectRegistry.h"
 
 void pnp::registerDialects(mlir::DialectRegistry &registry) {
-  registry.insert<pnp::core::CoreDialect,
-                  pnp::carrier::CarrierDialect,
-                  pnp::evidence::EvidenceDialect>();
+  registry.insert<pnp::core::PNPCoreDialect,
+                  pnp::carrier::PNPCarrierDialect,
+                  pnp::evidence::PNPEvidenceDialect>();
 }
