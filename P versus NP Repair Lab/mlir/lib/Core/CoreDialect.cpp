@@ -15,6 +15,9 @@ using namespace pnp::core;
 #define GET_ATTRDEF_CLASSES
 #include "pnp/CoreOpsAttributes.cpp.inc"
 
+#define GET_OP_CLASSES
+#include "pnp/CoreOps.cpp.inc"
+
 LogicalResult StatusAttr::verify(function_ref<InFlightDiagnostic()> emitError,
                                  StringRef value) {
   bool valid = value == "SAT" || value == "UNSAT" || value == "UNKNOWN" ||
