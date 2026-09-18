@@ -67,3 +67,65 @@ The suggestion carrier is intentionally narrower than the experience record whil
 Every v0 experience record explicitly carries selected checkpoint indices, both live-vs-mirror and latest-step comparison summaries, parent/related IDs, observer state, observer-field state, operator version, and provenance. Repeat classification/deduplication uses replay identity rather than incidental provenance metadata.
 
 The optional teach-back text box is deliberately outside `S'1_Experience`: a person can describe an observation in their own words, but Experiment 0 neither saves that text nor promotes it to evidence authority.
+
+
+## Quantified rigor layer v1
+
+`rigor.mjs` is an independent verification sidecar for the shared one-degree rotation and observer contracts. It does not replace `core.mjs`; it checks that implementation from a separately composed 4×4 matrix path.
+
+The declared finite rotation sweep now enumerates every six-way legal move history through depth 8:
+
+```text
+1 + 6 + 6^2 + ... + 6^8 = 2,015,539 paths
+```
+
+For each matrix it measures `R^T R - I`, determinant residual from +1, and column-norm residual. Long-horizon probes separately measure repeated same-plane rotation and a deterministic mixed forward/inverse trajectory. Their acceptance ceilings are derived from the standard binary64 `gamma_k = ku/(1-ku)` accumulation scale with `u = Number.EPSILON / 2`; the measured residual remains evidence about this implementation and corpus, not a proof over arbitrary trajectories.
+
+The observer-conditioning report makes the implemented clamp explicit. With `w_b = max(-0.9,w)`, `0 <= p < 1`, and `d = 1 + p*w_b`, every valid observer has `d > 0.1`. Values with `w < -0.9` are mapped to the same perspective denominator, so the report marks that region as information-losing rather than pretending it is uniquely reconstructible.
+
+`compareStatesQuantified` adds an audit-only absolute-plus-relative tolerance rule without changing the serialized v0 comparator contract.
+
+## Digest integrity boundary
+
+Replay identity remains the same compact FNV-1a-64 digest of the same canonical replay payload, preserving v0 identity compatibility. The canonical replay preimage is now separately exposed by `replayDescriptor`.
+
+Storage coalescing records both digest and canonical descriptor. Equal digest + equal descriptor may coalesce; equal digest + unequal descriptor fails closed as an integrity error.
+
+`HASH_EQUALITY != PAYLOAD_EQUALITY`
+
+FNV-1a-64 is retained for compatibility and compact deterministic IDs. It is not represented as cryptographic collision resistance.
+
+## S'1 Carrier/Ops v1
+
+`carrier-v1.mjs` is a separately versioned recursive carrier representation. Unlike `S'1-Ops v0`, v1 operation results are themselves valid operands.
+
+Verified structural contracts include:
+
+- experience and observer-frame leaf carriers;
+- explicit neutral carrier;
+- neutral-eliding, nested-join-flattening ordered join;
+- parenthesization normalization for same-order joins;
+- unique sorted membership with preserved chronology;
+- closed directional difference;
+- closed ordered interaction;
+- closed structural quotient through an observer-frame carrier;
+- deterministic canonical descriptors and compact content IDs;
+- source immutability and validation against descriptor/ID tampering.
+
+These verified closure properties do **not** assert that Carrier/Ops v1 is a group, ring, field, or complete algebra.
+
+## Rigor claim boundaries
+
+`SOFTWARE_VERIFICATION != SCIENTIFIC_VALIDATION`
+
+`FINITE_EXHAUSTIVE_SWEEP != UNBOUNDED_PROOF`
+
+`FLOATING_POINT_RESIDUAL != MATHEMATICAL_COUNTEREXAMPLE`
+
+`PROJECTION_CONDITIONING != OBJECT_PROPERTY`
+
+`HASH_EQUALITY != PAYLOAD_EQUALITY`
+
+`OPERATOR_RESULT != SCIENTIFIC_EVIDENCE`
+
+The Experiment 0 frozen evidence remains historical and unchanged. Rigor v1 receives its own successor evidence record after an exact-head implementation checkpoint passes CI.
