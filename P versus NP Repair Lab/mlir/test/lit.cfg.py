@@ -1,6 +1,7 @@
 import os
 
 import lit.formats
+from lit.llvm import llvm_config
 
 config.name = "PNPMLIR"
 config.test_format = lit.formats.ShTest(not llvm_config.use_lit_shell)
