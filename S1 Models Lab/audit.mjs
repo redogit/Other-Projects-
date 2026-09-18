@@ -189,6 +189,7 @@ export function runAudit({ sourceRevision, runtimeVersion = process.version }) {
       'PROJECTION_CONDITIONING != OBJECT_PROPERTY',
       'HASH_EQUALITY != PAYLOAD_EQUALITY',
       'OPERATOR_RESULT != SCIENTIFIC_EVIDENCE',
+      'SHARED_TRIG_PRIMITIVE != INDEPENDENT_TRANSCENDENTAL_ORACLE',
       'real 4D != complex dimension 4',
       'Hodge and P-vs-NP remain open'
     ]),
