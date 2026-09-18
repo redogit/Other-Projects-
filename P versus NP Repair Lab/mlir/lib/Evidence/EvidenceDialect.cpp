@@ -15,6 +15,9 @@ using namespace pnp::evidence;
 #define GET_TYPEDEF_CLASSES
 #include "pnp/EvidenceOpsTypes.cpp.inc"
 
+#define GET_OP_CLASSES
+#include "pnp/EvidenceOps.cpp.inc"
+
 void PNPEvidenceDialect::registerTypes() {
   addTypes<
 #define GET_TYPEDEF_LIST
