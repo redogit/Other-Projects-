@@ -4,9 +4,9 @@
 include "mlir/IR/AttrTypeBase.td"
 include "pnp/CarrierDialect.td"
 
-class PNPCarrier_Type<string name, string mnemonic, list<Trait> traits = []>
+class PNPCarrier_Type<string name, string typeMnemonic, list<Trait> traits = []>
     : TypeDef<PNPCarrier_Dialect, name, traits> {
-  let mnemonic = mnemonic;
+  let mnemonic = typeMnemonic;
 }
 
 def PNPCarrier_CarrierType : PNPCarrier_Type<"Carrier", "carrier"> {
