@@ -25,14 +25,14 @@ LogicalResult StatusAttr::verify(function_ref<InFlightDiagnostic()> emitError,
                      << value << "'";
 }
 
-void CoreDialect::registerAttributes() {
+void PNPCoreDialect::registerAttributes() {
   addAttributes<
 #define GET_ATTRDEF_LIST
 #include "pnp/CoreOpsAttributes.cpp.inc"
       >();
 }
 
-void CoreDialect::initialize() {
+void PNPCoreDialect::initialize() {
   addOperations<
 #define GET_OP_LIST
 #include "pnp/CoreOps.cpp.inc"
