@@ -1,0 +1,12 @@
+{
+  "schema": "redogit/public-release-approval/v1",
+  "approved": false,
+  "approved_sha": null,
+  "approved_by": "repository-owner",
+  "review": {
+    "privacy_safe": false,
+    "link_surface_reviewed": false,
+    "dependent_surfaces_reviewed": false
+  },
+  "rule": "No public projection is authorized unless the repository owner explicitly approves the exact revision after safety and dependency review."
+}
