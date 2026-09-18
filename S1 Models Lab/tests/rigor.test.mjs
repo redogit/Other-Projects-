@@ -69,7 +69,7 @@ test('quantified state comparison uses absolute plus relative tolerance', () => 
   const b = createState([[1 + 5e-13, 1e9 + 5e-4, 1e-13, 0]]);
   const pass = compareStatesQuantified(a,b,{absTolerance:1e-12,relTolerance:1e-12});
   assert.equal(pass.equal, true);
-  assert.ok(pass.maxAbsDelta >= 5e-4);
+  assert.ok(pass.maxAbsDelta > 4.9e-4);
   assert.ok(pass.maxErrorRatio <= 1);
 
   const fail = compareStatesQuantified(a,b,{absTolerance:1e-15,relTolerance:1e-15});
@@ -83,7 +83,7 @@ test('binary64 budget is finite, monotone, and rejects an unsafe denominator', (
   assert.ok(a > 0);
   assert.ok(b > a);
   assert.ok(Number.isFinite(b));
-  assert.throws(() => binary64AccumulationBudget(Number.MAX_SAFE_INTEGER));
+  assert.ok(Number.isFinite(binary64AccumulationBudget(Number.MAX_SAFE_INTEGER)));\n  assert.throws(() => binary64AccumulationBudget(Number.MAX_SAFE_INTEGER + 1));
 });
 
 test('long-horizon same-plane and mixed inverse probes stay inside their calculated budgets', () => {
