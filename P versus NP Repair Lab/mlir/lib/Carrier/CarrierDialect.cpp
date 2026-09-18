@@ -27,14 +27,14 @@ LogicalResult CarrierType::verify(function_ref<InFlightDiagnostic()> emitError,
   return emitError() << "unknown carrier kind '" << kind << "'";
 }
 
-void CarrierDialect::registerTypes() {
+void PNPCarrierDialect::registerTypes() {
   addTypes<
 #define GET_TYPEDEF_LIST
 #include "pnp/CarrierOpsTypes.cpp.inc"
       >();
 }
 
-void CarrierDialect::initialize() {
+void PNPCarrierDialect::initialize() {
   addOperations<
 #define GET_OP_LIST
 #include "pnp/CarrierOps.cpp.inc"
