@@ -1,7 +1,0 @@
-{
-  "experiment_a_script_sha256": "cee48ac5b8ec0d1f36ffdfe325721a84fa62b4b9a50d142d2be0b2a07493e510",
-  "experiment_b_contract_sha256": "d44b3813aa337a2beb0fe55aec999bd26bd56cc9aa722ebe7b6933e002aa6bec",
-  "experiment_b_script_sha256": "1dae1f3a79fae8bdbe5f09c5d62ec8f1331f002613cfcc0e5dd76dd142dc039b",
-  "guard_feedback_zip": {"custody":"owner Library materialized for execution only","name":"SAT64_GUARD_FEEDBACK_2026-09-13.zip","published":false,"sha256":"3bf2c01830d8174341ab56d9172b777877178cfca001733455637b449a6d5d98"},
-  "linear_ecs_zip": {"custody":"owner Library materialized for lineage verification only","name":"SAT64_LINEAR_ECS_2026-09-13.zip","published":false,"sha256":"d45c6c123a32f1427c7134f77da7546d1b885ea2bee2382661481950f7bfc340"}
-}
