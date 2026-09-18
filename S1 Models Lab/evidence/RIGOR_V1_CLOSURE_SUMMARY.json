@@ -1,0 +1,179 @@
+{
+  "schema": "s1-rigor-v1-closure-evidence/v1",
+  "predecessor": {
+    "path": "S1 Models Lab/evidence/RIGOR_V1_SUMMARY.json",
+    "schema": "s1-rigor-v1-evidence/v1",
+    "implementationRevision": "da979d2f9909e15019bae628a2c36ee56603dd79",
+    "implementationCi": {
+      "workflow": "S1 Models Check",
+      "runId": 35311853490,
+      "conclusion": "success"
+    },
+    "immutable": true
+  },
+  "implementationRevision": "3040d235d8bfb55e3302effff5528ee71ecb5fad",
+  "implementationCi": {
+    "workflow": "S1 Models Check",
+    "runId": 35312567016,
+    "conclusion": "success"
+  },
+  "runtimeVersion": "v22.23.2",
+  "implementationTests": {
+    "total": 92,
+    "passed": 92,
+    "failed": 0
+  },
+  "browserSmoke": {
+    "conclusion": "success",
+    "checks": [
+      "boot",
+      "move",
+      "save",
+      "replay",
+      "shell-reframe",
+      "observer",
+      "reframe",
+      "clear"
+    ],
+    "boundary": "functional browser smoke != rendered usability or assistive-technology validation"
+  },
+  "audit": {
+    "schema": "s1-models-audit/v1",
+    "baselineAuditSchema": "s1-experiment-0-audit/v0",
+    "sourceRevision": "3040d235d8bfb55e3302effff5528ee71ecb5fad",
+    "scientificValidation": false,
+    "claimCeiling": "bounded deterministic software verification only",
+    "claimBoundaries": [
+      "SOFTWARE_VERIFICATION != SCIENTIFIC_VALIDATION",
+      "FINITE_EXHAUSTIVE_SWEEP != UNBOUNDED_PROOF",
+      "FLOATING_POINT_RESIDUAL != MATHEMATICAL_COUNTEREXAMPLE",
+      "PROJECTION_CONDITIONING != OBJECT_PROPERTY",
+      "HASH_EQUALITY != PAYLOAD_EQUALITY",
+      "OPERATOR_RESULT != SCIENTIFIC_EVIDENCE",
+      "SHARED_TRIG_PRIMITIVE != INDEPENDENT_TRANSCENDENTAL_ORACLE",
+      "real 4D != complex dimension 4",
+      "Hodge and P-vs-NP remain open"
+    ],
+    "checks": {
+      "mirrorUnchanged": true,
+      "replayEqualsDirect": true,
+      "previousStepExact": true,
+      "sameObserver": true,
+      "allTesseractCells": true,
+      "graphRepeat": true,
+      "graphNewBranch": true,
+      "graphVariation": true,
+      "graphRebuilt": true,
+      "corruptSaveRejected": true,
+      "duplicateImportCoalesced": true,
+      "unknownAuthorityRejected": true,
+      "recordMinimumExplicit": true,
+      "repeatByReplayIdentity": true,
+      "operatorJoin": true,
+      "operatorDifferenceDirectional": true,
+      "operatorInteractionOrdered": true,
+      "operatorQuotient": true,
+      "rigorDepth8Complete": true,
+      "rigorMatrixWithinBudget": true,
+      "rigorLongHorizonWithinBudget": true,
+      "observerConditionBounded": true,
+      "observerClampInformationLoss": true,
+      "replayDigestCollisionRejected": true,
+      "carrierV1Closure": true,
+      "carrierV1JoinNormalized": true,
+      "carrierV1Directional": true,
+      "carrierV1Quotient": true
+    },
+    "metrics": {
+      "s3MaxRadiusResidual": 2.220446049250313e-16,
+      "actionCount": 3,
+      "pointCount": 144
+    },
+    "rigor": {
+      "sweep": {
+        "maxDepth": 8,
+        "pathCount": 2015539,
+        "maxOrthogonalityResidual": 1.3322676295501878e-15,
+        "maxDeterminantResidual": 1.1102230246251565e-15,
+        "maxColumnNormResidual": 1.3322676295501878e-15,
+        "errorBudget": 8.526512829121929e-14
+      },
+      "samePlane": {
+        "moveCount": 1000000,
+        "roundingOperationBudget": 12000000,
+        "errorBudget": 1.332267631325125e-9,
+        "maxAbsDelta": 2.992239789278983e-11,
+        "normResidual": 6.014888587202449e-11
+      },
+      "mixedInverse": {
+        "moveCount": 600000,
+        "roundingOperationBudget": 7200000,
+        "errorBudget": 7.993605783690901e-10,
+        "maxAbsDelta": 8.969269771341715e-12,
+        "normResidual": 1.7935652962819404e-11
+      },
+      "observer": {
+        "ordinary": {
+          "w": 0.2,
+          "boundedW": 0.2,
+          "clamped": false,
+          "atClampBoundary": false,
+          "denominator": 1.07,
+          "scale": 0.9345794392523364,
+          "localScaleSensitivityToW": 0.30570355489562406,
+          "informationLoss": false,
+          "contractDenominatorFloorExclusive": 0.1
+        },
+        "stressed": {
+          "w": -0.9,
+          "boundedW": -0.9,
+          "clamped": false,
+          "atClampBoundary": true,
+          "denominator": 0.10000090000000006,
+          "scale": 9.999910000809987,
+          "localScaleSensitivityToW": 99.99810002609955,
+          "informationLoss": false,
+          "contractDenominatorFloorExclusive": 0.1
+        },
+        "clamped": {
+          "w": -10,
+          "boundedW": -0.9,
+          "clamped": true,
+          "atClampBoundary": false,
+          "denominator": 0.10000090000000006,
+          "scale": 9.999910000809987,
+          "localScaleSensitivityToW": 0,
+          "informationLoss": true,
+          "contractDenominatorFloorExclusive": 0.1
+        }
+      }
+    },
+    "carrierV1": {
+      "version": "S'1-Carrier/Ops v1",
+      "closed": true,
+      "joinNormalized": true,
+      "directional": true,
+      "quotientClosed": true
+    },
+    "runtimeVersion": "v22.23.2"
+  },
+  "evidenceBoundaries": [
+    "software verification only",
+    "SOFTWARE_VERIFICATION != SCIENTIFIC_VALIDATION",
+    "FINITE_EXHAUSTIVE_SWEEP != UNBOUNDED_PROOF",
+    "FLOATING_POINT_RESIDUAL != MATHEMATICAL_COUNTEREXAMPLE",
+    "PROJECTION_CONDITIONING != OBJECT_PROPERTY",
+    "HASH_EQUALITY != PAYLOAD_EQUALITY",
+    "OPERATOR_RESULT != SCIENTIFIC_EVIDENCE",
+    "SHARED_TRIG_PRIMITIVE != INDEPENDENT_TRANSCENDENTAL_ORACLE",
+    "real 4D != complex dimension 4",
+    "Hodge and P-vs-NP remain open",
+    "functional browser smoke != rendered usability or assistive-technology validation",
+    "Experiment 0 frozen evidence remains historical and unchanged"
+  ],
+  "provenance": {
+    "relation": "additive successor; predecessor remains byte-for-byte frozen",
+    "successorPurpose": "close replay-digest collision, recursive carrier-registry, and shared-trigonometric-primitive evidence gaps",
+    "scientificPromotion": false
+  }
+}
