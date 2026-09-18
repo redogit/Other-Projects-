@@ -1,4 +1,12 @@
-# Decision Field MMORPG — World Without Waste
+# RIPPING MANY ARMS OFF — Decision Field MMORPG Transition Runtime
+
+**Successor target:** massive chunk-streamed 3D roguelike MMORPG.  
+**Current executable truth:** this directory still contains a 2D browser transition prototype; it is not yet an authoritative massive 3D MMO.
+
+The successor world contract is [`RMAO_WORLD.md`](RMAO_WORLD.md) with the machine-readable [`rmao-world-contract.json`](rmao-world-contract.json).
+
+`CURRENT_2D_PROTOTYPE != MASSIVE_3D_WORLD`  
+`LOCAL_SHARD_SIMULATION != SERVER_AUTHORITY`
 
 A no-build browser MMORPG-style research world where the environment mutates constantly and every interaction can become a bounded gameplay observation.
 
@@ -24,6 +32,7 @@ Run the deterministic core checks with:
 
 ```bash
 node "Decision Field MMORPG/tests/core.test.mjs"
+node "Decision Field MMORPG/tests/rmao-world.test.mjs"
 ```
 
 ## Controls
@@ -39,6 +48,10 @@ node "Decision Field MMORPG/tests/core.test.mjs"
 - V — optional speech controls
 
 Motion and speech are permission-gated. Browser speech recognition may use a browser/vendor service when enabled.
+
+## RMAO implementation seed
+
+The pure core now includes deterministic 3D chunk addressing and a data-driven limb graph. A creature can have arbitrary arm counts; detaching an arm produces a new immutable graph state and removes only capabilities supplied by the detached subtree. These functions are locally testable and are not yet wired into the 2D renderer or a server-authoritative combat loop.
 
 ## What now works
 
@@ -56,11 +69,11 @@ Motion and speech are permission-gated. Browser speech recognition may use a bro
 
 ## Character visual pipeline
 
-The Red Wilds visual work now has a five-deliverable production specification in [`CHARACTER_VISUAL_PIPELINE.md`](CHARACTER_VISUAL_PIPELINE.md): reference dossier, canonical fictional character sheet, material/texture specification, reversible shapeshifter states, and integration/acceptance gates.
+The Ripping Many Arms Off visual work now has a five-deliverable production specification in [`CHARACTER_VISUAL_PIPELINE.md`](CHARACTER_VISUAL_PIPELINE.md): reference dossier, canonical fictional character sheet, material/texture specification, reversible shapeshifter states, and integration/acceptance gates.
 
 The visual target is high-quality photorealistic / real-life imagery with scene-specific resolutions and formats rather than a fixed aspect-ratio family. Asset numbering is intentionally open-ended and generation can be batched at whatever scale is practical while preserving stable IDs, source masters and reproducibility metadata.
 
-The complete motion/image scene set and failed-render recovery rules are in [`RED_WILDS_VIDEO_UPDATE.md`](RED_WILDS_VIDEO_UPDATE.md).
+The complete motion/image scene set and failed-render recovery rules are in [`RMAO_WORLD.md`](RMAO_WORLD.md).
 
 Reference imagery is treated as visual input, not evidence of identity. Generated concept art remains concept evidence until production assets are implemented and tested.
 
