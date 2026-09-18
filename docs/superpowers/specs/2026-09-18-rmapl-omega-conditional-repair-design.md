@@ -1,9 +1,98 @@
 # RMAPL Ω Conditional Repair/Fitting Contract — Design
 
 **Date:** 2026-09-18  
-**Status:** APPROVED DESIGN / NOT YET IMPLEMENTED  
-**Canonical executable home:** `redogit/Other-Projects-`  
-**Cross-reference only:** `redogit/conscience64`
+**Status:** APPROVED DOMAIN-DERIVED DESIGN / NOT YET IMPLEMENTED  
+**Canonical design and candidate executable home:** `redogit/Other-Projects-`  
+**Cross-reference only:** `redogit/conscience64`  
+**Collated domain ledger:** `Decision Field Operator Lab/RMAPL_OMEGA_DOMAIN_COLLATION_2026-09-18.md`
+
+## 0. Governing methodology: Data-Driven, Domain-Specialized, Inspectability-First
+
+RMAPL/Ω is **earned upward from independently inspectable native domains and then reconstruction-audited downward**. It is not a universal schema declared first and imposed on every project.
+
+The governing flow is:
+
+```text
+RAW / EXECUTED DOMAIN DATA
+-> DOMAIN CONTRACT
+-> DOMAIN FIXTURES
+-> DOMAIN VERIFIERS + COUNTERPROBES
+-> DOMAIN-SPECIALIZED RESULT
+-> INSPECTION ARTIFACT
+-> CROSS-DOMAIN COMPARISON
+-> REPEATED VERIFIED STRUCTURE
+-> RMAPL/Ω CANDIDATE GENERALIZATION
+-> REAPPLY TO EACH DOMAIN
+-> RECONSTRUCTION / LOSS AUDIT
+-> ADMIT ONLY WHAT SURVIVES
+```
+
+For domain contract `D_i`, any generalized projection must preserve an explicit domain remainder:
+
+```text
+D_i = Ω_i + R_i
+```
+
+where `R_i` is the native structure that does not safely generalize. `R_i` MUST NOT be forced to zero for elegance.
+
+Required distinctions:
+
+```text
+DATA != TRUTH
+OBSERVED != REQUIRED
+MISSING != ABSENT
+MODEL_FIT != DOMAIN_TRUTH
+SCHEMA != WORLD
+COMMON_STRUCTURE != COMPLETE_DOMAIN_SEMANTICS
+GENERALIZATION != AUTHORITY_TRANSFER
+```
+
+### Quality admission
+
+Quality is executable. A result is not admitted merely because it serializes or looks coherent.
+
+At minimum, each domain declares which of these gates apply:
+
+```text
+schema-valid
+provenance-complete
+missingness-preserved
+native-invariants-preserved
+validation-passed
+counterprobe-passed
+claim-evidence-obligations-satisfied
+resource-bounds-recorded
+claim-ceiling-preserved
+reconstruction-checked
+domain-remainder-preserved
+```
+
+### Inspectability contract
+
+Every meaningful derived result should expose an inspection record sufficient to answer, without reverse-engineering implementation internals:
+
+```text
+inputRefs
+nativeContract
+transform
+observer/frame
+expected
+actual
+residual
+preserved
+lost
+introduced
+evidence
+counterprobe
+provenance
+claimCeiling
+resourceBounds
+unresolved
+nextDecision
+domainRemainder
+```
+
+“Impeccability” is operationalized here as: **no known defect, assumption, loss, uncertainty, provenance gap, failed counterprobe, truncation, or claim-boundary limitation is hidden from the inspectable artifact.** It does not mean infallibility.
 
 ## 1. Purpose
 
@@ -50,7 +139,9 @@ Three existing structures already carry most of the needed semantics:
 
 A fourth independent implementation would duplicate authority and increase reconstruction cost.
 
-Therefore Ω is a **common typed projection** over native objects. Native schemas remain authoritative for their domain.
+Therefore Ω is a **candidate common typed projection** over native objects. Native schemas remain authoritative for their domain.
+
+A field enters Ω only after at least one domain adapter can demonstrate that the field is consequentially necessary and inspectable. Fields are promoted across domains only when repeated independent domain use justifies the generalization. Domain-specific fields remain in the native remainder rather than being generalized speculatively.
 
 ## 3. Canonical Ω record
 
@@ -578,7 +669,29 @@ MAXIMALLY_REPAIR Ω {
 }
 ```
 
-## 16. Native adapters
+## 16. Domain-first derivation and native adapters
+
+Before implementing a generic adapter, each domain must publish a small domain extraction table:
+
+```text
+native data
+native identity
+native invariants
+native transforms
+native observations
+native residuals
+native verifier
+native evidence classes
+native claim ceiling
+native failure/counterexample forms
+native unresolved remainder
+candidate shared roles
+non-generalizable remainder
+```
+
+Only the `candidate shared roles` are eligible for Ω promotion, and only after round-trip reconstruction or an explicit loss certificate.
+
+### Native adapters
 
 ### Decision Field Operator Lab
 
@@ -753,7 +866,9 @@ The following attractive but unsafe formulations are explicitly rejected:
 
 A future implementation plan must prove at least:
 
-1. Ω schema rejects undeclared authority fields.
+1. Domain extraction fixtures exist first for Decision Field and S'1, and the initial Ω fields are justified from those fixtures rather than speculative universality.
+2. Every adapter emits an inspectable domain-remainder record; no adapter may claim full-domain representation unless that remainder is explicitly empty and verified.
+3. Ω schema rejects undeclared authority fields.
 2. Native -> Ω -> native reconstruction preserves declared canonical identity for an exact reversible fixture.
 3. Lossy projection requires an explicit quotient/loss declaration.
 4. Two histories that share a compressed signature remain distinguishable.
@@ -766,15 +881,27 @@ A future implementation plan must prove at least:
 11. Knowledge Decay components remain separately inspectable.
 12. S'1, GSFL, image-surface, dimensional-ladder, and Hodge fixtures can each expose an Ω view without changing their native schema identity.
 13. Conscience64 contains no duplicate canonical runtime.
-14. Existing native tests continue to pass unchanged unless a separately justified defect is found.
+16. Existing native tests continue to pass unchanged unless a separately justified defect is found.
+17. Native -> Ω -> native round-trip comparison reports preserved, lost, introduced, and unresolved distinctions.
+18. A deliberately domain-specific fixture is retained in the native remainder rather than being forced into a generic Ω field.
+19. Inspection records expose all applicable quality gates and any failed/skipped gate.
+20. No generalized field is promoted solely because it appears in prose; promotion requires executed or structurally validated domain evidence.
 
 ## 22. Rollout boundary
 
 First implementation should be deliberately narrow:
 
 ```text
-Phase 1:
-  generic Ω schema + validator
+Phase 1A — derive from domains:
+  Decision Field native extraction fixture
+  S'1 native extraction fixture
+  explicit shared-role intersection
+  explicit per-domain remainder
+  inspection-record contract
+  round-trip/loss tests
+
+Phase 1B — only after 1A survives:
+  minimal Ω schema containing only justified shared roles
   typed evidence admission
   repair/fitter metadata contracts
   bounded repair frontier + cycle detection
@@ -798,9 +925,9 @@ No phase may silently change native scientific claim status.
 
 ## 23. Final design statement
 
-RMAPL is the executable repair/fitting surface.
+RMAPL is the executable repair/fitting surface **after its primitives are justified by domain evidence**.
 
-Ω is the common projection and verification envelope.
+Ω is the **minimal shared projection discovered from validated domain contracts**, plus explicit per-domain remainder and reconstruction/loss records.
 
 Decision Fields remain native decision/control objects inside or projected through Ω.
 
