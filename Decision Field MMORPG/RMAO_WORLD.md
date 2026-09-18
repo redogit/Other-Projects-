@@ -84,3 +84,19 @@ Browser-local simulation and BroadcastChannel remain useful test carriers only.
 7. Scale/load evidence for declared shard/world budgets.
 8. Accessibility and non-graphic parity checks.
 9. Only then promote corresponding “massive 3D MMORPG” claims.
+
+## Dynamic RMAL characters
+
+The canonical dynamic character contract is [`DYNAMIC_RMAL_CHARACTERS.rmal`](DYNAMIC_RMAL_CHARACTERS.rmal), with deterministic surface checks in [`verify_dynamic_rmal.py`](verify_dynamic_rmal.py).
+
+**Super Seraphine** is the world’s magic trickster: she may morph into any admitted fictional form, change apparent role, create decoys, invert visible rules, misdirect, and otherwise behave chaotically. The invariant is that presentation/gameplay chaos does not mint server, administrator, moderation, or real-world identity authority.
+
+**Sproutling** is a fictional growth-form/type for game entities. It is not a synonym or proxy for a real child and carries no real-family mapping.
+
+```text
+SUPER_SERAPHINE_CHARACTER != PRIVATE_PERSON
+SPROUTLING != REAL_CHILD
+TRICKSTER_ROLE != ADMIN_AUTHORITY
+PRESENTATION_SPOOF != SERVER_STATE
+CHAOS != HISTORY_ERASURE
+```
