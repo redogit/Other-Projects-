@@ -31,3 +31,40 @@ export function eventInterval(profile){
   const activity=(profile.events||0)+(profile.signals||0)+(profile.pulses||0)/20;
   return Math.max(8,Math.min(18,16-activity*.02));
 }
+
+
+export const RMAO_WORLD_ID='rmao-world';
+export const RMAO_LIMB_STATES=Object.freeze(['attached','damaged','disabled','detached']);
+
+export function chunkKey3D(x,y,z,chunkSize=256){
+  if(!Number.isFinite(chunkSize)||chunkSize<=0) throw new TypeError('chunkSize must be positive');
+  for(const v of [x,y,z]) if(!Number.isFinite(v)) throw new TypeError('coordinates must be finite');
+  return [Math.floor(x/chunkSize),Math.floor(y/chunkSize),Math.floor(z/chunkSize)].join(':');
+}
+
+export function makeManyArmedBody(armCount=2){
+  if(!Number.isInteger(armCount)||armCount<0||armCount>128) throw new RangeError('armCount must be an integer in [0,128]');
+  const nodes=[{limbId:'core',kind:'core',parentLimbId:null,state:'attached',capabilities:['locomotion'],equipmentSlots:[]}];
+  for(let i=0;i<armCount;i++) nodes.push({
+    limbId:`arm:${i}`,kind:'arm',parentLimbId:'core',state:'attached',
+    capabilities:[`arm-use:${i}`],equipmentSlots:[`hand:${i}`]
+  });
+  return {schema:'rmao.limb-graph/v1',nodes};
+}
+
+export function detachLimb(graph,limbId){
+  if(!graph||!Array.isArray(graph.nodes)) throw new TypeError('invalid limb graph');
+  const byId=new Map(graph.nodes.map(n=>[n.limbId,n]));
+  if(!byId.has(limbId)) throw new RangeError('unknown limbId');
+  if(limbId==='core') throw new RangeError('core detachment is not an arm-removal operation');
+  const descendants=new Set([limbId]);
+  let changed=true;
+  while(changed){changed=false;for(const n of graph.nodes){if(n.parentLimbId&&descendants.has(n.parentLimbId)&&!descendants.has(n.limbId)){descendants.add(n.limbId);changed=true;}}}
+  const lostCapabilities=[],lostEquipmentSlots=[];
+  const nodes=graph.nodes.map(n=>{
+    if(!descendants.has(n.limbId)) return {...n,capabilities:[...(n.capabilities||[])],equipmentSlots:[...(n.equipmentSlots||[])]};
+    lostCapabilities.push(...(n.capabilities||[])); lostEquipmentSlots.push(...(n.equipmentSlots||[]));
+    return {...n,state:'detached',capabilities:[],equipmentSlots:[]};
+  });
+  return {graph:{...graph,nodes},detached:[...descendants].sort(),lostCapabilities:[...new Set(lostCapabilities)].sort(),lostEquipmentSlots:[...new Set(lostEquipmentSlots)].sort()};
+}

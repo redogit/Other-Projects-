@@ -2,7 +2,7 @@
 
 Status: design specification. This document does not claim that generated concept art is a production-ready texture set or that a depicted person has any real-world identity.
 
-The recurring woman in the Red Wilds concept work is treated as a **fictional shapeshifter character**. Reference images are visual inputs only; identity inference is out of scope.
+The recurring woman in the Ripping Many Arms Off concept work is treated as a **fictional shapeshifter character**. Reference images are visual inputs only; identity inference is out of scope.
 
 ## Global image target
 
@@ -39,6 +39,12 @@ Production material families:
 
 Prefer reusable masks and material instances over duplicated texture sets.
 
+## Multi-arm creature production rule
+
+RMAO creatures use a body/limb graph rather than a fixed humanoid rig. Visual production must support zero-to-many arm nodes, stable limb IDs, attached/damaged/disabled/detached presentation states, detachable equipment bindings, LOD-safe limb visibility, and a non-graphic presentation that communicates the same mechanics without gore.
+
+Rigging/animation assets do not own gameplay state; the authoritative limb graph does.
+
 ## Deliverable 4 — Shapeshifter state system
 
 Represent transformations as authored fictional states rather than claims about a real person. Each state has:
@@ -66,9 +72,9 @@ Integrate the character into the Decision Field MMORPG only after checks for:
 - deterministic state transitions;
 - graceful fallback when high-resolution assets are absent.
 
-## Red Wilds motion set
+## RMAO world motion set
 
-Use the complete scene list in [`RED_WILDS_VIDEO_UPDATE.md`](RED_WILDS_VIDEO_UPDATE.md):
+The old scene list is superseded. Use [`RMAO_WORLD.md`](RMAO_WORLD.md) for world-scale 3D motion, creature, combat and camera requirements. Inherited companion/night-city material is reference-only and does not define the successor world.
 - companion reveal;
 - night-city walk;
 - private-room scene;
