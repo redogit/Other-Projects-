@@ -40,3 +40,6 @@ jobs:
         run: node "Decision Field MMORPG/tests/core.test.mjs"
       - name: Verify RMAO 3D and limb-graph seed
         run: node "Decision Field MMORPG/tests/rmao-world.test.mjs"
+
+      - name: Verify Dynamic RMAL character contract
+        run: python3 "Decision Field MMORPG/verify_dynamic_rmal.py"
