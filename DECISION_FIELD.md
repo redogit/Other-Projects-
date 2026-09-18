@@ -34,3 +34,18 @@ CONNECTED != MERGED
 METHOD_TRANSFER != EVIDENCE_TRANSFER
 SHARED_STRUCTURE != SHARED_MECHANISM
 ```
+
+
+## Prospective RMAPL / Ω domain-derived contract
+
+The following work is **design-only and not an active runtime**. It derives candidate common structure upward from existing domain contracts and requires explicit per-domain remainder and reconstruction/loss auditing before any general field is promoted:
+
+- [RMAPL Ω Conditional Repair/Fitting design](docs/superpowers/specs/2026-09-18-rmapl-omega-conditional-repair-design.md)
+- [RMAPL / Ω domain collation](Decision%20Field%20Operator%20Lab/RMAPL_OMEGA_DOMAIN_COLLATION_2026-09-18.md)
+
+```text
+DOMAIN_FIRST != UNIVERSAL_SCHEMA_FIRST
+COMMON_STRUCTURE != COMPLETE_DOMAIN_SEMANTICS
+OMEGA_VIEW != NATIVE_OBJECT
+DESIGN != ACTIVE_RUNTIME
+```
