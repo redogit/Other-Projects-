@@ -1,0 +1,136 @@
+# Dynamic RMAL 0.1 — RMAO Character Runtime Contract
+# STATUS: DESIGN-CONTRACT / MACHINE-CHECKABLE SURFACE / NOT YET A COMPILED RMAL RUNTIME
+# AUTHORITY: redogit/Other-Projects-/Decision Field MMORPG
+# WORLD: rmao-world
+
+RMAL DYNAMIC 0.1
+WORLD "rmao-world"
+
+INVARIANT GAME_CHARACTER != PRIVATE_PERSON
+INVARIANT FICTIONAL_FORM != REAL_IDENTITY
+INVARIANT SPROUTLING != REAL_CHILD
+INVARIANT TRICKSTER_ROLE != ADMIN_AUTHORITY
+INVARIANT PRESENTATION_SPOOF != SERVER_STATE
+INVARIANT PLAYER_ALIAS != REAL_PERSON
+INVARIANT CLIENT_PREDICTION != SERVER_AUTHORITY
+INVARIANT CHAOS != HISTORY_ERASURE
+
+TYPE Sproutling {
+    namespace        = "fictional.rmao"
+    class            = "growth-form"
+    real_age_mapping = NONE
+    real_family_link = NONE
+    combat_identity  = DATA_DRIVEN
+    presentation     = NON_HUMAN_OR_ABSTRACT_ALLOWED
+    transformable    = TRUE
+}
+
+TYPE Trickster {
+    mutable form
+    mutable presentation
+    mutable apparent_role
+    immutable canonical_id
+    immutable provenance
+    immutable authority_ceiling
+}
+
+ENTITY SuperSeraphine : Trickster {
+    canonical_id      = "super-seraphine"
+    display_name      = "Super Seraphine"
+    fiction_only      = TRUE
+    private_person    = NONE
+    family_proxy      = NONE
+
+    form              = ANY_FICTIONAL_FORM
+    presentation      = ANY_ACCESSIBLE_PRESENTATION
+    apparent_role     = ANY_NON_AUTHORITY_ROLE
+    chaos_budget      = UNBOUNDED_PRESENTATION_WITH_BOUNDED_AUTHORITY
+    authority_ceiling = GAME_ENTITY
+
+    MAY {
+        MORPH(target_form)
+        SPLIT_DECOY(count)
+        MERGE_DECOYS()
+        SWAP_PRESENTATION(a, b)
+        INVERT_VISIBLE_RULE(rule_id)
+        MISDIRECT(target, clue)
+        REFRAME_SCENE(frame)
+        COPY_NON_AUTHORITATIVE_APPEARANCE(target)
+        ENTER_SPROUTLING_FORM()
+        EXIT_SPROUTLING_FORM()
+        RANDOMIZE_ALLOWED_TRAITS(seed)
+        REMEMBER_TRICK(history_ref)
+        REVEAL_TRICK(history_ref)
+    }
+
+    MUST {
+        PRESERVE(canonical_id)
+        PRESERVE(provenance)
+        PRESERVE(authority_ceiling)
+        RECORD(authoritative_mutations)
+        EXPOSE(accessibility_equivalent_state)
+        FAIL_CLOSED(on_undeclared_authority)
+    }
+
+    MUST_NOT {
+        IMPERSONATE_REAL_PERSON()
+        CLAIM_PRIVATE_FAMILY_IDENTITY()
+        DERIVE_PRIVATE_PERSONAL_DATA()
+        MINT_ADMIN_AUTHORITY()
+        MINT_SERVER_AUTHORITY()
+        BYPASS_MODERATION()
+        REWRITE_PREDECESSOR_HISTORY()
+        CONVERT_PRESENTATION_SPOOF_TO_AUTHORITATIVE_STATE()
+    }
+}
+
+DYNAMIC TRANSITION SeraphineMorph(target_form) {
+    WHEN FICTIONAL(target_form)
+    AND ACCESSIBLE_EQUIVALENT_EXISTS(target_form)
+    DO SuperSeraphine.form := target_form
+    PRESERVE SuperSeraphine.canonical_id
+    PRESERVE SuperSeraphine.authority_ceiling
+    RECORD "morph"
+}
+
+DYNAMIC TRANSITION SeraphineTrick(trick) {
+    WHEN ADMITTED_GAME_TRICK(trick)
+    AND NOT AUTHORITY_ESCALATION(trick)
+    AND NOT PRIVATE_IDENTITY_BRIDGE(trick)
+    DO APPLY_PRESENTATION_OR_GAME_RULE(trick)
+    RECORD "trick"
+}
+
+DYNAMIC TRANSITION SproutlingShift(entity) {
+    WHEN FICTIONAL_ENTITY(entity)
+    DO entity.form := Sproutling
+    PRESERVE entity.canonical_id
+    DENY REAL_AGE_INFERENCE
+    DENY REAL_FAMILY_INFERENCE
+    RECORD "sproutling-shift"
+}
+
+DYNAMIC GATE AuthoritativeMutation(event) {
+    REQUIRE SERVER_VALIDATED(event)
+    REQUIRE WORLD_RULE_ADMITTED(event)
+    REQUIRE MODERATION_SAFE(event)
+    ELSE FAIL_CLOSED
+}
+
+VERIFY {
+    ASSERT SuperSeraphine.canonical_id == "super-seraphine"
+    ASSERT SuperSeraphine.private_person == NONE
+    ASSERT SuperSeraphine.family_proxy == NONE
+    ASSERT SuperSeraphine.authority_ceiling == GAME_ENTITY
+    ASSERT Sproutling.real_age_mapping == NONE
+    ASSERT Sproutling.real_family_link == NONE
+    ASSERT INVARIANT("GAME_CHARACTER != PRIVATE_PERSON")
+    ASSERT INVARIANT("SPROUTLING != REAL_CHILD")
+    ASSERT INVARIANT("TRICKSTER_ROLE != ADMIN_AUTHORITY")
+}
+
+EXPORT {
+    character = SuperSeraphine
+    lifecycle_form = Sproutling
+    world = "rmao-world"
+}
