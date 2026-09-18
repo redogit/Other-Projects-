@@ -18,9 +18,9 @@ def PNPCore_Dialect : Dialect {
 class PNPCore_Op<string mnemonic, list<Trait> traits = []>
     : Op<PNPCore_Dialect, mnemonic, traits>;
 
-class PNPCore_Attr<string name, string mnemonic, list<Trait> traits = []>
+class PNPCore_Attr<string name, string attrMnemonic, list<Trait> traits = []>
     : AttrDef<PNPCore_Dialect, name, traits> {
-  let mnemonic = mnemonic;
+  let mnemonic = attrMnemonic;
 }
 
 def PNPCore_StatusAttr : PNPCore_Attr<"Status", "status"> {
