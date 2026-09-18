@@ -130,4 +130,4 @@ These verified closure properties do **not** assert that Carrier/Ops v1 is a gro
 
 `SHARED_TRIG_PRIMITIVE != INDEPENDENT_TRANSCENDENTAL_ORACLE`
 
-The Experiment 0 frozen evidence remains historical and unchanged. Rigor v1 receives its own successor evidence record after an exact-head implementation checkpoint passes CI.
+The Experiment 0 and original Rigor v1 evidence remain historical and unchanged. `evidence/RIGOR_V1_CLOSURE_SUMMARY.json` is the additive successor record for the exact-head closure checkpoint; it points back to `RIGOR_V1_SUMMARY.json` rather than rewriting it.
