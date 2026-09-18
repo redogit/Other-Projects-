@@ -36,6 +36,7 @@ test('audit reports deterministic bounded software and rigor evidence',()=>{
     'FLOATING_POINT_RESIDUAL != MATHEMATICAL_COUNTEREXAMPLE',
     'PROJECTION_CONDITIONING != OBJECT_PROPERTY',
     'HASH_EQUALITY != PAYLOAD_EQUALITY',
-    'OPERATOR_RESULT != SCIENTIFIC_EVIDENCE'
+    'OPERATOR_RESULT != SCIENTIFIC_EVIDENCE',
+    'SHARED_TRIG_PRIMITIVE != INDEPENDENT_TRANSCENDENTAL_ORACLE'
   ]) assert.ok(a.claimBoundaries.includes(boundary));
 });

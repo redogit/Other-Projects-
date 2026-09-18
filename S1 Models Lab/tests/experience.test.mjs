@@ -1,4 +1,4 @@
-import test from 'node:test'; import assert from 'node:assert/strict'; import {sampleS3} from '../geometry.mjs'; import {createState,applyMove,compareStates} from '../core.mjs'; import {DEFAULT_OBSERVER} from '../observer.mjs'; import {canonicalJson,makeExperience,replayExperience,reframeExperience,classifyExperience,appendExperience} from '../experience.mjs';
+import test from 'node:test'; import assert from 'node:assert/strict'; import {sampleS3} from '../geometry.mjs'; import {createState,applyMove,compareStates} from '../core.mjs'; import {DEFAULT_OBSERVER} from '../observer.mjs'; import {canonicalJson,makeExperience,replayExperience,reframeExperience,replayEquivalent,classifyExperience,appendExperience} from '../experience.mjs';
 const geom=sampleS3({etaSteps:2,xi1Steps:3,xi2Steps:3,radius:1}); const registry=new Map([[geom.id,geom]]);
 function input(actions=[{plane:'xw',degrees:1}],relations={familyId:'f0'}){const same=actions.length===0;return {initialState:geom.id,mirrorId:'mirror:'+geom.id,shell:'s3-sample',actions,observer:DEFAULT_OBSERVER,observerField:{version:'s1-observer-field/v0',taskVersion:'s1-observer-task/v0',densityId:'fixture',calibrations:[]},checkpoints:[],comparisons:{obligation:'live-vs-mirror',againstMirror:{equal:same,maxAbsDelta:same?0:0.01},againstPrevious:{equal:same,maxAbsDelta:same?0:0.01}},relations,provenance:{source:'unit'}};}
 test('canonical ID ignores object key insertion order and changes with action',()=>{const a=makeExperience(input());const x=input();const b=makeExperience({provenance:x.provenance,relations:x.relations,comparisons:x.comparisons,observerField:x.observerField,observer:x.observer,actions:x.actions,shell:x.shell,mirrorId:x.mirrorId,initialState:x.initialState});assert.equal(a.id,b.id);assert.notEqual(a.id,makeExperience(input([{plane:'yw',degrees:1}])).id);assert.equal(canonicalJson(a),canonicalJson(b));});
@@ -75,4 +75,14 @@ test('family labels cannot create variation across different initial-state ident
   const graph=Object.freeze({events:Object.freeze([{event:first,classification:'new-branch'}]),invariants:Object.freeze([])});
   const other=makeExperience({...input([{plane:'yw',degrees:1}],{familyId:'f0',parentId:null,relatedIds:[]}),initialState:'different-origin',mirrorId:'mirror:different-origin'});
   assert.equal(classifyExperience(other,graph),'unresolved');
+});
+
+
+test('replay equality fails closed if one compact digest names unequal canonical replay payloads',()=>{
+  const a=makeExperience(input([],{familyId:'collision',parentId:null,relatedIds:[]}));
+  const b=makeExperience(input([{plane:'xw',degrees:1}],{familyId:'collision',parentId:null,relatedIds:[]}));
+  assert.throws(
+    ()=>replayEquivalent(a,b,{identityFor:()=> 'forced-digest'}),
+    /digest collision/i
+  );
 });

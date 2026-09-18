@@ -201,6 +201,33 @@ export function replayIdentity(record) {
   return fnv1a64(replayDescriptor(record));
 }
 
+export function replayEquivalent(
+  a,
+  b,
+  { identityFor = replayIdentity, descriptorFor = replayDescriptor } = {}
+) {
+  if (typeof identityFor !== 'function' || typeof descriptorFor !== 'function') {
+    throw new TypeError('identityFor and descriptorFor must be functions');
+  }
+  const left = validateExperience(a);
+  const right = validateExperience(b);
+  const leftIdentity = identityFor(left);
+  const rightIdentity = identityFor(right);
+  if (typeof leftIdentity !== 'string' || !leftIdentity || typeof rightIdentity !== 'string' || !rightIdentity) {
+    throw new TypeError('replay identity must be a non-empty string');
+  }
+  if (leftIdentity !== rightIdentity) return false;
+  const leftDescriptor = descriptorFor(left);
+  const rightDescriptor = descriptorFor(right);
+  if (typeof leftDescriptor !== 'string' || typeof rightDescriptor !== 'string') {
+    throw new TypeError('replay descriptor must be a string');
+  }
+  if (leftDescriptor !== rightDescriptor) {
+    throw new RangeError('replay digest collision: equal digest names unequal canonical replay payloads');
+  }
+  return true;
+}
+
 function lookupGeometry(registry, id) {
   const geometry = registry instanceof Map ? registry.get(id) : registry?.[id];
   if (!geometry || geometry.id !== id || !Array.isArray(geometry.points4)) throw new RangeError(`unknown initial geometry: ${id}`);
@@ -230,8 +257,7 @@ function eventsOf(graph) {
 export function classifyExperience(record, graph) {
   const valid = validateExperience(record);
   const events = eventsOf(graph);
-  const identity = replayIdentity(valid);
-  if (events.some(existing => replayIdentity(existing) === identity)) return 'repeat';
+  if (events.some(existing => replayEquivalent(existing, valid))) return 'repeat';
 
   const invId = valid.relations.testsInvariantId;
   if (invId && typeof valid.relations.invariantResult === 'boolean' && Array.isArray(graph?.invariants)) {
@@ -266,8 +292,7 @@ export function classifyExperience(record, graph) {
 export function appendExperience(graph, record, classification = classifyExperience(record, graph)) {
   const valid = validateExperience(record);
   const existingEvents = Array.isArray(graph?.events) ? graph.events : [];
-  const identity = replayIdentity(valid);
-  if (existingEvents.some(entry => replayIdentity(entry?.event ?? entry) === identity)) return graph;
+  if (existingEvents.some(entry => replayEquivalent(entry?.event ?? entry, valid))) return graph;
   const invariants = Array.isArray(graph?.invariants) ? graph.invariants : [];
   return deepFreeze({
     ...(graph && typeof graph === 'object' ? cloneCanonical(graph) : {}),
