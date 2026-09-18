@@ -2,7 +2,9 @@ add_mlir_dialect_library(PNPCore
   Core/CoreDialect.cpp
   PARTIAL_SOURCES_INTENDED
   ADDITIONAL_HEADER_DIRS ${PROJECT_SOURCE_DIR}/include
-  DEPENDS MLIRCoreOpsIncGen
+  DEPENDS
+    MLIRCoreOpsIncGen
+    MLIRCoreAttributesIncGen
   LINK_LIBS PUBLIC MLIRIR
 )
 
