@@ -1,22 +1,27 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { runAudit } from '../audit.mjs';
 
 const summaryUrl = new URL('../evidence/RIGOR_V1_SUMMARY.json', import.meta.url);
 
 test('frozen Rigor v1 summary pins exact implementation evidence without scientific promotion', async()=>{
   const summary=JSON.parse(await readFile(summaryUrl,'utf8'));
   assert.equal(summary.schema,'s1-rigor-v1-evidence/v1');
-  assert.equal(summary.implementationRevision,'da979d2f9909e15019bae628a2c36ee56603dd79');
+  assert.equal(summary.implementationRevision,'3040d235d8bfb55e3302effff5528ee71ecb5fad');
   assert.equal(summary.implementationCi.workflow,'S1 Models Check');
-  assert.equal(summary.implementationCi.runId,35311853490);
+  assert.equal(summary.implementationCi.runId,35312567016);
   assert.equal(summary.implementationCi.conclusion,'success');
   assert.equal(summary.runtimeVersion,'v22.23.2');
-  assert.deepEqual(summary.implementationTests,{total:89,passed:89,failed:0});
+  assert.deepEqual(summary.implementationTests,{total:92,passed:92,failed:0});
   assert.equal(summary.browserSmoke.conclusion,'success');
 
   assert.equal(summary.audit.schema,'s1-models-audit/v1');
   assert.equal(summary.audit.scientificValidation,false);
+  assert.deepEqual(
+    summary.audit,
+    runAudit({sourceRevision:summary.implementationRevision,runtimeVersion:summary.runtimeVersion})
+  );
   assert.equal(Object.keys(summary.audit.checks).length,28);
   assert.equal(Object.values(summary.audit.checks).every(Boolean),true);
 
@@ -49,6 +54,7 @@ test('frozen Rigor v1 summary pins exact implementation evidence without scienti
     'PROJECTION_CONDITIONING != OBJECT_PROPERTY',
     'HASH_EQUALITY != PAYLOAD_EQUALITY',
     'OPERATOR_RESULT != SCIENTIFIC_EVIDENCE',
+    'SHARED_TRIG_PRIMITIVE != INDEPENDENT_TRANSCENDENTAL_ORACLE',
     'Hodge and P-vs-NP remain open'
   ]) assert.ok(summary.evidenceBoundaries.includes(boundary));
 });
