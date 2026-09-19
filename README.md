@@ -4,6 +4,20 @@ Current owner policy: no third-party commercial access is authorized for owner-c
 
 Implementation home for the Human Expression Archive, 1,024-byte section carriers, and bounded learning-compression tools, explicitly selected by the user on September 13, 2026.
 
+
+## RMAL cooperative implementation protocol
+
+The current additive RMAL carrier for cross-workstream cooperation and provenance is:
+
+- [RMAL source](docs/RMAL_COOPERATIVE_IMPLEMENTATION_PROTOCOL.rmal)
+- [semantic/documentation boundary](docs/RMAL_COOPERATIVE_IMPLEMENTATION_PROTOCOL.md)
+- [bounded RMALC 2.1.1 validation evidence](evidence/RMAL_COOPERATIVE_IMPLEMENTATION_PROTOCOL_2026-09-19.json)
+
+It preserves the distinction between Ryan McMillan's design authority and human-AI coimplementation, and encodes reference/proposal/handoff/target-acceptance cooperation with cross-write and evidence-transfer denial by default.
+
+`RELATED != AUTHORIZED_TO_EDIT` · `SHARED_METHOD != SHARED_EVIDENCE` · `COMPILED != SCIENTIFICALLY_VALID`
+
+
 ## Active project bridge
 
 The existing [historical active bridge](federation/README.md) retains its path for provenance and lists only projects that are current/runnable/executed on inspected `main`, with a machine-readable [active project registry](federation/active-projects.json). Open PRs and preserved-only lineages are not silently promoted.
