@@ -1,0 +1,17 @@
+MODULE cooperative_implementation_protocol
+EXPORT root_goal,design_authority,implementation_relation,cross_write_default
+CONST root_goal = "Help humans remain free, capable, and able to recover what they need to live well."
+CONST design_authority = "RYAN_MCMILLAN"
+CONST implementation_relation = "HUMAN_AI_COIMPLEMENTATION"
+CONST cross_write_default = "DENY"
+CONTEXT CooperativeImplementation authority=USER_DESIGN cooperation=HANDOFF_REQUIRED evidence_transfer=DENY
+RELATION CooperatesWith ALLOW read_reference proposal handoff target_acceptance DENY cross_write evidence_transfer authority_transfer
+RELATION ImplementsWith ALLOW coimplementation provenance reconstruction DENY design_authority_transfer truth_authority_transfer
+PRESERVE provenance predecessor_evidence target_authority privacy accessibility uncertainty unresolved_remainder
+ALLOW read_reference proposal handoff target_acceptance target_local_successor counterprobe reconstruction
+CLAIM DesignAuthority STATUS DECLARED TEXT Ryan_McMillan_designed_goals_principles_and_cooperation_model
+CLAIM ImplementationRelation STATUS DECLARED TEXT Implemented_and_refined_together_through_human_AI_collaboration
+EVIDENCE WorkspaceV2 TYPE VERIFIED_COMPUTATION LINEAGE cooperative_snapshot_v2 TEXT non_interference_restore_and_coordination_tests_pass
+COUNTERPROBE "Attempt cross-workstream write without handoff must fail"
+VERIFY "Target acceptance precedes target-local successor"
+CONTINUE
