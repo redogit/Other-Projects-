@@ -4,11 +4,13 @@ Current owner policy: no third-party commercial access is authorized for owner-c
 
 Implementation home for the Human Expression Archive, 1,024-byte section carriers, and bounded learning-compression tools, explicitly selected by the user on September 13, 2026.
 
-## Active federation
+## Active project bridge
 
-The [Active Federation bridge](federation/README.md) lists only the projects that are current/runnable/executed on inspected `main`, with a machine-readable [active project registry](federation/active-projects.json). Open PRs and preserved-only lineages are not silently promoted.
+The existing [historical active bridge](federation/README.md) retains its path for provenance and lists only projects that are current/runnable/executed on inspected `main`, with a machine-readable [active project registry](federation/active-projects.json). Open PRs and preserved-only lineages are not silently promoted.
 
-`CONNECTED != MERGED` · `OPEN_PR != ACTIVE_MAIN` · `FINITE_RESULT != UNIVERSAL_RESULT`
+The current outward successor pointer is [Libraries of Libraries](LIBRARIES_OF_LIBRARIES_POINTER_2026-09-19.md). It is navigation only; Other-Projects- remains implementation authority for its own projects.
+
+`CONNECTION != OWNERSHIP` · `RELATION != EVIDENCE_TRANSFER` · `OPEN_PR != ACTIVE_MAIN` · `FINITE_RESULT != UNIVERSAL_RESULT`
 
 ## Projects
 
