@@ -1,0 +1,43 @@
+{
+  "schema": "rmal/cooperative-implementation-protocol-validation/v1",
+  "date": "2026-09-19",
+  "toolchain": "RMAL Tool Chain 2.1.1",
+  "compiler": "RMALC 2.1.1",
+  "source": "docs/RMAL_COOPERATIVE_IMPLEMENTATION_PROTOCOL.rmal",
+  "check": {
+    "status": "PASS",
+    "abi_hash": "ABI-59035915580F518D6B99",
+    "metrics": {
+      "bytecode_instructions": 35,
+      "domain_capabilities": 0,
+      "domain_count": 0,
+      "input_nodes": 20,
+      "object_bytes": 4345,
+      "optimized_nodes": 20,
+      "source_bytes": 1447
+    }
+  },
+  "compile": {
+    "status": "PASS",
+    "optimization_level": 0,
+    "object_hash": "366faf954a18ec33115dc3de17ca209857b90c282c38be2c9918b4547b929797",
+    "target": "object"
+  },
+  "audit": {
+    "status": "PASS",
+    "issues": [],
+    "warnings": [],
+    "boundaries": [
+      "AUDIT_PASS != SEMANTIC_TRUTH",
+      "HASH_INTEGRITY != CLAIM_VALIDITY"
+    ],
+    "generalization_claim_ceiling": "STRUCTURAL_OPTIMIZER_CONTRACT",
+    "reopen_on_new_obligation": true
+  },
+  "provenance": {
+    "design_authority": "Ryan McMillan",
+    "implementation_relation": "HUMAN_AI_COIMPLEMENTATION",
+    "validation_environment": "local RMALC 2.1.1 package prior to Git branch update"
+  },
+  "claim_ceiling": "PARSER_COMPILE_AUDIT_VALIDATION_ONLY"
+}
