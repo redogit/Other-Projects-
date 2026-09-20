@@ -158,6 +158,22 @@ class MutationScopeTests(unittest.TestCase):
                 self.assertFalse(branch["admitted"])
                 self.assertEqual(branch["classification"], "MUTATION")
 
+    def test_existing_protection_rejection_diagnostics_keep_their_contract(self):
+        edit = lambda c: c["state"]["guard"].update(value=8)
+        for options, preserve_status, forbid_status in (
+            ({"preserves": ("state.guard",)}, "failed", "passed"),
+            ({"forbids": ("state.guard",)}, "passed", "failed"),
+        ):
+            with self.subTest(options=options):
+                branch = execute(edit, (), **options)["branches"][0]
+                self.assertFalse(branch["admitted"])
+                self.assertEqual(branch["inspection"]["mutated"], ["state.guard"])
+                self.assertEqual(branch["inspection"]["gates"], [
+                    {"name": "preserves", "status": preserve_status},
+                    {"name": "forbids", "status": forbid_status},
+                    {"name": "reconstruction", "status": "exact"},
+                ])
+
     def test_derived_field_names_do_not_grant_semantic_permission(self):
         self.rejected(lambda c: c["state"].update(x=1), "state.x",
                       allowed=("id", "construction"))
