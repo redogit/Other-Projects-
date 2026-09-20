@@ -1,0 +1,213 @@
+{
+  "schema_version": "fig5-family-recovery-contract/v0.11",
+  "experiment_id": "FIG-5",
+  "status": "PREREGISTERED_NOT_EXECUTED",
+  "date": "2026-09-20",
+  "authority": {
+    "linear_issue": "FIG-5",
+    "linear_issue_uuid": "bbe1a0c5-9d17-4fe6-ad79-5f5ca32482dd",
+    "linear_issue_url": "https://linear.app/fighting-decay-of-knowlege/issue/FIG-5/fig-5-measure-bounded-sat-family-growth-after-v010",
+    "v0_10_evidence_comment_id": "872e7480-423f-4a78-9586-72ab95eb479f",
+    "repository": "redogit/Other-Projects-",
+    "base_main_sha": "cca44e23ca663600cc3466f45d7dc509c466b796",
+    "lab_checkpoint_path": "P versus NP Repair Lab/CURRENT.md",
+    "authority_rule": "LINEAR_V0_10_EVIDENCE != GITHUB_IMPLEMENTATION_PARITY"
+  },
+  "recovered_v0_10_checkpoint": {
+    "adaptive_evaluations": 141,
+    "accepted_sat_preserving_mutations": 7,
+    "active_generation_cap_resolvents": 80,
+    "independent_validation_cap_resolvents": 160,
+    "best_candidate_sat": true,
+    "exact_dp_generated_resolvents": 103,
+    "planning_parent_pairs_considered": 1063,
+    "q": 2,
+    "branch_mass_best_slack": -63,
+    "residual_equality_count": 0,
+    "recorded_status": "SHORTCUT_FREE_DP_EXACT",
+    "robust_hard_core_found": false,
+    "interpretation": "ACTIVE_BUDGET_OVERRUN_REMAINS_INDEPENDENTLY_VERIFIABLE_NOT_HARD_CORE"
+  },
+  "implementation_recovery": {
+    "connected_github_source_status": "NOT_RECOVERED",
+    "searched_markers": [
+      "SHORTCUT_FREE_DP_EXACT",
+      "103 generated resolvents",
+      "1063 planning pairs",
+      "validation cap 160",
+      "FIG-5"
+    ],
+    "exact_v0_10_anchor_n": null,
+    "exact_family_increment_delta": null,
+    "execution_blocked_until": [
+      "recover exact v0.10 implementation/source identity",
+      "recover exact v0.10 anchor n",
+      "recover generator semantics and seed/common-random-stream rule",
+      "recover frozen Davis-Putnam elimination/ordering policy",
+      "recover independent bounded oracle implementation",
+      "pin hashes/identities for generator, active solver, oracle, ordering policy",
+      "materialize and hash the 30-row family manifest before opening validation"
+    ],
+    "no_guess_rule": "UNRECOVERED_SOURCE_FACT != INFERRED_PARAMETER"
+  },
+  "one_degree_family": {
+    "blocks": 5,
+    "n_levels_per_block": 6,
+    "total_instances": 30,
+    "changing_degree_within_block": "n",
+    "preferred_construction": "nested F[s,n0] subset ... subset F[s,n5]",
+    "fallback_construction": "fixed seed/common random stream with identical generator parameters",
+    "calibration_level_indices": [
+      0,
+      1,
+      2
+    ],
+    "locked_validation_level_indices": [
+      3,
+      4,
+      5
+    ],
+    "n_ladder_rule": [
+      "n_star - 2*delta",
+      "n_star - delta",
+      "n_star",
+      "n_star + delta",
+      "n_star + 2*delta",
+      "n_star + 3*delta"
+    ],
+    "invalid_low_n_rule": "shift entire six-level ladder upward before execution; do not edit individual levels after results",
+    "adaptation_after_validation_opened": "FORBIDDEN"
+  },
+  "primary_quantity": {
+    "name": "normalized Davis-Putnam opposite-polarity pair pressure",
+    "symbol": "chi_DP",
+    "pair_pressure_symbol": "P_DP",
+    "definition": "P_DP(F;pi) = sum_t d_t^+(x_t) * d_t^-(x_t)",
+    "normalization": "chi_DP(F;pi) = P_DP(F;pi) / n",
+    "measurement_time": "immediately before resolution at each frozen elimination step",
+    "diagnostic_survival_ratio": "eta = R / P_DP",
+    "primary_quantity_count": 1,
+    "post_hoc_metric_substitution": "FORBIDDEN"
+  },
+  "controls": {
+    "size_linear": "R_hat_1 = a*n",
+    "size_quadratic": "R_hat_2 = b*n^2",
+    "diagnostic_only_not_promotable_in_v0_11": [
+      "planning_work / n^k",
+      "Psi_q",
+      "width",
+      "rank",
+      "q",
+      "branch_slack",
+      "residual_equality",
+      "peak_live_clauses"
+    ]
+  },
+  "stage_firewall": {
+    "invariant": "GENERATE != VERIFY != ADMIT",
+    "generate": {
+      "active_generation_cap_resolvents": 80,
+      "may": [
+        "execute frozen family generator",
+        "execute frozen Davis-Putnam policy",
+        "record complete trace and provenance"
+      ],
+      "may_not": [
+        "read verifier outcomes to adapt later instances",
+        "change family construction after validation is opened",
+        "change primary quantity or thresholds"
+      ]
+    },
+    "verify": {
+      "independent_validation_cap_resolvents": 160,
+      "may": [
+        "independently establish SAT/UNSAT/certificate status within bound"
+      ],
+      "may_not": [
+        "change generator",
+        "change elimination ordering",
+        "change chi_DP",
+        "change family",
+        "change caps"
+      ]
+    },
+    "admit": {
+      "rule": "admit row only when generation provenance and independent verification agree",
+      "oracle_cap_exhaustion_result": "UNKNOWN",
+      "oracle_cap_exhaustion_is_hard_core": false,
+      "cap_scaling_with_n": "FORBIDDEN"
+    }
+  },
+  "calibration_and_validation": {
+    "fit_on": "calibration rows only",
+    "scale_estimator": "eta_hat = median(R / P_DP)",
+    "structural_prediction": "R_hat_chi = eta_hat * P_DP",
+    "error": "E = abs(log(1 + R) - log(1 + R_hat))",
+    "aggregation": "for each held-out n level, median error across five blocks",
+    "bounded_structural_collapse_rule": "E_chi < E_n AND E_chi < E_n2 at each of all three held-out n levels",
+    "validation_reuse_for_refit": "FORBIDDEN"
+  },
+  "carrier_counterprobe": {
+    "transform": [
+      "deterministic variable permutation",
+      "deterministic clause-order permutation",
+      "transport frozen elimination sequence through the same variable permutation"
+    ],
+    "exact_reconstruction_required": [
+      "P_DP",
+      "chi_DP",
+      "R",
+      "SAT/UNSAT result",
+      "oracle certificate validity"
+    ],
+    "mismatch_classification": "CARRIER_OR_ORDER_IMPLEMENTATION_RESIDUAL_NOT_COMPLEXITY_EVIDENCE"
+  },
+  "required_row_fields": [
+    "family_version",
+    "generator_hash",
+    "active_solver_hash",
+    "oracle_hash",
+    "ordering_policy_hash",
+    "block_id",
+    "size_index",
+    "n",
+    "seed",
+    "q",
+    "Psi_q",
+    "branch_slack",
+    "residual_equality",
+    "initial_clause_count",
+    "initial_clause_density",
+    "rank",
+    "induced_width",
+    "dp_pair_pressure_sum",
+    "dp_pair_pressure_per_n",
+    "generated_resolvents",
+    "resolvents_per_n",
+    "resolvents_per_n2",
+    "resolvent_survival",
+    "peak_live_clauses",
+    "planning_work",
+    "verification_work",
+    "active_result",
+    "active_cap",
+    "oracle_result",
+    "oracle_cap",
+    "certificate_digest",
+    "admission",
+    "residuals"
+  ],
+  "claim_ceiling": [
+    "BOUNDED_FAMILY_COLLAPSE != ASYMPTOTIC_LAW",
+    "ACTIVE_BUDGET_OVERRUN != HARD_CORE",
+    "FINITE_COUNTEREXAMPLE != COMPLEXITY_LOWER_BOUND",
+    "GENERATION_CAP_EXHAUSTION != VERIFICATION_FAILURE",
+    "GENERATE != VERIFY != ADMIT",
+    "FIG-5_RESULT != P_VS_NP_RESULT"
+  ],
+  "current_stop": {
+    "completed_step": "machine-readable v0.11 recovery/preregistration contract",
+    "experiment_executed": false,
+    "next_one_degree_step": "recover and pin the exact v0.10 implementation/source identity and anchor n_star; then instantiate the 30-row manifest without running validation"
+  }
+}
