@@ -265,8 +265,8 @@ def project_s1_experience(record: dict[str, Any]) -> dict[str, Any]:
         ),
         evidence=(
             {
-                "kind": "software-verification",
-                "detail": "S'1 native experience projection",
+                "kind": "structural-projection",
+                "detail": "S'1 native experience structural projection; native verification is not recreated by this adapter",
                 "claimCeiling": "SOFTWARE_VERIFICATION != SCIENTIFIC_VALIDATION",
             },
         ),
@@ -383,8 +383,8 @@ def project_gsfl_record(record: dict[str, Any]) -> dict[str, Any]:
         provenance=({"kind": "gsfl-audit", "executionSha256": execution},),
         evidence=(
             {
-                "kind": "software-verification",
-                "detail": "GSFL bounded audit projection",
+                "kind": "reported-software-verification",
+                "detail": "GSFL frozen audit reports bounded software verification; adapter adds no independent verification",
                 "claimCeiling": "FIT != TRUTH",
             },
         ),
@@ -436,8 +436,8 @@ def project_image_surface(record: dict[str, Any]) -> dict[str, Any]:
         provenance=({"kind": "image-surface-adapter", "sessionId": session["id"]},),
         evidence=(
             {
-                "kind": "software-verification",
-                "detail": "image-surface bounded measurement projection",
+                "kind": "structural-projection",
+                "detail": "image-surface structural projection; adapter adds no independent verification",
                 "claimCeiling": "IMAGE_DEFORMATION != PHYSICAL_DEFORMATION",
             },
         ),
@@ -493,8 +493,8 @@ def project_dimensional_record(record: dict[str, Any]) -> dict[str, Any]:
         provenance=({"kind": "dimension-ladder-fixture"},),
         evidence=(
             {
-                "kind": "software-verification",
-                "detail": "finite Euclidean fixture",
+                "kind": "structural-projection",
+                "detail": "finite Euclidean fixture structural projection; adapter adds no independent verification",
                 "claimCeiling": boundary,
             },
         ),
