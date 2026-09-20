@@ -42,3 +42,15 @@ The parser produces immutable RMAPL IR records. Runtime operator semantics are s
 PARSE_PASS != OPERATOR_ADMISSION
 RMAPL_PROFILE != RMAL_CORE_FRONTEND
 ```
+
+## Parser contract repairs — 2026-09-20
+
+**Finite numeric representation.** Decimal/exponent JSON numbers must decode to finite Python floats at every nesting depth. An exponent such as `1e309` is rejected rather than admitted as infinity. Ordinary floating-point rounding and underflow remain; this is not exact rational parsing. `COST` additionally requires a non-negative finite float, and an integer too large for that conversion raises a contextual `ValueError`.
+
+**Unambiguous objects.** Duplicate decoded keys in any JSON object are rejected, including identical repeated values, nested objects, and escaped spellings of the same key. Different objects may use the same key. This is the RMAPL profile's fail-closed rule; it does not claim that every JSON decoder must reject duplicates. Malformed objective values produce an `OBJECTIVES` validation error instead of incidental container-hashing errors.
+
+**Deeply immutable parsed bounds.** `parse_rmapl` freezes JSON objects in `Program.bounds` as read-only mappings and JSON arrays as tuples, recursively. Scalar types/values, object iteration order, array order, and empty-container distinctions survive. Callers needing mutable JSON containers must explicitly reconstruct dictionaries and lists; parsed bounds are not a mutable JSON working buffer. This guarantee concerns parsed output, not manually constructed `Program` instances.
+
+**Instruction lines versus string data.** `NL` accepts LF, CRLF, or CR. U+0085, U+2028, and U+2029 inside JSON strings remain string data, not instruction separators. Escaped and literal representations of these characters decode equivalently. Existing blank-line and full-line-comment handling remains.
+
+Regression witnesses: `test_rmapl_contract_gaps.py`. These parser repairs do not change Omega, the RMAPL execution engine, operator admission, scientific evidence, or RMALC validation status.
