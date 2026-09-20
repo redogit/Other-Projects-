@@ -1,0 +1,106 @@
+{
+  "schema": "s1-carrier-surface-audit/v1",
+  "fixtureId": "s1:semantic:fixture-1",
+  "sourceGitBlobs": {
+    "s1_carrier_surface.py": "5bb3e730b58e4ded7246698e9187e5aa30311515",
+    "s1_current_semantic_object.json": "fa94b7c41ef68eca9a4593c78e92e9f34ffe0776"
+  },
+  "carrierTypes": [
+    "candidate-state",
+    "survivor",
+    "semantic-work-unit",
+    "multi-timescale"
+  ],
+  "roundTrips": {
+    "candidate-state": {
+      "classification": "ROTATION",
+      "residualKinds": []
+    },
+    "survivor": {
+      "classification": "ROTATION",
+      "residualKinds": []
+    },
+    "semantic-work-unit": {
+      "classification": "ROTATION",
+      "residualKinds": []
+    },
+    "multi-timescale": {
+      "classification": "ROTATION",
+      "residualKinds": []
+    }
+  },
+  "omegaRoundTrips": {
+    "candidate-state": {
+      "carrierEqual": true,
+      "nativeEqual": true,
+      "omegaEvidenceKind": "structural-projection"
+    },
+    "survivor": {
+      "carrierEqual": true,
+      "nativeEqual": true,
+      "omegaEvidenceKind": "structural-projection"
+    },
+    "semantic-work-unit": {
+      "carrierEqual": true,
+      "nativeEqual": true,
+      "omegaEvidenceKind": "structural-projection"
+    },
+    "multi-timescale": {
+      "carrierEqual": true,
+      "nativeEqual": true,
+      "omegaEvidenceKind": "structural-projection"
+    }
+  },
+  "negativeControls": {
+    "strippedSidecar": {
+      "classification": "UNKNOWN",
+      "residualKinds": [
+        "reconstruction-unavailable"
+      ]
+    },
+    "identityTamper": {
+      "classification": "SEMANTIC_DECAY",
+      "residualKinds": [
+        "carrier-integrity",
+        "protected-invariant-mismatch"
+      ]
+    },
+    "scheduleOrder": {
+      "residualKinds": [
+        "schedule-order"
+      ]
+    }
+  },
+  "repair": {
+    "status": "REPAIRED",
+    "changedSemanticPaths": [
+      "schedule.tau_w"
+    ],
+    "residualBeforeKinds": [
+      "schedule-order"
+    ],
+    "residualAfterKinds": [],
+    "admitted": false
+  },
+  "checks": {
+    "fourSurfaceRoundTrips": true,
+    "omegaSecondTransport": true,
+    "strippedSidecarUnknown": true,
+    "identityTamperDecay": true,
+    "scheduleResidualTyped": true,
+    "oneDegreeRepair": true,
+    "protectedRepairRejected": true,
+    "evidenceTransferDenied": true,
+    "candidateNotAdmission": true
+  },
+  "boundaries": [
+    "OBJECT_IDENTITY_INVARIANT_COORDINATES_NEGOTIABLE",
+    "CURRENT_WORKING_MODEL != OWNER-PINNED_IMPLEMENTATION",
+    "S_PRIME_CANDIDATE != ADMITTED_SUCCESSOR",
+    "METHOD_TRANSFER != EVIDENCE_TRANSFER",
+    "ROTATION != MUTATION != SEMANTIC_DECAY",
+    "PROJECTION_SUCCESS != RECONSTRUCTION_SUCCESS",
+    "SOFTWARE_VERIFICATION != SCIENTIFIC_VALIDATION"
+  ],
+  "claimCeiling": "bounded software verification of the declared fixture and transport contracts only"
+}
