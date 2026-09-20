@@ -39,7 +39,7 @@ Do not let an older summary overwrite a newer local artifact.
 | FDE | Paired collision-mixing ON/OFF panel across seeds 7301–7306 did not show positive mean accuracy benefit; result remains `COUNTERPROBED`. Separate V1.1 relation/index witness repairs one synthetic nonlocal relation task and demonstrates stale-index failure vs rotated-index recovery. | Keep domains separate. Next FDE degree is plasticity ON/OFF under matched seeds/data. Do not widen to another mechanism before that residual is measured. |
 | Hodge / W114 | Receiver-boundary successor rejects narrowed/rehashed obligations; 15 tests pass in normal and optimized Python. Exact polynomial model retains a 479-dimensional common first-order kernel and rank-29 joint quadratic map, but geometric admission is not performed. | Check the exact geometric hypotheses behind the joint polynomial map before importing any new Hodge construction method. |
 | P vs NP / FIG-5 | v0.11 increasing-n recovery/preregistration exists as draft PR #89. It freezes `chi_DP = P_DP/n`, calibration/validation separation, unchanged caps, and an independent carrier counterprobe. Execution remains blocked until exact source/solver/oracle/order identities are recovered. | Recover and pin the missing v0.10 source facts first. Do not execute or alter caps before that recovery. |
-| RMAPL / FITTER | Draft PR #90 enforces a fixed authority floor for FITTERs over `nativeIdentity/sourceRefs/evidence/claimCeiling/provenance`. | Complete that bounded authority-floor repair before adding quotient/path laws to FITTER behavior. |
+| RMAPL / FITTER | PR #90 is now merged. The runtime authority floor fixes `nativeIdentity/sourceRefs/evidence/claimCeiling/provenance` while preserving ordinary fitter freedom over non-authority state. | The authority-floor prerequisite is satisfied. Quotient/path validation is now eligible as a future one-degree Carrier–Surface experiment; it is not yet executed or admitted. |
 | Locality/Pairity verifier | Conscience64 draft PR #193 remains the existing read-only scoped parity verifier and method boundary. | Keep draft; do not auto-merge from this radar update. |
 
 ## External radar bindings
@@ -57,7 +57,7 @@ These are **method candidates / independent pressure sources**, not imported evi
 
 Quotient lenses formalize round-trip behavior modulo a programmer-declared equivalence rather than requiring byte/state identity on the nose. Trivet/Alive2-style translation validation separates the transformer from the verifier and preserves counterexamples.
 
-**Candidate obligation after PR #90**
+**Candidate obligation after merged PR #90**
 
 Add one explicit equivalence relation to a Carrier–Surface traversal and test:
 
@@ -168,8 +168,8 @@ The internet radar does **not** override the newest one-degree instructions. The
 2. **FDE:** matched plasticity ON/OFF only.
 3. **FIG-5:** recover exact source identities, then execute the frozen increasing-n family contract.
 4. **Hodge:** test geometric hypotheses behind the existing joint polynomial map.
-5. **FITTER:** finish the current authority-floor repair.
-6. Only then activate one external radar method when an observed remainder specifically requires it.
+5. **Carrier–Surface / FITTER:** PR #90 authority-floor repair is complete; keep quotient/path-validation as an eligible but unexecuted next degree.
+6. Activate one external radar method only when an observed remainder specifically requires it.
 
 This order is a routing rule, not a claim that all six projects share evidence or should be merged.
 
