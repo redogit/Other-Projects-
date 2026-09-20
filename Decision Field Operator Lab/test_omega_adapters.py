@@ -102,6 +102,12 @@ class OmegaAdapterTests(unittest.TestCase):
         self.assertNotIn("comparisons", omega)
         self.assertNotIn("observerField", omega)
 
+    def test_s1_projection_does_not_manufacture_software_verification(self):
+        omega = project_s1_experience(load_fixture("omega_s1_native.json"))
+        kinds = {item["kind"] for item in omega["evidence"]}
+        self.assertIn("structural-projection", kinds)
+        self.assertNotIn("software-verification", kinds)
+
 
 if __name__ == "__main__":
     unittest.main()
