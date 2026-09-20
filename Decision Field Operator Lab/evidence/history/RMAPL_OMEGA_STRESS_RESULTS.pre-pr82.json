@@ -23,7 +23,7 @@
     "AUTHORED_CARRIER != GENERIC_RESPONSE_RUNTIME",
     "CONTROLLED_SURFACE_CHECK != RMALC_COMPILE"
   ],
-  "digestSha256": "1ee16fb3e271ef79f61c9725abca2ebfda9f0b7a31a2eeacf97d964ef720bff0",
+  "digestSha256": "6cfde300eed58464810d5fedd96b402aa3bdb36f5f8ccf2d1de941edcb28f8a7",
   "failures": [],
   "families": {
     "adapterAuthority": 512,
@@ -40,7 +40,7 @@
     "runtimeMatrix": "28c3f6a54a257084fd82e7e104572d0aad41d78ba53e77b0baba86c1eb226b93"
   },
   "rmalResponseBoundary": {
-    "adapterStatus": "RMAL_STRUCTURED_RESPONSE_CARRIER_CONTROLLED_SURFACE_VERIFIED",
+    "adapterStatus": "RMAL_STRUCTURED_RESPONSE_CARRIER_AUTHORED_CONTROLLED_SURFACE_CHECK_PENDING",
     "boundaries": [
       "AUTHORED_CARRIER != GENERIC_RESPONSE_RUNTIME",
       "CONTROLLED_SURFACE_CHECK != RMALC_COMPILE",
@@ -50,7 +50,7 @@
       "SHARED_METHOD != SHARED_EVIDENCE"
     ],
     "claimCeiling": "AUTHORED_RMAL_RESPONSE_SUCCESSOR_WITHOUT_FRESH_COMPILER_OR_RUNTIME_EVIDENCE",
-    "controlledSurfaceCheck": "PASS",
+    "controlledSurfaceCheck": "PENDING_EXACT_HEAD_CI",
     "genericRuntime": false,
     "rmalcAudit": "NOT_REVALIDATED",
     "rmalcCheck": "NOT_REVALIDATED",
