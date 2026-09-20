@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://redogit.github.io/schemas/rmapl-omega-v0.json",
+  "title": "RMAPL Omega v0",
+  "type": "object",
+  "required": [
+    "schema", "id", "nativeType", "nativeIdentity", "sourceRefs", "state",
+    "path", "frame", "invariants", "observations", "residuals",
+    "decisionField", "provenance", "evidence", "claimCeiling",
+    "resourceBounds", "domainRemainder", "construction"
+  ],
+  "properties": {
+    "schema": {"const": "rmapl-omega/v0"},
+    "id": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "nativeType": {"type": "string", "minLength": 1},
+    "nativeIdentity": {"type": "string", "minLength": 1},
+    "sourceRefs": {"type": "array"},
+    "state": {},
+    "path": {"type": "array"},
+    "frame": {},
+    "invariants": {"type": "array"},
+    "observations": {"type": "array"},
+    "residuals": {"type": "array"},
+    "decisionField": {},
+    "provenance": {"type": "array"},
+    "evidence": {"type": "array"},
+    "claimCeiling": {"type": "array"},
+    "resourceBounds": {"type": "object"},
+    "domainRemainder": {"type": "object"},
+    "construction": {
+      "type": "object",
+      "required": [
+        "native_type", "native_identity", "source_refs", "state", "path",
+        "frame", "invariants", "observations", "residuals",
+        "decision_field", "provenance", "evidence", "claim_ceiling",
+        "resource_bounds", "domain_remainder"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "unevaluatedProperties": false
+}
