@@ -1,0 +1,57 @@
+{
+  "schema": "rmal/bidirectional-handoff-response-carrier/v1",
+  "date": "2026-09-20",
+  "source": "docs/RMAL_BIDIRECTIONAL_HANDOFF_RESPONSE.rmal",
+  "predecessor": {
+    "source": "docs/RMAL_COOPERATIVE_IMPLEMENTATION_PROTOCOL.rmal",
+    "merge_anchor": "f93f056a33d5fad0f29b763a0d49c6b79eb18d49",
+    "toolchain": "RMAL Tool Chain 2.1.1",
+    "compiler": "RMALC 2.1.1",
+    "check": "PASS",
+    "compile": "PASS",
+    "audit": "PASS"
+  },
+  "successor_validation": {
+    "controlled_surface_check": "PENDING_EXACT_HEAD_CI",
+    "rmalc_check": "NOT_REVALIDATED",
+    "rmalc_compile": "NOT_REVALIDATED",
+    "rmalc_audit": "NOT_REVALIDATED",
+    "reason": "RMALC toolchain is not present in the repository-accessible Git surface used for this successor."
+  },
+  "reused_constructs": [
+    "MODULE",
+    "EXPORT",
+    "CONST",
+    "CONTEXT",
+    "RELATION",
+    "PRESERVE",
+    "ALLOW",
+    "CLAIM",
+    "EVIDENCE",
+    "COUNTERPROBE",
+    "VERIFY",
+    "CONTINUE"
+  ],
+  "semantics": {
+    "request_identity": true,
+    "target_local_response": true,
+    "statuses": [
+      "ACCEPTED",
+      "REJECTED",
+      "NEEDS_EVIDENCE",
+      "UNRESOLVED"
+    ],
+    "counterproposal_preserves_prior": true,
+    "cross_write_default": "DENY",
+    "evidence_transfer_default": "DENY"
+  },
+  "boundaries": [
+    "REQUEST != COMMAND",
+    "RESPONSE != AUTHORITY_TRANSFER",
+    "RELATED != AUTHORIZED_TO_EDIT",
+    "SHARED_METHOD != SHARED_EVIDENCE",
+    "CONTROLLED_SURFACE_CHECK != RMALC_COMPILE",
+    "AUTHORED_CARRIER != GENERIC_RESPONSE_RUNTIME"
+  ],
+  "claim_ceiling": "AUTHORED_RMAL_RESPONSE_SUCCESSOR_WITHOUT_FRESH_COMPILER_OR_RUNTIME_EVIDENCE"
+}

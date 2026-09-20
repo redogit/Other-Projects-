@@ -1,0 +1,17 @@
+MODULE bidirectional_handoff_response_protocol
+EXPORT request_identity,response_relation,validation_state,cross_write_default
+CONST request_identity = "HANDOFF_ID_OR_REQUEST_UOID"
+CONST response_relation = "TARGET_LOCAL_RESPONSE"
+CONST validation_state = "NOT_RMALC_REVALIDATED"
+CONST cross_write_default = "DENY"
+CONTEXT BidirectionalResponse authority=TARGET_LOCAL response=HANDOFF_REPLY evidence_transfer=DENY
+RELATION RespondsTo ALLOW request_identity target_decision response_status provenance way_back DENY cross_write evidence_transfer authority_transfer
+RELATION Counterproposes ALLOW new_handoff prior_request prior_response unresolved_remainder DENY mutate_prior_response authority_transfer
+PRESERVE provenance request_identity prior_response target_authority privacy uncertainty unresolved_remainder way_back
+ALLOW accepted rejected needs_evidence unresolved counterproposal target_local_successor reconstruction
+CLAIM ValidationState STATUS DECLARED TEXT Authored_from_previously_validated_RMAL_surface_not_revalidated_with_RMALC_in_this_repository
+CLAIM RuntimeBoundary STATUS DECLARED TEXT Structured_response_carrier_declared_without_generic_network_runtime_claim
+EVIDENCE PredecessorCarrier TYPE VERIFIED_COMPUTATION LINEAGE cooperative_implementation_protocol TEXT RMALC_2_1_1_predecessor_check_compile_audit_pass
+COUNTERPROBE "Attempt response without request identity must fail at target policy gate"
+VERIFY "Response preserves target-local authority prior decision provenance and way back"
+CONTINUE

@@ -1,0 +1,46 @@
+name: RMAL bidirectional response carrier
+
+on:
+  pull_request:
+    paths:
+      - 'docs/RMAL_BIDIRECTIONAL_HANDOFF_RESPONSE.rmal'
+      - 'docs/RMAL_BIDIRECTIONAL_HANDOFF_RESPONSE.md'
+      - 'evidence/RMAL_BIDIRECTIONAL_HANDOFF_RESPONSE_2026-09-20.json'
+      - 'tools/check_rmal_bidirectional_response.py'
+      - 'BIDIRECTIONAL_HANDOFF_ADAPTER_2026-09-20.json'
+      - 'LIBRARIES_OF_LIBRARIES_POINTER_2026-09-19.md'
+      - '.github/workflows/rmal-bidirectional-response.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'docs/RMAL_BIDIRECTIONAL_HANDOFF_RESPONSE.rmal'
+      - 'docs/RMAL_BIDIRECTIONAL_HANDOFF_RESPONSE.md'
+      - 'evidence/RMAL_BIDIRECTIONAL_HANDOFF_RESPONSE_2026-09-20.json'
+      - 'tools/check_rmal_bidirectional_response.py'
+      - 'BIDIRECTIONAL_HANDOFF_ADAPTER_2026-09-20.json'
+      - 'LIBRARIES_OF_LIBRARIES_POINTER_2026-09-19.md'
+      - '.github/workflows/rmal-bidirectional-response.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      VERIFY_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - name: Materialize exact contributor head
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init "$GITHUB_WORKSPACE"
+          cd "$GITHUB_WORKSPACE"
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git fetch --depth=1 origin "$VERIFY_SHA"
+          git checkout --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "$VERIFY_SHA"
+      - name: Compile checker
+        run: python3 -m py_compile tools/check_rmal_bidirectional_response.py
+      - name: Check controlled RMAL successor surface
+        run: python3 tools/check_rmal_bidirectional_response.py

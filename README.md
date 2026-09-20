@@ -18,6 +18,19 @@ It preserves the distinction between Ryan McMillan's design authority and human-
 `RELATED != AUTHORIZED_TO_EDIT` · `SHARED_METHOD != SHARED_EVIDENCE` · `COMPILED != SCIENTIFICALLY_VALID`
 
 
+
+## RMAL bidirectional response successor
+
+The response-side successor for the central Bidirectional Handoff Pairity contract is:
+
+- [RMAL source](docs/RMAL_BIDIRECTIONAL_HANDOFF_RESPONSE.rmal)
+- [boundary/documentation](docs/RMAL_BIDIRECTIONAL_HANDOFF_RESPONSE.md)
+- [validation-state record](evidence/RMAL_BIDIRECTIONAL_HANDOFF_RESPONSE_2026-09-20.json)
+
+It reuses only RMAL constructs already present in the previously RMALC-validated cooperative carrier and adds a repository-local exact-head controlled-surface check.
+
+`CONTROLLED_SURFACE_CHECK != RMALC_CHECK` · `CONTROLLED_SURFACE_CHECK != RMALC_COMPILE` · `AUTHORED_CARRIER != GENERIC_RESPONSE_RUNTIME`
+
 ## Active project bridge
 
 The existing [historical active bridge](federation/README.md) retains its path for provenance and lists only projects that are current/runnable/executed on inspected `main`, with a machine-readable [active project registry](federation/active-projects.json). Open PRs and preserved-only lineages are not silently promoted.
