@@ -10,9 +10,15 @@
     "evidence_anchor": "f93f056a33d5fad0f29b763a0d49c6b79eb18d49"
   },
   "outbound": {
-    "status": "STRUCTURED_RESPONSE_PACKET_NOT_YET_ESTABLISHED",
+    "status": "RMAL_STRUCTURED_RESPONSE_CARRIER_AUTHORED_CONTROLLED_SURFACE_CHECK_PENDING",
+    "carrier": "docs/RMAL_BIDIRECTIONAL_HANDOFF_RESPONSE.rmal",
+    "documentation": "docs/RMAL_BIDIRECTIONAL_HANDOFF_RESPONSE.md",
+    "evidence": "evidence/RMAL_BIDIRECTIONAL_HANDOFF_RESPONSE_2026-09-20.json",
+    "controlled_surface_check": "PENDING_EXACT_HEAD_CI",
+    "rmalc_revalidated": false,
     "structured_response_packet_runtime": false,
-    "note": "The implemented RMAL carrier covers reference/proposal/handoff/target_acceptance/target_local_successor, not the complete structured return packet."
+    "generic_response_packet_runtime": false,
+    "note": "The response-side RMAL carrier is authored only from constructs present in the previously RMALC-validated predecessor; fresh RMALC check/compile/audit and runtime transport are not established."
   },
   "boundaries": [
     "RELATED != AUTHORIZED_TO_EDIT",
@@ -22,5 +28,5 @@
     "SHARED_METHOD != SHARED_EVIDENCE",
     "COMPILED != SCIENTIFICALLY_VALID"
   ],
-  "claim_ceiling": "OTHER_PROJECTS_LOCAL_ADAPTER_WITH_IMPLEMENTED_HANDOFF_SYNTAX_ONLY"
+  "claim_ceiling": "OTHER_PROJECTS_AUTHORED_RESPONSE_CARRIER_CONTROLLED_SURFACE_ONLY_NO_FRESH_RMALC_OR_RUNTIME"
 }
