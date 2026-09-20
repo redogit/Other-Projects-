@@ -1,0 +1,36 @@
+{
+  "checks": {
+    "cycleBounded": true,
+    "decisionFieldRoundTrip": true,
+    "hodgeCeilingPreserved": true,
+    "lossyQuotientExplicit": true,
+    "omegaStrict": true,
+    "paretoBranchPreserved": true,
+    "s1ChronologyDistinct": true,
+    "suggestionAuthorityPreserved": true,
+    "typedEvidenceNoAmplification": true
+  },
+  "claimCeiling": [
+    "RMAPL_PROFILE != RMAL_CORE_FRONTEND",
+    "OMEGA_VIEW != NATIVE_OBJECT",
+    "METHOD_TRANSFER != EVIDENCE_TRANSFER",
+    "SOFTWARE_VERIFICATION != SCIENTIFIC_VALIDATION",
+    "MAXIMAL_WITHIN_DECLARED_SCOPE != GLOBAL_COMPLETENESS"
+  ],
+  "omegaSchema": "rmapl-omega/v0",
+  "profile": "RMAPL 0",
+  "schema": "rmapl-omega-audit/v0",
+  "scientificValidation": false,
+  "scope": {
+    "adapterDomains": [
+      "decision-field",
+      "s1-experience",
+      "dimensional-ladder",
+      "suggestion",
+      "hodge-bridge"
+    ],
+    "globalCompletenessClaim": false,
+    "rmalCoreFrontendClaim": false,
+    "runtime": "bounded-conditional-repair-reference"
+  }
+}
