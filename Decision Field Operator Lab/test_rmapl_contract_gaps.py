@@ -140,5 +140,19 @@ class UnicodeCarrierContractTests(unittest.TestCase):
         self.assertEqual(parse_rmapl(with_bound(json.dumps(value))).bounds['config'], value)
 
 
+class DeepImmutableBoundContractTests(unittest.TestCase):
+    def test_freezing_does_not_add_a_recursion_limit_below_the_json_decoder(self):
+        depth = 600
+        payload = '[' * depth + '0' + ']' * depth
+        # The standard JSON decoder accepts this input in the supported CI.
+        json.loads(payload)
+        result = parse_rmapl(with_bound(payload)).bounds['config']
+        for _ in range(depth):
+            self.assertIsInstance(result, tuple)
+            self.assertEqual(len(result), 1)
+            result = result[0]
+        self.assertEqual(result, 0)
+
+
 if __name__ == '__main__':
     unittest.main()
