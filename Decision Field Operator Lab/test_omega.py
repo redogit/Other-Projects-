@@ -1,3 +1,5 @@
+import json
+from pathlib import Path
 import unittest
 
 from omega import (
@@ -119,6 +121,17 @@ class OmegaTests(unittest.TestCase):
         omega = fixture_omega(state=state)
         state["possibilities"].append(2)
         self.assertEqual(omega["state"], {"possibilities": [0, 1]})
+
+    def test_published_schema_construction_is_satisfiable_by_declared_fields(self):
+        schema = json.loads(
+            (Path(__file__).parent / "omega.schema.json").read_text(encoding="utf-8")
+        )
+        construction = schema["properties"]["construction"]
+        self.assertEqual(
+            set(construction["properties"]),
+            set(construction["required"]),
+        )
+        self.assertIs(construction["additionalProperties"], False)
 
 
 if __name__ == "__main__":
