@@ -30,10 +30,10 @@ Current state:
 
 ```text
 INBOUND  = RMAL_HANDOFF_AND_TARGET_ACCEPTANCE_SYNTAX_IMPLEMENTED
-OUTBOUND = STRUCTURED_RESPONSE_PACKET_NOT_YET_ESTABLISHED
+OUTBOUND = RMAL_STRUCTURED_RESPONSE_CARRIER_AUTHORED_CONTROLLED_SURFACE_CHECK_PENDING
 ```
 
-The existing RMAL cooperative carrier already implements reference/proposal/handoff/target-acceptance syntax. The complete structured return packet is intentionally not claimed yet.
+The existing RMAL cooperative carrier already implements reference/proposal/handoff/target-acceptance syntax. A response-side successor now exists at `docs/RMAL_BIDIRECTIONAL_HANDOFF_RESPONSE.rmal`, but it is intentionally limited to the already-demonstrated RMAL construct surface. Exact-head controlled-surface verification is pending; fresh RMALC check/compile/audit and generic runtime transport are not claimed.
 
 ```text
 BIDIRECTIONAL_PROTOCOL != BIDIRECTIONAL_RUNTIME_IMPLEMENTATION_EVERYWHERE
