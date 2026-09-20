@@ -27,7 +27,8 @@
     "family_constructor_commit": "c7003c0bb168f6e45c5d6f962c1b761ab9c3e3b5",
     "family_constructor_github_blob_sha": "b314b90d2f731a5a401a11429061a57ee3f9cd37",
     "family_constructor_verified_local_sha256": "78c00a370a8f46b69230f2bc8735724e001d7596513178c970dfc40802ec915e",
-    "family_constructor_selftest_sha256": "d05c93c91240c315d03edd65fe173e46f47a068243b14813d4e841083d42d62c"
+    "family_constructor_selftest_sha256": "d05c93c91240c315d03edd65fe173e46f47a068243b14813d4e841083d42d62c",
+    "locality_parity_successor_archive_sha256": "a7148ee988bd7be7d09bf3fb84199399241e4073cc4ea5d4bc79f181baa250d2"
   },
   "recovered_v0_10_checkpoint": {
     "adaptive_evaluations": 141,
@@ -320,7 +321,7 @@
     "user_device_updated": false,
     "domain_firewall": "PNP and HODGE remain separate native authorities; shared method only",
     "binding_receipt_sha256": "682bbcf6ed83e6d3f3264b7ca41257e60c64dc56b4c0fc331057808a845d440d",
-    "successor_archive_sha256": "4f33e806735b4b0bfe8a3f7860252ced1a5666a0f4da88ce828c3a0abc27bffe",
+    "successor_archive_sha256": "a7148ee988bd7be7d09bf3fb84199399241e4073cc4ea5d4bc79f181baa250d2",
     "delta_binding_witness_sha256": "2b1b2d04819f262ab5d8d8fd654a5c550a3978fa8bd8d75a9737322aacb5df09",
     "family_constructor_status": "FROZEN_V0_16_COMMON_HASH_STREAM",
     "block_seed_rule_status": "NOT_YET_FROZEN",
@@ -359,7 +360,8 @@
       "block_seed_rule": "NOT_YET_FROZEN",
       "family_manifest": "NOT_MATERIALIZED",
       "family_executed": false,
-      "source_commit": "c7003c0bb168f6e45c5d6f962c1b761ab9c3e3b5"
+      "source_commit": "c7003c0bb168f6e45c5d6f962c1b761ab9c3e3b5",
+      "successor_archive_sha256": "a7148ee988bd7be7d09bf3fb84199399241e4073cc4ea5d4bc79f181baa250d2"
     }
   ],
   "delta_binding_witness": {
