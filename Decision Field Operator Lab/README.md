@@ -230,6 +230,25 @@ Design and derivation records:
 - [September 20 domain collation](RMAPL_OMEGA_DOMAIN_COLLATION_2026-09-20.md)
 - [implementation plan](../docs/superpowers/plans/2026-09-20-rmapl-omega-reference-runtime.md)
 
+## S′ Carrier–Surface executable bridge
+
+The current-working S′ semantic model layer is also exercised through an additive Carrier–Surface bridge:
+
+- `s1_carrier_surface.py` — same-object projection, reconstruction, invariant comparison, residual typing, Ω transport, and one-degree schedule repair;
+- `fixtures/s1_current_semantic_object.json` — one bounded common object spanning candidate-state, Survivor, SemanticWorkUnit, and multi-timescale Surfaces;
+- `run_s1_carrier_surface_audit.py` + `evidence/S1_CARRIER_SURFACE_RESULTS.json` — deterministic replay of four round trips, Ω second-transport checks, reconstruction-loss/tamper negatives, and one-degree repair;
+- `docs/S1_CARRIER_SURFACE_BRIDGE.md` — contract and claim boundary.
+
+```text
+OBJECT IDENTITY IS INVARIANT; COORDINATES ARE NEGOTIABLE
+CURRENT_WORKING_MODEL != OWNER-PINNED_IMPLEMENTATION
+S_PRIME_CANDIDATE != ADMITTED_SUCCESSOR
+PROJECTION_SUCCESS != RECONSTRUCTION_SUCCESS
+METHOD_TRANSFER != EVIDENCE_TRANSFER
+```
+
+This does not replace the native S′ Models Lab or promote the newer working semantic models to scientific authority.
+
 ## Adversarial RMAPL / Ω stress verification
 
 `run_rmapl_omega_stress.py` applies a deterministic fixed-seed adversarial corpus across five families:
