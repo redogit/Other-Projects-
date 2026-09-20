@@ -1,0 +1,26 @@
+RMAPL 0
+PROGRAM omega-repair
+LOAD fixture
+BOUND maxCandidates=4
+BOUND maxSteps=8
+REPAIR repair-x
+WHEN "x-residual"
+REQUIRES ["source.available"]
+TARGETS ["x-residual"]
+PRESERVES ["identity","claim-ceiling"]
+MAY_MUTATE ["state.x"]
+FORBIDS ["provenance","evidence"]
+APPLY repair_x
+EVIDENCE ["software-verification"]
+COST 1
+END
+FITTER refit-surface
+WHEN "surface-fit"
+REQUIRES ["semantic-admitted"]
+PRESERVES ["meaning"]
+OBJECTIVES {"clarity":"max","ambiguity":"min"}
+APPLY fit_surface
+EVIDENCE ["semantic-reconstruction"]
+COST 2
+END
+RUN

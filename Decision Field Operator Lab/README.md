@@ -201,6 +201,35 @@ INWARD_COHERENCE != PROOF
 BUILD != TRUTH
 ```
 
+## RMAPL / Ω bounded reference runtime
+
+This lab also contains the bounded **RMAPL 0** conditional repair/fitting profile and the strict `rmapl-omega/v0` interchange/inspection envelope.
+
+The implementation is deliberately additive:
+
+- `omega.py` — strict deterministic Ω normalization, identity, inspection records, and reconstruction/loss reports;
+- `omega.schema.json` — closed Draft 2020-12 interchange schema;
+- `omega_adapters.py` — native Decision Field, S'1, GSFL, image-surface, dimensional-ladder, Suggest, and Hodge projections with explicit native remainder;
+- `rmapl.py` and `RMAPL_V0_GRAMMAR.md` — exact small RMAPL v0 parser/IR;
+- `rmapl_runtime.py` — bounded conditional repair/fitting execution, typed evidence admission, consequential-equivalence quotienting, Pareto branch preservation, Knowledge Decay accounting, side-effect guards, and cycle/resource stop certificates;
+- `run_rmapl_omega_audit.py` + `evidence/RMAPL_OMEGA_RESULTS.json` — deterministic frozen bounded evidence.
+
+Native schemas remain authoritative. Ω is a projection, not a replacement. RMAPL 0 is a reference profile and is **not** claimed as an RMALC frontend.
+
+```text
+OMEGA_VIEW != NATIVE_OBJECT
+RMAPL_PROFILE != RMAL_CORE_FRONTEND
+METHOD_TRANSFER != EVIDENCE_TRANSFER
+SOFTWARE_VERIFICATION != SCIENTIFIC_VALIDATION
+MAXIMAL_WITHIN_DECLARED_SCOPE != GLOBAL_COMPLETENESS
+```
+
+Design and derivation records:
+
+- [September 20 successor design](../docs/superpowers/specs/2026-09-20-rmapl-omega-conditional-repair-design.md)
+- [September 20 domain collation](RMAPL_OMEGA_DOMAIN_COLLATION_2026-09-20.md)
+- [implementation plan](../docs/superpowers/plans/2026-09-20-rmapl-omega-reference-runtime.md)
+
 ## Run
 
 Python 3.10+; standard library only.
@@ -210,6 +239,8 @@ python -m unittest discover -s "Decision Field Operator Lab" -p "test_*.py" -v
 python "Decision Field Operator Lab/run_audit.py" --check
 python "Decision Field Operator Lab/run_gsfl_operator_audit.py" --check
 python "Decision Field Operator Lab/run_gsfl_bidirectional_audit.py" --check
+python "Decision Field Operator Lab/run_contextual_multicarrier_audit.py" --check
+python "Decision Field Operator Lab/run_rmapl_omega_audit.py" --check
 ```
 
 `run_audit.py --check` reruns the exact finite operator-field contract. The GSFL audit commands independently reproduce the operator-projection and bidirectional-macro successor evidence.
