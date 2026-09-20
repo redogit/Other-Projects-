@@ -157,12 +157,10 @@ class RuntimeTests(unittest.TestCase):
             return proposal(candidate, "x=1")
 
         def repair_b(value):
-            candidate = updated(
-                value,
-                state={"x": 1, "protected": 7},
-                residuals=[],
-                provenance=[{"kind": "fixture", "ref": "other-route"}],
-            )
+            # Distinct candidate route, same protected consequence and same
+            # Omega provenance. Source route identity is retained separately
+            # in sourceCandidateIds by the quotient.
+            candidate = updated(value, state={"x": 1, "protected": 7}, residuals=[])
             return proposal(candidate, "x=1")
 
         result = run_program(p, source, {"repair_a": repair_a, "repair_b": repair_b})
