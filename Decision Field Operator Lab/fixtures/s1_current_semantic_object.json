@@ -1,0 +1,55 @@
+{
+  "schema": "s1-semantic-object/v1",
+  "objectId": "s1:semantic:fixture-1",
+  "revision": 1,
+  "subjectState": {
+    "label": "S",
+    "value": {"x": 1, "mode": "baseline"}
+  },
+  "candidateState": {
+    "label": "S'",
+    "value": {"x": 2, "mode": "candidate"},
+    "admitted": false
+  },
+  "obligationFamily": [
+    "preserve-object-identity",
+    "preserve-claim-ceiling",
+    "retain-unresolved"
+  ],
+  "invariantMap": {
+    "objectIdentity": "s1:semantic:fixture-1",
+    "candidateIsNotAdmission": true,
+    "evidenceTransfer": "DENY"
+  },
+  "decisionField": {
+    "status": "candidate",
+    "unresolved": ["candidate-not-admitted"]
+  },
+  "survivor": {
+    "kind": "counterexample",
+    "id": "survivor:fixture-1",
+    "witness": {"distinction": "candidate-vs-admission"},
+    "nextCut": "require-independent-verification"
+  },
+  "schedule": {
+    "tau_s": 1,
+    "tau_w": 4,
+    "tau_T": 16,
+    "tau_K": 64
+  },
+  "claimCeiling": [
+    "CURRENT_WORKING_MODEL != OWNER-PINNED_IMPLEMENTATION",
+    "S_PRIME_CANDIDATE != ADMITTED_SUCCESSOR",
+    "METHOD_TRANSFER != EVIDENCE_TRANSFER"
+  ],
+  "provenance": [
+    {
+      "kind": "public-working-model-fixture",
+      "source": "Conscience64 current S-prime model map"
+    }
+  ],
+  "unresolvedRemainder": [
+    "scientific validation not established",
+    "owner-local implementation authority unchanged"
+  ]
+}
