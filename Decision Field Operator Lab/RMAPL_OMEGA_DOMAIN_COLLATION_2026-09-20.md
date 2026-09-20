@@ -4,7 +4,7 @@
 **Canonical executable home candidate:** `redogit/Other-Projects-`  
 **Cross-reference-only research companion:** `redogit/conscience64`  
 **Predecessor design lineage:** branch `design/rmapl-omega-conditional-repair-20260918`, commit `7a280826979b0acbc6335c3ccdd47734befd0965`  
-**Current-main authority inspected:** `f93f056a33d5fad0f29b763a0d49c6b79eb18d49`
+**Current-main authority inspected/reconciled:** `8de91a93347aaff1ff039a4899fd56eec6689da3`
 
 ## Governing rule
 
@@ -59,6 +59,13 @@ RMAPL_COOPERATION != AUTHORITY_TRANSFER
 ```
 
 A future compiler bridge requires its own explicit implementation and validation gate.
+
+Current main also declares `BIDIRECTIONAL_HANDOFF_ADAPTER_2026-09-20.json`. Its inbound RMAL handoff/target-acceptance syntax is implemented, while its outbound structured response packet is explicitly not established. RMAPL/Ω must not fill that missing outbound authority by implication.
+
+```text
+INBOUND_HANDOFF_IMPLEMENTED != COMPLETE_BIDIRECTIONAL_RUNTIME
+RMAPL_OMEGA != IMPLICIT_STRUCTURED_RETURN_PACKET
+```
 
 ## 2. Decision Field Operator Lab
 
