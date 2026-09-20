@@ -230,6 +230,28 @@ Design and derivation records:
 - [September 20 domain collation](RMAPL_OMEGA_DOMAIN_COLLATION_2026-09-20.md)
 - [implementation plan](../docs/superpowers/plans/2026-09-20-rmapl-omega-reference-runtime.md)
 
+## Adversarial RMAPL / Ω stress verification
+
+`run_rmapl_omega_stress.py` applies a deterministic fixed-seed adversarial corpus across five families:
+
+- **2,048** Ω canonicalization / identity / tamper cases;
+- **1,536** valid-plus-malformed RMAPL parser cases;
+- **1,024** runtime evidence / mutation / quotient / cycle cases;
+- **512** cross-domain adapter authority cases;
+- **256** RMAL bidirectional-response boundary escalation counterprobes.
+
+The frozen default corpus is **5,376** cases at seed `20260920`. Unit tests rerun it for determinism and at scale ×2. CI additionally runs scale ×4 (**21,504 cases**) and then verifies the frozen default report byte-for-byte.
+
+The RMAL response carrier is deliberately tested as a boundary sentinel: its current `NOT_REVALIDATED` RMALC state and no-generic-runtime claim must survive every stress pass.
+
+```text
+STRESS_PASS != PROOF
+FIXED_SEED_STRESS != EXHAUSTIVE_VERIFICATION
+SOFTWARE_VERIFICATION != SCIENTIFIC_VALIDATION
+AUTHORED_CARRIER != GENERIC_RESPONSE_RUNTIME
+CONTROLLED_SURFACE_CHECK != RMALC_COMPILE
+```
+
 ## Run
 
 Python 3.10+; standard library only.
@@ -241,6 +263,8 @@ python "Decision Field Operator Lab/run_gsfl_operator_audit.py" --check
 python "Decision Field Operator Lab/run_gsfl_bidirectional_audit.py" --check
 python "Decision Field Operator Lab/run_contextual_multicarrier_audit.py" --check
 python "Decision Field Operator Lab/run_rmapl_omega_audit.py" --check
+python "Decision Field Operator Lab/run_rmapl_omega_stress.py" --check
+python "Decision Field Operator Lab/run_rmapl_omega_stress.py" --scale 4 --out /tmp/rmapl-omega-stress-scale4.json
 ```
 
 `run_audit.py --check` reruns the exact finite operator-field contract. The GSFL audit commands independently reproduce the operator-projection and bidirectional-macro successor evidence.

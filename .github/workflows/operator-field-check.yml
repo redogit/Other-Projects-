@@ -56,3 +56,9 @@ jobs:
 
       - name: Verify RMAPL Omega conditional repair evidence is reproducible
         run: python3 "Decision Field Operator Lab/run_rmapl_omega_audit.py" --check
+
+      - name: Run RMAPL Omega adversarial stress at scale 4
+        run: python3 "Decision Field Operator Lab/run_rmapl_omega_stress.py" --scale 4 --out /tmp/rmapl-omega-stress-scale4.json
+
+      - name: Verify frozen RMAPL Omega stress evidence is reproducible
+        run: python3 "Decision Field Operator Lab/run_rmapl_omega_stress.py" --check
