@@ -425,9 +425,13 @@ def _merge_equivalence_class(members: list[CandidateOutcome]) -> CandidateOutcom
 
 
 def _quotient(outcomes: Iterable[CandidateOutcome]) -> tuple[CandidateOutcome, ...]:
-    groups: dict[str, list[CandidateOutcome]] = {}
+    # Consequence equality alone is insufficient: a candidate that violates a
+    # protected invariant is not equivalent to an admitted repair even when
+    # both advertise the same downstream consequence.
+    groups: dict[tuple[str, str, bool], list[CandidateOutcome]] = {}
     for outcome in outcomes:
-        groups.setdefault(outcome.consequence_key, []).append(outcome)
+        key = (outcome.consequence_key, outcome.classification, outcome.admitted)
+        groups.setdefault(key, []).append(outcome)
     return tuple(
         _merge_equivalence_class(groups[key])
         for key in sorted(groups)
@@ -523,9 +527,20 @@ def run_program(
 
         quotiented = _quotient(raw_outcomes)
         generation["equivalenceClassCount"] += len(quotiented)
-        latest = pareto_frontier(quotiented)
 
-        admitted = [item for item in latest if item.admitted]
+        # Rejected candidates remain inspectable, but they cannot dominate an
+        # admissible repair/fitter in the planning frontier.
+        admitted_candidates = tuple(item for item in quotiented if item.admitted)
+        rejected_candidates = tuple(
+            sorted(
+                (item for item in quotiented if not item.admitted),
+                key=lambda item: item.candidate_id,
+            )
+        )
+        admitted_frontier = pareto_frontier(admitted_candidates)
+        latest = admitted_frontier + rejected_candidates
+
+        admitted = list(admitted_frontier)
         if any(not item.omega["residuals"] for item in admitted):
             stop_facts.add("SUCCESS")
 
