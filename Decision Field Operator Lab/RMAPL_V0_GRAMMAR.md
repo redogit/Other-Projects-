@@ -54,3 +54,15 @@ RMAPL_PROFILE != RMAL_CORE_FRONTEND
 **Instruction lines versus string data.** `NL` accepts LF, CRLF, or CR. U+0085, U+2028, and U+2029 inside JSON strings remain string data, not instruction separators. Escaped and literal representations of these characters decode equivalently. Existing blank-line and full-line-comment handling remains.
 
 Regression witnesses: `test_rmapl_contract_gaps.py`. These parser repairs do not change Omega, the RMAPL execution engine, operator admission, scientific evidence, or RMALC validation status.
+
+## Runtime bound resolution — 2026-09-20
+
+`run_program` treats the initial Omega `resourceBounds` and parsed `Program.bounds` as independent constraints. For each of `maxCandidates` and `maxSteps`, every explicitly supplied value must be a positive integer (not a Boolean, float, string, null, or container). Both bound containers must be mappings. Invalid declarations fail before any registered operator executes; a valid value on the other side cannot hide them.
+
+When both sides declare a limit, the effective value is their minimum. When only one side declares it, that value is used. The existing defaults (`maxCandidates=32`, `maxSteps=1`) apply only when neither side declares the respective limit. For example, an input `maxSteps=1` plus program `maxSteps=3` executes at most one scheduler step; a program `maxSteps=1` can likewise tighten an input `maxSteps=3`.
+
+Effective limits remain visible in `result["generation"]`. Original input records and unrelated native bound metadata remain unchanged. To increase a previously supplied input limit intentionally, the caller must supply an appropriately revised input; a program override alone no longer widens it.
+
+This repair concerns **initial limit composition**, not a new resource scheduler. Existing `maxCandidates` application remains per eligible-specification list for each current state in each step; it is not a run-wide operator-call quota. Bounds are resolved at call entry, not dynamically re-resolved from generated candidates. Registered operators still require an external sandbox/controller for wall-clock, memory, or other process-level limits. No scientific or fresh RMALC conformance claim follows.
+
+Regression witnesses: `test_rmapl_runtime_bounds.py`. Existing runtime admission, branch/cycle handling, Omega schema, parser, and frozen evidence are not changed by this repair.
