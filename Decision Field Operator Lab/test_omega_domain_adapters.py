@@ -138,6 +138,43 @@ class OmegaDomainAdapterTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "candidate-test-only"):
             project_hodge_bridge({**native, "authority": "proof"})
 
+    def test_read_only_domain_adapters_do_not_create_software_verification(self):
+        gsfl = project_gsfl_record(
+            read_json("Generalized Semantic Fitting Language/evidence/RESULTS.json")
+        )
+        image = project_image_surface({
+            "session": {
+                "schema": "s1-image-surface/v0",
+                "id": "audit-image",
+                "source": {"schema": "s1-image-source/v0", "id": "image"},
+                "surface": {"id": "surface"},
+                "experience": {"id": "event", "actions": [], "observer": {}},
+                "historyAuthority": "s1-experience/v0",
+                "claimCeiling": ["IMAGE_DEFORMATION != PHYSICAL_DEFORMATION"],
+            },
+            "measurement": {
+                "intrinsic": {}, "extrinsic": {}, "curvature": {},
+                "topology": {}, "projection": {},
+            },
+        })
+        dimensional = project_dimensional_record({
+            "version": "s1-dimension-ladder/v0",
+            "boundary": "ADJACENT_DIMENSIONS_RELATED != ADJACENT_DIMENSIONS_IDENTICAL",
+            "ladder": [0,1,2,3,4],
+            "projectionLoss": {
+                "map": "drop coordinate 2",
+                "sourceA": [1,2,3], "sourceB": [1,2,9],
+                "projectionA": [1,2], "projectionB": [1,2],
+                "sameProjection": True, "sourcePointsDistinct": True,
+            },
+            "claimCeiling": ["finite Euclidean fixtures only"],
+        })
+        self.assertEqual(gsfl["evidence"][0]["kind"], "reported-software-verification")
+        for omega in (image, dimensional):
+            self.assertEqual(omega["evidence"][0]["kind"], "structural-projection")
+        for omega in (gsfl, image, dimensional):
+            self.assertNotIn("software-verification", {x["kind"] for x in omega["evidence"]})
+
 
 if __name__ == "__main__":
     unittest.main()
