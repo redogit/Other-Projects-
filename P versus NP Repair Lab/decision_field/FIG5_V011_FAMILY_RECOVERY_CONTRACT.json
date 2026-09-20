@@ -1,7 +1,7 @@
 {
   "schema_version": "fig5-family-recovery-contract/v0.11",
   "experiment_id": "FIG-5",
-  "status": "PREREGISTERED_NOT_EXECUTED",
+  "status": "PREREGISTERED_SOURCE_RECOVERED_NOT_EXECUTED",
   "date": "2026-09-20",
   "authority": {
     "linear_issue": "FIG-5",
@@ -11,7 +11,9 @@
     "repository": "redogit/Other-Projects-",
     "base_main_sha": "cca44e23ca663600cc3466f45d7dc509c466b796",
     "lab_checkpoint_path": "P versus NP Repair Lab/CURRENT.md",
-    "authority_rule": "LINEAR_V0_10_EVIDENCE != GITHUB_IMPLEMENTATION_PARITY"
+    "authority_rule": "LOCAL_CURRENT != GITHUB_PROJECTION; MEMORY != EVIDENCE; LINEAR_OBLIGATION != SCIENTIFIC_ADMISSION",
+    "local_successor_archive_sha256": "dd1494ce0b8376a814311826ca38509e6ce1a4416aa1e26462a6b146c6716fd2",
+    "locality_parity_scope": "FIG-5/MOK lineage only; not whole-repository parity"
   },
   "recovered_v0_10_checkpoint": {
     "adaptive_evaluations": 141,
@@ -29,24 +31,53 @@
     "interpretation": "ACTIVE_BUDGET_OVERRUN_REMAINS_INDEPENDENTLY_VERIFIABLE_NOT_HARD_CORE"
   },
   "implementation_recovery": {
-    "connected_github_source_status": "NOT_RECOVERED",
-    "searched_markers": [
-      "SHORTCUT_FREE_DP_EXACT",
-      "103 generated resolvents",
-      "1063 planning pairs",
-      "validation cap 160",
-      "FIG-5"
-    ],
-    "exact_v0_10_anchor_n": null,
-    "exact_family_increment_delta": null,
+    "connected_github_source_status": "V0_10_IMPLEMENTATION_NOT_PRESENT_ON_DEFAULT_BRANCH",
+    "local_source_status": "RECOVERED_AND_HASH_PINNED",
+    "local_archives": {
+      "meta_obligation_kernel_v0_10.zip": "a86de2f05f357c07e5585d3c2bb5a203fc8ab67d5813e4a142fd34782833967d",
+      "meta_obligation_kernel_v0_11_memory_roles.zip": "5cf4d589bb73171e4bf384836c9a97ae83f1c89a855bb1b42dfe686d968aee63",
+      "FIG5_LOCALITY_PARITY_V0_11_2026-09-20.zip": "dd1494ce0b8376a814311826ca38509e6ce1a4416aa1e26462a6b146c6716fd2"
+    },
+    "exact_v0_10_anchor_n": 10,
+    "exact_family_increment_delta": 1,
+    "delta_classification": "PREREGISTERED_UNIT_VARIABLE_COUNT_STEP",
+    "delta_basis": "n is an integer variable-count dimension; retained predecessor generator explicitly sampled adjacent n=8..10. This does not establish current family-generator validity above n=10.",
+    "source_hashes": {
+      "adaptive_search_py": "48cc8cae2bc9bc0852a62d1a15b8bdc10b4d58ab32df15914be9a4d71589eeb0",
+      "hard_core_py": "944bc8d67dd566378e29a6c1e2418fa1f0ee284758560aa5334473093a447228",
+      "robust_search_py": "1ce0bf49478a38a1584f9a888623d183a08ca391542809d258a78c37b7f2751a",
+      "search_next_py": "f8f268e23bf5ab9b522be10741605aa59575c8f0d64c1951f1ee9b7d2ebfc822",
+      "v0_10_result_json": "b8d4695b57d5d1eac5cea7f88605e41c2b0f4014753e5ad68ef51419146f8633",
+      "v0_10_robust_search_json": "6032710bf3c9cfd36dff429f7074c0c9b85ac6bfeb2ce8efa6847c561f85f4e7",
+      "v0_10_method_md": "340ae2790e66c7abebe3577e95a55d955a2906e315ca5085db24825a468b97ea"
+    },
+    "frozen_v0_10_to_v0_11_byte_identity": {
+      "solver_and_adversary_changed": false,
+      "checked_files": [
+        "adaptive_search.py",
+        "hard_core.py",
+        "robust_search.py",
+        "search_next.py",
+        "PNP_V0_10_RESULT.json",
+        "PNP_V0_10_ROBUST_SEARCH.json"
+      ]
+    },
+    "oracle_identity": {
+      "implementation": "adaptive_search.oracle_label -> hard_core.brute",
+      "source_hashes": [
+        "48cc8cae2bc9bc0852a62d1a15b8bdc10b4d58ab32df15914be9a4d71589eeb0",
+        "944bc8d67dd566378e29a6c1e2418fa1f0ee284758560aa5334473093a447228"
+      ],
+      "independence_boundary": "Algorithmically distinct brute-force check, but co-located in the same recovered package; not independent authorship or peer validation."
+    },
+    "ordering_policy_identity": {
+      "implementation": "hard_core.dp_eliminate one-step elimination_preview lexicographic policy",
+      "source_hash": "944bc8d67dd566378e29a6c1e2418fa1f0ee284758560aa5334473093a447228"
+    },
     "execution_blocked_until": [
-      "recover exact v0.10 implementation/source identity",
-      "recover exact v0.10 anchor n",
-      "recover generator semantics and seed/common-random-stream rule",
-      "recover frozen Davis-Putnam elimination/ordering policy",
-      "recover independent bounded oracle implementation",
-      "pin hashes/identities for generator, active solver, oracle, ordering policy",
-      "materialize and hash the 30-row family manifest before opening validation"
+      "freeze one deterministic family-construction rule valid across all six n levels",
+      "freeze block seed/common-random-stream rule",
+      "materialize and hash all 30 family inputs before opening validation"
     ],
     "no_guess_rule": "UNRECOVERED_SOURCE_FACT != INFERRED_PARAMETER"
   },
@@ -68,15 +99,20 @@
       5
     ],
     "n_ladder_rule": [
-      "n_star - 2*delta",
-      "n_star - delta",
-      "n_star",
-      "n_star + delta",
-      "n_star + 2*delta",
-      "n_star + 3*delta"
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
     ],
     "invalid_low_n_rule": "shift entire six-level ladder upward before execution; do not edit individual levels after results",
-    "adaptation_after_validation_opened": "FORBIDDEN"
+    "adaptation_after_validation_opened": "FORBIDDEN",
+    "anchor_n": 10,
+    "delta": 1,
+    "family_constructor_status": "NOT_YET_FROZEN",
+    "block_seed_rule_status": "NOT_YET_FROZEN",
+    "inputs_materialized": false
   },
   "primary_quantity": {
     "name": "normalized Davis-Putnam opposite-polarity pair pressure",
@@ -87,7 +123,18 @@
     "measurement_time": "immediately before resolution at each frozen elimination step",
     "diagnostic_survival_ratio": "eta = R / P_DP",
     "primary_quantity_count": 1,
-    "post_hoc_metric_substitution": "FORBIDDEN"
+    "post_hoc_metric_substitution": "FORBIDDEN",
+    "measurement_source": "Existing hard_core.dp_eliminate trace fields `positive` and `negative`; read-only derivation, no solver semantic change required.",
+    "anchor_same_source_replay": {
+      "evidence_class": "REPLAY_NOT_INDEPENDENT_VALIDATION",
+      "n": 10,
+      "generated_resolvents": 103,
+      "planning_pairs_considered": 1063,
+      "P_DP": 152,
+      "chi_DP": 15.2,
+      "resolvent_survival": 0.6776315789473685,
+      "replay_sha256": "fad786475a29eea8e103808dabf5c1a11e0ff5db1aea1ddb01a2523e79cb306d"
+    }
   },
   "controls": {
     "size_linear": "R_hat_1 = a*n",
@@ -203,11 +250,35 @@
     "FINITE_COUNTEREXAMPLE != COMPLEXITY_LOWER_BOUND",
     "GENERATION_CAP_EXHAUSTION != VERIFICATION_FAILURE",
     "GENERATE != VERIFY != ADMIT",
-    "FIG-5_RESULT != P_VS_NP_RESULT"
+    "FIG-5_RESULT != P_VS_NP_RESULT",
+    "REPLAY != INDEPENDENT_VALIDATION",
+    "MEMORY != EVIDENCE",
+    "LOCAL_CURRENT != GITHUB_PROJECTION"
   ],
   "current_stop": {
-    "completed_step": "machine-readable v0.11 recovery/preregistration contract",
+    "completed_step": "local source recovery + scoped locality parity + read-only chi_DP anchor replay",
     "experiment_executed": false,
-    "next_one_degree_step": "recover and pin the exact v0.10 implementation/source identity and anchor n_star; then instantiate the 30-row manifest without running validation"
+    "next_one_degree_step": "freeze deterministic six-n family constructor and block seed/common-random-stream rule; materialize/hash the 30-row manifest without opening validation"
+  },
+  "locality_parity": {
+    "status": "PASS_SCOPED_LOCALITY_PARITY",
+    "dimensions": [
+      "identity",
+      "revision",
+      "meaning",
+      "authority",
+      "provenance",
+      "evidence_status",
+      "privacy",
+      "recovery"
+    ],
+    "predecessor_rule": "Preserve COMPASS-DF-LOCAL-PARITY-20260920-01 as predecessor; do not rewrite its finite F2/GF5 evidence.",
+    "required_difference": "Later MOK v0.10/v0.11 advances the FIG-5 next obligation to increasing-n family scaling; Hodge/PNP cross-domain evidence remains separated.",
+    "not_established": [
+      "whole-repository parity",
+      "independent scientific validation",
+      "v0.11 family results",
+      "asymptotic complexity law"
+    ]
   }
 }
