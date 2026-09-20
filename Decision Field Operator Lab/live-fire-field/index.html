@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#16130f">
+  <meta name="description" content="Live FIRE + Music + Dance dynamic research-control field.">
+  <title>FIRE · Music · Dance — Live Dynamic Field</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#controls">Skip to controls</a>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">OTHER-PROJECTS / DECISION FIELD OPERATOR LAB</p>
+      <h1>FIRE <span>· Music · Dance</span></h1>
+      <p class="subtitle">A visible, traceable control field. Method only; no metaphor becomes evidence by itself.</p>
+    </div>
+    <div class="top-actions">
+      <span id="persist-status" class="status-pill" role="status">Local state ready</span>
+      <button id="reset-all" class="button ghost" type="button">Reset</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-grid" aria-label="Live field overview">
+      <article class="panel field-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">LIVE FIELD</p>
+            <h2 id="object-title">Object:live-fire-field</h2>
+          </div>
+          <div class="stage-badge" id="stage-badge">OBSERVE</div>
+        </div>
+
+        <div class="field-visual" id="field-visual" data-triad="MIDDLE" data-stage="OBSERVE">
+          <svg id="compass" viewBox="0 0 760 500" role="img" aria-labelledby="compass-title compass-desc">
+            <title id="compass-title">FIRE dynamic field compass</title>
+            <desc id="compass-desc">Dark, Middle and Light form a triad around the central FIRE state. Directional dance controls surround the field.</desc>
+            <defs>
+              <filter id="soft-glow"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+            <circle class="orbit orbit-a" cx="380" cy="250" r="150"/>
+            <circle class="orbit orbit-b" cx="380" cy="250" r="205"/>
+            <path class="triad-line" d="M250 335 L380 105 L510 335 Z"/>
+            <g class="triad-node dark-node" data-triad-node="DARK" transform="translate(250 335)">
+              <circle r="49"/><text y="5">DARK</text>
+            </g>
+            <g class="triad-node middle-node" data-triad-node="MIDDLE" transform="translate(380 105)">
+              <circle r="49"/><text y="5">MIDDLE</text>
+            </g>
+            <g class="triad-node light-node" data-triad-node="LIGHT" transform="translate(510 335)">
+              <circle r="49"/><text y="5">LIGHT</text>
+            </g>
+            <g class="fire-core" transform="translate(380 250)" filter="url(#soft-glow)">
+              <path class="flame flame-outer" d="M0 72 C-64 40 -66 -20 -20 -80 C-16 -38 10 -35 16 -98 C72 -38 72 34 28 68 C18 76 8 80 0 72Z"/>
+              <path class="flame flame-inner" d="M4 57 C-28 35 -29 0 -5 -34 C-4 -12 14 -4 18 -44 C44 -10 40 34 14 55 C10 58 7 59 4 57Z"/>
+              <text class="fire-label" x="0" y="102">FIRE</text>
+            </g>
+            <g id="way-labels"></g>
+          </svg>
+          <div class="music-wave" aria-label="Music pulse visualization">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <div class="triad-controls" aria-label="Triad control">
+          <button type="button" data-triad="DARK">Enter Dark</button>
+          <button type="button" data-triad="MIDDLE" class="selected">Find Middle</button>
+          <button type="button" data-triad="LIGHT">Enter Light</button>
+        </div>
+      </article>
+
+      <article class="panel now-panel">
+        <p class="eyebrow">NOW</p>
+        <dl class="now-grid">
+          <div><dt>Stage</dt><dd id="now-stage">OBSERVE</dd></div>
+          <div><dt>Triad</dt><dd id="now-triad">MIDDLE</dd></div>
+          <div><dt>Verification</dt><dd id="now-verification">GENERATED</dd></div>
+          <div><dt>Δ</dt><dd id="now-delta">UNKNOWN</dd></div>
+          <div><dt>Music</dt><dd id="now-music">Stopped</dd></div>
+          <div><dt>Dance</dt><dd id="now-dance">HOMEWARD</dd></div>
+        </dl>
+        <div class="candidate-card">
+          <span class="label">Candidate</span>
+          <code id="candidate-id"></code>
+          <pre id="surface-view"></pre>
+        </div>
+        <p class="boundary-note">Object identity stays fixed. Surface, carrier and coordinates may move.</p>
+      </article>
+    </section>
+
+    <section id="controls" class="control-grid">
+      <article class="panel fire-controls">
+        <div class="panel-heading compact">
+          <div><p class="eyebrow">FIRE</p><h2>Burn what can be tested.</h2></div>
+        </div>
+        <label>Observation / check note
+          <textarea id="burn-observation" rows="3" placeholder="What did the check actually observe?"></textarea>
+        </label>
+        <label>Evidence reference <span class="optional">optional</span>
+          <input id="burn-evidence" type="text" placeholder="evidence:fixture-1">
+        </label>
+        <div class="button-row three">
+          <button id="burn-fail" class="button ash" type="button">FAIL → ASH</button>
+          <button id="burn-unresolved" class="button smoke" type="button">UNRESOLVED → SMOKE</button>
+          <button id="burn-pass" class="button ember" type="button">PASS → EMBER</button>
+        </div>
+        <div class="button-row">
+          <button id="mark-survivor" class="button" type="button">EMBER → SURVIVOR</button>
+          <button id="reconstitute" class="button ghost" type="button">Reconstitute</button>
+        </div>
+        <label>Reconstitution knowledge
+          <input id="knowledge-note" type="text" placeholder="What survived and can be carried forward?">
+        </label>
+      </article>
+
+      <article class="panel mutation-controls">
+        <p class="eyebrow">ONE DEGREE</p>
+        <h2>Change one thing.</h2>
+        <div class="form-grid">
+          <label>Path
+            <select id="mutation-path">
+              <option value="system.depth">system.depth</option>
+              <option value="system.temperature">system.temperature</option>
+              <option value="system.carrier">system.carrier</option>
+              <option value="observer.mode">observer.mode</option>
+            </select>
+          </label>
+          <label>After value
+            <input id="mutation-after" type="text" value="3" aria-describedby="value-hint">
+          </label>
+          <label>Operator
+            <input id="mutation-operator" type="text" value="CHANGE_ONE">
+          </label>
+          <label>Direction
+            <select id="mutation-direction"></select>
+          </label>
+        </div>
+        <p id="value-hint" class="hint">Values parse as JSON when possible: <code>3</code>, <code>true</code>, <code>"orbit"</code>.</p>
+        <button id="apply-mutation" class="button primary" type="button">Generate one-degree candidate</button>
+        <div class="learn-box">
+          <span class="label">Learned route preference</span>
+          <strong id="route-recommendation">No experience yet</strong>
+          <span id="novelty-display">Novelty: —</span>
+        </div>
+      </article>
+
+      <article class="panel music-controls">
+        <p class="eyebrow">MUSIC</p>
+        <h2>Give the field cadence.</h2>
+        <label>BPM
+          <input id="music-bpm" type="range" min="40" max="220" value="108">
+          <output id="music-bpm-output">108</output>
+        </label>
+        <div class="button-row">
+          <button id="music-toggle" class="button primary" type="button">Start music</button>
+          <button id="music-step" class="button ghost" type="button">Single pulse</button>
+        </div>
+        <div class="music-readout">
+          <span>Bar <strong id="music-bar">1</strong></span>
+          <span>Beat <strong id="music-beat">1</strong></span>
+          <span>Motif <strong id="music-operator">OBSERVE</strong></span>
+        </div>
+        <p class="boundary-note">Music schedules attention. It does not verify a claim.</p>
+      </article>
+
+      <article class="panel dance-controls">
+        <p class="eyebrow">DANCE · ALL WAYS</p>
+        <h2>Move without losing the way back.</h2>
+        <div id="dance-pad" class="dance-pad"></div>
+        <div class="button-row">
+          <button id="homeward" class="button" type="button">Execute HOMEWARD</button>
+          <button id="sleep" class="button ghost" type="button">Sleep</button>
+          <button id="wake" class="button ghost" type="button">Wake</button>
+        </div>
+        <ol id="dance-trail" class="trail" aria-label="Dance trajectory"></ol>
+      </article>
+    </section>
+
+    <section class="panel bins-panel">
+      <div class="panel-heading compact">
+        <div><p class="eyebrow">MEMORY</p><h2>Nothing useful disappears silently.</h2></div>
+        <button id="compare-root" class="button ghost" type="button">Compare with root</button>
+      </div>
+      <div class="bins-grid">
+        <div class="bin ash-bin"><h3>ASH <span id="ash-count">0</span></h3><ul id="ash-list"></ul></div>
+        <div class="bin smoke-bin"><h3>SMOKE <span id="smoke-count">0</span></h3><ul id="smoke-list"></ul></div>
+        <div class="bin ember-bin"><h3>EMBER <span id="ember-count">0</span></h3><ul id="ember-list"></ul></div>
+        <div class="bin survivor-bin"><h3>SURVIVOR <span id="survivor-count">0</span></h3><ul id="survivor-list"></ul></div>
+      </div>
+      <div class="delta-strip" id="delta-strip" data-delta="UNKNOWN">
+        <strong id="delta-label">Δ UNKNOWN</strong>
+        <span id="delta-note">Run a comparison when the current path returns home.</span>
+        <button id="close-no-change" class="button" type="button" disabled>Δ_ZERO → NO_CHANGE → CLOSE</button>
+      </div>
+    </section>
+
+    <section class="bottom-grid">
+      <article class="panel trace-panel">
+        <div class="panel-heading compact">
+          <div><p class="eyebrow">TRACE</p><h2>Observation → Change → Remainder</h2></div>
+          <button id="clear-trace-view" class="button ghost" type="button">Collapse</button>
+        </div>
+        <ol id="trace-list" class="trace-list" aria-live="polite"></ol>
+      </article>
+
+      <article class="panel bridge-panel">
+        <p class="eyebrow">CHATGPT BRIDGE</p>
+        <h2>One visible state, two operators.</h2>
+        <p>Export this state to the chat, or paste a bounded command packet produced in the chat back here.</p>
+        <div class="button-row wrap">
+          <button id="copy-state" class="button primary" type="button">Copy state for ChatGPT</button>
+          <button id="download-state" class="button ghost" type="button">Download state JSON</button>
+          <label class="button ghost file-button">Import state JSON<input id="import-state" type="file" accept="application/json,.json"></label>
+        </div>
+        <label>Command packet
+          <textarea id="command-input" rows="9" spellcheck="false" placeholder='{"schema":"fire-music-dance-command/v1","command":"DANCE","direction":"INWARD"}'></textarea>
+        </label>
+        <div class="button-row">
+          <button id="apply-command" class="button" type="button">Apply command packet</button>
+          <button id="copy-command-template" class="button ghost" type="button">Copy command schema</button>
+        </div>
+        <details>
+          <summary>Supported bridge commands</summary>
+          <code>SET_TRIAD · DANCE · MUTATE · BURN · SURVIVOR · RECONSTITUTE · HOMEWARD · SLEEP · WAKE · COMPARE</code>
+        </details>
+        <p id="bridge-status" class="bridge-status" role="status" aria-live="polite"></p>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <p><strong>Boundaries:</strong> GENERATE ≠ VERIFY ≠ ADMIT · MUSIC ≠ TRUTH · DANCE ≠ TRUTH · METHOD TRANSFER ≠ EVIDENCE TRANSFER · Δ_ZERO is local, not global.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
