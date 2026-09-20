@@ -277,6 +277,69 @@ class RuntimeTests(unittest.TestCase):
         self.assertEqual(result["generation"]["prunedCount"], 1)
         self.assertEqual(result["generation"]["truncationReason"], "maxCandidates")
 
+    def test_rejected_mutation_cannot_pareto_dominate_admitted_repair(self):
+        source = omega_with_residual()
+        p = program([
+            ("good", "good_op", "[]", '["state.protected"]'),
+            ("bad", "bad_op", "[]", '["state.protected"]'),
+        ])
+
+        def good_op(value):
+            candidate = updated(value, state={"x": 1, "protected": 7}, residuals=[])
+            return proposal(
+                candidate, "good",
+                metric_values=metrics(
+                    residualReduction=1,
+                    invariantPreservation=1,
+                    semanticLoss=0,
+                ),
+            )
+
+        def bad_op(value):
+            candidate = updated(value, state={"x": 1, "protected": 8}, residuals=[])
+            return proposal(
+                candidate, "bad",
+                metric_values=metrics(
+                    residualReduction=100,
+                    invariantPreservation=100,
+                    reconstructibility=100,
+                    reversibility=100,
+                    evidenceCoverage=100,
+                    branchReduction=100,
+                    provenanceCompleteness=100,
+                    semanticLoss=0,
+                ),
+            )
+
+        result = run_program(p, source, {"good_op": good_op, "bad_op": bad_op})
+        self.assertEqual(result["stopReason"], "SUCCESS")
+        self.assertTrue(any(x["candidateId"] == "good" and x["admitted"] for x in result["branches"]))
+
+    def test_mutation_and_valid_repair_with_same_consequence_are_not_quotiented_together(self):
+        source = omega_with_residual()
+        p = program([
+            ("good", "good_op", "[]", '["state.protected"]'),
+            ("bad", "bad_op", "[]", '["state.protected"]'),
+        ])
+
+        def good_op(value):
+            return proposal(
+                updated(value, state={"x": 1, "protected": 7}, residuals=[]),
+                "x=1",
+            )
+
+        def bad_op(value):
+            return proposal(
+                updated(value, state={"x": 1, "protected": 8}, residuals=[]),
+                "x=1",
+            )
+
+        result = run_program(p, source, {"good_op": good_op, "bad_op": bad_op})
+        self.assertEqual(result["generation"]["equivalenceClassCount"], 2)
+        classes = {(x["candidateId"], x["classification"]) for x in result["branches"]}
+        self.assertIn(("good", "EXACT_REPAIR"), classes)
+        self.assertIn(("bad", "MUTATION"), classes)
+
 
 if __name__ == "__main__":
     unittest.main()
