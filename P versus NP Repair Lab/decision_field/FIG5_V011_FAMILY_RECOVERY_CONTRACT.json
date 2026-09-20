@@ -16,7 +16,10 @@
     "locality_parity_scope": "FIG-5/MOK lineage only; not whole-repository parity",
     "locality_parity_version": "MOK-v0.13-locality-parity",
     "locality_parity_archive_sha256": "37b477d86672df0e679384af95f4d83231a14cd72d4448acb58758dce9fa1fc4",
-    "correction_rule": "SOURCE_FACT != CONTRACT_PARAMETER_UNLESS_BOUND"
+    "correction_rule": "SOURCE_FACT != CONTRACT_PARAMETER_UNLESS_BOUND",
+    "locality_parity_successor": "FIG5-locality-v0.14-nstar-binding",
+    "nstar_binding_receipt_sha256": "682bbcf6ed83e6d3f3264b7ca41257e60c64dc56b4c0fc331057808a845d440d",
+    "nstar_binding_authority": "Explicit current approval of the already-frozen FIG-5 plan definition plus exact recovered v0.10 source; private approval text is not exported."
   },
   "recovered_v0_10_checkpoint": {
     "adaptive_evaluations": 141,
@@ -57,21 +60,21 @@
       "validation_budget": 160
     },
     "binding_limits": {
-      "exact_v0_10_anchor_n": "UNRESOLVED_BINDING",
+      "exact_v0_10_anchor_n": 10,
       "n_star_candidate_source_fact": 10,
-      "n_star_rule": "Do not bind source num_vars=10 to contract n_star without an exact authority/linkage witness.",
+      "n_star_rule": "BOUND: n_star is defined by the approved plan as the variable-count size of the retained v0.10 103-resolvent anchor; exact recovered source fixes that size at 10.",
       "exact_family_increment_delta": "UNRESOLVED",
       "family_manifest": "NOT_MATERIALIZED",
       "family_executed": false
     },
     "execution_blocked_until": [
-      "recover an exact authority/linkage witness binding the v0.10 anchor to FIG-5 contract n_star"
+      "establish delta with an exact family-preserving increment witness"
     ],
     "boundaries": [
+      "NSTAR_BOUND != DELTA_BOUND",
+      "PARAMETER_BINDING != FAMILY_VALIDITY",
       "LOCAL_ARTIFACT_IDENTITY != GITHUB_IMPLEMENTATION_PARITY",
-      "SOURCE_FACT_num_vars_10 != n_star_UNLESS_BOUND",
-      "RECOVERED != ADMITTED_PARAMETER",
-      "UNRECOVERED_SOURCE_FACT != INFERRED_PARAMETER"
+      "GENERATE != VERIFY != ADMIT"
     ]
   },
   "one_degree_family": {
@@ -104,9 +107,10 @@
     "family_constructor_status": "NOT_YET_FROZEN",
     "block_seed_rule_status": "NOT_YET_FROZEN",
     "inputs_materialized": false,
-    "n_star_status": "UNRESOLVED_BINDING",
+    "n_star_status": "BOUND_BY_APPROVED_PLAN_PLUS_EXACT_SOURCE",
     "delta_status": "UNRESOLVED",
-    "execution_allowed": false
+    "execution_allowed": false,
+    "anchor_n": 10
   },
   "primary_quantity": {
     "name": "normalized Davis-Putnam opposite-polarity pair pressure",
@@ -248,18 +252,20 @@
     "MEMORY != EVIDENCE",
     "LOCAL_CURRENT != GITHUB_PROJECTION",
     "SOURCE_FACT != CONTRACT_PARAMETER_UNLESS_BOUND",
-    "RECOVERED != ADMITTED_PARAMETER"
+    "RECOVERED != ADMITTED_PARAMETER",
+    "NSTAR_BOUND != DELTA_BOUND",
+    "PARAMETER_BINDING != FAMILY_VALIDITY"
   ],
   "current_stop": {
-    "completed_step": "local v0.10 implementation identity recovered and scoped locality parity established",
+    "completed_step": "exact n_star authority/linkage binding",
     "experiment_executed": false,
-    "next_one_degree_step": "recover an exact authority/linkage witness binding the v0.10 anchor to FIG-5 contract n_star; do not choose delta or instantiate family rows"
+    "next_one_degree_step": "establish delta with an exact family-preserving increment witness; do not instantiate rows or execute calibration/validation yet"
   },
   "locality_parity": {
-    "version": "MOK-v0.13-locality-parity",
-    "status": "PASS_SCOPED_WITH_UNRESOLVED_BINDING",
+    "version": "FIG5-locality-v0.14-nstar-binding",
+    "status": "PASS_SCOPED_NSTAR_BOUND_DELTA_UNRESOLVED",
     "scope": "private local working filesystem + Library + read-only pinned external receipts",
-    "n_star_status": "UNRESOLVED_BINDING",
+    "n_star_status": "BOUND_10",
     "delta_status": "UNRESOLVED",
     "local_v0_10_identity_recovered": true,
     "local_v0_10_signature_matched": true,
@@ -267,14 +273,22 @@
     "whole_repository_parity": false,
     "public_export_performed": false,
     "user_device_updated": false,
-    "domain_firewall": "PNP and HODGE remain separate native authorities; shared method only"
+    "domain_firewall": "PNP and HODGE remain separate native authorities; shared method only",
+    "binding_receipt_sha256": "682bbcf6ed83e6d3f3264b7ca41257e60c64dc56b4c0fc331057808a845d440d",
+    "successor_archive_sha256": "21ed912df8b809fc479b84646134da4f206d482001ae91721730d548db5f0f24"
   },
   "correction_history": [
     {
-      "event": "LOCALITY_PARITY_CORRECTION",
-      "supersedes_branch_state": "A prior PR #89 revision inferred contract n_star=10 from recovered source num_vars=10 and selected delta=1.",
-      "correction": "MOK v0.13 establishes that this inference is not admitted without an exact authority/linkage witness; n_star and delta returned to unresolved.",
-      "preservation": "Git history retains the corrected revision; local source recovery and hashes remain valid."
+      "event": "V0_13_CORRECTION",
+      "result": "Correctly rejected n_star binding from source num_vars=10 alone.",
+      "preserved": true
+    },
+    {
+      "event": "V0_14_AUTHORITY_BINDING",
+      "result": "A new explicit plan-approval authority event supplies the missing linkage: approved plan defines n_star as the retained v0.10 anchor size; exact source fixes that size at 10.",
+      "n_star": 10,
+      "delta": "UNRESOLVED",
+      "family_executed": false
     }
   ]
 }
