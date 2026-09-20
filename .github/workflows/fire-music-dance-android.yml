@@ -1,0 +1,46 @@
+name: FIRE Music Dance Android
+
+on:
+  pull_request:
+    paths:
+      - "android/fire-music-dance/**"
+      - "Decision Field Operator Lab/live-fire-field/**"
+      - ".github/workflows/fire-music-dance-android.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Install Android SDK 35
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.10.2"
+
+      - name: Verify local-only Android contract
+        working-directory: android/fire-music-dance
+        run: python verify_project.py
+
+      - name: Build debug APK
+        working-directory: android/fire-music-dance
+        run: gradle :app:assembleDebug --stacktrace
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FIRE-Music-Dance-debug-apk
+          path: android/fire-music-dance/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
