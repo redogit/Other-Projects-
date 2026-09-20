@@ -238,6 +238,40 @@ def _changed_paths(original: Mapping[str, Any], candidate: Mapping[str, Any], pa
     return tuple(sorted(changed))
 
 
+def _outside_mutation_scope(
+    original: Mapping[str, Any],
+    candidate: Mapping[str, Any],
+    allowed: Iterable[str],
+) -> tuple[str, ...]:
+    """Return semantic changes not covered by a declared path subtree.
+
+    Both Omega records have already been validated. Their id and construction
+    fields are derived mirrors, not separate semantic mutation permissions.
+    Arrays and added/deleted/replaced containers are atomic at their path.
+    """
+    prefixes = tuple(_semantic_path(path) for path in allowed)
+    pending = [
+        ((key,), original.get(key, _MISSING), candidate.get(key, _MISSING))
+        for key in (set(original) | set(candidate)) - {"id", "construction"}
+    ]
+    outside = []
+    while pending:
+        path, left, right = pending.pop()
+        if left is not _MISSING and right is not _MISSING:
+            if canonical_json(left) == canonical_json(right):
+                continue
+        if any(path[:len(prefix)] == prefix for prefix in prefixes):
+            continue
+        if isinstance(left, Mapping) and isinstance(right, Mapping):
+            pending.extend(
+                (path + (key,), left.get(key, _MISSING), right.get(key, _MISSING))
+                for key in set(left) | set(right)
+            )
+        else:
+            outside.append(".".join(path))
+    return tuple(sorted(set(outside)))
+
+
 def _cycle_signature(omega: Mapping[str, Any], program: Program) -> str:
     payload = {
         "nativeIdentity": omega.get("nativeIdentity"),
@@ -335,8 +369,15 @@ def _proposal_outcome(
     forbidden = spec.forbids if isinstance(spec, RepairSpec) else ()
     changed_preserved = _changed_paths(original, candidate, preserves)
     changed_forbidden = _changed_paths(original, candidate, forbidden)
+    # Preserve existing rejection diagnostics; only otherwise-admissible
+    # repairs need the additional allowlist gate.
+    outside_scope = (
+        _outside_mutation_scope(original, candidate, spec.may_mutate)
+        if isinstance(spec, RepairSpec) and not (changed_preserved or changed_forbidden)
+        else ()
+    )
 
-    if changed_preserved or changed_forbidden:
+    if changed_preserved or changed_forbidden or outside_scope:
         classification = "MUTATION"
         admitted = False
     elif reconstruction["status"] == "exact":
@@ -365,7 +406,7 @@ def _proposal_outcome(
         residual_before=original["residuals"],
         residual_after=candidate["residuals"],
         preserved=[item for item in preserves if item not in changed_preserved],
-        mutated=sorted(set(changed_preserved) | set(changed_forbidden)),
+        mutated=sorted(set(changed_preserved) | set(changed_forbidden) | set(outside_scope)),
         lost=list(decay.loss),
         introduced=list(decay.introduction),
         reconstruction=dict(reconstruction),
@@ -392,6 +433,8 @@ def _proposal_outcome(
             {"name": "preserves", "status": "passed" if not changed_preserved else "failed"},
             {"name": "forbids", "status": "passed" if not changed_forbidden else "failed"},
             {"name": "reconstruction", "status": reconstruction["status"]},
+            *([{"name": "may_mutate", "status": "failed", "paths": list(outside_scope)}]
+              if outside_scope else []),
         ],
     )
     return CandidateOutcome(
