@@ -17,9 +17,12 @@
     "locality_parity_version": "MOK-v0.13-locality-parity",
     "locality_parity_archive_sha256": "37b477d86672df0e679384af95f4d83231a14cd72d4448acb58758dce9fa1fc4",
     "correction_rule": "SOURCE_FACT != CONTRACT_PARAMETER_UNLESS_BOUND",
-    "locality_parity_successor": "FIG5-locality-v0.14-nstar-binding",
+    "locality_parity_successor": "FIG5-locality-v0.15-delta-binding",
     "nstar_binding_receipt_sha256": "682bbcf6ed83e6d3f3264b7ca41257e60c64dc56b4c0fc331057808a845d440d",
-    "nstar_binding_authority": "Explicit current approval of the already-frozen FIG-5 plan definition plus exact recovered v0.10 source; private approval text is not exported."
+    "nstar_binding_authority": "Explicit current approval of the already-frozen FIG-5 plan definition plus exact recovered v0.10 source; private approval text is not exported.",
+    "delta_binding_witness_sha256": "2b1b2d04819f262ab5d8d8fd654a5c550a3978fa8bd8d75a9737322aacb5df09",
+    "delta_binding_successor_archive_sha256": "4f33e806735b4b0bfe8a3f7860252ced1a5666a0f4da88ce828c3a0abc27bffe",
+    "delta_binding_authority": "Current user-requested exact family-preserving increment witness; delta is derived from one-fresh-variable cardinality, not integer adjacency."
   },
   "recovered_v0_10_checkpoint": {
     "adaptive_evaluations": 141,
@@ -63,18 +66,24 @@
       "exact_v0_10_anchor_n": 10,
       "n_star_candidate_source_fact": 10,
       "n_star_rule": "BOUND: n_star is defined by the approved plan as the variable-count size of the retained v0.10 103-resolvent anchor; exact recovered source fixes that size at 10.",
-      "exact_family_increment_delta": "UNRESOLVED",
+      "exact_family_increment_delta": 1,
       "family_manifest": "NOT_MATERIALIZED",
-      "family_executed": false
+      "family_executed": false,
+      "delta_rule": "BOUND: delta is the exact variable-set cardinality increase under the verified one-fresh-variable parity extension; the carrier label of the fresh variable is not the binding argument."
     },
     "execution_blocked_until": [
-      "establish delta with an exact family-preserving increment witness"
+      "freeze one deterministic scientific family constructor compatible with the bound increment",
+      "freeze the block seed/common-random-stream rule if the selected constructor requires it",
+      "materialize and hash the 30-row family manifest before any family execution"
     ],
     "boundaries": [
       "NSTAR_BOUND != DELTA_BOUND",
       "PARAMETER_BINDING != FAMILY_VALIDITY",
       "LOCAL_ARTIFACT_IDENTITY != GITHUB_IMPLEMENTATION_PARITY",
-      "GENERATE != VERIFY != ADMIT"
+      "GENERATE != VERIFY != ADMIT",
+      "DELTA_DERIVED_FROM_FRESH_VARIABLE_CARDINALITY != INTEGER_ADJACENCY_INFERENCE",
+      "DELTA_BOUND != FAMILY_CONSTRUCTOR_FROZEN",
+      "DELTA_BOUND != 30_ROW_MANIFEST_MATERIALIZED"
     ]
   },
   "one_degree_family": {
@@ -108,7 +117,7 @@
     "block_seed_rule_status": "NOT_YET_FROZEN",
     "inputs_materialized": false,
     "n_star_status": "BOUND_BY_APPROVED_PLAN_PLUS_EXACT_SOURCE",
-    "delta_status": "UNRESOLVED",
+    "delta_status": "BOUND_BY_EXACT_FAMILY_PRESERVING_INCREMENT_WITNESS",
     "execution_allowed": false,
     "anchor_n": 10
   },
@@ -254,19 +263,23 @@
     "SOURCE_FACT != CONTRACT_PARAMETER_UNLESS_BOUND",
     "RECOVERED != ADMITTED_PARAMETER",
     "NSTAR_BOUND != DELTA_BOUND",
-    "PARAMETER_BINDING != FAMILY_VALIDITY"
+    "PARAMETER_BINDING != FAMILY_VALIDITY",
+    "DELTA_DERIVED_FROM_FRESH_VARIABLE_CARDINALITY != INTEGER_ADJACENCY_INFERENCE",
+    "DELTA_BOUND != FAMILY_CONSTRUCTOR_FROZEN",
+    "DELTA_BOUND != 30_ROW_MANIFEST_MATERIALIZED",
+    "P ?= NP = OPEN"
   ],
   "current_stop": {
-    "completed_step": "exact n_star authority/linkage binding",
+    "completed_step": "exact delta family-preserving increment binding witness",
     "experiment_executed": false,
-    "next_one_degree_step": "establish delta with an exact family-preserving increment witness; do not instantiate rows or execute calibration/validation yet"
+    "next_one_degree_step": "freeze one deterministic scientific family constructor compatible with delta=1; do not materialize rows or execute calibration/validation yet"
   },
   "locality_parity": {
-    "version": "FIG5-locality-v0.14-nstar-binding",
-    "status": "PASS_SCOPED_NSTAR_BOUND_DELTA_UNRESOLVED",
+    "version": "FIG5-locality-v0.15-delta-binding",
+    "status": "PASS_SCOPED_NSTAR_10_DELTA_1_FAMILY_UNMATERIALIZED",
     "scope": "private local working filesystem + Library + read-only pinned external receipts",
     "n_star_status": "BOUND_10",
-    "delta_status": "UNRESOLVED",
+    "delta_status": "BOUND_1_BY_EXACT_INCREMENT_WITNESS",
     "local_v0_10_identity_recovered": true,
     "local_v0_10_signature_matched": true,
     "github_v0_10_implementation_parity": false,
@@ -275,7 +288,8 @@
     "user_device_updated": false,
     "domain_firewall": "PNP and HODGE remain separate native authorities; shared method only",
     "binding_receipt_sha256": "682bbcf6ed83e6d3f3264b7ca41257e60c64dc56b4c0fc331057808a845d440d",
-    "successor_archive_sha256": "21ed912df8b809fc479b84646134da4f206d482001ae91721730d548db5f0f24"
+    "successor_archive_sha256": "4f33e806735b4b0bfe8a3f7860252ced1a5666a0f4da88ce828c3a0abc27bffe",
+    "delta_binding_witness_sha256": "2b1b2d04819f262ab5d8d8fd654a5c550a3978fa8bd8d75a9737322aacb5df09"
   },
   "correction_history": [
     {
@@ -289,6 +303,102 @@
       "n_star": 10,
       "delta": "UNRESOLVED",
       "family_executed": false
+    },
+    {
+      "event": "V0_15_EXACT_DELTA_BINDING",
+      "result": "Rejected integer-adjacency inference is not restored. An exact one-fresh-variable width-3 parity extension preserves clause nesting and exact projection, so delta is bound by |Var(E(F)) \\\\ Var(F)| = 1.",
+      "n_star": 10,
+      "delta": 1,
+      "family_constructor_frozen": false,
+      "family_manifest": "NOT_MATERIALIZED",
+      "family_executed": false,
+      "witness_sha256": "2b1b2d04819f262ab5d8d8fd654a5c550a3978fa8bd8d75a9737322aacb5df09"
     }
-  ]
+  ],
+  "delta_binding_witness": {
+    "schema": "fig5_delta_increment_witness/v1",
+    "stable_id": "FIG-5/delta",
+    "status": "BOUND",
+    "payload_sha256": "2b1b2d04819f262ab5d8d8fd654a5c550a3978fa8bd8d75a9737322aacb5df09",
+    "binding": {
+      "parameter": "delta",
+      "value": 1,
+      "derivation": "delta := |Var(E(F)) \\ Var(F)| = 1",
+      "basis": "exact constructive one-fresh-variable family-preserving extension",
+      "not_basis": "integer adjacency of 10 and 11"
+    },
+    "operator": {
+      "name": "balanced_parity_extension",
+      "input_preconditions": [
+        "F is a canonical 3-CNF family member",
+        "p and g are two distinct existing variables selected deterministically",
+        "z is one fresh variable not in Var(F)"
+      ],
+      "definition": "E(F) := F union G(z;p,g)",
+      "gadget": [
+        [
+          "NOT z",
+          "p",
+          "g"
+        ],
+        [
+          "z",
+          "p",
+          "NOT g"
+        ],
+        [
+          "z",
+          "NOT p",
+          "g"
+        ],
+        [
+          "NOT z",
+          "NOT p",
+          "NOT g"
+        ]
+      ],
+      "semantic_identity": "G(z;p,g) iff z = p XOR g"
+    },
+    "exact_invariants": {
+      "nested_clause_set": "F subset E(F)",
+      "old_formula_unchanged": true,
+      "fresh_variable_count": 1,
+      "fresh_variable_active": "z occurs in all four added clauses, both polarities, and is uniquely determined by p,g",
+      "unique_extension": "every assignment to Var(F) has exactly one z satisfying G",
+      "projection": "exists z E(F) iff F",
+      "clause_width": "all four added clauses are canonical non-tautological width-3 clauses"
+    },
+    "restricted_minimality": {
+      "scope": "one fresh z; two existing p,g; non-tautological canonical width-3 clauses over exactly {z,p,g}; every old (p,g) assignment has exactly one z extension",
+      "candidate_clause_universe": 8,
+      "unique_extension_cnf_counts_by_added_clause_count": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 16
+      },
+      "minimum_added_clauses": 4,
+      "selected_four_clause_relation": "z = p XOR g"
+    },
+    "source_check": {
+      "v0_10_package_sha256": "a86de2f05f357c07e5585d3c2bb5a203fc8ab67d5813e4a142fd34782833967d",
+      "v0_10_robust_search_json_sha256": "6032710bf3c9cfd36dff429f7074c0c9b85ac6bfeb2ce8efa6847c561f85f4e7",
+      "anchor_n": 10,
+      "generic_truth_table_rows_checked": 8,
+      "generic_truth_table_mismatches": 0,
+      "anchor_old_assignment_rows_checked": 1024,
+      "anchor_projection_mismatches": 0,
+      "anchor_unique_extension_mismatches": 0,
+      "source_canonical_preprocess_residual": "NONE",
+      "private_anchor_clauses_exported": false
+    },
+    "scope_limits": [
+      "NSTAR_BOUND != DELTA_BOUND",
+      "PARAMETER_BINDING != FAMILY_VALIDITY",
+      "DELTA_BOUND != FAMILY_CONSTRUCTOR_FROZEN",
+      "DELTA_BOUND != 30_ROW_MANIFEST_MATERIALIZED",
+      "GENERATE != VERIFY != ADMIT",
+      "P ?= NP = OPEN"
+    ]
+  }
 }
