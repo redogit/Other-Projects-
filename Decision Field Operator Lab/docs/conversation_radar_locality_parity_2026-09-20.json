@@ -39,9 +39,10 @@
   ],
   "local_queue": [
     "Decision Field Step 3: preserve CANDIDATE_NOT_ADMITTED != FALSE != KNOWN as lineage without admission",
-    "FDE: matched plasticity ON/OFF only",
+    "FDE collision lane: matched plasticity ON/OFF only",
+    "FDE relation-index lane: V1.2 bounded selection succeeded; automatic index generation beyond human candidate pool remains UNPROVEN",
     "FIG-5: recover exact authority/linkage witness for n_star; family remains PREREGISTERED_NOT_EXECUTED",
-    "Hodge/W114: validate geometric hypotheses behind current joint polynomial map",
+    "Hodge/W114: perform compatible period-lift / simultaneous second-order comparison; GEOMETRIC_ADMISSION remains NOT_PERFORMED",
     "Carrier-Surface/FITTER: PR #90 authority floor merged; quotient/path validation is eligible but unexecuted",
     "Activate at most one external method candidate when an observed residual demands it"
   ],
@@ -121,6 +122,33 @@
       "n_star": "UNRESOLVED_BINDING",
       "delta": "UNRESOLVED",
       "next": "recover exact authority/linkage witness for n_star"
+    },
+    "fde": {
+      "collision_lane": {
+        "status": "COUNTERPROBED",
+        "mean_accuracy_delta_on_minus_off": -0.013020833333333334,
+        "next": "matched plasticity ON/OFF"
+      },
+      "relation_index_lane": {
+        "version": "V1.2",
+        "candidate_count": 15,
+        "cases": 60,
+        "selection_success_rate": 1,
+        "rotated_selection_success_rate": 1,
+        "mean_selected_test_acc": 1,
+        "boundary": "human-bounded quarter-pair candidate space",
+        "unproven": "automatic relation-index generation beyond candidate pool"
+      }
+    },
+    "hodge": {
+      "checkpoint": "W114-PARITY10-20260920-04",
+      "common_kernel_dimension": 479,
+      "joint_quadratic_rank": 29,
+      "witness_difference": "1/57",
+      "geometric_admission": "NOT_PERFORMED",
+      "next": "compatible period-lift / simultaneous second-order comparison",
+      "remote_compatibility": "Decision Field guard options missing; isolated patch passed local Hodge guard but was not deployed"
     }
-  }
+  },
+  "snapshot_cutoff_utc": "2026-09-20T17:16:31Z"
 }
