@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/redogit/Other-Projects-/Decision%20Field%20Operator%20Lab/docs/carrier_surface_traversal.schema.json",
+  "title": "Carrier-Surface Traversal Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "traversal_id",
+    "object_id",
+    "source_surface",
+    "source_address",
+    "target_surface",
+    "target_address",
+    "carrier_id",
+    "transform_id",
+    "declared_invariants",
+    "authority_before",
+    "authority_after",
+    "privacy_before",
+    "privacy_after",
+    "evidence_class_before",
+    "evidence_class_after",
+    "provenance_refs",
+    "expectation",
+    "observation",
+    "residual",
+    "reconstruction",
+    "classification",
+    "recovery",
+    "remainder"
+  ],
+  "properties": {
+    "traversal_id": {"type": "string", "minLength": 1},
+    "object_id": {"type": "string", "minLength": 1},
+    "source_surface": {"type": "string", "minLength": 1},
+    "source_address": {"type": "array"},
+    "target_surface": {"type": "string", "minLength": 1},
+    "target_address": {"type": "array"},
+    "carrier_id": {"type": "string", "minLength": 1},
+    "transform_id": {"type": "string", "minLength": 1},
+    "declared_invariants": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "minItems": 1
+    },
+    "authority_before": {"type": "string"},
+    "authority_after": {"type": "string"},
+    "privacy_before": {"type": "string"},
+    "privacy_after": {"type": "string"},
+    "evidence_class_before": {"type": "string"},
+    "evidence_class_after": {"type": "string"},
+    "provenance_refs": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "expectation": {},
+    "observation": {},
+    "residual": {},
+    "reconstruction": {},
+    "classification": {
+      "enum": ["ROTATION", "MUTATION", "SEMANTIC_DECAY", "UNKNOWN"]
+    },
+    "recovery": {},
+    "remainder": {
+      "type": "array"
+    }
+  }
+}
