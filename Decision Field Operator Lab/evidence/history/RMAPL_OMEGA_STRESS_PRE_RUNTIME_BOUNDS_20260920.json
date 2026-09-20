@@ -1,0 +1,66 @@
+{
+  "checks": {
+    "adapterAuthorityCeilings": true,
+    "adapterNoEvidenceAmplification": true,
+    "omegaCanonicalDeterministic": true,
+    "omegaIdentitySensitive": true,
+    "omegaTamperRejected": true,
+    "parserMalformedRejected": true,
+    "parserValidDeterministic": true,
+    "rmalResponseBoundaryPreserved": true,
+    "runtimeCycleBounded": true,
+    "runtimeDeterministic": true,
+    "runtimeEvidenceBound": true,
+    "runtimeMutationRejected": true,
+    "runtimeQuotientSeparated": true
+  },
+  "claimCeiling": [
+    "STRESS_PASS != PROOF",
+    "FIXED_SEED_STRESS != EXHAUSTIVE_VERIFICATION",
+    "RMAPL_PROFILE != RMAL_CORE_FRONTEND",
+    "SOFTWARE_VERIFICATION != SCIENTIFIC_VALIDATION",
+    "METHOD_TRANSFER != EVIDENCE_TRANSFER",
+    "AUTHORED_CARRIER != GENERIC_RESPONSE_RUNTIME",
+    "CONTROLLED_SURFACE_CHECK != RMALC_COMPILE"
+  ],
+  "digestSha256": "1ee16fb3e271ef79f61c9725abca2ebfda9f0b7a31a2eeacf97d964ef720bff0",
+  "failures": [],
+  "families": {
+    "adapterAuthority": 512,
+    "omegaCanonical": 2048,
+    "parserMutation": 1536,
+    "rmalResponseBoundary": 256,
+    "runtimeMatrix": 1024
+  },
+  "familyDigests": {
+    "adapterAuthority": "04022e0269ebb70285a43cb08bdf969a90f0f5afe4e89345fadc7aa27fbbac57",
+    "omegaCanonical": "1b288815530d5778c1ce85fb4f8a90cf1c551b0824463058277890c69c6437fd",
+    "parserMutation": "1ac9e4ddd44b1770eeaaafd3196c6be5c06c9e9a8152d97ec631710a8c9acd83",
+    "rmalResponseBoundary": "3a4eb77fac0673b4a94c7404fb99bdadd421c591cc86cd7c42e23e5739897b73",
+    "runtimeMatrix": "28c3f6a54a257084fd82e7e104572d0aad41d78ba53e77b0baba86c1eb226b93"
+  },
+  "rmalResponseBoundary": {
+    "adapterStatus": "RMAL_STRUCTURED_RESPONSE_CARRIER_CONTROLLED_SURFACE_VERIFIED",
+    "boundaries": [
+      "AUTHORED_CARRIER != GENERIC_RESPONSE_RUNTIME",
+      "CONTROLLED_SURFACE_CHECK != RMALC_COMPILE",
+      "RELATED != AUTHORIZED_TO_EDIT",
+      "REQUEST != COMMAND",
+      "RESPONSE != AUTHORITY_TRANSFER",
+      "SHARED_METHOD != SHARED_EVIDENCE"
+    ],
+    "claimCeiling": "AUTHORED_RMAL_RESPONSE_SUCCESSOR_WITHOUT_FRESH_COMPILER_OR_RUNTIME_EVIDENCE",
+    "controlledSurfaceCheck": "PASS",
+    "genericRuntime": false,
+    "rmalcAudit": "NOT_REVALIDATED",
+    "rmalcCheck": "NOT_REVALIDATED",
+    "rmalcCompile": "NOT_REVALIDATED",
+    "rmalcRevalidated": false,
+    "structuredRuntime": false
+  },
+  "scale": 1,
+  "schema": "rmapl-omega-stress/v0",
+  "scientificValidation": false,
+  "seed": 20260920,
+  "totalCases": 5376
+}
