@@ -6,10 +6,18 @@ on:
     paths:
       - 'Decision Field Operator Lab/**'
       - '.github/workflows/operator-field-check.yml'
+      - 'BIDIRECTIONAL_HANDOFF_ADAPTER_2026-09-20.json'
+      - 'evidence/RMAL_BIDIRECTIONAL_HANDOFF_RESPONSE_2026-09-20.json'
+      - 'Hodge Span Lab/evidence/issue43_bridge_calibration_result.json'
+      - 'Generalized Semantic Fitting Language/evidence/RESULTS.json'
   pull_request:
     paths:
       - 'Decision Field Operator Lab/**'
       - '.github/workflows/operator-field-check.yml'
+      - 'BIDIRECTIONAL_HANDOFF_ADAPTER_2026-09-20.json'
+      - 'evidence/RMAL_BIDIRECTIONAL_HANDOFF_RESPONSE_2026-09-20.json'
+      - 'Hodge Span Lab/evidence/issue43_bridge_calibration_result.json'
+      - 'Generalized Semantic Fitting Language/evidence/RESULTS.json'
   workflow_dispatch:
 
 permissions:
