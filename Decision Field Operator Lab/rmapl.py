@@ -88,12 +88,33 @@ def _strict_json(text: str, label: str) -> Any:
 
 
 def _freeze_json(value: Any) -> Any:
-    """Freeze parsed JSON containers without changing scalar values or order."""
-    if isinstance(value, dict):
-        return MappingProxyType({key: _freeze_json(item) for key, item in value.items()})
-    if isinstance(value, list):
-        return tuple(_freeze_json(item) for item in value)
-    return value
+    """Freeze parsed JSON containers without adding recursive call depth."""
+    if not isinstance(value, (dict, list)):
+        return value
+
+    frozen: dict[int, Any] = {}
+    pending = [(value, False)]
+
+    def frozen_child(item: Any) -> Any:
+        return frozen[id(item)] if isinstance(item, (dict, list)) else item
+
+    # Post-order traversal keeps nested JSON within the decoder's depth limit.
+    while pending:
+        current, expanded = pending.pop()
+        if not expanded:
+            pending.append((current, True))
+            children = current.values() if isinstance(current, dict) else current
+            pending.extend(
+                (item, False) for item in children if isinstance(item, (dict, list))
+            )
+        elif isinstance(current, dict):
+            frozen[id(current)] = MappingProxyType(
+                {key: frozen_child(item) for key, item in current.items()}
+            )
+        else:
+            frozen[id(current)] = tuple(frozen_child(item) for item in current)
+
+    return frozen[id(value)]
 
 
 def _json_string(text: str, label: str) -> str:
