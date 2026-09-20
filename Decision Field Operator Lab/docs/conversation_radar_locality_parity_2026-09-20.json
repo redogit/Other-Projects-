@@ -20,8 +20,9 @@
     {
       "repo": "redogit/Other-Projects-",
       "pr": 89,
-      "role": "FIG-5 v0.11 increasing-n recovery/preregistration",
-      "action": "observe-do-not-modify"
+      "role": "FIG-5 v0.13 locality-parity recovery boundary",
+      "action": "recover-n_star-authority-linkage-only; do-not-execute-family",
+      "head": "827259030339a51103b886686a303ed39a21b184"
     },
     {
       "repo": "redogit/Other-Projects-",
@@ -37,9 +38,9 @@
     }
   ],
   "local_queue": [
-    "Decision Field: evidence-gated horizon closure only",
+    "Decision Field Step 3: preserve CANDIDATE_NOT_ADMITTED != FALSE != KNOWN as lineage without admission",
     "FDE: matched plasticity ON/OFF only",
-    "FIG-5: recover source identities then execute frozen increasing-n contract",
+    "FIG-5: recover exact authority/linkage witness for n_star; family remains PREREGISTERED_NOT_EXECUTED",
     "Hodge/W114: validate geometric hypotheses behind current joint polynomial map",
     "Carrier-Surface/FITTER: PR #90 authority floor merged; quotient/path validation is eligible but unexecuted",
     "Activate at most one external method candidate when an observed residual demands it"
@@ -61,7 +62,7 @@
         "LRAT-Catcher (arXiv:2607.00815)"
       ],
       "candidate": "proof-producing terminal UNSAT validation",
-      "gate": "after FIG-5 source recovery and frozen family run exposes verifier/certificate residual"
+      "gate": "after exact n_star authority/linkage recovery and frozen family execution exposes a certificate/verifier residual"
     },
     {
       "lane": "Hodge/W114",
@@ -99,5 +100,27 @@
       "gate": "one already-verified native object only"
     }
   ],
-  "claim_ceiling": "Routing/parity update only; no scientific or mathematical claim promoted."
+  "claim_ceiling": "Routing/parity update only; no scientific or mathematical claim promoted.",
+  "local_state": {
+    "decision_field": {
+      "checkpoint": "DF-NEWFILES-SYNC-S2-20260920",
+      "verification": {
+        "normal_unit_tests": "49/49",
+        "optimized_unit_tests": "49/49",
+        "legacy_fixtures": "4096/4096",
+        "pnp_assignment_checks": "1872/1872",
+        "hodge_character_checks": "335/335",
+        "native_omega_roundtrips": "4/4"
+      },
+      "next": "non-admission preservation"
+    },
+    "fig5": {
+      "status": "PREREGISTERED_NOT_EXECUTED",
+      "local_v010_identity": "RECOVERED_HASH_PINNED",
+      "source_fact_num_vars": 10,
+      "n_star": "UNRESOLVED_BINDING",
+      "delta": "UNRESOLVED",
+      "next": "recover exact authority/linkage witness for n_star"
+    }
+  }
 }
