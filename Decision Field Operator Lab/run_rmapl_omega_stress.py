@@ -278,7 +278,8 @@ def _malformed_parser_program(valid: str, mutation_index: int) -> str:
     if mode == 0:
         return valid.replace("RUN\n", "MAGIC nope\nRUN\n")
     if mode == 1:
-        return valid.replace("COST ", "COST -", 1)
+        cost_line = next(line for line in valid.splitlines() if line.startswith("COST "))
+        return valid.replace(cost_line + "\n", "COST -1\n", 1)
     if mode == 2:
         return valid.replace("BOUND maxCandidates=", "BOUND maxCandidates=NaN #", 1)
     if mode == 3:
