@@ -4,38 +4,137 @@
   "title": "RMAPL Omega v0",
   "type": "object",
   "required": [
-    "schema", "id", "nativeType", "nativeIdentity", "sourceRefs", "state",
-    "path", "frame", "invariants", "observations", "residuals",
-    "decisionField", "provenance", "evidence", "claimCeiling",
-    "resourceBounds", "domainRemainder", "construction"
+    "schema",
+    "id",
+    "nativeType",
+    "nativeIdentity",
+    "sourceRefs",
+    "state",
+    "path",
+    "frame",
+    "invariants",
+    "observations",
+    "residuals",
+    "decisionField",
+    "provenance",
+    "evidence",
+    "claimCeiling",
+    "resourceBounds",
+    "domainRemainder",
+    "construction"
   ],
   "properties": {
-    "schema": {"const": "rmapl-omega/v0"},
-    "id": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-    "nativeType": {"type": "string", "minLength": 1},
-    "nativeIdentity": {"type": "string", "minLength": 1},
-    "sourceRefs": {"type": "array"},
+    "schema": {
+      "const": "rmapl-omega/v0"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "nativeType": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nativeIdentity": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sourceRefs": {
+      "type": "array"
+    },
     "state": {},
-    "path": {"type": "array"},
+    "path": {
+      "type": "array"
+    },
     "frame": {},
-    "invariants": {"type": "array"},
-    "observations": {"type": "array"},
-    "residuals": {"type": "array"},
+    "invariants": {
+      "type": "array"
+    },
+    "observations": {
+      "type": "array"
+    },
+    "residuals": {
+      "type": "array"
+    },
     "decisionField": {},
-    "provenance": {"type": "array"},
-    "evidence": {"type": "array"},
-    "claimCeiling": {"type": "array"},
-    "resourceBounds": {"type": "object"},
-    "domainRemainder": {"type": "object"},
+    "provenance": {
+      "type": "array"
+    },
+    "evidence": {
+      "type": "array"
+    },
+    "claimCeiling": {
+      "type": "array"
+    },
+    "resourceBounds": {
+      "type": "object"
+    },
+    "domainRemainder": {
+      "type": "object"
+    },
     "construction": {
       "type": "object",
       "required": [
-        "native_type", "native_identity", "source_refs", "state", "path",
-        "frame", "invariants", "observations", "residuals",
-        "decision_field", "provenance", "evidence", "claim_ceiling",
-        "resource_bounds", "domain_remainder"
+        "native_type",
+        "native_identity",
+        "source_refs",
+        "state",
+        "path",
+        "frame",
+        "invariants",
+        "observations",
+        "residuals",
+        "decision_field",
+        "provenance",
+        "evidence",
+        "claim_ceiling",
+        "resource_bounds",
+        "domain_remainder"
       ],
-      "additionalProperties": false
+      "additionalProperties": false,
+      "properties": {
+        "native_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "native_identity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_refs": {
+          "type": "array"
+        },
+        "state": {},
+        "path": {
+          "type": "array"
+        },
+        "frame": {},
+        "invariants": {
+          "type": "array"
+        },
+        "observations": {
+          "type": "array"
+        },
+        "residuals": {
+          "type": "array"
+        },
+        "decision_field": {},
+        "provenance": {
+          "type": "array"
+        },
+        "evidence": {
+          "type": "array"
+        },
+        "claim_ceiling": {
+          "type": "array"
+        },
+        "resource_bounds": {
+          "type": "object"
+        },
+        "domain_remainder": {
+          "type": "object"
+        }
+      }
     }
   },
   "unevaluatedProperties": false
