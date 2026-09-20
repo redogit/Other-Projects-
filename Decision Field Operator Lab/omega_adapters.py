@@ -327,3 +327,286 @@ def adapter_round_trip(
         ),
         "domainRemainder": omega["domainRemainder"],
     }
+
+
+# Cross-domain falsification adapters. These remain intentionally thin: each
+# adapter projects only repeated shared roles and retains the complete native
+# packet under domainRemainder for audit/reconstruction.
+
+import hashlib
+
+
+def _record_identity(record: dict[str, Any], prefix: str) -> str:
+    digest = hashlib.sha256(canonical_json(record).encode("utf-8")).hexdigest()
+    return f"{prefix}:{digest}"
+
+
+def project_gsfl_record(record: dict[str, Any]) -> dict[str, Any]:
+    native = normalize_json_value(record, "GSFL record")
+    if native.get("artifact") != "GSFL-v0-bounded-audit" or native.get("gsfl_version") != 0:
+        raise ValueError("GSFL adapter requires the bounded v0 audit record")
+    ceiling = native.get("claim_ceiling")
+    if not isinstance(ceiling, list) or any(not isinstance(item, str) for item in ceiling):
+        raise ValueError("GSFL claim_ceiling must be a string array")
+    execution = native.get("execution_sha256")
+    if not isinstance(execution, str) or not execution:
+        raise ValueError("GSFL execution_sha256 is required")
+    checks = native.get("checks", {})
+    classifications = native.get("classifications", {})
+    if not isinstance(checks, dict) or not isinstance(classifications, dict):
+        raise TypeError("GSFL checks and classifications must be objects")
+    failed = [
+        {"kind": "failed-check", "detail": key}
+        for key, value in sorted(checks.items())
+        if value is not True
+    ]
+    return make_omega(
+        native_type="gsfl-audit/v0",
+        native_identity=f"gsfl:{execution}",
+        source_refs=(native.get("example", "GSFL-v0"),),
+        state={
+            "selectedCandidate": native.get("selected_candidate"),
+            "admittedCandidates": native.get("admitted_candidates", []),
+        },
+        path=(),
+        frame={"profile": "GSFL v0", "obligation": "semantic-fit"},
+        invariants=(
+            "FIT != TRUTH",
+            "VALID_ROTATION != MUTATION != SEMANTIC_DECAY",
+        ),
+        observations=(
+            {"kind": "classifications", "value": classifications},
+            {"kind": "checks", "value": checks},
+        ),
+        residuals=tuple(failed),
+        decision_field={"obligation": "semantic-fit", "selectedCandidate": native.get("selected_candidate")},
+        provenance=({"kind": "gsfl-audit", "executionSha256": execution},),
+        evidence=(
+            {
+                "kind": "software-verification",
+                "detail": "GSFL bounded audit projection",
+                "claimCeiling": "FIT != TRUTH",
+            },
+        ),
+        claim_ceiling=tuple(["FIT != TRUTH", *ceiling]),
+        resource_bounds={"candidateCount": native.get("candidate_count")},
+        domain_remainder={"native": native, "nativeAuthority": "GSFL v0/v0.1"},
+    )
+
+
+def project_image_surface(record: dict[str, Any]) -> dict[str, Any]:
+    packet = normalize_json_value(record, "image surface packet")
+    if not isinstance(packet, dict) or set(packet) != {"session", "measurement"}:
+        raise ValueError("image surface adapter requires session and measurement")
+    session = packet["session"]
+    measurement = packet["measurement"]
+    if not isinstance(session, dict) or session.get("schema") != "s1-image-surface/v0":
+        raise ValueError("image surface session schema must be s1-image-surface/v0")
+    if not isinstance(measurement, dict):
+        raise TypeError("image surface measurement must be an object")
+    for key in ("intrinsic", "extrinsic", "curvature", "topology", "projection"):
+        if key not in measurement or not isinstance(measurement[key], dict):
+            raise ValueError(f"image surface measurement requires {key}")
+    ceiling = session.get("claimCeiling")
+    if not isinstance(ceiling, list) or any(not isinstance(item, str) for item in ceiling):
+        raise ValueError("image surface claimCeiling must be a string array")
+    experience = session.get("experience")
+    source = session.get("source")
+    surface = session.get("surface")
+    if not all(isinstance(value, dict) for value in (experience, source, surface)):
+        raise TypeError("image surface source, surface, and experience are required")
+    if not isinstance(session.get("id"), str) or not session["id"]:
+        raise ValueError("image surface session id is required")
+    actions = experience.get("actions", [])
+    observer = experience.get("observer", {})
+    return make_omega(
+        native_type="s1-image-surface/v0",
+        native_identity=session["id"],
+        source_refs=(source.get("id", "unknown-source"), experience.get("id", "unknown-experience")),
+        state={"surfaceId": surface.get("id"), "historyAuthority": session.get("historyAuthority")},
+        path=actions,
+        frame=observer,
+        invariants=tuple(ceiling),
+        observations=tuple(
+            {"kind": key, "value": measurement[key]}
+            for key in ("intrinsic", "extrinsic", "curvature", "topology", "projection")
+        ),
+        residuals=(),
+        decision_field={"obligation": "inspect-image-surface"},
+        provenance=({"kind": "image-surface-adapter", "sessionId": session["id"]},),
+        evidence=(
+            {
+                "kind": "software-verification",
+                "detail": "image-surface bounded measurement projection",
+                "claimCeiling": "IMAGE_DEFORMATION != PHYSICAL_DEFORMATION",
+            },
+        ),
+        claim_ceiling=tuple(ceiling),
+        resource_bounds={},
+        domain_remainder={"native": packet, "nativeAuthority": "s1-image-surface/v0"},
+    )
+
+
+def project_dimensional_record(record: dict[str, Any]) -> dict[str, Any]:
+    native = normalize_json_value(record, "dimensional ladder record")
+    if not isinstance(native, dict) or native.get("version") != "s1-dimension-ladder/v0":
+        raise ValueError("dimensional adapter requires s1-dimension-ladder/v0")
+    loss = native.get("projectionLoss")
+    required_loss = {
+        "map",
+        "sourceA",
+        "sourceB",
+        "projectionA",
+        "projectionB",
+        "sameProjection",
+        "sourcePointsDistinct",
+    }
+    if not isinstance(loss, dict) or not required_loss <= set(loss):
+        raise ValueError("dimensional projection loss declaration is incomplete")
+    if loss["sameProjection"] is not True or loss["sourcePointsDistinct"] is not True:
+        raise ValueError("dimensional projection loss declaration must witness a many-to-one projection")
+    boundary = native.get("boundary")
+    if not isinstance(boundary, str) or not boundary:
+        raise ValueError("dimensional boundary claim is required")
+    ceiling = native.get("claimCeiling", [])
+    if not isinstance(ceiling, list) or any(not isinstance(item, str) for item in ceiling):
+        raise ValueError("dimensional claimCeiling must be a string array")
+    observation = {
+        "kind": "projection-loss",
+        "map": loss["map"],
+        "value": loss,
+        "inducedEquivalence": "equal-projected-coordinates",
+        "lost": "dropped-coordinate-distinction",
+        "reconstructionAvailable": False,
+    }
+    return make_omega(
+        native_type="s1-dimension-ladder/v0",
+        native_identity=_record_identity(native, "dimension-ladder"),
+        source_refs=("S1 Models Lab/dimension-ladder.mjs",),
+        state={"ladder": native.get("ladder", [])},
+        path=(),
+        frame={"obligation": "adjacent-dimension-relation"},
+        invariants=(boundary,),
+        observations=(observation,),
+        residuals=(),
+        decision_field={"obligation": "preserve-loss-distinction"},
+        provenance=({"kind": "dimension-ladder-fixture"},),
+        evidence=(
+            {
+                "kind": "software-verification",
+                "detail": "finite Euclidean fixture",
+                "claimCeiling": boundary,
+            },
+        ),
+        claim_ceiling=tuple([boundary, *ceiling]),
+        resource_bounds={},
+        domain_remainder={"native": native, "nativeAuthority": "s1-dimension-ladder/v0"},
+    )
+
+
+def project_suggestion_record(record: dict[str, Any]) -> dict[str, Any]:
+    native = normalize_json_value(record, "suggestion carrier")
+    if not isinstance(native, dict) or native.get("carrierVersion") != "s1-transition-carrier/v0":
+        raise ValueError("suggestion adapter requires s1-transition-carrier/v0")
+    if native.get("authority") != "suggestion-only":
+        raise ValueError("suggestion authority must remain suggestion-only")
+    contract = native.get("contract")
+    provenance = native.get("provenance")
+    move = native.get("move")
+    if not all(isinstance(value, dict) for value in (contract, provenance, move)):
+        raise TypeError("suggestion contract, provenance, and move are required")
+    prefix = native.get("prefix")
+    if not isinstance(prefix, list):
+        raise TypeError("suggestion prefix must be a list")
+    source_ids = provenance.get("sourceExperienceIds", [])
+    if not isinstance(source_ids, list):
+        raise TypeError("suggestion sourceExperienceIds must be a list")
+    return make_omega(
+        native_type="s1-transition-carrier/v0",
+        native_identity=_record_identity(native, "suggestion"),
+        source_refs=tuple(source_ids),
+        state={"kind": native.get("kind"), "move": move},
+        path=prefix,
+        frame=contract,
+        invariants=(
+            "SUGGESTION != EXPERIENCE_AUTHORITY",
+            "GENERATOR != VERIFIER",
+        ),
+        observations=({"kind": "suggested-move", "value": move},),
+        residuals=(),
+        decision_field={"obligation": "candidate-next-move"},
+        provenance=({"kind": "suggestion-provenance", "value": provenance},),
+        evidence=(
+            {
+                "kind": "suggestion-only",
+                "detail": native.get("kind"),
+                "claimCeiling": "SUGGESTION != EXPERIENCE_AUTHORITY",
+            },
+        ),
+        claim_ceiling=(
+            "SUGGESTION != EXPERIENCE_AUTHORITY",
+            "GENERATOR != VERIFIER",
+            "FREQUENCY != INDEPENDENT_EVIDENCE",
+        ),
+        resource_bounds={},
+        domain_remainder={"native": native, "nativeAuthority": "s1-transition-carrier/v0"},
+    )
+
+
+def project_hodge_bridge(record: dict[str, Any]) -> dict[str, Any]:
+    native = normalize_json_value(record, "Hodge bridge result")
+    if not isinstance(native, dict) or native.get("schema") != "hodge-deformation-bridge-result/v0":
+        raise ValueError("Hodge adapter requires hodge-deformation-bridge-result/v0")
+    if native.get("authority") != "candidate-test-only":
+        raise ValueError("Hodge bridge authority must remain candidate-test-only")
+    source = native.get("source")
+    bridge = native.get("bridge")
+    consequence = native.get("consequence")
+    provenance = native.get("provenance")
+    if not all(isinstance(value, dict) for value in (source, bridge, consequence, provenance)):
+        raise TypeError("Hodge bridge source, bridge, consequence, and provenance are required")
+    ceiling = native.get("claim_ceiling")
+    if not isinstance(ceiling, str) or not ceiling:
+        raise ValueError("Hodge bridge claim_ceiling is required")
+    actions = source.get("actions")
+    signature = source.get("signature_vector")
+    candidate = bridge.get("candidate_vector")
+    if not isinstance(actions, list) or not isinstance(signature, list) or not isinstance(candidate, list):
+        raise TypeError("Hodge bridge chronology, signature, and candidate vector are required")
+    native_identity = _record_identity(native, "hodge-bridge")
+    return make_omega(
+        native_type="hodge-deformation-bridge-result/v0",
+        native_identity=native_identity,
+        source_refs=(source.get("source_record_id", native_identity),),
+        state={"consequence": consequence},
+        path=actions,
+        frame={
+            "sourceBasis": source.get("signature_basis"),
+            "targetBasis": bridge.get("target_basis"),
+            "interpretation": bridge.get("interpretation"),
+        },
+        invariants=(
+            "REAL_4D != COMPLEX_DIMENSION_4",
+            "COMPRESSED_SIGNATURE_EQUALITY != FULL_DEFORMATION_EQUIVALENCE",
+            "CANDIDATE_DIRECTION != HODGE_CLASS",
+            "SPAN_RESULT != ALGEBRAICITY_OR_COMPLETENESS_PROOF",
+        ),
+        observations=(
+            {"kind": "compressed-signature", "value": signature},
+            {"kind": "candidate-vector", "value": candidate},
+            {"kind": "exact-span-consequence", "value": consequence},
+        ),
+        residuals=(),
+        decision_field={"obligation": consequence.get("tested_relation")},
+        provenance=({"kind": "hodge-bridge-provenance", "value": provenance},),
+        evidence=(
+            {
+                "kind": "candidate-test-only",
+                "detail": consequence.get("tested_relation"),
+                "claimCeiling": ceiling,
+            },
+        ),
+        claim_ceiling=(ceiling,),
+        resource_bounds={},
+        domain_remainder={"native": native, "nativeAuthority": "hodge-deformation-bridge-result/v0"},
+    )
