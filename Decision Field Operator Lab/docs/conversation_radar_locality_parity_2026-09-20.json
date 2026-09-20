@@ -1,0 +1,154 @@
+{
+  "schema": "conversation-radar-locality-parity/v1",
+  "date": "2026-09-20",
+  "status": "CURRENT_WORKING_METHOD",
+  "governing_invariant": "Object identity is invariant; coordinates are negotiable.",
+  "hard_boundaries": [
+    "PAIRITY != PARITY",
+    "RELATION != IDENTITY",
+    "METHOD_TRANSFER != EVIDENCE_TRANSFER",
+    "SCOPED_BYTES_MATCH != WHOLE_REPOSITORY_PARITY",
+    "GENERATE != VERIFY != ADMIT",
+    "MEMORY != EVIDENCE",
+    "CURRENT != TRUE"
+  ],
+  "repository_pins": {
+    "redogit/Other-Projects-": "e42f652b380eb1d68d14679d44b9328dfb2faa55",
+    "redogit/conscience64": "a3025af9be205c2037d7f891766d5641851c3637"
+  },
+  "neighboring_open_work": [
+    {
+      "repo": "redogit/Other-Projects-",
+      "pr": 89,
+      "role": "FIG-5 v0.13 locality-parity recovery boundary",
+      "action": "recover-n_star-authority-linkage-only; do-not-execute-family",
+      "head": "827259030339a51103b886686a303ed39a21b184"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "pr": 90,
+      "role": "FITTER fixed authority floor — merged",
+      "action": "merged-prerequisite-satisfied"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "pr": 193,
+      "role": "locality/pairity/scoped-parity verifier",
+      "action": "keep-draft-do-not-auto-merge"
+    }
+  ],
+  "local_queue": [
+    "Decision Field Step 3: preserve CANDIDATE_NOT_ADMITTED != FALSE != KNOWN as lineage without admission",
+    "FDE collision lane: matched plasticity ON/OFF only",
+    "FDE relation-index lane: V1.2 bounded selection succeeded; automatic index generation beyond human candidate pool remains UNPROVEN",
+    "FIG-5: recover exact authority/linkage witness for n_star; family remains PREREGISTERED_NOT_EXECUTED",
+    "Hodge/W114: perform compatible period-lift / simultaneous second-order comparison; GEOMETRIC_ADMISSION remains NOT_PERFORMED",
+    "Carrier-Surface/FITTER: PR #90 authority floor merged; quotient/path validation is eligible but unexecuted",
+    "Activate at most one external method candidate when an observed residual demands it"
+  ],
+  "radar": [
+    {
+      "lane": "Carrier-Surface",
+      "sources": [
+        "Quotient Lenses (ICFP 2008)",
+        "Trivet / LLVM translation validation (arXiv:2609.19583)"
+      ],
+      "candidate": "declared equivalence + independent path/translation validation",
+      "gate": "PR #90 authority-floor prerequisite satisfied; execute only as a separate one-degree experiment"
+    },
+    {
+      "lane": "P-vs-NP",
+      "sources": [
+        "Range Avoidance / proof complexity generators (ITCS 2026.111)",
+        "LRAT-Catcher (arXiv:2607.00815)"
+      ],
+      "candidate": "proof-producing terminal UNSAT validation",
+      "gate": "after exact n_star authority/linkage recovery and frozen family execution exposes a certificate/verifier residual"
+    },
+    {
+      "lane": "Hodge/W114",
+      "sources": [
+        "Favero-Kelly arXiv:2609.12759",
+        "Lin-Zhang arXiv:2609.03784"
+      ],
+      "candidate": "exact reproduction of published free-resolution/Chern/Jacobian or MF calibration",
+      "gate": "after current geometric-hypothesis obligation"
+    },
+    {
+      "lane": "Operator Moonshot/RMAL-TFEML",
+      "sources": [
+        "ReGAL ICML 2024",
+        "Execution Tuning arXiv:2503.05703"
+      ],
+      "candidate": "one verified reusable operator on held-out execution traces",
+      "gate": "frozen trace family + primitive-only baseline"
+    },
+    {
+      "lane": "Five Eyes",
+      "sources": [
+        "multi-observer embedding/reconstruction literature"
+      ],
+      "candidate": "explicit AffineFrame5 vs GenericStateReconstruction type split",
+      "gate": "before any reconstruction claim"
+    },
+    {
+      "lane": "Knowledge Decay",
+      "sources": [
+        "RO-Crate 1.3",
+        "OpenLineage"
+      ],
+      "candidate": "sidecar export + clean-room reconstruction comparison",
+      "gate": "one already-verified native object only"
+    }
+  ],
+  "claim_ceiling": "Routing/parity update only; no scientific or mathematical claim promoted.",
+  "local_state": {
+    "decision_field": {
+      "checkpoint": "DF-NEWFILES-SYNC-S2-20260920",
+      "verification": {
+        "normal_unit_tests": "49/49",
+        "optimized_unit_tests": "49/49",
+        "legacy_fixtures": "4096/4096",
+        "pnp_assignment_checks": "1872/1872",
+        "hodge_character_checks": "335/335",
+        "native_omega_roundtrips": "4/4"
+      },
+      "next": "non-admission preservation"
+    },
+    "fig5": {
+      "status": "PREREGISTERED_NOT_EXECUTED",
+      "local_v010_identity": "RECOVERED_HASH_PINNED",
+      "source_fact_num_vars": 10,
+      "n_star": "UNRESOLVED_BINDING",
+      "delta": "UNRESOLVED",
+      "next": "recover exact authority/linkage witness for n_star"
+    },
+    "fde": {
+      "collision_lane": {
+        "status": "COUNTERPROBED",
+        "mean_accuracy_delta_on_minus_off": -0.013020833333333334,
+        "next": "matched plasticity ON/OFF"
+      },
+      "relation_index_lane": {
+        "version": "V1.2",
+        "candidate_count": 15,
+        "cases": 60,
+        "selection_success_rate": 1,
+        "rotated_selection_success_rate": 1,
+        "mean_selected_test_acc": 1,
+        "boundary": "human-bounded quarter-pair candidate space",
+        "unproven": "automatic relation-index generation beyond candidate pool"
+      }
+    },
+    "hodge": {
+      "checkpoint": "W114-PARITY10-20260920-04",
+      "common_kernel_dimension": 479,
+      "joint_quadratic_rank": 29,
+      "witness_difference": "1/57",
+      "geometric_admission": "NOT_PERFORMED",
+      "next": "compatible period-lift / simultaneous second-order comparison",
+      "remote_compatibility": "Decision Field guard options missing; isolated patch passed local Hodge guard but was not deployed"
+    }
+  },
+  "snapshot_cutoff_utc": "2026-09-20T17:16:31Z"
+}
