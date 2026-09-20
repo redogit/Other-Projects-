@@ -35,10 +35,10 @@ Do not let an older summary overwrite a newer local artifact.
 
 | Lane | Current local state | Immediate obligation |
 |---|---|---|
-| Shared Decision Field | Resolution-status compatibility step is implemented: `VALUE != RESOLVED`, `BLOCKED != FALSE`; local full unit discovery passed 44 tests. | Step 2 only: evidence-gated horizon closure; refuse closure without an existing witness, remove only named unresolved items, append closure history, preserve false/blocked/unresolved distinctions. |
+| Shared Decision Field | Step 2 is implemented locally: resolution statuses remain distinct and evidence-gated horizon closure requires named existing witness evidence, closes only named active unresolved items, preserves source immutability, appends closure history, increments a derived horizon version, and fails closed on malformed history. Fresh locality parity: 49/49 normal + 49/49 optimized tests; 4,096 legacy fixtures, 1,872 PNP checks, 335 Hodge checks, and 4/4 native/Ω round trips matched. | Step 3 only: preserve `CANDIDATE_NOT_ADMITTED != FALSE != KNOWN` as recoverable lineage without admitting it to native evidence/known state. TDD first; stop after Step 3. |
 | FDE | Paired collision-mixing ON/OFF panel across seeds 7301–7306 did not show positive mean accuracy benefit; result remains `COUNTERPROBED`. Separate V1.1 relation/index witness repairs one synthetic nonlocal relation task and demonstrates stale-index failure vs rotated-index recovery. | Keep domains separate. Next FDE degree is plasticity ON/OFF under matched seeds/data. Do not widen to another mechanism before that residual is measured. |
 | Hodge / W114 | Receiver-boundary successor rejects narrowed/rehashed obligations; 15 tests pass in normal and optimized Python. Exact polynomial model retains a 479-dimensional common first-order kernel and rank-29 joint quadratic map, but geometric admission is not performed. | Check the exact geometric hypotheses behind the joint polynomial map before importing any new Hodge construction method. |
-| P vs NP / FIG-5 | v0.11 increasing-n recovery/preregistration exists as draft PR #89. It freezes `chi_DP = P_DP/n`, calibration/validation separation, unchanged caps, and an independent carrier counterprobe. Execution remains blocked until exact source/solver/oracle/order identities are recovered. | Recover and pin the missing v0.10 source facts first. Do not execute or alter caps before that recovery. |
+| P vs NP / FIG-5 | Draft PR #89 is now the v0.13 locality-parity recovery boundary. The local `meta_obligation_kernel_v0_10.zip` identity is hash-pinned and its 141-evaluation / 103-resolvent / 1,063-pair / 80/160 signature is recovered. The source fact `num_vars=10` is recovered, but locality parity rejects treating it as contract `n_star` without an exact authority/linkage witness. The family remains `PREREGISTERED_NOT_EXECUTED`. | Recover one exact authority/linkage witness binding the retained v0.10 anchor to FIG-5 `n_star`. Do not choose `delta`, materialize 30 rows, execute calibration/validation, change `chi_DP`, retune caps, or promote the 103-resolvent candidate. |
 | RMAPL / FITTER | PR #90 is now merged. The runtime authority floor fixes `nativeIdentity/sourceRefs/evidence/claimCeiling/provenance` while preserving ordinary fitter freedom over non-authority state. | The authority-floor prerequisite is satisfied. Quotient/path validation is now eligible as a future one-degree Carrier–Surface experiment; it is not yet executed or admitted. |
 | Locality/Pairity verifier | Conscience64 draft PR #193 remains the existing read-only scoped parity verifier and method boundary. | Keep draft; do not auto-merge from this radar update. |
 
@@ -83,7 +83,7 @@ The present Partial-Hard / Range-Avoidance lane is in the correct literature nei
 
 **Activation gate**
 
-Do **not** add LRAT to PR #89. First recover the exact active source/solver/oracle/order identities and run the frozen increasing-n contract. Only if the family experiment exposes certificate/verifier ambiguity should LRAT become the next one-degree method candidate.
+Do **not** add LRAT to PR #89. First recover the exact authority/linkage witness binding the retained v0.10 anchor to contract `n_star`; then materialize and run the already-preregistered family only under its frozen rules. Only if that executed family exposes certificate/verifier ambiguity should LRAT become the next one-degree method candidate.
 
 ### 3. Hodge / W114: explicit resolution/Chern carriers before analogy
 
@@ -164,11 +164,11 @@ A successful export is interoperability evidence only.
 
 The internet radar does **not** override the newest one-degree instructions. The queue is therefore:
 
-1. **Decision Field local Step 2:** evidence-gated horizon closure only.
+1. **Decision Field local Step 3:** non-admission preservation only: `CANDIDATE_NOT_ADMITTED != FALSE != KNOWN`.
 2. **FDE:** matched plasticity ON/OFF only.
-3. **FIG-5:** recover exact source identities, then execute the frozen increasing-n family contract.
+3. **FIG-5:** recover the exact authority/linkage witness for `n_star`; the family remains unexecuted.
 4. **Hodge:** test geometric hypotheses behind the existing joint polynomial map.
-5. **Carrier–Surface / FITTER:** PR #90 authority-floor repair is complete; keep quotient/path-validation as an eligible but unexecuted next degree.
+5. **Carrier–Surface / FITTER:** PR #90 authority-floor repair is complete; quotient/path-validation is eligible but unexecuted.
 6. Activate one external radar method only when an observed remainder specifically requires it.
 
 This order is a routing rule, not a claim that all six projects share evidence or should be merged.
