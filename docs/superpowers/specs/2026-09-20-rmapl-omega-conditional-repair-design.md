@@ -5,7 +5,8 @@
 **Canonical executable home:** `redogit/Other-Projects-`  
 **Canonical design area:** `Decision Field Operator Lab/` + this spec  
 **Cross-reference-only research companion:** `redogit/conscience64`  
-**Current-main base:** `f93f056a33d5fad0f29b763a0d49c6b79eb18d49`  
+**Design fork point:** `f93f056a33d5fad0f29b763a0d49c6b79eb18d49`  
+**Verified merge-surface authority:** `8de91a93347aaff1ff039a4899fd56eec6689da3`  
 **Predecessor design lineage:** `design/rmapl-omega-conditional-repair-20260918` @ `7a280826979b0acbc6335c3ccdd47734befd0965`  
 **Current domain collation:** `Decision Field Operator Lab/RMAPL_OMEGA_DOMAIN_COLLATION_2026-09-20.md`
 
@@ -78,6 +79,13 @@ RMAPL AUDIT != SCIENTIFIC VALIDATION
 ```
 
 Any future RMAPL-to-RMAL compiler or syntax promotion requires a separate bounded implementation and validation gate.
+
+The later `BIDIRECTIONAL_HANDOFF_ADAPTER_2026-09-20.json` was reconciled into the verified implementation branch. It declares inbound handoff/target-acceptance syntax implemented but leaves the outbound structured response packet unestablished. This design preserves that gap.
+
+```text
+INBOUND_HANDOFF_IMPLEMENTED != COMPLETE_BIDIRECTIONAL_RUNTIME
+RMAPL_OMEGA != IMPLICIT_STRUCTURED_RETURN_PACKET
+```
 
 ## 2. Domain-first derivation
 
