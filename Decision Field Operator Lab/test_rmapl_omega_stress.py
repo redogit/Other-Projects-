@@ -66,8 +66,11 @@ class RmaplOmegaStressTests(unittest.TestCase):
         self.assertEqual(report["claimCeiling"], build_stress_report()["claimCeiling"])
 
     def test_frozen_stress_evidence_matches_current_report_byte_for_byte(self):
+        actual = canonical_stress_text(build_stress_report())
+        if not EVIDENCE.exists():
+            self.fail("FROZEN_STRESS_EVIDENCE_MISSING\n" + actual)
         expected = EVIDENCE.read_text(encoding="utf-8")
-        self.assertEqual(expected, canonical_stress_text(build_stress_report()))
+        self.assertEqual(expected, actual)
 
     def test_cli_repeat_output_is_byte_identical_and_check_passes(self):
         with tempfile.TemporaryDirectory() as directory:
