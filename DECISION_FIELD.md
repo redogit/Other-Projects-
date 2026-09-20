@@ -36,16 +36,28 @@ SHARED_STRUCTURE != SHARED_MECHANISM
 ```
 
 
-## Prospective RMAPL / Ω domain-derived contract
+## RMAPL / Ω bounded reference runtime
 
-The following work is **design-only and not an active runtime**. It derives candidate common structure upward from existing domain contracts and requires explicit per-domain remainder and reconstruction/loss auditing before any general field is promoted:
+The September 20 successor implements a bounded reference runtime in the local Decision Field Operator Lab. It is derived upward from native contracts and keeps explicit per-domain remainder and reconstruction/loss accounting.
 
-- [RMAPL Ω Conditional Repair/Fitting design](docs/superpowers/specs/2026-09-18-rmapl-omega-conditional-repair-design.md)
-- [RMAPL / Ω domain collation](Decision%20Field%20Operator%20Lab/RMAPL_OMEGA_DOMAIN_COLLATION_2026-09-18.md)
+Canonical local runtime and evidence:
+
+- [RMAPL Ω successor design](docs/superpowers/specs/2026-09-20-rmapl-omega-conditional-repair-design.md)
+- [RMAPL Ω domain collation](Decision%20Field%20Operator%20Lab/RMAPL_OMEGA_DOMAIN_COLLATION_2026-09-20.md)
+- [RMAPL v0 grammar](Decision%20Field%20Operator%20Lab/RMAPL_V0_GRAMMAR.md)
+- [Ω runtime](Decision%20Field%20Operator%20Lab/omega.py)
+- [conditional RMAPL runtime](Decision%20Field%20Operator%20Lab/rmapl_runtime.py)
+- [frozen bounded evidence](Decision%20Field%20Operator%20Lab/evidence/RMAPL_OMEGA_RESULTS.json)
+
+Historical predecessor design remains preserved on branch `design/rmapl-omega-conditional-repair-20260918`; it is lineage, not rewritten history.
 
 ```text
 DOMAIN_FIRST != UNIVERSAL_SCHEMA_FIRST
 COMMON_STRUCTURE != COMPLETE_DOMAIN_SEMANTICS
 OMEGA_VIEW != NATIVE_OBJECT
-DESIGN != ACTIVE_RUNTIME
+RMAPL_PROFILE != RMAL_CORE_FRONTEND
+METHOD_TRANSFER != EVIDENCE_TRANSFER
+MAXIMAL_WITHIN_DECLARED_SCOPE != GLOBAL_COMPLETENESS
 ```
+
+The current RMAL cooperative implementation protocol remains separately authoritative for its own implemented handoff/cooperation syntax. This RMAPL runtime does not claim RMALC parser support or complete bidirectional structured-return runtime.

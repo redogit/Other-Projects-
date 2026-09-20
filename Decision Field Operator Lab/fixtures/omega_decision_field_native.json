@@ -1,0 +1,27 @@
+{
+  "schema": "decision-field-native-fixture/v1",
+  "nativeIdentity": "fixture:df:1",
+  "possibilities": [0, 1, 2],
+  "relations": [{"kind": "excludes", "left": 0, "right": 2}],
+  "evidence": [
+    {
+      "kind": "software-verification",
+      "detail": "synthetic fixture",
+      "certificate": null,
+      "claimCeiling": "BOUNDED"
+    }
+  ],
+  "goal": 1,
+  "unresolved": [0, 2],
+  "observer": {"obligation": "select-1"},
+  "history": ["seed"],
+  "nativeRemainder": {
+    "containerTypes": {
+      "possibilities": "tuple",
+      "relations": "tuple",
+      "evidence": "tuple",
+      "unresolved": "tuple",
+      "history": "tuple"
+    }
+  }
+}

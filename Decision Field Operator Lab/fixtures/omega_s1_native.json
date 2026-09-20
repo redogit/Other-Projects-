@@ -1,0 +1,26 @@
+{
+  "schema": "s1-experience/v0",
+  "id": "fixture-s1-native-1",
+  "operatorVersion": "S'1-Ops v0",
+  "initialState": "fixture",
+  "mirrorId": "mirror:fixture",
+  "shell": "comparison",
+  "actions": [{"plane": "xw", "degrees": 1}],
+  "observer": {"yaw": 0, "pitch": 0, "roll": 0, "wPerspective": 0.35},
+  "provenance": {"source": "rmapl-omega-fixture"},
+  "nativeRemainder": {
+    "observerField": {
+      "version": "s1-observer-field/v0",
+      "taskVersion": "s1-observer-task/v0",
+      "densityId": "rmapl-omega-fixture",
+      "calibrations": []
+    },
+    "checkpoints": [],
+    "comparisons": {
+      "obligation": "live-vs-mirror",
+      "againstMirror": {"equal": false, "maxAbsDelta": 0.01},
+      "againstPrevious": {"equal": false, "maxAbsDelta": 0.01}
+    },
+    "relations": {"familyId": "rmapl-omega-fixture", "parentId": null, "relatedIds": []}
+  }
+}

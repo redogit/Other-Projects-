@@ -53,3 +53,6 @@ jobs:
 
       - name: Verify contextual multicarrier reasoning evidence is reproducible
         run: python3 "Decision Field Operator Lab/run_contextual_multicarrier_audit.py" --check
+
+      - name: Verify RMAPL Omega conditional repair evidence is reproducible
+        run: python3 "Decision Field Operator Lab/run_rmapl_omega_audit.py" --check
