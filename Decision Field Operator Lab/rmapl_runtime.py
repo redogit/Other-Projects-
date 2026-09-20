@@ -257,14 +257,27 @@ def _cycle_signature(omega: Mapping[str, Any], program: Program) -> str:
 
 
 def _bounds(program: Program, omega: Mapping[str, Any]) -> tuple[int, int]:
-    source = dict(omega.get("resourceBounds", {}))
-    source.update(program.bounds)
+    # Independent limits are constraints, not overrideable configuration.
+    sources = (
+        ("Omega resourceBounds", omega.get("resourceBounds", {})),
+        ("Program.bounds", program.bounds),
+    )
+    for label, bounds in sources:
+        if not isinstance(bounds, Mapping):
+            raise TypeError(f"{label} must be a mapping")
 
     def positive_int(name: str, default: int) -> int:
-        raw = source.get(name, default)
-        if type(raw) is not int or raw < 1:
-            raise ValueError(f"{name} must be a positive integer")
-        return raw
+        declared = []
+        for label, bounds in sources:
+            if name not in bounds:
+                continue
+            raw = bounds[name]
+            if type(raw) is not int or raw < 1:
+                raise ValueError(f"{label}.{name} must be a positive integer")
+            declared.append(raw)
+        # Validate every declaration before taking the stricter limit. An
+        # invalid declaration must not disappear behind a valid counterpart.
+        return min(declared) if declared else default
 
     return positive_int("maxCandidates", 32), positive_int("maxSteps", 1)
 
