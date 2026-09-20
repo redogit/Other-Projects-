@@ -13,7 +13,7 @@
     "CURRENT != TRUE"
   ],
   "repository_pins": {
-    "redogit/Other-Projects-": "cca44e23ca663600cc3466f45d7dc509c466b796",
+    "redogit/Other-Projects-": "e42f652b380eb1d68d14679d44b9328dfb2faa55",
     "redogit/conscience64": "a3025af9be205c2037d7f891766d5641851c3637"
   },
   "neighboring_open_work": [
@@ -26,8 +26,8 @@
     {
       "repo": "redogit/Other-Projects-",
       "pr": 90,
-      "role": "FITTER fixed authority floor",
-      "action": "observe-do-not-modify"
+      "role": "FITTER fixed authority floor — merged",
+      "action": "merged-prerequisite-satisfied"
     },
     {
       "repo": "redogit/conscience64",
@@ -41,7 +41,7 @@
     "FDE: matched plasticity ON/OFF only",
     "FIG-5: recover source identities then execute frozen increasing-n contract",
     "Hodge/W114: validate geometric hypotheses behind current joint polynomial map",
-    "FITTER: finish authority-floor repair",
+    "Carrier-Surface/FITTER: PR #90 authority floor merged; quotient/path validation is eligible but unexecuted",
     "Activate at most one external method candidate when an observed residual demands it"
   ],
   "radar": [
@@ -52,7 +52,7 @@
         "Trivet / LLVM translation validation (arXiv:2609.19583)"
       ],
       "candidate": "declared equivalence + independent path/translation validation",
-      "gate": "after FITTER authority-floor repair"
+      "gate": "PR #90 authority-floor prerequisite satisfied; execute only as a separate one-degree experiment"
     },
     {
       "lane": "P-vs-NP",
