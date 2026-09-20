@@ -12,11 +12,23 @@
     "audit": "PASS"
   },
   "successor_validation": {
-    "controlled_surface_check": "PENDING_EXACT_HEAD_CI",
+    "controlled_surface_check": "PASS",
     "rmalc_check": "NOT_REVALIDATED",
     "rmalc_compile": "NOT_REVALIDATED",
     "rmalc_audit": "NOT_REVALIDATED",
-    "reason": "RMALC toolchain is not present in the repository-accessible Git surface used for this successor."
+    "reason": "RMALC toolchain is not present in the repository-accessible Git surface used for this successor.",
+    "controlled_surface_evidence": {
+      "workflow": "RMAL bidirectional response carrier",
+      "run_id": 35505020623,
+      "job_id": 106063249863,
+      "tested_head_sha": "cb3d9ef7523caa22a49bfddbaf7caf3dd776af92",
+      "conclusion": "success",
+      "carrier_merge_sha": "8f2d4e433d4b1bff3ec6eb0cc6a054b4c5bce284",
+      "source_git_blob_sha": "ae6147ca1c706374f52dd9675c842d51d4bdc0e6",
+      "checker_git_blob_sha": "0708f2388168bf47aab5b1bbe35c42ef1dffb151",
+      "run_url": "https://github.com/redogit/Other-Projects-/actions/runs/35505020623"
+    },
+    "reconciled_on": "2026-09-20"
   },
   "reused_constructs": [
     "MODULE",
