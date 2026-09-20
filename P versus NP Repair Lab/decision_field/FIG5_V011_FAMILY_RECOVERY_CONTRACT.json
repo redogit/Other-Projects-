@@ -17,12 +17,17 @@
     "locality_parity_version": "MOK-v0.13-locality-parity",
     "locality_parity_archive_sha256": "37b477d86672df0e679384af95f4d83231a14cd72d4448acb58758dce9fa1fc4",
     "correction_rule": "SOURCE_FACT != CONTRACT_PARAMETER_UNLESS_BOUND",
-    "locality_parity_successor": "FIG5-locality-v0.15-delta-binding",
+    "locality_parity_successor": "FIG5-locality-v0.16-constructor-freeze",
     "nstar_binding_receipt_sha256": "682bbcf6ed83e6d3f3264b7ca41257e60c64dc56b4c0fc331057808a845d440d",
     "nstar_binding_authority": "Explicit current approval of the already-frozen FIG-5 plan definition plus exact recovered v0.10 source; private approval text is not exported.",
     "delta_binding_witness_sha256": "2b1b2d04819f262ab5d8d8fd654a5c550a3978fa8bd8d75a9737322aacb5df09",
     "delta_binding_successor_archive_sha256": "4f33e806735b4b0bfe8a3f7860252ced1a5666a0f4da88ce828c3a0abc27bffe",
-    "delta_binding_authority": "Current user-requested exact family-preserving increment witness; delta is derived from one-fresh-variable cardinality, not integer adjacency."
+    "delta_binding_authority": "Current user-requested exact family-preserving increment witness; delta is derived from one-fresh-variable cardinality, not integer adjacency.",
+    "family_constructor_path": "P versus NP Repair Lab/decision_field/fig5_family_dynamics_v016.py",
+    "family_constructor_commit": "c7003c0bb168f6e45c5d6f962c1b761ab9c3e3b5",
+    "family_constructor_github_blob_sha": "b314b90d2f731a5a401a11429061a57ee3f9cd37",
+    "family_constructor_verified_local_sha256": "78c00a370a8f46b69230f2bc8735724e001d7596513178c970dfc40802ec915e",
+    "family_constructor_selftest_sha256": "d05c93c91240c315d03edd65fe173e46f47a068243b14813d4e841083d42d62c"
   },
   "recovered_v0_10_checkpoint": {
     "adaptive_evaluations": 141,
@@ -69,12 +74,14 @@
       "exact_family_increment_delta": 1,
       "family_manifest": "NOT_MATERIALIZED",
       "family_executed": false,
-      "delta_rule": "BOUND: delta is the exact variable-set cardinality increase under the verified one-fresh-variable parity extension; the carrier label of the fresh variable is not the binding argument."
+      "delta_rule": "BOUND: delta is the exact variable-set cardinality increase under the verified one-fresh-variable parity extension; the carrier label of the fresh variable is not the binding argument.",
+      "family_constructor": "FROZEN_V0_16_COMMON_HASH_STREAM",
+      "block_seed_rule": "NOT_YET_FROZEN"
     },
     "execution_blocked_until": [
-      "freeze one deterministic scientific family constructor compatible with the bound increment",
-      "freeze the block seed/common-random-stream rule if the selected constructor requires it",
-      "materialize and hash the 30-row family manifest before any family execution"
+      "freeze the five-block seed derivation rule without inspecting solver/verifier outcomes",
+      "materialize and hash the 30-row family manifest from the already-frozen constructor plus seed rule",
+      "only then open GENERATE"
     ],
     "boundaries": [
       "NSTAR_BOUND != DELTA_BOUND",
@@ -83,7 +90,11 @@
       "GENERATE != VERIFY != ADMIT",
       "DELTA_DERIVED_FROM_FRESH_VARIABLE_CARDINALITY != INTEGER_ADJACENCY_INFERENCE",
       "DELTA_BOUND != FAMILY_CONSTRUCTOR_FROZEN",
-      "DELTA_BOUND != 30_ROW_MANIFEST_MATERIALIZED"
+      "DELTA_BOUND != 30_ROW_MANIFEST_MATERIALIZED",
+      "CONSTRUCTOR_FROZEN != BLOCK_SEED_RULE_FROZEN",
+      "SOFTWARE_SELF_TEST != FAMILY_EXECUTION",
+      "ANCHOR_SIZE_CENTER != ANCHOR_FORMULA_MEMBER",
+      "COMMON_STREAM_FAMILY != NESTED_FAMILY"
     ]
   },
   "one_degree_family": {
@@ -113,13 +124,30 @@
     ],
     "invalid_low_n_rule": "shift entire six-level ladder upward before execution; do not edit individual levels after results",
     "adaptation_after_validation_opened": "FORBIDDEN",
-    "family_constructor_status": "NOT_YET_FROZEN",
+    "family_constructor_status": "FROZEN_V0_16",
     "block_seed_rule_status": "NOT_YET_FROZEN",
     "inputs_materialized": false,
     "n_star_status": "BOUND_BY_APPROVED_PLAN_PLUS_EXACT_SOURCE",
     "delta_status": "BOUND_BY_EXACT_FAMILY_PRESERVING_INCREMENT_WITNESS",
     "execution_allowed": false,
-    "anchor_n": 10
+    "anchor_n": 10,
+    "selected_construction": "fallback_common_hash_stream",
+    "selected_construction_version": "FIG5-common-stream-3cnf/v0.16",
+    "selected_construction_reason": "The exact XOR extension remains a delta witness/carrier control, but repeated definitional extension would hold the semantic core fixed. The preregistered fallback common-stream construction is selected for the primary scientific family.",
+    "constructor_contract": {
+      "changing_degree_within_block": "n only",
+      "width": 3,
+      "clause_density_exact": "7/2",
+      "density_design_basis": "retained v0.10 anchor has 35 canonical clauses / 10 active variables; continuity design choice, not inherited family validity",
+      "clause_count_law": "round_half_up((7/2)*n)",
+      "active_variable_coverage": "exact variables 1..n must all occur",
+      "stream": "SHA-256 domain-separated deterministic stream",
+      "seed_role": "external block coordinate; rule not frozen in v0.16",
+      "generation_feedback": "none from active solver or verifier",
+      "nested": false,
+      "anchor_formula_membership": false,
+      "source_path": "P versus NP Repair Lab/decision_field/fig5_family_dynamics_v016.py"
+    }
   },
   "primary_quantity": {
     "name": "normalized Davis-Putnam opposite-polarity pair pressure",
@@ -267,16 +295,20 @@
     "DELTA_DERIVED_FROM_FRESH_VARIABLE_CARDINALITY != INTEGER_ADJACENCY_INFERENCE",
     "DELTA_BOUND != FAMILY_CONSTRUCTOR_FROZEN",
     "DELTA_BOUND != 30_ROW_MANIFEST_MATERIALIZED",
-    "P ?= NP = OPEN"
+    "P ?= NP = OPEN",
+    "CONSTRUCTOR_FROZEN != BLOCK_SEED_RULE_FROZEN",
+    "SOFTWARE_SELF_TEST != FIG5_FAMILY_EXECUTION",
+    "ANCHOR_SIZE_CENTER != ANCHOR_FORMULA_MEMBER",
+    "COMMON_STREAM_FAMILY != NESTED_FAMILY"
   ],
   "current_stop": {
-    "completed_step": "exact delta family-preserving increment binding witness",
+    "completed_step": "freeze deterministic scientific family constructor",
     "experiment_executed": false,
-    "next_one_degree_step": "freeze one deterministic scientific family constructor compatible with delta=1; do not materialize rows or execute calibration/validation yet"
+    "next_one_degree_step": "freeze the five-block seed derivation rule; do not materialize the 30 rows and do not execute GENERATE yet"
   },
   "locality_parity": {
-    "version": "FIG5-locality-v0.15-delta-binding",
-    "status": "PASS_SCOPED_NSTAR_10_DELTA_1_FAMILY_UNMATERIALIZED",
+    "version": "FIG5-locality-v0.16-constructor-freeze",
+    "status": "PASS_SCOPED_CONSTRUCTOR_FROZEN_SEEDS_UNRESOLVED",
     "scope": "private local working filesystem + Library + read-only pinned external receipts",
     "n_star_status": "BOUND_10",
     "delta_status": "BOUND_1_BY_EXACT_INCREMENT_WITNESS",
@@ -289,7 +321,11 @@
     "domain_firewall": "PNP and HODGE remain separate native authorities; shared method only",
     "binding_receipt_sha256": "682bbcf6ed83e6d3f3264b7ca41257e60c64dc56b4c0fc331057808a845d440d",
     "successor_archive_sha256": "4f33e806735b4b0bfe8a3f7860252ced1a5666a0f4da88ce828c3a0abc27bffe",
-    "delta_binding_witness_sha256": "2b1b2d04819f262ab5d8d8fd654a5c550a3978fa8bd8d75a9737322aacb5df09"
+    "delta_binding_witness_sha256": "2b1b2d04819f262ab5d8d8fd654a5c550a3978fa8bd8d75a9737322aacb5df09",
+    "family_constructor_status": "FROZEN_V0_16_COMMON_HASH_STREAM",
+    "block_seed_rule_status": "NOT_YET_FROZEN",
+    "family_manifest_status": "NOT_MATERIALIZED",
+    "family_executed": false
   },
   "correction_history": [
     {
@@ -313,6 +349,17 @@
       "family_manifest": "NOT_MATERIALIZED",
       "family_executed": false,
       "witness_sha256": "2b1b2d04819f262ab5d8d8fd654a5c550a3978fa8bd8d75a9737322aacb5df09"
+    },
+    {
+      "event": "V0_16_CONSTRUCTOR_FREEZE",
+      "result": "Primary FIG-5 family constructor frozen as deterministic fallback common SHA-256 stream with exact width 3, density 7/2, active-variable coverage, and n as the only changing within-block degree. XOR nesting retained as delta witness/carrier control rather than primary family because repeated definitional extension would keep the semantic core fixed.",
+      "n_star": 10,
+      "delta": 1,
+      "family_constructor": "FROZEN_V0_16_COMMON_HASH_STREAM",
+      "block_seed_rule": "NOT_YET_FROZEN",
+      "family_manifest": "NOT_MATERIALIZED",
+      "family_executed": false,
+      "source_commit": "c7003c0bb168f6e45c5d6f962c1b761ab9c3e3b5"
     }
   ],
   "delta_binding_witness": {
@@ -399,6 +446,33 @@
       "DELTA_BOUND != 30_ROW_MANIFEST_MATERIALIZED",
       "GENERATE != VERIFY != ADMIT",
       "P ?= NP = OPEN"
+    ]
+  },
+  "family_constructor_verification": {
+    "status": "SOFTWARE_SELF_TEST_PASS",
+    "tested_levels": [
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "test_seed": "TEST-ONLY-NOT-A-FIG5-BLOCK",
+    "determinism": true,
+    "exact_active_variable_coverage": true,
+    "all_clauses_width_3": true,
+    "clause_count_law": true,
+    "distinct_level_digests": true,
+    "seed_changes_output": true,
+    "raw_stream_reproducible": true,
+    "recovered_v0_10_canonicalization_parity": true,
+    "first_implementation_residual": "variable identity and signed literal carrier were mixed during duplicate rejection, permitting a same-variable opposite-sign tautology candidate",
+    "repair": "select distinct absolute variable identities first; apply literal signs only after identity selection",
+    "claim_ceiling": [
+      "SOFTWARE_SELF_TEST != FIG5_FAMILY_EXECUTION",
+      "CODEC_CANON_PARITY != FAMILY_VALIDITY",
+      "GENERATOR_FROZEN != EXPERIMENT_EXECUTED"
     ]
   }
 }
