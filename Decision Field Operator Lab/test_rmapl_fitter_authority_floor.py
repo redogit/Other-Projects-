@@ -52,9 +52,9 @@ def source_omega():
     )
 
 
-def fitter_program():
+def fitter_program(preserves='["state.protected"]'):
     return parse_rmapl(
-        """RMAPL 0
+        f"""RMAPL 0
 PROGRAM fitter-authority-floor
 LOAD fixture
 BOUND maxCandidates=8
@@ -62,8 +62,8 @@ BOUND maxSteps=1
 FITTER fit
 WHEN "x-residual"
 REQUIRES []
-PRESERVES ["state.protected"]
-OBJECTIVES {"residualReduction":"max"}
+PRESERVES {preserves}
+OBJECTIVES {{"residualReduction":"max"}}
 APPLY fitter_op
 EVIDENCE []
 COST 1
@@ -99,13 +99,17 @@ def proposal(candidate):
 
 
 class FitterAuthorityFloorTests(unittest.TestCase):
-    def run_candidate(self, transform):
+    def run_candidate(self, transform, preserves='["state.protected"]'):
         source = source_omega()
 
         def fitter_op(value):
             return proposal(transform(value))
 
-        return run_program(fitter_program(), source, {"fitter_op": fitter_op})
+        return run_program(
+            fitter_program(preserves=preserves),
+            source,
+            {"fitter_op": fitter_op},
+        )
 
     def assert_authority_rejected(self, transform, expected_path):
         result = self.run_candidate(transform)
@@ -183,6 +187,30 @@ class FitterAuthorityFloorTests(unittest.TestCase):
             ),
             "provenance",
         )
+
+    def test_explicit_preserves_failure_keeps_existing_diagnostic_precedence(self):
+        result = self.run_candidate(
+            lambda value: updated(
+                value,
+                evidence=(
+                    {
+                        "kind": "scientific-validation",
+                        "detail": "synthetic escalation",
+                        "claimCeiling": "UNBOUNDED",
+                    },
+                ),
+                state={"x": 1, "protected": 7},
+                residuals=(),
+            ),
+            preserves='["evidence"]',
+        )
+        branch = result["branches"][0]
+        self.assertEqual(branch["classification"], "MUTATION")
+        self.assertFalse(branch["admitted"])
+        gates = {item["name"]: item for item in branch["inspection"]["gates"]}
+        self.assertEqual(gates["preserves"]["status"], "failed")
+        self.assertNotIn("fitter_authority", gates)
+        self.assertEqual(branch["inspection"]["mutated"], ["evidence"])
 
     def test_fitter_can_refit_ordinary_state_when_declared_preserve_survives(self):
         result = self.run_candidate(
