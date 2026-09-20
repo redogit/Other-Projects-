@@ -1,0 +1,103 @@
+{
+  "schema": "conversation-radar-locality-parity/v1",
+  "date": "2026-09-20",
+  "status": "CURRENT_WORKING_METHOD",
+  "governing_invariant": "Object identity is invariant; coordinates are negotiable.",
+  "hard_boundaries": [
+    "PAIRITY != PARITY",
+    "RELATION != IDENTITY",
+    "METHOD_TRANSFER != EVIDENCE_TRANSFER",
+    "SCOPED_BYTES_MATCH != WHOLE_REPOSITORY_PARITY",
+    "GENERATE != VERIFY != ADMIT",
+    "MEMORY != EVIDENCE",
+    "CURRENT != TRUE"
+  ],
+  "repository_pins": {
+    "redogit/Other-Projects-": "cca44e23ca663600cc3466f45d7dc509c466b796",
+    "redogit/conscience64": "a3025af9be205c2037d7f891766d5641851c3637"
+  },
+  "neighboring_open_work": [
+    {
+      "repo": "redogit/Other-Projects-",
+      "pr": 89,
+      "role": "FIG-5 v0.11 increasing-n recovery/preregistration",
+      "action": "observe-do-not-modify"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "pr": 90,
+      "role": "FITTER fixed authority floor",
+      "action": "observe-do-not-modify"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "pr": 193,
+      "role": "locality/pairity/scoped-parity verifier",
+      "action": "keep-draft-do-not-auto-merge"
+    }
+  ],
+  "local_queue": [
+    "Decision Field: evidence-gated horizon closure only",
+    "FDE: matched plasticity ON/OFF only",
+    "FIG-5: recover source identities then execute frozen increasing-n contract",
+    "Hodge/W114: validate geometric hypotheses behind current joint polynomial map",
+    "FITTER: finish authority-floor repair",
+    "Activate at most one external method candidate when an observed residual demands it"
+  ],
+  "radar": [
+    {
+      "lane": "Carrier-Surface",
+      "sources": [
+        "Quotient Lenses (ICFP 2008)",
+        "Trivet / LLVM translation validation (arXiv:2609.19583)"
+      ],
+      "candidate": "declared equivalence + independent path/translation validation",
+      "gate": "after FITTER authority-floor repair"
+    },
+    {
+      "lane": "P-vs-NP",
+      "sources": [
+        "Range Avoidance / proof complexity generators (ITCS 2026.111)",
+        "LRAT-Catcher (arXiv:2607.00815)"
+      ],
+      "candidate": "proof-producing terminal UNSAT validation",
+      "gate": "after FIG-5 source recovery and frozen family run exposes verifier/certificate residual"
+    },
+    {
+      "lane": "Hodge/W114",
+      "sources": [
+        "Favero-Kelly arXiv:2609.12759",
+        "Lin-Zhang arXiv:2609.03784"
+      ],
+      "candidate": "exact reproduction of published free-resolution/Chern/Jacobian or MF calibration",
+      "gate": "after current geometric-hypothesis obligation"
+    },
+    {
+      "lane": "Operator Moonshot/RMAL-TFEML",
+      "sources": [
+        "ReGAL ICML 2024",
+        "Execution Tuning arXiv:2503.05703"
+      ],
+      "candidate": "one verified reusable operator on held-out execution traces",
+      "gate": "frozen trace family + primitive-only baseline"
+    },
+    {
+      "lane": "Five Eyes",
+      "sources": [
+        "multi-observer embedding/reconstruction literature"
+      ],
+      "candidate": "explicit AffineFrame5 vs GenericStateReconstruction type split",
+      "gate": "before any reconstruction claim"
+    },
+    {
+      "lane": "Knowledge Decay",
+      "sources": [
+        "RO-Crate 1.3",
+        "OpenLineage"
+      ],
+      "candidate": "sidecar export + clean-room reconstruction comparison",
+      "gate": "one already-verified native object only"
+    }
+  ],
+  "claim_ceiling": "Routing/parity update only; no scientific or mathematical claim promoted."
+}
