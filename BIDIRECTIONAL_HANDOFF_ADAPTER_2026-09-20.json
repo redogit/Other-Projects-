@@ -1,0 +1,26 @@
+{
+  "schema": "other-projects/bidirectional-handoff-adapter/v1",
+  "date": "2026-09-20",
+  "local_authority": "redogit/Other-Projects-",
+  "central_protocol": "redogit/redogit:BIDIRECTIONAL_HANDOFF_PROTOCOL_2026-09-20.json",
+  "inbound": {
+    "status": "RMAL_HANDOFF_AND_TARGET_ACCEPTANCE_SYNTAX_IMPLEMENTED",
+    "carrier": "docs/RMAL_COOPERATIVE_IMPLEMENTATION_PROTOCOL.rmal",
+    "evidence": "evidence/RMAL_COOPERATIVE_IMPLEMENTATION_PROTOCOL_2026-09-19.json",
+    "evidence_anchor": "f93f056a33d5fad0f29b763a0d49c6b79eb18d49"
+  },
+  "outbound": {
+    "status": "STRUCTURED_RESPONSE_PACKET_NOT_YET_ESTABLISHED",
+    "structured_response_packet_runtime": false,
+    "note": "The implemented RMAL carrier covers reference/proposal/handoff/target_acceptance/target_local_successor, not the complete structured return packet."
+  },
+  "boundaries": [
+    "RELATED != AUTHORIZED_TO_EDIT",
+    "READ != WRITE",
+    "PROPOSED != ACCEPTED",
+    "ACCEPTED != VERIFIED",
+    "SHARED_METHOD != SHARED_EVIDENCE",
+    "COMPILED != SCIENTIFICALLY_VALID"
+  ],
+  "claim_ceiling": "OTHER_PROJECTS_LOCAL_ADAPTER_WITH_IMPLEMENTED_HANDOFF_SYNTAX_ONLY"
+}
