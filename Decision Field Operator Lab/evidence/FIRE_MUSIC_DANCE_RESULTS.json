@@ -1,0 +1,436 @@
+{
+  "ash_count": 1,
+  "boundaries": [
+    "SYNTHETIC_AUDIT != DOMAIN_VALIDATION",
+    "MUSIC != TRUTH",
+    "DANCE != TRUTH",
+    "GENERATE != VERIFY != ADMIT",
+    "DELTA_ZERO_IS_LOCAL_NOT_GLOBAL"
+  ],
+  "dance": [
+    {
+      "direction": "INWARD",
+      "index": 0,
+      "mutation": {
+        "after": 3,
+        "before": 2,
+        "direction": "INWARD",
+        "operator": "DESCEND",
+        "path": "system.depth"
+      },
+      "note": ""
+    },
+    {
+      "direction": "SIDEWAYS",
+      "index": 1,
+      "mutation": {
+        "after": 1,
+        "before": 0,
+        "direction": "SIDEWAYS",
+        "operator": "IGNITE",
+        "path": "system.temperature"
+      },
+      "note": ""
+    },
+    {
+      "direction": "HOMEWARD",
+      "index": 2,
+      "mutation": null,
+      "note": "return after observation"
+    }
+  ],
+  "delta": {
+    "changed_paths": [],
+    "note": "no consequential difference in the declared tested scope",
+    "protected_violations": [],
+    "status": "DELTA_ZERO",
+    "unresolved": []
+  },
+  "ember_count": 1,
+  "field": {
+    "allWays": [
+      "FORWARD",
+      "BACKWARD",
+      "UP",
+      "DOWN",
+      "SIDEWAYS",
+      "INWARD",
+      "OUTWARD",
+      "AROUND",
+      "THROUGH",
+      "REVERSE",
+      "BRANCH",
+      "HOMEWARD"
+    ],
+    "ash": [
+      "05acfd78bb1aa177095f0c9a370362acd21f0ffe077130452116c845427c5bcc"
+    ],
+    "authority": "method-only",
+    "boundaries": [
+      "GENERATE != VERIFY != ADMIT",
+      "METHOD_TRANSFER != EVIDENCE_TRANSFER",
+      "SOFTWARE_VERIFICATION != DOMAIN_PROOF",
+      "RELATION != SUPPORT",
+      "FAILED_REPRESENTATION != FAILED_OBJECT",
+      "ATTACKABILITY != FALSITY",
+      "MUSIC != TRUTH",
+      "DANCE != TRUTH",
+      "DELTA_ZERO_IS_LOCAL_NOT_GLOBAL",
+      "UNKNOWN != ZERO",
+      "OBJECT_IDENTITY_IS_INVARIANT",
+      "COORDINATES_AND_CARRIERS_ARE_NEGOTIABLE"
+    ],
+    "candidates": {
+      "05acfd78bb1aa177095f0c9a370362acd21f0ffe077130452116c845427c5bcc": {
+        "admitted": false,
+        "candidate_id": "05acfd78bb1aa177095f0c9a370362acd21f0ffe077130452116c845427c5bcc",
+        "evidence_refs": ["evidence:synthetic"],
+        "invariants": {
+          "observer.mode": "visible",
+          "system.carrier": "seed"
+        },
+        "knowledge": {},
+        "mutation": {
+          "after": 3,
+          "before": 2,
+          "direction": "INWARD",
+          "operator": "DESCEND",
+          "path": "system.depth"
+        },
+        "object_id": "Object:demo-fire-field",
+        "parent_id": "aeb0a1afd232794b26a5188a2f9bfaae6fa8b18fbb7cc4ce2ba6a7abade4b1f5",
+        "provenance": [
+          "user:FIRE+Music+Dance",
+          "repo:Other-Projects-",
+          "demo:one-degree"
+        ],
+        "remainder": ["synthetic control rejects depth=3"],
+        "resting": false,
+        "stage": "ASH",
+        "surface": {
+          "observer": {"mode": "visible"},
+          "system": {"carrier": "seed", "depth": 3, "temperature": 0}
+        },
+        "triad": "MIDDLE",
+        "verification": "REFUTED_LOCAL"
+      },
+      "35efb1715bffba1de937c0b104bd93a505e89db05478fcd74d569667b7415ada": {
+        "admitted": false,
+        "candidate_id": "35efb1715bffba1de937c0b104bd93a505e89db05478fcd74d569667b7415ada",
+        "evidence_refs": ["evidence:synthetic"],
+        "invariants": {
+          "observer.mode": "visible",
+          "system.carrier": "seed"
+        },
+        "knowledge": {
+          "lesson": "depth=1 survived this bounded synthetic control"
+        },
+        "mutation": null,
+        "object_id": "Object:demo-fire-field",
+        "parent_id": "f1b1386d102a8c240856368f181887f7cf075a53bffca9f86f9a13d9ac124f6a",
+        "provenance": [
+          "user:FIRE+Music+Dance",
+          "repo:Other-Projects-",
+          "demo:one-degree",
+          "HOMEWARD:f1b1386d102a8c240856368f181887f7cf075a53bffca9f86f9a13d9ac124f6a"
+        ],
+        "remainder": [],
+        "resting": true,
+        "stage": "CLOSED",
+        "surface": {
+          "observer": {"mode": "visible"},
+          "system": {"carrier": "seed", "depth": 2, "temperature": 0}
+        },
+        "triad": "MIDDLE",
+        "verification": "VERIFIED_LOCAL"
+      },
+      "aeb0a1afd232794b26a5188a2f9bfaae6fa8b18fbb7cc4ce2ba6a7abade4b1f5": {
+        "admitted": false,
+        "candidate_id": "aeb0a1afd232794b26a5188a2f9bfaae6fa8b18fbb7cc4ce2ba6a7abade4b1f5",
+        "evidence_refs": [],
+        "invariants": {
+          "observer.mode": "visible",
+          "system.carrier": "seed"
+        },
+        "knowledge": {},
+        "mutation": null,
+        "object_id": "Object:demo-fire-field",
+        "parent_id": null,
+        "provenance": [
+          "user:FIRE+Music+Dance",
+          "repo:Other-Projects-"
+        ],
+        "remainder": [],
+        "resting": false,
+        "stage": "OBSERVE",
+        "surface": {
+          "observer": {"mode": "visible"},
+          "system": {"carrier": "seed", "depth": 2, "temperature": 0}
+        },
+        "triad": "MIDDLE",
+        "verification": "GENERATED"
+      },
+      "ea4a39a8d383178205a7b6478c657e85d62b281719634dc09c75f2da6eb13a1d": {
+        "admitted": false,
+        "candidate_id": "ea4a39a8d383178205a7b6478c657e85d62b281719634dc09c75f2da6eb13a1d",
+        "evidence_refs": ["evidence:synthetic"],
+        "invariants": {
+          "observer.mode": "visible",
+          "system.carrier": "seed"
+        },
+        "knowledge": {},
+        "mutation": {
+          "after": 1,
+          "before": 2,
+          "direction": "OUTWARD",
+          "operator": "SIMPLIFY",
+          "path": "system.depth"
+        },
+        "object_id": "Object:demo-fire-field",
+        "parent_id": "aeb0a1afd232794b26a5188a2f9bfaae6fa8b18fbb7cc4ce2ba6a7abade4b1f5",
+        "provenance": [
+          "user:FIRE+Music+Dance",
+          "repo:Other-Projects-",
+          "demo:one-degree"
+        ],
+        "remainder": [],
+        "resting": false,
+        "stage": "SURVIVOR",
+        "surface": {
+          "observer": {"mode": "visible"},
+          "system": {"carrier": "seed", "depth": 1, "temperature": 0}
+        },
+        "triad": "MIDDLE",
+        "verification": "VERIFIED_LOCAL"
+      },
+      "f1b1386d102a8c240856368f181887f7cf075a53bffca9f86f9a13d9ac124f6a": {
+        "admitted": false,
+        "candidate_id": "f1b1386d102a8c240856368f181887f7cf075a53bffca9f86f9a13d9ac124f6a",
+        "evidence_refs": ["evidence:synthetic"],
+        "invariants": {
+          "observer.mode": "visible",
+          "system.carrier": "seed"
+        },
+        "knowledge": {
+          "lesson": "depth=1 survived this bounded synthetic control"
+        },
+        "mutation": null,
+        "object_id": "Object:demo-fire-field",
+        "parent_id": "ea4a39a8d383178205a7b6478c657e85d62b281719634dc09c75f2da6eb13a1d",
+        "provenance": [
+          "user:FIRE+Music+Dance",
+          "repo:Other-Projects-",
+          "demo:one-degree"
+        ],
+        "remainder": [],
+        "resting": false,
+        "stage": "RECONSTITUTE",
+        "surface": {
+          "observer": {"mode": "visible"},
+          "system": {"carrier": "seed", "depth": 1, "temperature": 0}
+        },
+        "triad": "MIDDLE",
+        "verification": "VERIFIED_LOCAL"
+      }
+    },
+    "embers": [
+      "ea4a39a8d383178205a7b6478c657e85d62b281719634dc09c75f2da6eb13a1d"
+    ],
+    "memory": {
+      "experiences": [
+        {
+          "candidate_id": "05acfd78bb1aa177095f0c9a370362acd21f0ffe077130452116c845427c5bcc",
+          "direction": "INWARD",
+          "novelty_before": 1.0,
+          "operator": "DESCEND",
+          "outcome": "ASH",
+          "signature": "d01ac5ab0aa9037da15a2fc836d944926b0ce417522a715f7f214bf7d2556484"
+        },
+        {
+          "candidate_id": "ea4a39a8d383178205a7b6478c657e85d62b281719634dc09c75f2da6eb13a1d",
+          "direction": "OUTWARD",
+          "novelty_before": 1.0,
+          "operator": "SIMPLIFY",
+          "outcome": "EMBER",
+          "signature": "563305377ba21209e31baa6e26b105255c3dd1c4056e7eb8fc0e41bd24ef38d6"
+        }
+      ],
+      "signatureCounts": {
+        "563305377ba21209e31baa6e26b105255c3dd1c4056e7eb8fc0e41bd24ef38d6": 1,
+        "d01ac5ab0aa9037da15a2fc836d944926b0ce417522a715f7f214bf7d2556484": 1
+      }
+    },
+    "root": {
+      "admitted": false,
+      "candidate_id": "aeb0a1afd232794b26a5188a2f9bfaae6fa8b18fbb7cc4ce2ba6a7abade4b1f5",
+      "evidence_refs": [],
+      "invariants": {
+        "observer.mode": "visible",
+        "system.carrier": "seed"
+      },
+      "knowledge": {},
+      "mutation": null,
+      "object_id": "Object:demo-fire-field",
+      "parent_id": null,
+      "provenance": [
+        "user:FIRE+Music+Dance",
+        "repo:Other-Projects-"
+      ],
+      "remainder": [],
+      "resting": false,
+      "stage": "OBSERVE",
+      "surface": {
+        "observer": {"mode": "visible"},
+        "system": {"carrier": "seed", "depth": 2, "temperature": 0}
+      },
+      "triad": "MIDDLE",
+      "verification": "GENERATED"
+    },
+    "schema": "fire-music-dance-dynamic-field/v1",
+    "survivors": [
+      "ea4a39a8d383178205a7b6478c657e85d62b281719634dc09c75f2da6eb13a1d"
+    ],
+    "trace": [
+      {
+        "candidate_id": "05acfd78bb1aa177095f0c9a370362acd21f0ffe077130452116c845427c5bcc",
+        "mutations": [{
+          "after": 3,
+          "before": 2,
+          "direction": "INWARD",
+          "operator": "DESCEND",
+          "path": "system.depth"
+        }],
+        "object_id": "Object:demo-fire-field",
+        "op": "GENERATE",
+        "stage": "FUEL",
+        "verification": "GENERATED",
+        "wide": false
+      },
+      {
+        "candidate_id": "05acfd78bb1aa177095f0c9a370362acd21f0ffe077130452116c845427c5bcc",
+        "checks": [{
+          "check_id": "depth-control",
+          "evidence_refs": ["evidence:synthetic"],
+          "observation": "synthetic control rejects depth=3",
+          "status": "FAIL"
+        }],
+        "object_id": "Object:demo-fire-field",
+        "op": "BURN",
+        "outcome": "ASH",
+        "stage": "ASH",
+        "verification": "REFUTED_LOCAL"
+      },
+      {
+        "candidate_id": "ea4a39a8d383178205a7b6478c657e85d62b281719634dc09c75f2da6eb13a1d",
+        "mutations": [{
+          "after": 1,
+          "before": 2,
+          "direction": "OUTWARD",
+          "operator": "SIMPLIFY",
+          "path": "system.depth"
+        }],
+        "object_id": "Object:demo-fire-field",
+        "op": "GENERATE",
+        "stage": "FUEL",
+        "verification": "GENERATED",
+        "wide": false
+      },
+      {
+        "candidate_id": "ea4a39a8d383178205a7b6478c657e85d62b281719634dc09c75f2da6eb13a1d",
+        "checks": [{
+          "check_id": "depth-control",
+          "evidence_refs": ["evidence:synthetic"],
+          "observation": "synthetic control accepts depth=1",
+          "status": "PASS"
+        }],
+        "object_id": "Object:demo-fire-field",
+        "op": "BURN",
+        "outcome": "EMBER",
+        "stage": "EMBER",
+        "verification": "VERIFIED_LOCAL"
+      },
+      {
+        "candidate_id": "ea4a39a8d383178205a7b6478c657e85d62b281719634dc09c75f2da6eb13a1d",
+        "object_id": "Object:demo-fire-field",
+        "op": "SURVIVOR",
+        "stage": "SURVIVOR",
+        "verification": "VERIFIED_LOCAL"
+      },
+      {
+        "candidate_id": "f1b1386d102a8c240856368f181887f7cf075a53bffca9f86f9a13d9ac124f6a",
+        "from": "ea4a39a8d383178205a7b6478c657e85d62b281719634dc09c75f2da6eb13a1d",
+        "knowledge_patch": {
+          "lesson": "depth=1 survived this bounded synthetic control"
+        },
+        "object_id": "Object:demo-fire-field",
+        "op": "RECONSTITUTE",
+        "stage": "RECONSTITUTE",
+        "verification": "VERIFIED_LOCAL"
+      },
+      {
+        "candidate_id": "35efb1715bffba1de937c0b104bd93a505e89db05478fcd74d569667b7415ada",
+        "from": "f1b1386d102a8c240856368f181887f7cf075a53bffca9f86f9a13d9ac124f6a",
+        "object_id": "Object:demo-fire-field",
+        "op": "HOMEWARD",
+        "stage": "HOMEWARD",
+        "to_root_surface": true,
+        "verification": "VERIFIED_LOCAL"
+      },
+      {
+        "after": "35efb1715bffba1de937c0b104bd93a505e89db05478fcd74d569667b7415ada",
+        "before": "aeb0a1afd232794b26a5188a2f9bfaae6fa8b18fbb7cc4ce2ba6a7abade4b1f5",
+        "delta": {
+          "changed_paths": [],
+          "note": "no consequential difference in the declared tested scope",
+          "protected_violations": [],
+          "status": "DELTA_ZERO",
+          "unresolved": []
+        },
+        "op": "COMPARE"
+      },
+      {
+        "candidate_id": "35efb1715bffba1de937c0b104bd93a505e89db05478fcd74d569667b7415ada",
+        "delta": {
+          "changed_paths": [],
+          "note": "no consequential difference in the declared tested scope",
+          "protected_violations": [],
+          "status": "DELTA_ZERO",
+          "unresolved": []
+        },
+        "object_id": "Object:demo-fire-field",
+        "op": "DELTA_ZERO_NO_CHANGE",
+        "stage": "CLOSED",
+        "verification": "VERIFIED_LOCAL"
+      }
+    ]
+  },
+  "music_pulses": [
+    {"bar": 1, "beat": 1, "index": 0, "operator": "OBSERVE", "phase": "0.000000s"},
+    {"bar": 1, "beat": 2, "index": 1, "operator": "BURN", "phase": "0.555556s"},
+    {"bar": 1, "beat": 3, "index": 2, "operator": "REOBSERVE", "phase": "1.111111s"},
+    {"bar": 1, "beat": 4, "index": 3, "operator": "REST", "phase": "1.666667s"},
+    {"bar": 2, "beat": 1, "index": 4, "operator": "OBSERVE", "phase": "2.222222s"},
+    {"bar": 2, "beat": 2, "index": 5, "operator": "BURN", "phase": "2.777778s"},
+    {"bar": 2, "beat": 3, "index": 6, "operator": "REOBSERVE", "phase": "3.333333s"},
+    {"bar": 2, "beat": 4, "index": 7, "operator": "REST", "phase": "3.888889s"}
+  ],
+  "opposites_bounds_transitions": {
+    "lower": -1.0,
+    "midpoint": 0.0,
+    "opposite": -0.25,
+    "regime": "BETWEEN",
+    "upper": 1.0,
+    "value": 0.25
+  },
+  "recommendation_after_learning": ["SIMPLIFY", "OUTWARD"],
+  "schema": "fire-music-dance-audit/v1",
+  "status": "PASS",
+  "survivor_count": 1,
+  "synthetic_only": true,
+  "tests": {
+    "errors": 0,
+    "failures": 0,
+    "pass": true,
+    "run": 13
+  }
+}
