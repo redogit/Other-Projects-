@@ -62,10 +62,59 @@ def _strict_json(text: str, label: str) -> Any:
     def reject_constant(value: str) -> None:
         raise ValueError(f"{label} must be finite JSON, got {value}")
 
+    def finite_float(value: str) -> float:
+        number = float(value)
+        if not math.isfinite(number):
+            raise ValueError(f"{label} must be finite JSON, got {value}")
+        return number
+
+    def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        result: dict[str, Any] = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError(f"{label} contains duplicate JSON key {key!r}")
+            result[key] = value
+        return result
+
     try:
-        return json.loads(text, parse_constant=reject_constant)
+        return json.loads(
+            text,
+            parse_constant=reject_constant,
+            parse_float=finite_float,
+            object_pairs_hook=unique_object,
+        )
     except (json.JSONDecodeError, TypeError) as exc:
         raise ValueError(f"{label} must be valid JSON: {exc}") from exc
+
+
+def _freeze_json(value: Any) -> Any:
+    """Freeze parsed JSON containers without adding recursive call depth."""
+    if not isinstance(value, (dict, list)):
+        return value
+
+    frozen: dict[int, Any] = {}
+    pending = [(value, False)]
+
+    def frozen_child(item: Any) -> Any:
+        return frozen[id(item)] if isinstance(item, (dict, list)) else item
+
+    # Post-order traversal keeps nested JSON within the decoder's depth limit.
+    while pending:
+        current, expanded = pending.pop()
+        if not expanded:
+            pending.append((current, True))
+            children = current.values() if isinstance(current, dict) else current
+            pending.extend(
+                (item, False) for item in children if isinstance(item, (dict, list))
+            )
+        elif isinstance(current, dict):
+            frozen[id(current)] = MappingProxyType(
+                {key: frozen_child(item) for key, item in current.items()}
+            )
+        else:
+            frozen[id(current)] = tuple(frozen_child(item) for item in current)
+
+    return frozen[id(value)]
 
 
 def _json_string(text: str, label: str) -> str:
@@ -86,7 +135,10 @@ def _cost(text: str) -> float:
     value = _strict_json(text, "COST")
     if isinstance(value, bool) or not isinstance(value, (int, float)):
         raise ValueError("COST must be a non-negative finite JSON number")
-    number = float(value)
+    try:
+        number = float(value)
+    except OverflowError as exc:
+        raise ValueError("COST must be a non-negative finite JSON number") from exc
     if not math.isfinite(number) or number < 0:
         raise ValueError("COST must be a non-negative finite JSON number")
     return number
@@ -96,7 +148,8 @@ def _clean_lines(program: str) -> list[str]:
     if not isinstance(program, str):
         raise TypeError("RMAPL program must be text")
     lines = []
-    for raw in program.splitlines():
+    # Unicode separators inside JSON strings are data, not instruction breaks.
+    for raw in re.split(r"\r\n|\r|\n", program):
         line = raw.strip()
         if not line or line.startswith("#"):
             continue
@@ -157,7 +210,7 @@ def parse_rmapl(program: str) -> Program:
                 version=RMAPL_VERSION,
                 program_id=program_id,
                 load_ref=load_ref,
-                bounds=MappingProxyType(dict(bounds)),
+                bounds=_freeze_json(bounds),
                 repairs=tuple(repairs),
                 fitters=tuple(fitters),
             )
@@ -208,7 +261,7 @@ def parse_rmapl(program: str) -> Program:
             preserves = _string_array(next_line("PRESERVES ", "PRESERVES"), "PRESERVES")
             objectives_raw = _strict_json(next_line("OBJECTIVES ", "OBJECTIVES"), "OBJECTIVES")
             if not isinstance(objectives_raw, dict) or any(
-                not isinstance(key, str) or value not in {"max", "min"}
+                not isinstance(key, str) or not isinstance(value, str) or value not in {"max", "min"}
                 for key, value in objectives_raw.items()
             ):
                 raise ValueError("OBJECTIVES must be a JSON object mapping names to 'max' or 'min'")
