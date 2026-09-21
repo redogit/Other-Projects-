@@ -1,7 +1,7 @@
 {
   "schema_version": "fig5-family-recovery-contract/v0.11",
   "experiment_id": "FIG-5",
-  "status": "PREREGISTERED_NOT_EXECUTED",
+  "status": "INCONCLUSIVE_VERIFICATION_CAP_BLOCKED",
   "date": "2026-09-20",
   "authority": {
     "linear_issue": "FIG-5",
@@ -430,8 +430,14 @@
       "oracle_cap_exhaustion_result": "UNKNOWN",
       "oracle_cap_exhaustion_is_hard_core": false,
       "cap_scaling_with_n": "FORBIDDEN",
-      "open": true,
-      "executed": false
+      "open": false,
+      "executed": true,
+      "sealed": true,
+      "receipt_path": "P versus NP Repair Lab/decision_field/FIG5_V020_ADMIT_RECEIPT.json",
+      "receipt_commit": "5cfc378c099896b8a5debd6b3113756a7ed96785",
+      "admitted_rows": 10,
+      "unadmitted_rows": 20,
+      "admitted_validation_rows": 0
     }
   },
   "calibration_and_validation": {
@@ -526,12 +532,15 @@
     "OFFICIAL_INPUT_MATERIALIZATION != ACTIVE_DP_EXECUTION",
     "DELTA_ONE_VARIABLE != ONE_CLAUSE_PERTURBATION",
     "ONE_GENERATOR_DEGREE != ONE_SURFACE_EDIT",
-    "INPUT_FAMILY_DIAGNOSTIC != DP_EXPLANATION"
+    "INPUT_FAMILY_DIAGNOSTIC != DP_EXPLANATION",
+    "ZERO_ADMITTED_VALIDATION_ROWS != CHI_DP_FAILURE",
+    "ZERO_ADMITTED_VALIDATION_ROWS != CHI_DP_SUCCESS",
+    "VERIFIER_DESIGN_FAILURE != COMPLEXITY_EVIDENCE"
   ],
   "current_stop": {
-    "completed_step": "sealed VERIFY",
+    "completed_step": "seal FIG-5 v0.11 as INCONCLUSIVE_VERIFICATION_CAP_BLOCKED",
     "experiment_executed": true,
-    "next_one_degree_step": "execute ADMIT only: admit iff active status is SAT/UNSAT, DP160 status is SAT/UNSAT, both equal brute-force truth, and provenance identities match; no fitting or claim promotion in the same computation"
+    "next_one_degree_step": "preregister a fresh successor family before materialization: keep v0.17 constructor, v0.20 active solver, chi_DP, controls and 80 cap frozen; replace admission verifier with complete brute-force truth on n<=13; retain DP160 only as diagnostic; use a new seed namespace because v0.11 validation rows are consumed"
   },
   "locality_parity": {
     "version": "FIG5-locality-v0.19-official-materialization",
@@ -660,6 +669,13 @@
       "receipt_commit": "fee2541de85ef475fec90fcd2be3064be4a9aca2",
       "full_verify_sha256": "ea8c2c702d052f0f3314dfd468bcbc103df74ac7532458686e80049153a1a391",
       "admit_open": false
+    },
+    {
+      "event": "V0_20_ADMIT_AND_V011_CLOSE",
+      "result": "10/30 rows admitted; all 10 are calibration rows and zero locked validation rows are admitted. Therefore the preregistered held-out structural-collapse comparison is not executable. v0.11 closes INCONCLUSIVE_VERIFICATION_CAP_BLOCKED; chi_DP is neither confirmed nor falsified on admitted validation evidence.",
+      "admit_receipt_commit": "5cfc378c099896b8a5debd6b3113756a7ed96785",
+      "bounded_structural_collapse": "UNRESOLVED",
+      "p_vs_np": "OPEN"
     }
   ],
   "delta_binding_witness": {
@@ -952,5 +968,42 @@
     },
     "negative_evidence": "active UNKNOWN trace omitted blocked-next-variable; sidecar reconstructs cap event but does not alter sealed active result",
     "receipt_commit": "fee2541de85ef475fec90fcd2be3064be4a9aca2"
+  },
+  "final_v011_result": {
+    "status": "INCONCLUSIVE_VERIFICATION_CAP_BLOCKED",
+    "generate": {
+      "rows": 30,
+      "SAT": 27,
+      "UNSAT": 2,
+      "UNKNOWN": 1
+    },
+    "verify": {
+      "dp160_SAT": 9,
+      "dp160_UNSAT": 1,
+      "dp160_UNKNOWN": 20,
+      "truth_SAT": 28,
+      "truth_UNSAT": 2,
+      "resolved_disagreements": 0
+    },
+    "admit": {
+      "admitted": 10,
+      "not_admitted": 20,
+      "validation_admitted": 0
+    },
+    "primary_analysis": {
+      "status": "NOT_EXECUTABLE",
+      "reason": "all 15 locked validation rows are unadmitted under the preregistered DP160 admission gate",
+      "bounded_structural_collapse": "UNRESOLVED",
+      "chi_DP": "NEITHER_CONFIRMED_NOR_FALSIFIED_BY_ADMITTED_VALIDATION"
+    },
+    "interpretation": "The frozen independent validation cap is too restrictive for this official family under its frozen verifier ordering. This is a verification-design failure for v0.11, not complexity evidence and not a chi_DP result.",
+    "boundaries": [
+      "ZERO_ADMITTED_VALIDATION_ROWS != CHI_DP_FAILURE",
+      "ZERO_ADMITTED_VALIDATION_ROWS != CHI_DP_SUCCESS",
+      "VERIFIER_CAP_EXHAUSTION != HARD_CORE",
+      "INCONCLUSIVE != FALSE",
+      "FIG5_RESULT != P_VS_NP_RESULT",
+      "P ?= NP = OPEN"
+    ]
   }
 }
