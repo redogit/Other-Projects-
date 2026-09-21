@@ -125,7 +125,10 @@
       "SEED_COLLISION != PERMISSION_TO_RESEED",
       "CONSTRUCTOR_SOURCE_HASH_MISMATCH != PERMISSION_TO_DERIVE",
       "RUNTIME_IDENTITY_RECOVERED != RUNTIME_BYTES_EXECUTABLE_HERE",
-      "OFFICIAL_INPUT_MATERIALIZATION != ACTIVE_DP_EXECUTION"
+      "OFFICIAL_INPUT_MATERIALIZATION != ACTIVE_DP_EXECUTION",
+      "DELTA_ONE_VARIABLE != ONE_CLAUSE_PERTURBATION",
+      "ONE_GENERATOR_DEGREE != ONE_SURFACE_EDIT",
+      "INPUT_FAMILY_DIAGNOSTIC != DP_EXPLANATION"
     ]
   },
   "one_degree_family": {
@@ -279,6 +282,35 @@
         "verify": "NOT_RUN",
         "admit": "NOT_OPEN"
       }
+    },
+    "pre_execution_structural_confound": {
+      "status": "FROZEN_INPUT_FAMILY_DIAGNOSTIC",
+      "source_path": "P versus NP Repair Lab/decision_field/FIG5_V019_STRUCTURAL_BURN.json",
+      "source_commit": "5122befb9c2dfdca3754aeeb9b9ae35bd998d9b5",
+      "finding": {
+        "mean_old_clauses_displaced": 6.92,
+        "range_old_clauses_displaced": [
+          3,
+          12
+        ],
+        "mean_fresh_variable_clauses_selected": 10.52,
+        "range_fresh_variable_clauses_selected": [
+          6,
+          16
+        ],
+        "mean_replacement_amplification_vs_net_clause_growth": 2.97,
+        "range_replacement_amplification_vs_net_clause_growth": [
+          1.75,
+          4.666666666666667
+        ],
+        "mean_fresh_fraction_of_new_formula": 0.2745308170090779,
+        "range_fresh_fraction_of_new_formula": [
+          0.14285714285714285,
+          0.4375
+        ]
+      },
+      "interpretation": "delta=1 changes one generator coordinate (variable-count size) but is not a one-clause or one-local-edit perturbation on the formula surface; common-priority shell entry can displace old clauses.",
+      "promotion": "NON_PROMOTABLE_INPUT_FAMILY_DIAGNOSTIC_IN_V0_11"
     }
   },
   "primary_quantity": {
@@ -440,7 +472,10 @@
     "SEED_COLLISION != PERMISSION_TO_RESEED",
     "CONSTRUCTOR_SOURCE_HASH_MISMATCH != PERMISSION_TO_DERIVE",
     "RUNTIME_IDENTITY_RECOVERED != RUNTIME_BYTES_EXECUTABLE_HERE",
-    "OFFICIAL_INPUT_MATERIALIZATION != ACTIVE_DP_EXECUTION"
+    "OFFICIAL_INPUT_MATERIALIZATION != ACTIVE_DP_EXECUTION",
+    "DELTA_ONE_VARIABLE != ONE_CLAUSE_PERTURBATION",
+    "ONE_GENERATOR_DEGREE != ONE_SURFACE_EDIT",
+    "INPUT_FAMILY_DIAGNOSTIC != DP_EXPLANATION"
   ],
   "current_stop": {
     "completed_step": "materialize and structurally attack the five official seeds and 30-row v0.19 input family",
@@ -543,6 +578,13 @@
       "manifest_commit": "dbd11326f22a70d037b4e32a738e9893a69ec266",
       "manifest_sha256": "e7cc604244ececbfa32685ec9201e56cdf895d396c9c842578dea2888646ae8f",
       "evidence_archive_sha256": "53a89359811b147c7205cae1a97921b34678eafd46a4ae2b51338d39f363e7eb"
+    },
+    {
+      "event": "V0_19_PRE_EXECUTION_SHELL_DISPLACEMENT_DIAGNOSTIC",
+      "result": "Before any active DP or verifier outcome was observed, the official v0.19 family was audited for surface locality. A +1 variable step selects 6-16 fresh-variable clauses and displaces 3-12 old clauses across the 25 adjacent transitions. This is frozen as an input-family confound, not promoted as an explanatory quantity.",
+      "source_commit": "5122befb9c2dfdca3754aeeb9b9ae35bd998d9b5",
+      "active_dp_run": false,
+      "verifier_run": false
     }
   ],
   "delta_binding_witness": {
