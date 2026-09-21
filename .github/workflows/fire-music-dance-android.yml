@@ -1,17 +1,13 @@
-name: FIRE Music Dance Android
-
+name: W114 Perturbation Android
 on:
   pull_request:
     paths:
       - "android/fire-music-dance/**"
-      - "Decision Field Operator Lab/live-fire-field/**"
-      - "Decision Field Operator Lab/hodge-fire-game/**"
+      - "Decision Field Operator Lab/hodge-perturbation-game/**"
       - ".github/workflows/fire-music-dance-android.yml"
   workflow_dispatch:
-
 permissions:
   contents: read
-
 jobs:
   build-apk:
     runs-on: ubuntu-latest
@@ -19,41 +15,30 @@ jobs:
       ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: "17"
-
+        with: {distribution: temurin, java-version: "17"}
       - name: Install Android SDK 35
         shell: bash
         run: |
           SDKMANAGER="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
           yes | "$SDKMANAGER" --licenses >/dev/null || true
           "$SDKMANAGER" "platforms;android-35" "build-tools;35.0.0"
-
       - uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: "8.10.2"
-
-      - name: Verify local-only Android contract
+        with: {gradle-version: "8.10.2"}
+      - name: Verify Android contract
         working-directory: android/fire-music-dance
         run: python verify_project.py
-
-      - name: Verify Hodge game source contract
-        run: python -m unittest "Decision Field Operator Lab/test_hodge_fire_game.py" -v
-
+      - name: Verify W114 game contract
+        run: python -m unittest "Decision Field Operator Lab/test_hodge_perturbation_game.py" -v
       - name: Verify JavaScript syntax
         run: |
-          node --check "Decision Field Operator Lab/hodge-fire-game/game.js"
+          node --check "Decision Field Operator Lab/hodge-perturbation-game/game.js"
           node --check "android/fire-music-dance/app/src/main/assets/game.js"
-
       - name: Build debug APK
         working-directory: android/fire-music-dance
         run: gradle :app:assembleDebug --stacktrace
-
       - uses: actions/upload-artifact@v4
         with:
-          name: Five-Eyes-Fermat-FIRE-debug-apk
+          name: W114-Perturbation-Lab-debug-apk
           path: android/fire-music-dance/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error

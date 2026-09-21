@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.redogit.firemusicdance'
+    namespace 'com.redogit.w114perturbation'
     compileSdk 35
 
     defaultConfig {
-        applicationId 'com.redogit.firemusicdance'
+        applicationId 'com.redogit.w114perturbation'
         minSdk 26
         targetSdk 35
         versionCode 1

@@ -1,4 +1,4 @@
-package com.redogit.firemusicdance;
+package com.redogit.w114perturbation;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -117,14 +117,14 @@ public class MainActivity extends Activity {
         public void copyText(String text) {
             runOnUiThread(() -> {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                clipboard.setPrimaryClip(ClipData.newPlainText("FIRE Music Dance state", text));
+                clipboard.setPrimaryClip(ClipData.newPlainText("W114 perturbation state", text));
                 toast("Copied to clipboard");
             });
         }
 
         @JavascriptInterface
         public void saveJson(String filename, String json) {
-            pendingFilename = (filename == null || filename.isBlank()) ? "fire-live-state.json" : filename;
+            pendingFilename = (filename == null || filename.isBlank()) ? "w114-perturbation-state.json" : filename;
             pendingJson = json == null ? "{}\n" : json;
             runOnUiThread(() -> {
                 Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
@@ -141,7 +141,7 @@ public class MainActivity extends Activity {
                 Intent share = new Intent(Intent.ACTION_SEND);
                 share.setType("text/plain");
                 share.putExtra(Intent.EXTRA_TEXT, text);
-                startActivity(Intent.createChooser(share, "Share FIRE state"));
+                startActivity(Intent.createChooser(share, "Share W114 state"));
             });
         }
 

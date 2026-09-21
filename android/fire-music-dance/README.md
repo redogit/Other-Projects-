@@ -1,19 +1,4 @@
-# FIRE Music Dance / Five Eyes W114 — Local Android App
+# W114 Perturbation Lab — Android
+Local Android build of the W114 candidate-stability game. No INTERNET permission. State remains local unless explicitly exported. JSON import/export, clipboard transfer, haptics, and resizable/foldable display support remain enabled.
 
-The Android app now opens the **Five Eyes Fermat FIRE scientific game** as its main surface.
-
-- no INTERNET permission;
-- W114 game assets bundled on-device;
-- touch/drag, haptic FIRE/Music pulses, Homeward and local state;
-- system JSON import/export through the Android Storage Access Framework;
-- old generic FIRE live surface remains preserved in the repository as a predecessor/debug carrier.
-
-Build:
-
-\`\`\`sh
-gradle :app:assembleDebug
-\`\`\`
-
-The generated debug APK is an implementation artifact, not Hodge evidence.
-
-\`APK_BUILD_PASS != DEVICE_RUNTIME_PASS != MATHEMATICAL_PROOF\`.
+Boundaries: APK_BUILD_PASS != DEVICE_RUNTIME_PASS; ROBUST_GAME_CANDIDATE != ALGEBRAIC_CYCLE; SOFTWARE_VERIFICATION != MATHEMATICAL_PROOF.
