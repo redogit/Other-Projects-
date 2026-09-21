@@ -17,18 +17,21 @@
     "locality_parity_version": "MOK-v0.13-locality-parity",
     "locality_parity_archive_sha256": "37b477d86672df0e679384af95f4d83231a14cd72d4448acb58758dce9fa1fc4",
     "correction_rule": "SOURCE_FACT != CONTRACT_PARAMETER_UNLESS_BOUND",
-    "locality_parity_successor": "FIG5-locality-v0.16-constructor-freeze",
+    "locality_parity_successor": "FIG5-locality-v0.17-constructor-repair",
     "nstar_binding_receipt_sha256": "682bbcf6ed83e6d3f3264b7ca41257e60c64dc56b4c0fc331057808a845d440d",
     "nstar_binding_authority": "Explicit current approval of the already-frozen FIG-5 plan definition plus exact recovered v0.10 source; private approval text is not exported.",
     "delta_binding_witness_sha256": "2b1b2d04819f262ab5d8d8fd654a5c550a3978fa8bd8d75a9737322aacb5df09",
     "delta_binding_successor_archive_sha256": "4f33e806735b4b0bfe8a3f7860252ced1a5666a0f4da88ce828c3a0abc27bffe",
     "delta_binding_authority": "Current user-requested exact family-preserving increment witness; delta is derived from one-fresh-variable cardinality, not integer adjacency.",
-    "family_constructor_path": "P versus NP Repair Lab/decision_field/fig5_family_dynamics_v016.py",
-    "family_constructor_commit": "c7003c0bb168f6e45c5d6f962c1b761ab9c3e3b5",
-    "family_constructor_github_blob_sha": "b314b90d2f731a5a401a11429061a57ee3f9cd37",
-    "family_constructor_verified_local_sha256": "78c00a370a8f46b69230f2bc8735724e001d7596513178c970dfc40802ec915e",
-    "family_constructor_selftest_sha256": "d05c93c91240c315d03edd65fe173e46f47a068243b14813d4e841083d42d62c",
-    "locality_parity_successor_archive_sha256": "a7148ee988bd7be7d09bf3fb84199399241e4073cc4ea5d4bc79f181baa250d2"
+    "family_constructor_path": "P versus NP Repair Lab/decision_field/fig5_family_dynamics_v017.py",
+    "family_constructor_commit": "700d4cf84cc09f1c95db0bffb37cd6aceda53892",
+    "family_constructor_github_blob_sha": "a1585e65f4228d6ad940b36fc7be31f7de9a5605",
+    "family_constructor_verified_local_sha256": "9b9f274513bb83e61643a7bcf515553888a354c625cb2e7ac7c4e5648200c4dd",
+    "family_constructor_selftest_sha256": "3e254b98bdb25ef6585a41c9ab2379237c9bf991ab9bb2563276f38cbc35c284",
+    "locality_parity_successor_archive_sha256": "a7148ee988bd7be7d09bf3fb84199399241e4073cc4ea5d4bc79f181baa250d2",
+    "family_constructor_stress_sha256": "2161a6fabd315cab3e643c0a4e3b3fa2537abbd82994f1b7822aa3296683be38",
+    "family_constructor_reference_check_sha256": "a6b1f4709c52b3e51a33c4f1b4d4c106a55ecab2b3bd46a8fc5088e0eefd7a5f",
+    "family_constructor_evidence_archive_sha256": "453fcefe7e4d8cebf780514d42efd75d58bc5be7ec47c26c2b8881f39d89e064"
   },
   "recovered_v0_10_checkpoint": {
     "adaptive_evaluations": 141,
@@ -76,12 +79,12 @@
       "family_manifest": "NOT_MATERIALIZED",
       "family_executed": false,
       "delta_rule": "BOUND: delta is the exact variable-set cardinality increase under the verified one-fresh-variable parity extension; the carrier label of the fresh variable is not the binding argument.",
-      "family_constructor": "FROZEN_V0_16_COMMON_HASH_STREAM",
+      "family_constructor": "FROZEN_V0_17_CLAUSE_PRIORITY",
       "block_seed_rule": "NOT_YET_FROZEN"
     },
     "execution_blocked_until": [
-      "freeze the five-block seed derivation rule without inspecting solver/verifier outcomes",
-      "materialize and hash the 30-row family manifest from the already-frozen constructor plus seed rule",
+      "freeze the five-block seed derivation rule without inspecting any generated official family member or solver/verifier outcome",
+      "materialize and hash the 30-row family manifest from the already-frozen v0.17 constructor plus frozen seed rule",
       "only then open GENERATE"
     ],
     "boundaries": [
@@ -95,7 +98,10 @@
       "CONSTRUCTOR_FROZEN != BLOCK_SEED_RULE_FROZEN",
       "SOFTWARE_SELF_TEST != FAMILY_EXECUTION",
       "ANCHOR_SIZE_CENTER != ANCHOR_FORMULA_MEMBER",
-      "COMMON_STREAM_FAMILY != NESTED_FAMILY"
+      "COMMON_STREAM_FAMILY != NESTED_FAMILY",
+      "TARGET_DENSITY_PARAMETER != REALIZED_DENSITY_AT_ODD_N",
+      "COMMON_PRIORITY != NESTED_MEMBERSHIP",
+      "SYNTHETIC_STRESS != OFFICIAL_SEED_VALIDITY"
     ]
   },
   "one_degree_family": {
@@ -125,29 +131,42 @@
     ],
     "invalid_low_n_rule": "shift entire six-level ladder upward before execution; do not edit individual levels after results",
     "adaptation_after_validation_opened": "FORBIDDEN",
-    "family_constructor_status": "FROZEN_V0_16",
+    "family_constructor_status": "FROZEN_V0_17",
     "block_seed_rule_status": "NOT_YET_FROZEN",
     "inputs_materialized": false,
     "n_star_status": "BOUND_BY_APPROVED_PLAN_PLUS_EXACT_SOURCE",
     "delta_status": "BOUND_BY_EXACT_FAMILY_PRESERVING_INCREMENT_WITNESS",
     "execution_allowed": false,
     "anchor_n": 10,
-    "selected_construction": "fallback_common_hash_stream",
-    "selected_construction_version": "FIG5-common-stream-3cnf/v0.16",
-    "selected_construction_reason": "The exact XOR extension remains a delta witness/carrier control, but repeated definitional extension would hold the semantic core fixed. The preregistered fallback common-stream construction is selected for the primary scientific family.",
+    "selected_construction": "fallback_common_clause_priority",
+    "selected_construction_version": "FIG5-clause-priority-3cnf/v0.17",
+    "selected_construction_reason": "v0.16 preserved the fallback common-stream intent but adversarial review exposed an executable describe-path typo, an overbroad n-domain with a guaranteed n=3 nontermination case, a latent nested retry-state nontermination path, an unused-namespace common-stream self-test, and size-dependent coverage-scaffold confounds. v0.17 preserves one n-independent SHA-256 priority per canonical eligible clause, selects a finite bottom-m set, fails closed on missing active support, and has no unbounded candidate/retry loop.",
     "constructor_contract": {
       "changing_degree_within_block": "n only",
+      "allowed_n": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
       "width": 3,
-      "clause_density_exact": "7/2",
+      "target_density_parameter": "7/2",
       "density_design_basis": "retained v0.10 anchor has 35 canonical clauses / 10 active variables; continuity design choice, not inherited family validity",
       "clause_count_law": "round_half_up((7/2)*n)",
-      "active_variable_coverage": "exact variables 1..n must all occur",
-      "stream": "SHA-256 domain-separated deterministic stream",
-      "seed_role": "external block coordinate; rule not frozen in v0.16",
+      "realized_density_rule": "target_clause_count(n)/n; odd n is not exactly 7/2",
+      "active_variable_coverage": "exact variables 1..n must all occur; missing support is a fail-closed structural precondition failure and is never repaired by seed search or clause injection",
+      "common_random_object": "n-independent SHA-256 priority assigned to every canonical eligible width-3 clause",
+      "priority_namespace": "FIG5/CLAUSE-PRIORITY/v0.17",
+      "selection": "enumerate finite canonical clause universe over 1..n and select the lowest target_clause_count(n) priorities; digest bytes then canonical clause bytes tie-break",
+      "seed_role": "external block coordinate; five-block derivation rule not frozen in v0.17",
       "generation_feedback": "none from active solver or verifier",
+      "termination": "finite enumeration plus finite sort; no unbounded candidate/retry loop",
       "nested": false,
+      "common_priority_membership_rule": "old eligible clauses retain identical priorities as n grows, but newly eligible clauses may displace them",
       "anchor_formula_membership": false,
-      "source_path": "P versus NP Repair Lab/decision_field/fig5_family_dynamics_v016.py"
+      "source_path": "P versus NP Repair Lab/decision_field/fig5_family_dynamics_v017.py"
     }
   },
   "primary_quantity": {
@@ -300,16 +319,19 @@
     "CONSTRUCTOR_FROZEN != BLOCK_SEED_RULE_FROZEN",
     "SOFTWARE_SELF_TEST != FIG5_FAMILY_EXECUTION",
     "ANCHOR_SIZE_CENTER != ANCHOR_FORMULA_MEMBER",
-    "COMMON_STREAM_FAMILY != NESTED_FAMILY"
+    "COMMON_STREAM_FAMILY != NESTED_FAMILY",
+    "TARGET_DENSITY_PARAMETER != REALIZED_DENSITY_AT_ODD_N",
+    "COMMON_PRIORITY != NESTED_MEMBERSHIP",
+    "SYNTHETIC_STRESS != OFFICIAL_SEED_VALIDITY"
   ],
   "current_stop": {
-    "completed_step": "freeze deterministic scientific family constructor",
+    "completed_step": "adversarially repair and freeze deterministic scientific family constructor as v0.17 clause-priority finite-universe construction",
     "experiment_executed": false,
-    "next_one_degree_step": "freeze the five-block seed derivation rule; do not materialize the 30 rows and do not execute GENERATE yet"
+    "next_one_degree_step": "freeze the five-block seed derivation rule without deriving official rows, materializing the 30-row manifest, or opening GENERATE"
   },
   "locality_parity": {
-    "version": "FIG5-locality-v0.16-constructor-freeze",
-    "status": "PASS_SCOPED_CONSTRUCTOR_FROZEN_SEEDS_UNRESOLVED",
+    "version": "FIG5-locality-v0.17-constructor-repair",
+    "status": "PASS_SCOPED_CONSTRUCTOR_V017_FROZEN_SEEDS_UNRESOLVED",
     "scope": "private local working filesystem + Library + read-only pinned external receipts",
     "n_star_status": "BOUND_10",
     "delta_status": "BOUND_1_BY_EXACT_INCREMENT_WITNESS",
@@ -321,9 +343,9 @@
     "user_device_updated": false,
     "domain_firewall": "PNP and HODGE remain separate native authorities; shared method only",
     "binding_receipt_sha256": "682bbcf6ed83e6d3f3264b7ca41257e60c64dc56b4c0fc331057808a845d440d",
-    "successor_archive_sha256": "a7148ee988bd7be7d09bf3fb84199399241e4073cc4ea5d4bc79f181baa250d2",
+    "successor_archive_sha256": "453fcefe7e4d8cebf780514d42efd75d58bc5be7ec47c26c2b8881f39d89e064",
     "delta_binding_witness_sha256": "2b1b2d04819f262ab5d8d8fd654a5c550a3978fa8bd8d75a9737322aacb5df09",
-    "family_constructor_status": "FROZEN_V0_16_COMMON_HASH_STREAM",
+    "family_constructor_status": "FROZEN_V0_17_CLAUSE_PRIORITY",
     "block_seed_rule_status": "NOT_YET_FROZEN",
     "family_manifest_status": "NOT_MATERIALIZED",
     "family_executed": false
@@ -362,6 +384,20 @@
       "family_executed": false,
       "source_commit": "c7003c0bb168f6e45c5d6f962c1b761ab9c3e3b5",
       "successor_archive_sha256": "a7148ee988bd7be7d09bf3fb84199399241e4073cc4ea5d4bc79f181baa250d2"
+    },
+    {
+      "event": "V0_17_ADVERSARIAL_CONSTRUCTOR_REPAIR",
+      "result": "v0.16 adversarial review exposed executable and scientific-control residuals before official seed freeze. The primary constructor is replaced by a finite complete width-3 clause universe with one n-independent SHA-256 priority per clause and bottom-m selection. Missing active support fails closed; no seed search or adaptive repair is allowed.",
+      "n_star": 10,
+      "delta": 1,
+      "predecessor_constructor": "FROZEN_V0_16_COMMON_HASH_STREAM",
+      "family_constructor": "FROZEN_V0_17_CLAUSE_PRIORITY",
+      "block_seed_rule": "NOT_YET_FROZEN",
+      "family_manifest": "NOT_MATERIALIZED",
+      "family_executed": false,
+      "official_seeds_derived": false,
+      "source_commit": "700d4cf84cc09f1c95db0bffb37cd6aceda53892",
+      "evidence_archive_sha256": "453fcefe7e4d8cebf780514d42efd75d58bc5be7ec47c26c2b8881f39d89e064"
     }
   ],
   "delta_binding_witness": {
@@ -451,7 +487,8 @@
     ]
   },
   "family_constructor_verification": {
-    "status": "SOFTWARE_SELF_TEST_PASS",
+    "status": "SOFTWARE_SELF_TEST_AND_SYNTHETIC_STRESS_PASS",
+    "constructor_version": "FIG5-clause-priority-3cnf/v0.17",
     "tested_levels": [
       8,
       9,
@@ -461,20 +498,66 @@
       13
     ],
     "test_seed": "TEST-ONLY-NOT-A-FIG5-BLOCK",
-    "determinism": true,
-    "exact_active_variable_coverage": true,
-    "all_clauses_width_3": true,
-    "clause_count_law": true,
-    "distinct_level_digests": true,
-    "seed_changes_output": true,
-    "raw_stream_reproducible": true,
-    "recovered_v0_10_canonicalization_parity": true,
-    "first_implementation_residual": "variable identity and signed literal carrier were mixed during duplicate rejection, permitting a same-variable opposite-sign tautology candidate",
-    "repair": "select distinct absolute variable identities first; apply literal signs only after identity selection",
+    "self_test": {
+      "synthetic_seed_count": 256,
+      "synthetic_formula_count": 1536,
+      "structural_failures": 0,
+      "sha256_priority_collisions_observed": 0,
+      "source_sha256": "9b9f274513bb83e61643a7bcf515553888a354c625cb2e7ac7c4e5648200c4dd",
+      "selftest_sha256": "3e254b98bdb25ef6585a41c9ab2379237c9bf991ab9bb2563276f38cbc35c284"
+    },
+    "widened_synthetic_stress": {
+      "synthetic_seed_count": 1000,
+      "synthetic_formula_count": 6000,
+      "structural_failures": 0,
+      "sha256_priority_collisions_observed": 0,
+      "adjacent_pairs": 5000,
+      "mean_exact_clause_jaccard": 0.6184194319035838,
+      "median_exact_clause_jaccard": 0.62,
+      "mean_old_clause_retention": 0.7982516483516483,
+      "mean_old_clauses_displaced": 6.9618,
+      "max_old_clauses_displaced": 19,
+      "evidence_sha256": "2161a6fabd315cab3e643c0a4e3b3fa2537abbd82994f1b7822aa3296683be38",
+      "boundary": "SYNTHETIC_STRESS != OFFICIAL_SEED_VALIDITY"
+    },
+    "independent_reference_reconstruction": {
+      "matched_constructions": 96,
+      "mismatches": 0,
+      "reference_harness_sha256": "a6b1f4709c52b3e51a33c4f1b4d4c106a55ecab2b3bd46a8fc5088e0eefd7a5f"
+    },
+    "exact_properties_checked": [
+      "describe contract path executes",
+      "n domain is exactly 8..13",
+      "determinism",
+      "exact active-variable coverage on synthetic probes",
+      "all clauses width 3 with three distinct variable identities",
+      "finite clause-universe cardinality",
+      "target clause-count law",
+      "same clause has identical priority across n",
+      "different external seeds change output",
+      "finite termination path"
+    ],
     "claim_ceiling": [
       "SOFTWARE_SELF_TEST != FIG5_FAMILY_EXECUTION",
-      "CODEC_CANON_PARITY != FAMILY_VALIDITY",
-      "GENERATOR_FROZEN != EXPERIMENT_EXECUTED"
+      "SYNTHETIC_STRESS != OFFICIAL_SEED_VALIDITY",
+      "CONSTRUCTOR_FROZEN != BLOCK_SEED_RULE_FROZEN",
+      "PARAMETER_BINDING != FAMILY_VALIDITY",
+      "GENERATE != VERIFY != ADMIT",
+      "P ?= NP = OPEN"
     ]
+  },
+  "last_updated": "2026-09-21",
+  "predecessor_v0_16_adversarial_residuals": {
+    "status": "SUPERSEDED_BY_V0_17_CONSTRUCTOR_REPAIR",
+    "source_path": "P versus NP Repair Lab/decision_field/fig5_family_dynamics_v016.py",
+    "residuals": [
+      "describe_contract references DENSITY_DENOMATOR instead of DENSITY_DENOMINATOR, so the contract-description path can fail even while self-test passes",
+      "_validate_n accepts n=3, but target_clause_count(3)=11 exceeds the eight possible canonical non-tautological width-3 clauses on three variables, so generation cannot terminate",
+      "_uniform_index may internally advance the same retry coordinate used by outer duplicate-variable retry without returning the consumed counter, leaving a latent repeat/nontermination path after modulo-bias rejection",
+      "the raw-stream reproducibility self-test uses namespace raw-stream, while generation uses stream-var, stream-sign, coverage-order, and coverage-sign",
+      "7/2 is a target density parameter, not exact realized density at odd n after integer clause-count rounding",
+      "coverage scaffold size changes as ceil(n/3) and its hash-keyed permutation can reshuffle existing variables when n changes, injecting a size-dependent structural confound"
+    ],
+    "evidence_boundary": "V0_16_SOFTWARE_OR_CONTRACT_RESIDUAL != FIG5_FAMILY_RESULT"
   }
 }
