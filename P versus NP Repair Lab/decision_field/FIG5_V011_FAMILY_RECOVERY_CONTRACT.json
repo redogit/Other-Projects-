@@ -370,8 +370,25 @@
       ],
       "active_solver": "FROZEN_FIG5_DP_MIRROR_V0_20",
       "active_solver_lineage_boundary": "MIRROR_V020 != V0_10_ORIGINAL_BYTES",
-      "open": true,
-      "executed": false
+      "open": false,
+      "executed": true,
+      "sealed": true,
+      "result_receipt_path": "P versus NP Repair Lab/decision_field/FIG5_V020_ACTIVE_GENERATE_RECEIPT.json",
+      "result_receipt_commit": "22bd0f5fa0c1c2437dd8cf0fa43f947e9f2af65f",
+      "full_local_trace_sha256": "f6490df2a27c5ed0d6a344da55b690aee1013aec858fc46abf78a62010554d6f",
+      "status_counts": {
+        "SAT": 27,
+        "UNSAT": 2,
+        "UNKNOWN": 1
+      },
+      "unknown_rows": [
+        {
+          "block_id": 2,
+          "n": 13,
+          "executed_generated_resolvents": 57,
+          "cap_crossing_at": 81
+        }
+      ]
     },
     "verify": {
       "independent_validation_cap_resolvents": 160,
@@ -385,7 +402,8 @@
         "change family",
         "change caps"
       ],
-      "open": false
+      "open": false,
+      "executed": false
     },
     "admit": {
       "rule": "admit row only when generation provenance and independent verification agree",
@@ -490,9 +508,9 @@
     "INPUT_FAMILY_DIAGNOSTIC != DP_EXPLANATION"
   ],
   "current_stop": {
-    "completed_step": "freeze v0.20 exact DP mirror before any official active execution",
-    "experiment_executed": false,
-    "next_one_degree_step": "execute active GENERATE on all 30 already-frozen v0.19 inputs with v0.20 cap=80; write immutable trace; do not open VERIFY in the same computation"
+    "completed_step": "execute and seal active GENERATE across all 30 v0.19 rows with frozen v0.20 cap=80",
+    "experiment_executed": true,
+    "next_one_degree_step": "open independent VERIFY only after this sealed GENERATE receipt; run frozen DP160 plus brute-force truth counterprobe without changing generator, solver, ordering, chi_DP, or caps"
   },
   "locality_parity": {
     "version": "FIG5-locality-v0.19-official-materialization",
@@ -605,6 +623,14 @@
       "source_sha256": "b6c6e5c360b2166e43e383c280d33f8f2c48b9a9a763212bc2ec467b62a628c5",
       "official_dp_rows_executed": 0,
       "verify_open": false,
+      "admit_open": false
+    },
+    {
+      "event": "V0_20_ACTIVE_GENERATE_SEALED",
+      "result": "Frozen v0.20 active solver executed all 30 frozen v0.19 inputs with cap 80. Outcomes: 27 SAT, 2 UNSAT, 1 UNKNOWN. The UNKNOWN row is block 2 n=13; 57 resolvents had executed and the next chosen elimination would cross the cap at 81. No verifier was called before the active trace was sealed.",
+      "full_trace_sha256": "f6490df2a27c5ed0d6a344da55b690aee1013aec858fc46abf78a62010554d6f",
+      "receipt_commit": "22bd0f5fa0c1c2437dd8cf0fa43f947e9f2af65f",
+      "verify_run": false,
       "admit_open": false
     }
   ],
@@ -841,5 +867,36 @@
       "mismatches": 0
     },
     "lineage_boundary": "MIRROR_V020 != V0_10_ORIGINAL_BYTES"
+  },
+  "active_generate_result": {
+    "version": "v0.20",
+    "status": "SEALED_VERIFY_NOT_OPEN",
+    "rows": 30,
+    "status_counts": {
+      "SAT": 27,
+      "UNSAT": 2,
+      "UNKNOWN": 1
+    },
+    "generated_resolvents_range": [
+      0,
+      80
+    ],
+    "dp_pair_pressure_range": [
+      0,
+      102
+    ],
+    "planning_pairs_range": [
+      0,
+      1406
+    ],
+    "unknown_row": {
+      "block_id": 2,
+      "n": 13,
+      "generated_before_cap": 57,
+      "next_step_would_reach": 81
+    },
+    "full_trace_sha256": "f6490df2a27c5ed0d6a344da55b690aee1013aec858fc46abf78a62010554d6f",
+    "receipt_commit": "22bd0f5fa0c1c2437dd8cf0fa43f947e9f2af65f",
+    "boundary": "ACTIVE_RESULT != VERIFIED_RESULT"
   }
 }
