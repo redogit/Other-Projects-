@@ -402,18 +402,36 @@
         "change family",
         "change caps"
       ],
-      "open": true,
-      "executed": false,
+      "open": false,
+      "executed": true,
       "verifier_version": "FIG5-DP-MIRROR/v0.20::independent_dp160 + brute_force_sat",
       "validation_dp_cap_resolvents": 160,
-      "truth_counterprobe": "complete brute-force enumeration on frozen n<=13 domain"
+      "truth_counterprobe": "complete brute-force enumeration on frozen n<=13 domain",
+      "sealed": true,
+      "receipt_path": "P versus NP Repair Lab/decision_field/FIG5_V020_VERIFY_RECEIPT.json",
+      "receipt_commit": "fee2541de85ef475fec90fcd2be3064be4a9aca2",
+      "dp160_status_counts": {
+        "SAT": 9,
+        "UNSAT": 1,
+        "UNKNOWN": 20
+      },
+      "truth_status_counts": {
+        "SAT": 28,
+        "UNSAT": 2
+      },
+      "resolved_disagreements": 0,
+      "carrier_validation_rows": 15,
+      "carrier_failures": 0,
+      "carrier_sidecar_sha256": "cf36bbcde0a40864386227c2bc74f1c8f613d53f9d7cfe481566ad42f4447ab1",
+      "full_local_verify_sha256": "ea8c2c702d052f0f3314dfd468bcbc103df74ac7532458686e80049153a1a391"
     },
     "admit": {
       "rule": "admit row only when generation provenance and independent verification agree",
       "oracle_cap_exhaustion_result": "UNKNOWN",
       "oracle_cap_exhaustion_is_hard_core": false,
       "cap_scaling_with_n": "FORBIDDEN",
-      "open": false
+      "open": false,
+      "executed": false
     }
   },
   "calibration_and_validation": {
@@ -511,9 +529,9 @@
     "INPUT_FAMILY_DIAGNOSTIC != DP_EXPLANATION"
   ],
   "current_stop": {
-    "completed_step": "sealed active GENERATE",
+    "completed_step": "execute and seal independent VERIFY after sealed GENERATE",
     "experiment_executed": true,
-    "next_one_degree_step": "execute independent VERIFY on the already-sealed 30 rows; do not ADMIT in the same computation"
+    "next_one_degree_step": "open ADMIT separately; admit only rows whose active result is resolved, DP160 is resolved, and both agree with brute-force truth; keep all UNKNOWN rows unadmitted"
   },
   "locality_parity": {
     "version": "FIG5-locality-v0.19-official-materialization",
@@ -634,6 +652,13 @@
       "full_trace_sha256": "f6490df2a27c5ed0d6a344da55b690aee1013aec858fc46abf78a62010554d6f",
       "receipt_commit": "22bd0f5fa0c1c2437dd8cf0fa43f947e9f2af65f",
       "verify_run": false,
+      "admit_open": false
+    },
+    {
+      "event": "V0_20_VERIFY_SEALED",
+      "result": "Independent DP160 plus complete brute-force truth counterprobe executed only after GENERATE was sealed. DP160 resolved 10/30 rows (9 SAT, 1 UNSAT) and returned UNKNOWN on 20. There were zero disagreements among resolved DP160, active resolved outputs, and brute-force truth. The active UNKNOWN row is SAT by brute force. Carrier counterprobe passed 15/15 validation rows after a trace-completeness sidecar reconstructed the omitted blocked cap event.",
+      "receipt_commit": "fee2541de85ef475fec90fcd2be3064be4a9aca2",
+      "full_verify_sha256": "ea8c2c702d052f0f3314dfd468bcbc103df74ac7532458686e80049153a1a391",
       "admit_open": false
     }
   ],
@@ -901,5 +926,31 @@
     "full_trace_sha256": "f6490df2a27c5ed0d6a344da55b690aee1013aec858fc46abf78a62010554d6f",
     "receipt_commit": "22bd0f5fa0c1c2437dd8cf0fa43f947e9f2af65f",
     "boundary": "ACTIVE_RESULT != VERIFIED_RESULT"
+  },
+  "verify_result": {
+    "status": "SEALED_ADMIT_NOT_OPEN",
+    "rows": 30,
+    "bounded_dp160": {
+      "SAT": 9,
+      "UNSAT": 1,
+      "UNKNOWN": 20
+    },
+    "truth_counterprobe": {
+      "SAT": 28,
+      "UNSAT": 2
+    },
+    "resolved_disagreements": 0,
+    "active_unknown_truth": {
+      "block_id": 2,
+      "n": 13,
+      "truth": "SAT"
+    },
+    "carrier_counterprobe": {
+      "rows": 15,
+      "failures": 0,
+      "sidecar_sha256": "cf36bbcde0a40864386227c2bc74f1c8f613d53f9d7cfe481566ad42f4447ab1"
+    },
+    "negative_evidence": "active UNKNOWN trace omitted blocked-next-variable; sidecar reconstructs cap event but does not alter sealed active result",
+    "receipt_commit": "fee2541de85ef475fec90fcd2be3064be4a9aca2"
   }
 }
