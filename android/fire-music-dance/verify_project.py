@@ -15,5 +15,5 @@ for method in ["copyText","saveJson","shareText","vibrate","runtime"]:
 for token in ["ROOT:W114","EYE:GEO","EYE:HUMAN","ALL_WAYS","BBF_REVERSE","HOMEWARD","GAME_SCORE != MATHEMATICAL_EVIDENCE"]:
     assert token in js
 for control in ["field","pulse","scan","music","home","ledger-toggle"]:
-    assert re.search(r'id=["\\']'+re.escape(control)+r'["\\']',html)
+    assert ('id="' + control + '"') in html
 print("ANDROID_FIVE_EYES_W114_STATIC_CHECKS=PASS")
