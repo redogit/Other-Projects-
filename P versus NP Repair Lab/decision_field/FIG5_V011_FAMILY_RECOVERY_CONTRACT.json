@@ -430,7 +430,7 @@
       "oracle_cap_exhaustion_result": "UNKNOWN",
       "oracle_cap_exhaustion_is_hard_core": false,
       "cap_scaling_with_n": "FORBIDDEN",
-      "open": false,
+      "open": true,
       "executed": false
     }
   },
@@ -529,9 +529,9 @@
     "INPUT_FAMILY_DIAGNOSTIC != DP_EXPLANATION"
   ],
   "current_stop": {
-    "completed_step": "execute and seal independent VERIFY after sealed GENERATE",
+    "completed_step": "sealed VERIFY",
     "experiment_executed": true,
-    "next_one_degree_step": "open ADMIT separately; admit only rows whose active result is resolved, DP160 is resolved, and both agree with brute-force truth; keep all UNKNOWN rows unadmitted"
+    "next_one_degree_step": "execute ADMIT only: admit iff active status is SAT/UNSAT, DP160 status is SAT/UNSAT, both equal brute-force truth, and provenance identities match; no fitting or claim promotion in the same computation"
   },
   "locality_parity": {
     "version": "FIG5-locality-v0.19-official-materialization",
