@@ -18,7 +18,7 @@ The semantic digest is independent of the source filename. Carrier filename and 
 
 ## Runtime binding
 
-The compiled graph now controls the runtime shader carrier, ray-step limit, Five-Eyes count, spark/branch budgets, visual BPM, frame-state feedback decay/mix, bloom and exposure. Every current MiniGX op must have exactly one runtime backend mapping or startup fails closed.
+The compiled graph now controls the runtime shader carrier, ray-step limit, five-observer count, point/branch budgets, pulse rate, frame-state feedback decay/mix, bloom and exposure. Every current MiniGX op must have exactly one runtime backend mapping or startup fails closed.
 
 Shaders have one source of truth under `shaders/`; Gradle copies those exact bytes into the APK. CI compares packaged shader bytes and embedded IR against source after every build.
 
@@ -37,7 +37,7 @@ Shaders have one source of truth under `shaders/`; Gradle copies those exact byt
 ```text
 MINIGX_RMAL_SURFACE != RMALC_CORE_FRONTEND
 GPU_VISUAL != HODGE_EVIDENCE
-GAME_SURVIVOR != ALGEBRAIC_CYCLE
+ROBUST_GAME_CANDIDATE != ALGEBRAIC_CYCLE
 GAME_SCORE != MATHEMATICAL_EVIDENCE
 COGNATE != IDENTITY
 GENERATE != VERIFY != ADMIT

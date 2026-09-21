@@ -7,11 +7,11 @@ android {
     sourceSets { main { java.srcDir "$buildDir/generated/minigx/java"; assets.srcDir "$buildDir/generated/minigx/assets" } }
 }
 def miniGXRoot=file('../../..'),generatedRoot=file("$buildDir/generated/minigx")
-def generatedIR=file("$generatedRoot/assets/minigx/five_eyes_fermat_fire.minigx.json"),generatedJava=file("$generatedRoot/java/org/rmaos/mingx/generated/MiniGXGraph.java"),generatedShaders=file("$generatedRoot/assets/shaders")
+def generatedIR=file("$generatedRoot/assets/minigx/w114_perturbation.minigx.json"),generatedJava=file("$generatedRoot/java/org/rmaos/mingx/generated/MiniGXGraph.java"),generatedShaders=file("$generatedRoot/assets/shaders")
 tasks.register('generateMiniGX',Exec) {
-    inputs.file file("$miniGXRoot/circuits/five_eyes_fermat_fire.rmal"); inputs.file file("$miniGXRoot/toolchain/minigxc.py"); outputs.files generatedIR,generatedJava
+    inputs.file file("$miniGXRoot/circuits/w114_perturbation.rmal"); inputs.file file("$miniGXRoot/toolchain/minigxc.py"); outputs.files generatedIR,generatedJava
     doFirst { generatedIR.parentFile.mkdirs(); generatedJava.parentFile.mkdirs() }
-    commandLine 'python',file("$miniGXRoot/toolchain/minigxc.py"),file("$miniGXRoot/circuits/five_eyes_fermat_fire.rmal"),'--out',generatedIR,'--java',generatedJava
+    commandLine 'python',file("$miniGXRoot/toolchain/minigxc.py"),file("$miniGXRoot/circuits/w114_perturbation.rmal"),'--out',generatedIR,'--java',generatedJava
 }
 tasks.register('syncMiniGXShaders',Copy) { from file("$miniGXRoot/shaders"); into generatedShaders; include '*.vert','*.frag' }
 tasks.named('preBuild').configure { dependsOn tasks.named('generateMiniGX'),tasks.named('syncMiniGXShaders') }

@@ -27,7 +27,7 @@ jobs:
           python -m unittest -v toolchain/test_minigxc.py
           python toolchain/stress_minigxc.py --cases 5000
           rm -rf /tmp/minigx-java && mkdir -p /tmp/minigx-java/src/org/rmaos/mingx/generated /tmp/minigx-java/classes
-          python toolchain/minigxc.py circuits/five_eyes_fermat_fire.rmal --out /tmp/minigx-java/graph.json --java /tmp/minigx-java/src/org/rmaos/mingx/generated/MiniGXGraph.java
+          python toolchain/minigxc.py circuits/w114_perturbation.rmal --out /tmp/minigx-java/graph.json --java /tmp/minigx-java/src/org/rmaos/mingx/generated/MiniGXGraph.java
           javac -d /tmp/minigx-java/classes /tmp/minigx-java/src/org/rmaos/mingx/generated/MiniGXGraph.java android/rmaos-minigx/app/src/main/java/org/rmaos/mingx/MiniGXGameState.java toolchain/MiniGXGameStateStress.java
           java -cp /tmp/minigx-java/classes org.rmaos.mingx.MiniGXGameStateStress
       - name: Install GLSL validator
@@ -36,7 +36,7 @@ jobs:
         working-directory: RMAOS MiniGX
         run: |
           glslangValidator -S vert shaders/fullscreen.vert
-          glslangValidator -S frag shaders/fermat_fire.frag
+          glslangValidator -S frag shaders/w114_field.frag
       - name: Build native RMAOS MiniGX APK
         working-directory: RMAOS MiniGX/android/rmaos-minigx
         run: gradle :app:assembleDebug --stacktrace
@@ -54,9 +54,9 @@ jobs:
               names=z.namelist()
               assert len(names)==len(set(names))
               assert z.read('assets/shaders/fullscreen.vert')==Path('shaders/fullscreen.vert').read_bytes()
-              assert z.read('assets/shaders/fermat_fire.frag')==Path('shaders/fermat_fire.frag').read_bytes()
-              embedded=json.loads(z.read('assets/minigx/five_eyes_fermat_fire.minigx.json'))
-              expected=minigxc.canonical_ir(Path('circuits/five_eyes_fermat_fire.rmal'))
+              assert z.read('assets/shaders/w114_field.frag')==Path('shaders/w114_field.frag').read_bytes()
+              embedded=json.loads(z.read('assets/minigx/w114_perturbation.minigx.json'))
+              expected=minigxc.canonical_ir(Path('circuits/w114_perturbation.rmal'))
               assert embedded==expected
           print('MINIGX_APK_SOURCE_PARITY=PASS')
           PY
@@ -69,6 +69,6 @@ jobs:
           if-no-files-found: error
       - uses: actions/upload-artifact@v4
         with:
-          name: RMAOS-MiniGX-Five-Eyes-Fermat-FIRE-debug-apk
+          name: RMAOS-MiniGX-W114-Perturbation-debug-apk
           path: RMAOS MiniGX/android/rmaos-minigx/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error

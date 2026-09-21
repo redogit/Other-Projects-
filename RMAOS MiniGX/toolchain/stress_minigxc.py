@@ -3,7 +3,7 @@ from pathlib import Path
 import argparse, random, tempfile, time, sys
 sys.path.insert(0,str(Path(__file__).parent))
 import minigxc
-FAMILY={'W114_CENTER':'STATE','FERMAT_FIRE':'FIELD','FIVE_EYES':'OBSERVER','ALL_WAYS':'CONTROL','FRACTAL_BRANCHES':'GEOMETRY','GPU_SPARKS':'POINT','COGNATE_FILAMENTS':'RELATION','PULSE_OSCILLATOR':'SIGNAL','FRAME_FEEDBACK':'FEEDBACK','BLOOM_TONEMAP':'POST','TRACE_TAP':'TRACE','HOMEWARD':'STATE','SURVIVOR_SCORE':'GAME'}
+FAMILY={'W114_CENTER':'STATE','W114_FIELD':'FIELD','OBSERVER_CHANNELS':'OBSERVER','TRANSFORM_SET':'CONTROL','FRACTAL_BRANCHES':'GEOMETRY','GPU_POINTS':'POINT','COGNATE_LINKS':'RELATION','PULSE_OSCILLATOR':'SIGNAL','FRAME_FEEDBACK':'FEEDBACK','BLOOM_TONEMAP':'POST','TRACE_TAP':'TRACE','RECENTER':'STATE','ROBUST_SCORE':'GAME'}
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--cases',type=int,default=5000);ap.add_argument('--seed',type=int,default=114057);ns=ap.parse_args()
     rng=random.Random(ns.seed);ops=sorted(FAMILY);digests=set();t0=time.time()

@@ -26,4 +26,4 @@ Root `shaders/` are authoritative. Gradle syncs them into generated APK assets; 
 
 ## Scientific boundary
 
-W114 remains the frozen mathematical object; MiniGX is a visualization/interaction/search carrier. Visual survival is not algebraic-cycle evidence.
+W114 remains the frozen mathematical object; MiniGX is a visualization/interaction/search carrier. Visual stability is not algebraic-cycle evidence.
