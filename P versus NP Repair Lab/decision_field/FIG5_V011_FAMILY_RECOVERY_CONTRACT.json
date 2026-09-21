@@ -402,8 +402,11 @@
         "change family",
         "change caps"
       ],
-      "open": false,
-      "executed": false
+      "open": true,
+      "executed": false,
+      "verifier_version": "FIG5-DP-MIRROR/v0.20::independent_dp160 + brute_force_sat",
+      "validation_dp_cap_resolvents": 160,
+      "truth_counterprobe": "complete brute-force enumeration on frozen n<=13 domain"
     },
     "admit": {
       "rule": "admit row only when generation provenance and independent verification agree",
@@ -508,9 +511,9 @@
     "INPUT_FAMILY_DIAGNOSTIC != DP_EXPLANATION"
   ],
   "current_stop": {
-    "completed_step": "execute and seal active GENERATE across all 30 v0.19 rows with frozen v0.20 cap=80",
+    "completed_step": "sealed active GENERATE",
     "experiment_executed": true,
-    "next_one_degree_step": "open independent VERIFY only after this sealed GENERATE receipt; run frozen DP160 plus brute-force truth counterprobe without changing generator, solver, ordering, chi_DP, or caps"
+    "next_one_degree_step": "execute independent VERIFY on the already-sealed 30 rows; do not ADMIT in the same computation"
   },
   "locality_parity": {
     "version": "FIG5-locality-v0.19-official-materialization",
