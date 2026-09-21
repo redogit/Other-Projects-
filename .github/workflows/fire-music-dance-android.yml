@@ -43,6 +43,11 @@ jobs:
       - name: Verify Hodge game source contract
         run: python -m unittest "Decision Field Operator Lab/test_hodge_fire_game.py" -v
 
+      - name: Verify JavaScript syntax
+        run: |
+          node --check "Decision Field Operator Lab/hodge-fire-game/game.js"
+          node --check "android/fire-music-dance/app/src/main/assets/game.js"
+
       - name: Build debug APK
         working-directory: android/fire-music-dance
         run: gradle :app:assembleDebug --stacktrace
