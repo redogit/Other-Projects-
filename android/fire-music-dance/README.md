@@ -1,29 +1,19 @@
-# FIRE Music Dance — Local Android App
+# FIRE Music Dance / Five Eyes W114 — Local Android App
 
-Local Android wrapper for the exact live FIRE + Music + Dance interface.
+The Android app now opens the **Five Eyes Fermat FIRE scientific game** as its main surface.
 
-- No INTERNET permission.
-- HTML/CSS/JS are bundled under `app/src/main/assets/`.
-- State stays in the WebView's local storage unless the user explicitly exports it.
-- Native bridge adds clipboard, JSON save, JSON file picking, share, and haptic pulses.
-- `GENERATE != VERIFY != ADMIT` and all existing live-interface claim boundaries remain in the bundled runtime.
+- no INTERNET permission;
+- W114 game assets bundled on-device;
+- touch/drag, haptic FIRE/Music pulses, Homeward and local state;
+- system JSON import/export through the Android Storage Access Framework;
+- old generic FIRE live surface remains preserved in the repository as a predecessor/debug carrier.
 
-## Build
+Build:
 
-Requires Java 17, Android SDK 35, and Gradle 8.10.2+.
-
-```sh
+\`\`\`sh
 gradle :app:assembleDebug
-```
+\`\`\`
 
-APK:
+The generated debug APK is an implementation artifact, not Hodge evidence.
 
-```text
-app/build/outputs/apk/debug/app-debug.apk
-```
-
-## Install locally
-
-Copy the APK to the Android phone and open it to install after allowing installs from that file/browser source.
-
-This is a local research-control interface, not a domain-evidence authority.
+\`APK_BUILD_PASS != DEVICE_RUNTIME_PASS != MATHEMATICAL_PROOF\`.
