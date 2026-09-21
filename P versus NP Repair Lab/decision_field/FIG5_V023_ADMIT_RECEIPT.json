@@ -1,0 +1,9 @@
+{
+  "schema":"fig5-v023-admit-receipt/v1",
+  "date":"2026-09-21",
+  "status":"ADMIT_SEALED_ANALYSIS_NOT_RUN",
+  "counts":{"total":30,"admitted":30,"not_admitted":0,"calibration_admitted":15,"validation_admitted":15,"by_n":{"8":5,"9":5,"10":5,"11":5,"12":5,"13":5}},
+  "full_local_admit_sha256":"4e99bae83a88fe74618d16ec6f2f330d5e4a31c466ff9f64b8989137070bf9d1",
+  "analysis_run":false,
+  "boundaries":["ADMIT != ANALYZE","EXACT_REPLICATION != NEW_METHOD","REPLICATION_SUCCESS != ASYMPTOTIC_LAW","P ?= NP = OPEN"]
+}
