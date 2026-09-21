@@ -1,0 +1,38 @@
+{
+  "schema":"fig5-replication-preregistration/v0.23",
+  "date":"2026-09-21",
+  "experiment_id":"FIG-5-v0.23",
+  "status":"PREREGISTERED_NOT_MATERIALIZED",
+  "purpose":"exact fresh replication of the v0.22 bounded held-out result",
+  "predecessor_close_commit":"2dbdf58266a574817146931b3a40b2a822fec4ca",
+  "frozen":{
+    "n_star":10,"delta":1,"n_levels":[8,9,10,11,12,13],"blocks":5,
+    "constructor":{"version":"FIG5-clause-priority-3cnf/v0.17","source_sha256":"9b9f274513bb83e61643a7bcf515553888a354c625cb2e7ac7c4e5648200c4dd"},
+    "active_solver":{"version":"FIG5-DP-MIRROR/v0.20","source_sha256":"b6c6e5c360b2166e43e383c280d33f8f2c48b9a9a763212bc2ec467b62a628c5","cap":160},
+    "admission_verifier":"complete brute-force truth on n<=13",
+    "dp160_role":"diagnostic only",
+    "primary_quantity":"chi_DP = P_DP / n",
+    "eta_hat":"median(R/P_DP) on admitted calibration rows with P_DP>0",
+    "a_hat":"median(R/n) on all admitted calibration rows",
+    "b_hat":"median(R/n^2) on all admitted calibration rows",
+    "calibration_indices":[0,1,2],
+    "validation_indices":[3,4,5],
+    "error":"abs(log(1+R)-log(1+R_hat))",
+    "success_rule":"at each n in {11,12,13}, exactly five validation rows must be admitted and median E_chi < median E_n and median E_n2; all three n levels must pass",
+    "carrier_counterprobe":"deterministic variable permutation + clause-order reversal + transported active elimination sequence"
+  },
+  "only_change":{
+    "field":"fresh block identity",
+    "seed_namespace":"FIG5/BLOCK-SEED/v0.23-REPLICATION",
+    "reason":"prospective exact replication; no scientific method or threshold changes"
+  },
+  "seed_rule":{
+    "derivation":"SHA256(length-prefixed ordered inputs)",
+    "ordered_inputs":["namespace","experiment_id","constructor_sha256","active_solver_sha256","active_cap","nstar_receipt_sha256","delta_witness_sha256","predecessor_close_commit","block_id"],
+    "nstar_receipt_sha256":"682bbcf6ed83e6d3f3264b7ca41257e60c64dc56b4c0fc331057808a845d440d",
+    "delta_witness_sha256":"2b1b2d04819f262ab5d8d8fd654a5c550a3978fa8bd8d75a9737322aacb5df09",
+    "collision_policy":"STOP_NO_RETRY_NO_RESEED"
+  },
+  "freshness":{"seeds_materialized":false,"formulas_materialized":false,"generate_run":false,"verify_run":false,"validation_observed":false},
+  "boundaries":["EXACT_REPLICATION != NEW_METHOD","REPLICATION_SUCCESS != ASYMPTOTIC_LAW","FIG5_RESULT != P_VS_NP_RESULT","P ?= NP = OPEN"]
+}
