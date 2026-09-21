@@ -8,7 +8,7 @@ android {
     compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
     sourceSets { main { java.srcDir "$buildDir/generated/minigx/java"; assets.srcDir "$buildDir/generated/minigx/assets" } }
 }
-def miniGXRoot=file('../..')
+def miniGXRoot=file('../../..')
 def generatedRoot=file("$buildDir/generated/minigx")
 def generatedIR=file("$generatedRoot/assets/minigx/five_eyes_fermat_fire.minigx.json")
 def generatedJava=file("$generatedRoot/java/org/rmaos/mingx/generated/MiniGXGraph.java")
