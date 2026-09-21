@@ -1,0 +1,21 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'org.rmaos.mingx'
+    compileSdk 35
+    defaultConfig { applicationId 'org.rmaos.mingx'; minSdk 33; targetSdk 35; versionCode 7; versionName '0.7.0-minigx' }
+    buildTypes { release { minifyEnabled false; proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro' } }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+    sourceSets { main { java.srcDir "$buildDir/generated/minigx/java"; assets.srcDir "$buildDir/generated/minigx/assets" } }
+}
+def miniGXRoot=file('../..')
+def generatedRoot=file("$buildDir/generated/minigx")
+def generatedIR=file("$generatedRoot/assets/minigx/five_eyes_fermat_fire.minigx.json")
+def generatedJava=file("$generatedRoot/java/org/rmaos/mingx/generated/MiniGXGraph.java")
+tasks.register('generateMiniGX',Exec) {
+    inputs.file file("$miniGXRoot/circuits/five_eyes_fermat_fire.rmal"); inputs.file file("$miniGXRoot/toolchain/minigxc.py")
+    outputs.files generatedIR,generatedJava
+    doFirst { generatedIR.parentFile.mkdirs(); generatedJava.parentFile.mkdirs() }
+    commandLine 'python',file("$miniGXRoot/toolchain/minigxc.py"),file("$miniGXRoot/circuits/five_eyes_fermat_fire.rmal"),'--out',generatedIR,'--java',generatedJava
+}
+tasks.named('preBuild').configure { dependsOn tasks.named('generateMiniGX') }
