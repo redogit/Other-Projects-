@@ -1,0 +1,52 @@
+{
+  "schema": "fig5-v022-manifest-receipt/v1",
+  "date": "2026-09-21",
+  "status": "MATERIALIZED_NOT_EXECUTED",
+  "preregistration_commit": "0ca4f22c350d249c8a75183615dbdb4b952d4497",
+  "seed_namespace": "FIG5/BLOCK-SEED/v0.22-FRESH",
+  "official_seeds": [
+    {
+      "block_id": 0,
+      "seed": "4f0540e4d679b3ba0d753906f52a898eeabf68d02e7406fab7598d8310b7f6e6"
+    },
+    {
+      "block_id": 1,
+      "seed": "fd0eee1a0fe796a3e5109c7819eb26f82d87ee11d006d5a58dd088e2096429e6"
+    },
+    {
+      "block_id": 2,
+      "seed": "9023cfbcb2237c85e6e7871612e8f014fd4bab12ad31bb22f0e545188799fda2"
+    },
+    {
+      "block_id": 3,
+      "seed": "0e13de3c66c951a4f4b42183ad5eecfc5f58842b38568effe0f00e877b1b5550"
+    },
+    {
+      "block_id": 4,
+      "seed": "d8eda6fcb02252c476f9d803d73a0ac732f6d95d3f06ce58330752adb8a017e4"
+    }
+  ],
+  "structural_qa": {
+    "rows": 30,
+    "distinct_formula_digests": 30,
+    "support_failures": 0,
+    "priority_collisions": 0,
+    "mean_adjacent_jaccard": 0.6163899788228192,
+    "mean_old_clause_retention": 0.7968580586080586,
+    "min_old_clause_retention": 0.6428571428571429,
+    "max_old_clause_retention": 0.9285714285714286
+  },
+  "manifest_sha256": "94870530f9752af89d1ae81891094b7ac1d7d95406fd562014be20beda0345e4",
+  "formula_pack_sha256": "21ebebb4da6ff40896b902d660b0ae151f261d6b1d915239ec6ca07e3e16c506",
+  "active_solver_sha256": "b6c6e5c360b2166e43e383c280d33f8f2c48b9a9a763212bc2ec467b62a628c5",
+  "active_cap": 160,
+  "generate_run": false,
+  "verify_run": false,
+  "admit_run": false,
+  "boundaries": [
+    "MATERIALIZATION != GENERATE",
+    "FRESH_SUCCESSOR != CONSUMED_V0_21",
+    "GENERATE != VERIFY != ADMIT",
+    "P ?= NP = OPEN"
+  ]
+}
