@@ -45,7 +45,13 @@
     "official_manifest_compact_sha256": "e7cc604244ececbfa32685ec9201e56cdf895d396c9c842578dea2888646ae8f",
     "official_manifest_full_local_sha256": "1349a3ed6ed8c3e6960fccb3536a53404461d55ae24ff7527782e8814c8e6367",
     "official_formula_pack_local_sha256": "119959d9a72ada061d9fc56940e47219cf5914a169b2f3cd8a8cd6854e4266a3",
-    "v019_evidence_archive_sha256": "53a89359811b147c7205cae1a97921b34678eafd46a4ae2b51338d39f363e7eb"
+    "v019_evidence_archive_sha256": "53a89359811b147c7205cae1a97921b34678eafd46a4ae2b51338d39f363e7eb",
+    "active_solver_path": "P versus NP Repair Lab/decision_field/fig5_dp_mirror_v020.py",
+    "active_solver_version": "FIG5-DP-MIRROR/v0.20",
+    "active_solver_commit": "5e42c2fd9030f161f48c96a6d3bcef12f8357315",
+    "active_solver_github_blob_sha": "ccd66a10f0f6b9e321d7f9cea3ea25dbcbfaf1a1",
+    "active_solver_sha256": "b6c6e5c360b2166e43e383c280d33f8f2c48b9a9a763212bc2ec467b62a628c5",
+    "active_solver_prefreeze_commit": "c0bae2413b5787a5fa0e89af175526e4149b581b"
   },
   "recovered_v0_10_checkpoint": {
     "adaptive_evaluations": 141,
@@ -361,7 +367,11 @@
         "read verifier outcomes to adapt later instances",
         "change family construction after validation is opened",
         "change primary quantity or thresholds"
-      ]
+      ],
+      "active_solver": "FROZEN_FIG5_DP_MIRROR_V0_20",
+      "active_solver_lineage_boundary": "MIRROR_V020 != V0_10_ORIGINAL_BYTES",
+      "open": true,
+      "executed": false
     },
     "verify": {
       "independent_validation_cap_resolvents": 160,
@@ -374,13 +384,15 @@
         "change chi_DP",
         "change family",
         "change caps"
-      ]
+      ],
+      "open": false
     },
     "admit": {
       "rule": "admit row only when generation provenance and independent verification agree",
       "oracle_cap_exhaustion_result": "UNKNOWN",
       "oracle_cap_exhaustion_is_hard_core": false,
-      "cap_scaling_with_n": "FORBIDDEN"
+      "cap_scaling_with_n": "FORBIDDEN",
+      "open": false
     }
   },
   "calibration_and_validation": {
@@ -478,9 +490,9 @@
     "INPUT_FAMILY_DIAGNOSTIC != DP_EXPLANATION"
   ],
   "current_stop": {
-    "completed_step": "materialize and structurally attack the five official seeds and 30-row v0.19 input family",
+    "completed_step": "freeze v0.20 exact DP mirror before any official active execution",
     "experiment_executed": false,
-    "next_one_degree_step": "recover exact v0.10 DP runtime source bodies into an executable carrier; verify source hashes and ordering/counter semantics; then open active GENERATE only"
+    "next_one_degree_step": "execute active GENERATE on all 30 already-frozen v0.19 inputs with v0.20 cap=80; write immutable trace; do not open VERIFY in the same computation"
   },
   "locality_parity": {
     "version": "FIG5-locality-v0.19-official-materialization",
@@ -585,6 +597,15 @@
       "source_commit": "5122befb9c2dfdca3754aeeb9b9ae35bd998d9b5",
       "active_dp_run": false,
       "verifier_run": false
+    },
+    {
+      "event": "V0_20_DP_MIRROR_FREEZE",
+      "result": "Exact v0.10 runtime bytes remained unavailable in the current carrier. Rather than silently substitute, a new explicitly versioned exact DP mirror was frozen before official execution. It passed 12,000 random CNF truth comparisons, 6,670 raw projection assignment checks, and 5,000 carrier-transport checks with zero required mismatches.",
+      "mirror_version": "FIG5-DP-MIRROR/v0.20",
+      "source_sha256": "b6c6e5c360b2166e43e383c280d33f8f2c48b9a9a763212bc2ec467b62a628c5",
+      "official_dp_rows_executed": 0,
+      "verify_open": false,
+      "admit_open": false
     }
   ],
   "delta_binding_witness": {
@@ -771,7 +792,7 @@
     ]
   },
   "execution_stack_recovery": {
-    "status": "IDENTITY_RECOVERED_BYTES_NOT_EXECUTABLE_IN_CURRENT_CARRIER",
+    "status": "ORIGINAL_V010_BYTES_UNAVAILABLE_CURRENT_CARRIER; V020_MIRROR_FROZEN_AS_NEW_ACTIVE_SOLVER",
     "package": {
       "name": "meta_obligation_kernel_v0_10.zip",
       "bytes": 41621,
@@ -795,7 +816,30 @@
     },
     "connected_github_exact_runtime_bodies": false,
     "current_execution_carrier_archive_extraction": false,
-    "substitution_policy": "FORBIDDEN",
-    "boundary": "RUNTIME_IDENTITY_RECOVERED != RUNTIME_BYTES_EXECUTABLE_HERE"
+    "substitution_policy": "NO_SILENT_SUBSTITUTION; V0.20 IS EXPLICITLY NEW AND VERSIONED",
+    "boundary": "RUNTIME_IDENTITY_RECOVERED != RUNTIME_BYTES_EXECUTABLE_HERE",
+    "v020_mirror_frozen": true
+  },
+  "active_solver_freeze": {
+    "version": "FIG5-DP-MIRROR/v0.20",
+    "status": "FROZEN_BEFORE_OFFICIAL_EXECUTION",
+    "source_sha256": "b6c6e5c360b2166e43e383c280d33f8f2c48b9a9a763212bc2ec467b62a628c5",
+    "source_commit": "5e42c2fd9030f161f48c96a6d3bcef12f8357315",
+    "semantics": {
+      "preprocessing": "order-independent simultaneous unit closure + subsumption + exhaustive SSR strengthening to fixed point",
+      "elimination": "exact Davis-Putnam",
+      "ordering": "one-step preview of every active variable; lexicographic post-surface score",
+      "active_cap": 80,
+      "planning_pairs": "all preview parent pairs",
+      "generated_resolvents": "executed non-tautological candidates before dedup/subsumption",
+      "P_DP": "sum d_plus*d_minus immediately before executed elimination"
+    },
+    "tests": {
+      "random_cnf_exactness": 12000,
+      "raw_projection_assignment_checks": 6670,
+      "carrier_transport_cases": 5000,
+      "mismatches": 0
+    },
+    "lineage_boundary": "MIRROR_V020 != V0_10_ORIGINAL_BYTES"
   }
 }
