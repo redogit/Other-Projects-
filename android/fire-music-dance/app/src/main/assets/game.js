@@ -79,7 +79,7 @@ const state={
   music:profile.music||false,bpm:108,beat:0,
   yaw:0,pitch:0,zoom:1,elevation:0,spin:0,storm:0.25,
   target:null,pulseNo:0,shardNo:profile.shardNo||0,
-  ash:[...ASH_CONTROLS],embers:[...EMBER_CONTROLS],survivors:profile.survivors||[],
+  ash:[...ASH_CONTROLS],embers:[...EMBER_CONTROLS],survivors:profile.survivors||[],habits:profile.habits||{},
   remainder:["MOT-1 explicit nonzero Chow morphism remains open","MF-1 genuinely mixed non-CI carrier remains open","LIFT-1 level-342 depth-3 is unresolved by runtime"],
   trace:profile.trace||[],cognates:profile.cognates||[],
   wayHits:Object.fromEntries(ALL_WAYS.map(x=>[x,0])),activeWay:"AROUND",
@@ -100,7 +100,7 @@ let audio=null,musicTimer=null;
 function loadProfile(){try{return JSON.parse(localStorage.getItem("five-eyes-fermat-fire-v2")||"{}")}catch{return {}}}
 function save(){
   localStorage.setItem("five-eyes-fermat-fire-v2",JSON.stringify({
-    score:state.score,epoch:state.epoch,shardNo:state.shardNo,music:state.music,
+    score:state.score,epoch:state.epoch,shardNo:state.shardNo,music:state.music,habits:state.habits,
     survivors:state.survivors,cognates:state.cognates,trace:state.trace.slice(-180),fuzzball:state.fuzzball
   }));
 }
@@ -177,7 +177,7 @@ function spawnCandidate(parent=null,forced=null){
   state.shardNo++;
   const f=forced||FRONTIERS[Math.floor(randFrom("frontier",state.shardNo)*FRONTIERS.length)];
   const id=idFor(f.species,state.shardNo);
-  const habit=profile["habit:"+f.species]||0;
+  const habit=state.habits[f.species]||0;
   const stability=.42+randFrom(id,1)*.46+Math.min(.08,habit*.005);
   const vec=Array.from({length:6},(_,i)=>randFrom(id,i+4)*2-1);
   vec[1]=randFrom(id,20)*1.6-.35;
@@ -230,14 +230,14 @@ function hitTarget(){
   const repeated=Math.max(0,obj.hits-obj.uniqueWays.length);
   const oneDegree=.07+.15*(1-obj.stability)+state.heat*.0008+repeated*.015;
   obj.integrity-=oneDegree;
-  const novelty=1/(1+(profile["habit:"+obj.species]||0));
+  const novelty=1/(1+(state.habits[obj.species]||0));
   const pts=Math.round(20*novelty*(1+obj.uniqueWays.length*.35));
   state.score+=pts*state.combo;
   popup("+"+pts*state.combo,(project6(obj.vec,state.firePhase).x),(project6(obj.vec,state.firePhase).y),obj.color);
   trace("BURN",obj.id,{way,oneDegree:true,integrity:obj.integrity,eyeResponses:eyesNow});
   if(obj.integrity<=0){
     obj.status="ASH";state.ash.push({id:obj.id,label:obj.species,kind:"GAME_CANDIDATE"});
-    profile["habit:"+obj.species]=(profile["habit:"+obj.species]||0)+1;
+    state.habits[obj.species]=(state.habits[obj.species]||0)+1;
     state.combo=1;state.remainder.push(obj.id+" collapsed under "+way);
     popup("ASH",W/2,H/2,"#8a858d");
     state.target=null;
@@ -392,7 +392,7 @@ function update(dt,t){
   eventT+=dt;spawnT+=dt;
   if(eventT>11+randFrom("evt",state.epoch)*8){eventT=0;weirdEvent()}
   if(spawnT>8&&shards.filter(s=>s.integrity>0).length<5){spawnT=0;spawnCandidate()}
-  profile.score=state.score;profile.epoch=state.epoch;profile.shardNo=state.shardNo;profile.music=state.music;profile.survivors=state.survivors;profile.cognates=state.cognates;profile.fuzzball=state.fuzzball;
+  profile.score=state.score;profile.epoch=state.epoch;profile.shardNo=state.shardNo;profile.music=state.music;profile.habits=state.habits;profile.survivors=state.survivors;profile.cognates=state.cognates;profile.fuzzball=state.fuzzball;
 }
 function draw(now){
   const t=state.firePhase;drawBackground(t);drawGhosts(t);drawCognates(t);drawFilaments(t);drawFire(t);drawShards(t);drawEyes(t);drawSparks(now);
@@ -434,7 +434,7 @@ ui("copy-state").onclick=async()=>{const text=JSON.stringify(exportState(),null,
 ui("export-state").onclick=()=>{const text=JSON.stringify(exportState(),null,2)+"\n";if(window.AndroidBridge?.saveJson)window.AndroidBridge.saveJson("five-eyes-w114-state.json",text);else{const b=new Blob([text],{type:"application/json"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="five-eyes-w114-state.json";a.click();setTimeout(()=>URL.revokeObjectURL(u),500)}};
 ui("import-state").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const p=JSON.parse(await f.text());if(p.schema!=="five-eyes-fermat-fire-game/v2")throw new Error("wrong schema");Object.assign(state,p.state);trace("IMPORT",W114.objectId,{source:f.name})}catch(err){showEvent("IMPORT REFUSED: "+err.message)}e.target.value=""};
 
-function exportState(){return{schema:"five-eyes-fermat-fire-game/v2",authority:"game/research-control carrier only",w114:W114,state:{score:state.score,combo:state.combo,heat:state.heat,epoch:state.epoch,ash:state.ash,embers:state.embers,survivors:state.survivors,remainder:state.remainder,trace:state.trace,cognates:state.cognates,wayHits:state.wayHits,eyeRead:state.eyeRead,activeWay:state.activeWay},boundaries:["GAME_SCORE != MATHEMATICAL_EVIDENCE","COGNATE != IDENTITY","NEW_TO_ACTIVE_SEARCH != NEW_MATHEMATICAL_CYCLE","GENERATE != VERIFY != ADMIT","SOFTWARE_VERIFICATION != MATHEMATICAL_PROOF","VISUAL_PROJECTION_ORBIT != MATHEMATICAL_DIMENSION"]}}
+function exportState(){return{schema:"five-eyes-fermat-fire-game/v2",authority:"game/research-control carrier only",w114:W114,state:{score:state.score,combo:state.combo,heat:state.heat,epoch:state.epoch,ash:state.ash,embers:state.embers,survivors:state.survivors,habits:state.habits,remainder:state.remainder,trace:state.trace,cognates:state.cognates,wayHits:state.wayHits,eyeRead:state.eyeRead,activeWay:state.activeWay},boundaries:["GAME_SCORE != MATHEMATICAL_EVIDENCE","COGNATE != IDENTITY","NEW_TO_ACTIVE_SEARCH != NEW_MATHEMATICAL_CYCLE","GENERATE != VERIFY != ADMIT","SOFTWARE_VERIFICATION != MATHEMATICAL_PROOF","VISUAL_PROJECTION_ORBIT != MATHEMATICAL_DIMENSION"]}}
 
 window.FiveEyesFermatFire={exportState,spawnCandidate,hitTarget,homeward,branch,reverseProbe,W114,ALL_WAYS,EYES};
 
