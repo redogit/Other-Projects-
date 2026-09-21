@@ -1,23 +1,17 @@
 name: RMAOS MiniGX
 on:
   pull_request:
-    paths:
-      - "RMAOS MiniGX/**"
-      - ".github/workflows/rmaos-minigx.yml"
+    paths: ["RMAOS MiniGX/**",".github/workflows/rmaos-minigx.yml"]
   workflow_dispatch:
-permissions:
-  contents: read
+permissions: { contents: read }
 jobs:
   build-native-apk:
     runs-on: ubuntu-latest
-    env:
-      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+    env: { ANDROID_SDK_ROOT: /usr/local/lib/android/sdk }
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: "17"
+        with: { distribution: temurin, java-version: "17" }
       - name: Install Android SDK 35
         shell: bash
         run: |
@@ -25,17 +19,19 @@ jobs:
           yes | "$SDKMANAGER" --licenses >/dev/null || true
           "$SDKMANAGER" "platforms;android-35" "build-tools;35.0.0"
       - uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: "8.10.2"
-      - name: Verify MiniGX compiler and contracts
+        with: { gradle-version: "8.10.2" }
+      - name: Verify compiler, contracts, fuzz and Java state stress
         working-directory: RMAOS MiniGX
         run: |
           python VERIFY.py
           python -m unittest -v toolchain/test_minigxc.py
+          python toolchain/stress_minigxc.py --cases 5000
+          rm -rf /tmp/minigx-java && mkdir -p /tmp/minigx-java/src/org/rmaos/mingx/generated /tmp/minigx-java/classes
+          python toolchain/minigxc.py circuits/five_eyes_fermat_fire.rmal --out /tmp/minigx-java/graph.json --java /tmp/minigx-java/src/org/rmaos/mingx/generated/MiniGXGraph.java
+          javac -d /tmp/minigx-java/classes /tmp/minigx-java/src/org/rmaos/mingx/generated/MiniGXGraph.java android/rmaos-minigx/app/src/main/java/org/rmaos/mingx/MiniGXGameState.java toolchain/MiniGXGameStateStress.java
+          java -cp /tmp/minigx-java/classes org.rmaos.mingx.MiniGXGameStateStress
       - name: Install GLSL validator
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y glslang-tools
+        run: sudo apt-get update -qq && sudo apt-get install -y glslang-tools
       - name: Validate MiniGX shaders
         working-directory: RMAOS MiniGX
         run: |
@@ -44,6 +40,26 @@ jobs:
       - name: Build native RMAOS MiniGX APK
         working-directory: RMAOS MiniGX/android/rmaos-minigx
         run: gradle :app:assembleDebug --stacktrace
+      - name: Verify packaged source parity
+        working-directory: RMAOS MiniGX
+        run: |
+          python - <<'PY'
+          from zipfile import ZipFile
+          from pathlib import Path
+          import json,sys
+          sys.path.insert(0,'toolchain')
+          import minigxc
+          apk=Path('android/rmaos-minigx/app/build/outputs/apk/debug/app-debug.apk')
+          with ZipFile(apk) as z:
+              names=z.namelist()
+              assert len(names)==len(set(names))
+              assert z.read('assets/shaders/fullscreen.vert')==Path('shaders/fullscreen.vert').read_bytes()
+              assert z.read('assets/shaders/fermat_fire.frag')==Path('shaders/fermat_fire.frag').read_bytes()
+              embedded=json.loads(z.read('assets/minigx/five_eyes_fermat_fire.minigx.json'))
+              expected=minigxc.canonical_ir(Path('circuits/five_eyes_fermat_fire.rmal'))
+              assert embedded==expected
+          print('MINIGX_APK_SOURCE_PARITY=PASS')
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: RMAOS-MiniGX-Five-Eyes-Fermat-FIRE-debug-apk
