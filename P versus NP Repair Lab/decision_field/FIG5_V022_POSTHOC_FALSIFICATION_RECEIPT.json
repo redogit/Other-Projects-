@@ -1,0 +1,17 @@
+{
+  "schema":"fig5-v022-posthoc-falsification-receipt/v1",
+  "date":"2026-09-21",
+  "status":"NON_PROMOTABLE_DIAGNOSTIC",
+  "leave_one_block_out":{"omitted_blocks_tested":5,"all_three_levels_pass_for_every_omission":true},
+  "rowwise_validation_wins":{"rows":15,"chi_vs_n":13,"chi_vs_n2":15,"chi_vs_both":13},
+  "R_over_P_DP_by_n_median":{"8":0.7692307692307693,"9":0.775,"10":0.7450980392156863,"11":0.8214285714285714,"12":0.8378378378378378,"13":0.7682926829268293},
+  "direct_link":{"R_le_P_DP_rows":30,"total_rows":30,"pearson_R_P_DP":0.9910481574776427,"pearson_R_n":0.7146333394408363},
+  "interpretation":[
+    "Preregistered result survives every leave-one-block-out diagnostic.",
+    "The preregistered claim is median-across-blocks, not per-row dominance.",
+    "P_DP is mechanically upstream of R because R counts non-tautological resolvent candidates drawn from the parent pairs counted by P_DP.",
+    "Predictive superiority therefore does not establish an independent causal complexity variable."
+  ],
+  "full_local_posthoc_sha256":"1fe56cab7b8d17f3ca386a47c852d7e5e07c1ffdfc161509be86a549027bbd08",
+  "boundaries":["POSTHOC_FALSIFICATION != PREREGISTERED_EVIDENCE","P_DP_UPSTREAM_OF_R != INDEPENDENT_CAUSAL_EXPLANATION","BOUNDED_STRUCTURAL_COLLAPSE != ASYMPTOTIC_LAW","P ?= NP = OPEN"]
+}
