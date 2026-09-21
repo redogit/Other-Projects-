@@ -31,7 +31,14 @@
     "locality_parity_successor_archive_sha256": "a7148ee988bd7be7d09bf3fb84199399241e4073cc4ea5d4bc79f181baa250d2",
     "family_constructor_stress_sha256": "2161a6fabd315cab3e643c0a4e3b3fa2537abbd82994f1b7822aa3296683be38",
     "family_constructor_reference_check_sha256": "a6b1f4709c52b3e51a33c4f1b4d4c106a55ecab2b3bd46a8fc5088e0eefd7a5f",
-    "family_constructor_evidence_archive_sha256": "453fcefe7e4d8cebf780514d42efd75d58bc5be7ec47c26c2b8881f39d89e064"
+    "family_constructor_evidence_archive_sha256": "453fcefe7e4d8cebf780514d42efd75d58bc5be7ec47c26c2b8881f39d89e064",
+    "block_seed_rule_path": "P versus NP Repair Lab/decision_field/fig5_block_seed_rule_v018.py",
+    "block_seed_rule_version": "FIG5-block-seed/v0.18",
+    "block_seed_rule_commit": "0cf337239c1d5d9eaa76533c968cc3bccc41ecca",
+    "block_seed_rule_github_blob_sha": "fda47d848ceb5c5b3df11493c21d8bec97d37eab",
+    "block_seed_rule_verified_local_sha256": "a243bd9e69c833e41279e82b1c5d4592c7e3d21f3f9193aec496f9b583b80791",
+    "block_seed_rule_selftest_sha256": "ed0ae74ea4f66e4ec73e192e03ea59419b7e1085e4cc2cc2665b4efc2079db5e",
+    "block_seed_rule_evidence_archive_sha256": "0bdb628c8eeebc39069af6f41e42baafe2f6420416f0e4bdcb66b5708776d8ff"
   },
   "recovered_v0_10_checkpoint": {
     "adaptive_evaluations": 141,
@@ -80,11 +87,12 @@
       "family_executed": false,
       "delta_rule": "BOUND: delta is the exact variable-set cardinality increase under the verified one-fresh-variable parity extension; the carrier label of the fresh variable is not the binding argument.",
       "family_constructor": "FROZEN_V0_17_CLAUSE_PRIORITY",
-      "block_seed_rule": "NOT_YET_FROZEN"
+      "block_seed_rule": "FROZEN_V0_18_PROVENANCE_HASH_DERIVATION"
     },
     "execution_blocked_until": [
-      "freeze the five-block seed derivation rule without inspecting any generated official family member or solver/verifier outcome",
-      "materialize and hash the 30-row family manifest from the already-frozen v0.17 constructor plus frozen seed rule",
+      "verify exact v0.17 constructor source bytes match the frozen SHA-256 precondition",
+      "materialize the five official block seeds exactly once from the frozen v0.18 rule; require pairwise distinctness and STOP on any collision with no retry/reseed",
+      "materialize and hash the 30-row family manifest from the already-frozen constructor plus seed rule",
       "only then open GENERATE"
     ],
     "boundaries": [
@@ -101,7 +109,11 @@
       "COMMON_STREAM_FAMILY != NESTED_FAMILY",
       "TARGET_DENSITY_PARAMETER != REALIZED_DENSITY_AT_ODD_N",
       "COMMON_PRIORITY != NESTED_MEMBERSHIP",
-      "SYNTHETIC_STRESS != OFFICIAL_SEED_VALIDITY"
+      "SYNTHETIC_STRESS != OFFICIAL_SEED_VALIDITY",
+      "SEED_RULE_FROZEN != OFFICIAL_SEEDS_MATERIALIZED",
+      "OFFICIAL_SEEDS_MATERIALIZED != 30_ROW_MANIFEST_MATERIALIZED",
+      "SEED_COLLISION != PERMISSION_TO_RESEED",
+      "CONSTRUCTOR_SOURCE_HASH_MISMATCH != PERMISSION_TO_DERIVE"
     ]
   },
   "one_degree_family": {
@@ -132,7 +144,7 @@
     "invalid_low_n_rule": "shift entire six-level ladder upward before execution; do not edit individual levels after results",
     "adaptation_after_validation_opened": "FORBIDDEN",
     "family_constructor_status": "FROZEN_V0_17",
-    "block_seed_rule_status": "NOT_YET_FROZEN",
+    "block_seed_rule_status": "FROZEN_V0_18",
     "inputs_materialized": false,
     "n_star_status": "BOUND_BY_APPROVED_PLAN_PLUS_EXACT_SOURCE",
     "delta_status": "BOUND_BY_EXACT_FAMILY_PRESERVING_INCREMENT_WITNESS",
@@ -167,6 +179,44 @@
       "common_priority_membership_rule": "old eligible clauses retain identical priorities as n grows, but newly eligible clauses may displace them",
       "anchor_formula_membership": false,
       "source_path": "P versus NP Repair Lab/decision_field/fig5_family_dynamics_v017.py"
+    },
+    "seed_rule_contract": {
+      "version": "FIG5-block-seed/v0.18",
+      "derivation": "SHA256(length-prefixed ordered inputs)",
+      "block_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output_representation": "64 lowercase hexadecimal characters",
+      "ordered_inputs": [
+        "FIG5/BLOCK-SEED/v0.18",
+        "FIG-5",
+        "FIG5-clause-priority-3cnf/v0.17",
+        "v0.17 constructor source SHA-256",
+        "n_star binding receipt SHA-256",
+        "delta binding witness SHA-256",
+        "block_id"
+      ],
+      "constructor_source_sha256": "9b9f274513bb83e61643a7bcf515553888a354c625cb2e7ac7c4e5648200c4dd",
+      "nstar_binding_receipt_sha256": "682bbcf6ed83e6d3f3264b7ca41257e60c64dc56b4c0fc331057808a845d440d",
+      "delta_binding_witness_sha256": "2b1b2d04819f262ab5d8d8fd654a5c550a3978fa8bd8d75a9737322aacb5df09",
+      "materialization_preconditions": [
+        "constructor source bytes must match the frozen SHA-256",
+        "derive exactly block ids 0..4 once each",
+        "five seeds must be pairwise distinct; collision => STOP_NO_RETRY_NO_RESEED"
+      ],
+      "forbidden_inputs": [
+        "formula content",
+        "solver/verifier output",
+        "DP/resolvent/chi_DP measurements",
+        "calibration/validation result",
+        "nonce/search/retry criterion",
+        "clock/environment entropy"
+      ],
+      "official_seed_values_materialized": false
     }
   },
   "primary_quantity": {
@@ -322,16 +372,20 @@
     "COMMON_STREAM_FAMILY != NESTED_FAMILY",
     "TARGET_DENSITY_PARAMETER != REALIZED_DENSITY_AT_ODD_N",
     "COMMON_PRIORITY != NESTED_MEMBERSHIP",
-    "SYNTHETIC_STRESS != OFFICIAL_SEED_VALIDITY"
+    "SYNTHETIC_STRESS != OFFICIAL_SEED_VALIDITY",
+    "SEED_RULE_FROZEN != OFFICIAL_SEEDS_MATERIALIZED",
+    "OFFICIAL_SEEDS_MATERIALIZED != 30_ROW_MANIFEST_MATERIALIZED",
+    "SEED_COLLISION != PERMISSION_TO_RESEED",
+    "CONSTRUCTOR_SOURCE_HASH_MISMATCH != PERMISSION_TO_DERIVE"
   ],
   "current_stop": {
-    "completed_step": "adversarially repair and freeze deterministic scientific family constructor as v0.17 clause-priority finite-universe construction",
+    "completed_step": "freeze deterministic five-block seed derivation rule v0.18 without evaluating any valid official block id",
     "experiment_executed": false,
-    "next_one_degree_step": "freeze the five-block seed derivation rule without deriving official rows, materializing the 30-row manifest, or opening GENERATE"
+    "next_one_degree_step": "materialize the five official seed values and 30-row input manifest as data only after verifying the constructor source hash; do not execute GENERATE in the same rung"
   },
   "locality_parity": {
-    "version": "FIG5-locality-v0.17-constructor-repair",
-    "status": "PASS_SCOPED_CONSTRUCTOR_V017_FROZEN_SEEDS_UNRESOLVED",
+    "version": "FIG5-locality-v0.18-seed-rule-freeze",
+    "status": "PASS_SCOPED_CONSTRUCTOR_AND_SEED_RULE_FROZEN_MANIFEST_UNMATERIALIZED",
     "scope": "private local working filesystem + Library + read-only pinned external receipts",
     "n_star_status": "BOUND_10",
     "delta_status": "BOUND_1_BY_EXACT_INCREMENT_WITNESS",
@@ -346,9 +400,10 @@
     "successor_archive_sha256": "453fcefe7e4d8cebf780514d42efd75d58bc5be7ec47c26c2b8881f39d89e064",
     "delta_binding_witness_sha256": "2b1b2d04819f262ab5d8d8fd654a5c550a3978fa8bd8d75a9737322aacb5df09",
     "family_constructor_status": "FROZEN_V0_17_CLAUSE_PRIORITY",
-    "block_seed_rule_status": "NOT_YET_FROZEN",
+    "block_seed_rule_status": "FROZEN_V0_18_PROVENANCE_HASH_DERIVATION",
     "family_manifest_status": "NOT_MATERIALIZED",
-    "family_executed": false
+    "family_executed": false,
+    "seed_rule_evidence_archive_sha256": "0bdb628c8eeebc39069af6f41e42baafe2f6420416f0e4bdcb66b5708776d8ff"
   },
   "correction_history": [
     {
@@ -398,6 +453,17 @@
       "official_seeds_derived": false,
       "source_commit": "700d4cf84cc09f1c95db0bffb37cd6aceda53892",
       "evidence_archive_sha256": "453fcefe7e4d8cebf780514d42efd75d58bc5be7ec47c26c2b8881f39d89e064"
+    },
+    {
+      "event": "V0_18_BLOCK_SEED_RULE_FREEZE",
+      "result": "The five future block seeds are now logically fixed by a single SHA-256 length-prefixed provenance derivation over the official namespace, experiment id, v0.17 constructor identity, n_star binding receipt, delta binding witness, and block id. No valid official block id was evaluated in the self-test. No nonce/search/retry or result-dependent input is permitted.",
+      "family_constructor": "FROZEN_V0_17_CLAUSE_PRIORITY",
+      "block_seed_rule": "FROZEN_V0_18_PROVENANCE_HASH_DERIVATION",
+      "official_seed_values_materialized": false,
+      "family_manifest": "NOT_MATERIALIZED",
+      "family_executed": false,
+      "source_commit": "0cf337239c1d5d9eaa76533c968cc3bccc41ecca",
+      "evidence_archive_sha256": "0bdb628c8eeebc39069af6f41e42baafe2f6420416f0e4bdcb66b5708776d8ff"
     }
   ],
   "delta_binding_witness": {
@@ -559,5 +625,28 @@
       "coverage scaffold size changes as ceil(n/3) and its hash-keyed permutation can reshuffle existing variables when n changes, injecting a size-dependent structural confound"
     ],
     "evidence_boundary": "V0_16_SOFTWARE_OR_CONTRACT_RESIDUAL != FIG5_FAMILY_RESULT"
+  },
+  "seed_rule_verification": {
+    "status": "SOFTWARE_SELF_TEST_PASS_NO_OFFICIAL_SEED_EVALUATION",
+    "version": "FIG5-block-seed/v0.18",
+    "source_sha256": "a243bd9e69c833e41279e82b1c5d4592c7e3d21f3f9193aec496f9b583b80791",
+    "selftest_sha256": "ed0ae74ea4f66e4ec73e192e03ea59419b7e1085e4cc2cc2665b4efc2079db5e",
+    "evidence_archive_sha256": "0bdb628c8eeebc39069af6f41e42baafe2f6420416f0e4bdcb66b5708776d8ff",
+    "official_valid_block_ids_evaluated": 0,
+    "official_seed_values_materialized": false,
+    "tests": [
+      "contract description executes",
+      "invalid official ids rejected without deriving an official seed",
+      "test-only namespace deterministic",
+      "test-only namespace yields five distinct outputs",
+      "output representation is 64 lowercase hexadecimal characters",
+      "changing a frozen provenance input changes the test-domain digest"
+    ],
+    "claim_ceiling": [
+      "SEED_RULE_SELF_TEST != OFFICIAL_SEED_EVALUATION",
+      "SEED_RULE_FROZEN != FAMILY_VALIDITY",
+      "GENERATE != VERIFY != ADMIT",
+      "P ?= NP = OPEN"
+    ]
   }
 }
