@@ -1,0 +1,14 @@
+{
+  "schema":"fig5-v022-admit-receipt/v1",
+  "date":"2026-09-21",
+  "status":"ADMIT_SEALED_ANALYSIS_NOT_RUN",
+  "rule":"admit iff active status is resolved and equals complete brute-force truth; provenance is frozen",
+  "counts":{
+    "total":30,"admitted":30,"not_admitted":0,
+    "calibration_admitted":15,"validation_admitted":15,
+    "by_n":{"8":5,"9":5,"10":5,"11":5,"12":5,"13":5}
+  },
+  "full_local_admit_sha256":"a4eefedfcb611593a5fd789fd7c469dbd98dae6a0e35605b07a1771423dd3c23",
+  "analysis_run":false,
+  "boundaries":["ADMIT != ANALYZE","ALL_ROWS_ADMITTED != STRUCTURAL_COLLAPSE","BOUNDED_FAMILY_COLLAPSE != ASYMPTOTIC_LAW","P ?= NP = OPEN"]
+}
