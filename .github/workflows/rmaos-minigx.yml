@@ -60,6 +60,13 @@ jobs:
               assert embedded==expected
           print('MINIGX_APK_SOURCE_PARITY=PASS')
           PY
+      - name: Package exact MiniGX source
+        run: tar -czf RMAOS-MiniGX-source.tgz "RMAOS MiniGX" .github/workflows/rmaos-minigx.yml
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RMAOS-MiniGX-source
+          path: RMAOS-MiniGX-source.tgz
+          if-no-files-found: error
       - uses: actions/upload-artifact@v4
         with:
           name: RMAOS-MiniGX-Five-Eyes-Fermat-FIRE-debug-apk
