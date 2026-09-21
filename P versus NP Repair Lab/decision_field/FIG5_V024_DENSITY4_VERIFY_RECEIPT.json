@@ -1,0 +1,15 @@
+{
+  "schema":"fig5-v024-density4-verify-receipt/v1",
+  "date":"2026-09-21",
+  "status":"VERIFY_SEALED_ADMIT_NOT_RUN",
+  "admission_authority":"complete brute-force truth enumeration on n<=13",
+  "truth_counts":{"SAT":25,"UNSAT":5},
+  "active_truth_resolved_disagreements":0,
+  "dp160_diagnostic_counts":{"SAT":6,"UNKNOWN":24},
+  "dp160_truth_resolved_disagreements":0,
+  "carrier_validation_rows":15,
+  "carrier_failures":0,
+  "full_local_verify_sha256":"f4c917eea774d400387a024cffaf7cc215c02b1c1e022d4214fe089e048f560f",
+  "admit_run":false,
+  "boundaries":["DP160_DIAGNOSTIC != ADMISSION_AUTHORITY","VERIFY != ADMIT","DENSITY4_PROBE != ASYMPTOTIC_TRANSFER","P ?= NP = OPEN"]
+}
