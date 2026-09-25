@@ -3,19 +3,20 @@
   "generated_from": {
     "conscience64": {
       "repo": "redogit/conscience64",
-      "sha": "690f0daecf07e4eded6e18b9d975e3f9f2411dfc",
+      "sha": "8dce9b1784828899e7c0925439193907ae12fb41",
       "count": 41
     },
     "other_projects": {
       "repo": "redogit/Other-Projects-",
-      "sha": "6cf9e39d8b83642c0080bd64618e4cb8d9639fec",
-      "count": 128
+      "sha": "fe1767838c35ce4d589e4e3508e0a34508b77e00",
+      "count": 127
     }
   },
   "boundaries": [
     "CATALOG_ENTRY != VERIFIED_CLAIM",
     "METHOD_TRANSFER != EVIDENCE_TRANSFER",
-    "SOURCE_PATH != AUTHORITY_PROMOTION"
+    "SOURCE_PATH != AUTHORITY_PROMOTION",
+    "CATALOG_EXCLUDES_SELF_TO_AVOID_RECURSIVE_PIN"
   ],
   "sources": [
     {
@@ -91,8 +92,8 @@
     {
       "repo": "redogit/conscience64",
       "path": "research/hodge/HODGE_COMPASS_API.md",
-      "blob_sha": "71a6cecdcad672807a17067b1eda9a9a89756e88",
-      "size": 4579,
+      "blob_sha": "e40b0e0939f01dbb73df1cee908f543cb8bf9b74",
+      "size": 6138,
       "role": "target-native-hodge"
     },
     {
@@ -1085,22 +1086,15 @@
     {
       "repo": "redogit/Other-Projects-",
       "path": "Hodge Compass API/refresh_source_catalog.py",
-      "blob_sha": "85697101993a30c9ba7a6c0df68e7cfe98c5ce28",
-      "size": 2658,
-      "role": "hodge-query-api"
-    },
-    {
-      "repo": "redogit/Other-Projects-",
-      "path": "Hodge Compass API/source_catalog.json",
-      "blob_sha": "0f633a8a04cf32e0b5469c297c661294807de9bf",
-      "size": 41336,
+      "blob_sha": "ea395810e387cce360a343a1e37ff93e7ddbede5",
+      "size": 2819,
       "role": "hodge-query-api"
     },
     {
       "repo": "redogit/Other-Projects-",
       "path": "Hodge Compass API/test_hodge_compass_api.py",
-      "blob_sha": "28e463d3d62d4bf6507544762b22bbe7932adedf",
-      "size": 7213,
+      "blob_sha": "f2d228d0706e4e01cba1d376c2dc2fb84d814079",
+      "size": 7598,
       "role": "hodge-query-api"
     },
     {
