@@ -17,6 +17,7 @@ BOUNDARIES=[
  "PROJECTION != FULL_STATE",
  "NONZERO_TARGET_COEFFICIENT != FULL_HODGE_PROOF",
  "FAILED_ANSATZ != NONALGEBRAIC_CLASS",
+ "SAME_STABLE_ID + DIFFERENT_METADATA = REJECT",
 ]
 W114={"semantic_object_id":"hodge:w114:alpha:1-7-78-79-86-91","alpha":[1,7,78,79,86,91],
  "jacobian_monomial":{"x1":6,"x2":77,"x3":78,"x4":85,"x5":90},"jacobian_degree":336,
@@ -93,23 +94,32 @@ class Index:
         t=rel["target_object_id"]; typ=rel["type"]; perm=rel.get("permission","ALLOW"); ev=rel.get("evidence_transfer","DENY"); prov=rel.get("provenance",[])
         if perm not in {"ALLOW","DENY","UNKNOWN"} or ev not in {"ALLOW","DENY"}: raise ValueError("bad relation gate")
         body={"source_object_id":s,"target_object_id":t,"type":typ,"permission":perm,"evidence_transfer":ev,"provenance":prov}
-        rid=rel.get("relation_id",f"rel:{sha(body)}")
-        self.db.execute("INSERT OR REPLACE INTO relations VALUES(?,?,?,?,?,?,?,?)",(rid,s,t,typ,perm,ev,canon(prov),sha(body)))
+        body_sha=sha(body); rid=rel.get("relation_id",f"rel:{body_sha}")
+        existing=self.db.execute("SELECT sha FROM relations WHERE id=?",(rid,)).fetchone()
+        if existing and existing["sha"]!=body_sha:
+            raise ValueError(f"relation stable-id metadata drift: {rid}")
+        self.db.execute("INSERT OR IGNORE INTO relations VALUES(?,?,?,?,?,?,?,?)",(rid,s,t,typ,perm,ev,canon(prov),body_sha))
         return rid
     def ingest(self,r,commit=True):
         need={"semantic_object_id","kind","domain","title","claim_ceiling","occurrence"}
         if need-set(r): raise ValueError(f"missing {sorted(need-set(r))}")
-        sid=r["semantic_object_id"]; obj={k:r[k] for k in ["semantic_object_id","kind","domain","title","claim_ceiling"]}
-        self.db.execute("INSERT OR REPLACE INTO objects VALUES(?,?,?,?,?,?,?)",(sid,r["kind"],r["domain"],r["title"],r["claim_ceiling"],canon(obj),sha(obj)))
+        sid=r["semantic_object_id"]; obj={k:r[k] for k in ["semantic_object_id","kind","domain","title","claim_ceiling"]}; obj_sha=sha(obj)
+        existing_obj=self.db.execute("SELECT sha FROM objects WHERE id=?",(sid,)).fetchone()
+        if existing_obj and existing_obj["sha"]!=obj_sha:
+            raise ValueError(f"semantic object metadata drift for stable id: {sid}")
+        self.db.execute("INSERT OR IGNORE INTO objects VALUES(?,?,?,?,?,?,?)",(sid,r["kind"],r["domain"],r["title"],r["claim_ceiling"],canon(obj),obj_sha))
         o=r["occurrence"]; prov=o.get("provenance",[])
         body={"semantic_object_id":sid,"surface":o["surface"],"source_ref":o["source_ref"],"authority":o["authority"],"status":o["status"],"text":o["text"],"provenance":prov}
-        oid=o.get("occurrence_id",f"occ:{sha(body)}")
-        self.db.execute("INSERT OR REPLACE INTO occurrences VALUES(?,?,?,?,?,?,?,?,?)",(oid,sid,o["surface"],o["source_ref"],o["authority"],o["status"],o["text"],canon(prov),sha(body)))
+        body_sha=sha(body); oid=o.get("occurrence_id",f"occ:{body_sha}")
+        existing_occ=self.db.execute("SELECT sha FROM occurrences WHERE id=?",(oid,)).fetchone()
+        if existing_occ and existing_occ["sha"]!=body_sha:
+            raise ValueError(f"occurrence stable-id metadata drift: {oid}")
+        self.db.execute("INSERT OR IGNORE INTO occurrences VALUES(?,?,?,?,?,?,?,?,?)",(oid,sid,o["surface"],o["source_ref"],o["authority"],o["status"],o["text"],canon(prov),body_sha))
         if self.fts:
             self.db.execute("DELETE FROM fts WHERE occurrence_id=?",(oid,)); self.db.execute("INSERT INTO fts VALUES(?,?,?,?,?,?)",(oid,sid,r["domain"],o["surface"],r["title"],o["text"]))
         for rel in r.get("relations",[]): self.relation(sid,rel)
         if commit:self.db.commit()
-        return {"semantic_object_id":sid,"occurrence_id":oid,"object_sha256":sha(obj),"occurrence_sha256":sha(body)}
+        return {"semantic_object_id":sid,"occurrence_id":oid,"object_sha256":obj_sha,"occurrence_sha256":body_sha}
     def ingest_many(self,records):
         out=[]
         try:

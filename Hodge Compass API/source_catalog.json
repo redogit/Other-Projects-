@@ -3,13 +3,13 @@
   "generated_from": {
     "conscience64": {
       "repo": "redogit/conscience64",
-      "sha": "e57ae5bd13c3602bec5c7211aab40cee9e3a32e9",
+      "sha": "690f0daecf07e4eded6e18b9d975e3f9f2411dfc",
       "count": 41
     },
     "other_projects": {
       "repo": "redogit/Other-Projects-",
-      "sha": "6a6abad41589f08c6aa994409ef17570dc9b77c0",
-      "count": 127
+      "sha": "6cf9e39d8b83642c0080bd64618e4cb8d9639fec",
+      "count": 128
     }
   },
   "boundaries": [
@@ -91,8 +91,8 @@
     {
       "repo": "redogit/conscience64",
       "path": "research/hodge/HODGE_COMPASS_API.md",
-      "blob_sha": "a319aba3bba748af9babc7acff14e750c1d9946f",
-      "size": 3138,
+      "blob_sha": "71a6cecdcad672807a17067b1eda9a9a89756e88",
+      "size": 4579,
       "role": "target-native-hodge"
     },
     {
@@ -1029,8 +1029,8 @@
     {
       "repo": "redogit/Other-Projects-",
       "path": "Hodge Compass API/README.md",
-      "blob_sha": "8e2ed8f721b756463c78931a0dbd979a84c9907e",
-      "size": 7056,
+      "blob_sha": "d5fa3adbe76637b4f029b019a67a81751adeb41d",
+      "size": 9014,
       "role": "hodge-query-api"
     },
     {
@@ -1064,8 +1064,15 @@
     {
       "repo": "redogit/Other-Projects-",
       "path": "Hodge Compass API/hodge_compass_api.py",
-      "blob_sha": "c222c0a9d9699db400cc65e42269c01289756d60",
-      "size": 19527,
+      "blob_sha": "fc458ac195fdc32bc586bb0326c8f8735bd898bf",
+      "size": 20308,
+      "role": "hodge-query-api"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Hodge Compass API/hodge_proof_graph_seed.json",
+      "blob_sha": "db700bdaada82c58a169e9afacf9b7bb618592fb",
+      "size": 23368,
       "role": "hodge-query-api"
     },
     {
@@ -1085,15 +1092,15 @@
     {
       "repo": "redogit/Other-Projects-",
       "path": "Hodge Compass API/source_catalog.json",
-      "blob_sha": "1979c66e207426771c72479b41a422ceb80857d5",
-      "size": 37770,
+      "blob_sha": "0f633a8a04cf32e0b5469c297c661294807de9bf",
+      "size": 41336,
       "role": "hodge-query-api"
     },
     {
       "repo": "redogit/Other-Projects-",
       "path": "Hodge Compass API/test_hodge_compass_api.py",
-      "blob_sha": "267932b3e9857ea777e3dfee047c49def4717457",
-      "size": 5698,
+      "blob_sha": "28e463d3d62d4bf6507544762b22bbe7932adedf",
+      "size": 7213,
       "role": "hodge-query-api"
     },
     {

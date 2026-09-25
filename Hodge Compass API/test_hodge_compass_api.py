@@ -88,4 +88,34 @@ class APITests(unittest.TestCase):
         self.assertEqual(out["ingested"],0)
         self.assertEqual(out["skipped"]["extension"],1)
 
+    def test_stable_semantic_object_metadata_drift_is_rejected(self):
+        self.idx.ingest(self.record("normal"))
+        changed=self.record("work")
+        changed["title"]="Different object title under same stable ID"
+        with self.assertRaises(ValueError):
+            self.idx.ingest(changed)
+        obj=self.idx.get_object("obj:compass-hodge")
+        self.assertEqual(obj["title"],"Compass Hodge")
+        self.assertEqual(len(obj["occurrences"]),1)
+
+    def test_proof_graph_seed_traverses_w114_without_evidence_transfer(self):
+        root=Path(__file__).resolve().parent
+        api.ingest_manifest(self.idx,root/"bootstrap_manifest.json")
+        api.ingest_manifest(self.idx,root/"hodge_proof_graph_seed.json")
+        out=self.idx.traverse({
+            "start":"hodge:w114:alpha:1-7-78-79-86-91",
+            "max_depth":2,"direction":"both","max_nodes":100
+        })
+        ids={n["id"] for n in out["nodes"]}
+        self.assertIn("hodge:w114:route:motivic",ids)
+        self.assertIn("hodge:w114:route:matrix-factorization",ids)
+        self.assertIn("hodge:w114:route:lift",ids)
+        self.assertIn("hodge:w114:route:shioda-cubic",ids)
+        self.assertIn("hodge:w114:obligation:MOT-1",ids)
+        self.assertIn("hodge:w114:obligation:MF-1",ids)
+        self.assertIn("hodge:w114:obligation:MF-2",ids)
+        self.assertIn("hodge:w114:obligation:LIFT-1",ids)
+        self.assertTrue(out["edges"])
+        self.assertTrue(all(e["evidence_transfer"]=="DENY" for e in out["edges"]))
+
 if __name__=="__main__": unittest.main()
