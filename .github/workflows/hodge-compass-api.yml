@@ -1,0 +1,22 @@
+name: Hodge Compass API
+on:
+  pull_request:
+    paths:
+      - 'Hodge Compass API/**'
+      - 'Hodge Span Lab/**'
+      - '.github/workflows/hodge-compass-api.yml'
+  push:
+    paths:
+      - 'Hodge Compass API/**'
+      - 'Hodge Span Lab/**'
+      - '.github/workflows/hodge-compass-api.yml'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s "Hodge Compass API" -p 'test_*.py' -v
+      - run: python -m unittest discover -s "Hodge Span Lab" -p 'test_*.py' -v
