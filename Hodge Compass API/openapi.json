@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Hodge Compass API",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "servers": [
     {
@@ -109,6 +109,24 @@
         "responses": {
           "200": {
             "description": "filtered revision-pinned Hodge source catalog"
+          }
+        }
+      }
+    },
+    "/v1/batch/search": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "up to 64 indexed searches in one request"
+          }
+        }
+      }
+    },
+    "/v1/graph/traverse": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "bounded typed relation traversal with evidence gates preserved"
           }
         }
       }
