@@ -199,3 +199,45 @@ local source bytes
 ```
 
 Network discovery remains useful for refresh, but routine proof-work queries can stay entirely local once the source trees are indexed.
+
+## Seed the target-native Hodge proof graph
+
+The API ships a small typed graph distilled from the current target-native Hodge spine and W114 research loop:
+
+```sh
+python "Hodge Compass API/hodge_compass_api.py" \
+  --db .hodge-compass/index.sqlite3 \
+  ingest "Hodge Compass API/hodge_proof_graph_seed.json"
+```
+
+Then traverse directly from W114:
+
+```sh
+python "Hodge Compass API/client.py" traverse \
+  hodge:w114:alpha:1-7-78-79-86-91 \
+  --max-depth 2 --direction both
+```
+
+The initial graph exposes the current `conscience64` route structure without inventing a new proof ontology:
+
+```text
+W114
+├─ motivic / Hecke→Chow          [CURRENT_CANONICAL]
+│  └─ MOT-1 explicit Chow correspondence
+├─ matrix factorization          [COEXISTING_LINEAGE]
+│  ├─ MF-1 mixed non-CI graded factorization
+│  └─ MF-2 exact W114 target coefficient
+├─ higher-level certificate lift [PRESERVED_UNRESOLVED]
+│  └─ LIFT-1 level-342 depth-3 timeout repair
+└─ direct Shioda cubic            [HISTORICAL_SUPERSEDED]
+```
+
+It also links W114 to the exact Hodge Span diagnostic, the Compass observer method surface, and the Hodge evidence firewall.
+
+Every graph edge is currently seeded with:
+
+```text
+evidence_transfer = DENY
+```
+
+The graph is for navigation, dependency recovery, and proof-obligation routing. Traversal does not convert a relation into mathematical support.
