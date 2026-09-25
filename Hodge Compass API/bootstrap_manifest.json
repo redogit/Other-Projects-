@@ -1,0 +1,95 @@
+{
+  "schema": "hodge-compass-bootstrap/v1",
+  "records": [
+    {
+      "semantic_object_id": "hodge:conscience64:research-spine",
+      "kind": "research-spine",
+      "domain": "hodge",
+      "title": "Conscience64 Hodge research spine",
+      "claim_ceiling": "PUBLIC_RESEARCH_SPINE_NOT_HODGE_PROOF",
+      "occurrence": {
+        "surface": "github",
+        "source_ref": "https://github.com/redogit/conscience64/tree/main/research/hodge",
+        "authority": "target-native-public-research",
+        "status": "CURRENT",
+        "text": "Target-native Hodge research artifacts, controls, results, integration notes, and W114 research loop.",
+        "provenance": ["redogit/conscience64:research/hodge"]
+      },
+      "relations": [{
+        "target_object_id": "hodge:w114:alpha:1-7-78-79-86-91",
+        "type": "CONTAINS_TARGET",
+        "permission": "ALLOW",
+        "evidence_transfer": "DENY",
+        "provenance": ["conscience64 issue #99"]
+      }]
+    },
+    {
+      "semantic_object_id": "hodge:w114:alpha:1-7-78-79-86-91",
+      "kind": "proof-obligation",
+      "domain": "hodge",
+      "title": "W114 primitive Chern-character target",
+      "claim_ceiling": "NONZERO_TARGET_COEFFICIENT != FULL_HODGE_PROOF",
+      "occurrence": {
+        "surface": "github",
+        "source_ref": "https://github.com/redogit/conscience64/issues/99",
+        "authority": "target-native-public-research",
+        "status": "OPEN",
+        "text": "alpha=(1,7,78,79,86,91); target monomial x1^6 x2^77 x3^78 x4^85 x5^90; verify AB=BA=QI exactly and seek nonzero target coefficient after Jacobian reduction.",
+        "provenance": ["conscience64#99"]
+      },
+      "relations": [
+        {
+          "target_object_id": "tool:hodge-span-lab",
+          "type": "CAN_USE_DIAGNOSTIC_TOOL",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": ["Other-Projects-/Hodge Span Lab"]
+        },
+        {
+          "target_object_id": "compass:observer-return-loop",
+          "type": "CAN_BE_OBSERVED_THROUGH",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": ["Compass Rose lineage"]
+        }
+      ]
+    },
+    {
+      "semantic_object_id": "tool:hodge-span-lab",
+      "kind": "exact-software-tool",
+      "domain": "hodge",
+      "title": "Hodge Span Lab",
+      "claim_ceiling": "SPAN_RESULT != GEOMETRIC_AUTHENTICATION",
+      "occurrence": {
+        "surface": "github",
+        "source_ref": "https://github.com/redogit/Other-Projects-/tree/main/Hodge%20Span%20Lab",
+        "authority": "method-only",
+        "status": "CURRENT",
+        "text": "Exact rational span/separation calculator plus explicit deformation-signature bridge. Fails closed if an exact basis-matched map is not supplied.",
+        "provenance": ["redogit/Other-Projects-:Hodge Span Lab"]
+      }
+    },
+    {
+      "semantic_object_id": "compass:observer-return-loop",
+      "kind": "observer-framework",
+      "domain": "compass",
+      "title": "Eye of the Storm / Compass observer-return loop",
+      "claim_ceiling": "OBSERVER_FRAMEWORK != ALGEBRAIC_CYCLE",
+      "occurrence": {
+        "surface": "local-private-lineage",
+        "source_ref": "semantic-only:no-private-history-content-bundled",
+        "authority": "method-only",
+        "status": "ACTIVE",
+        "text": "2D Surface -> 3D frame -> 4D directional observers -> controlled probe -> residual/disagreement -> 3D reprojection -> 2D return. Normal and Work occurrences are separate provenance carriers, not independent evidence.",
+        "provenance": ["Compass Rose lineage; private occurrence text not bundled"]
+      },
+      "relations": [{
+        "target_object_id": "hodge:w114:alpha:1-7-78-79-86-91",
+        "type": "PROVIDES_METHOD_SURFACE",
+        "permission": "ALLOW",
+        "evidence_transfer": "DENY",
+        "provenance": ["method bridge only"]
+      }]
+    }
+  ]
+}
