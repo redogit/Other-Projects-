@@ -8,12 +8,17 @@ def call(base,method,path,body=None):
 def main():
     p=argparse.ArgumentParser();p.add_argument("--base",default="http://127.0.0.1:8765")
     s=p.add_subparsers(dest="cmd",required=True);s.add_parser("health");s.add_parser("w114");src=s.add_parser("sources");src.add_argument("q",nargs="?",default="");src.add_argument("--limit",type=int,default=100)
+    b=s.add_parser("batch-search");b.add_argument("manifest")
+    g=s.add_parser("traverse");g.add_argument("start");g.add_argument("--max-depth",type=int,default=2);g.add_argument("--direction",choices=["out","in","both"],default="both");g.add_argument("--max-nodes",type=int,default=500)
     q=s.add_parser("search");q.add_argument("q");q.add_argument("--limit",type=int,default=20)
     o=s.add_parser("object");o.add_argument("id");a=p.parse_args()
     if a.cmd=="health":x=call(a.base,"GET","/v1/health")
     elif a.cmd=="w114":x=call(a.base,"GET","/v1/hodge/w114")
     elif a.cmd=="search":x=call(a.base,"POST","/v1/search",{"q":a.q,"limit":a.limit})
     elif a.cmd=="sources":x=call(a.base,"POST","/v1/hodge/sources/search",{"q":a.q,"limit":a.limit})
+    elif a.cmd=="batch-search":
+        with open(a.manifest,encoding="utf-8") as fh:x=call(a.base,"POST","/v1/batch/search",json.load(fh))
+    elif a.cmd=="traverse":x=call(a.base,"POST","/v1/graph/traverse",{"start":a.start,"max_depth":a.max_depth,"direction":a.direction,"max_nodes":a.max_nodes})
     else:x=call(a.base,"GET","/v1/objects/"+a.id)
     print(json.dumps(x,indent=2,sort_keys=True))
 if __name__=="__main__":main()

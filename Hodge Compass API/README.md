@@ -46,7 +46,34 @@ python "Hodge Compass API/client.py" health
 python "Hodge Compass API/client.py" w114
 python "Hodge Compass API/client.py" sources W114
 python "Hodge Compass API/client.py" search "Compass remainder"
+python "Hodge Compass API/client.py" batch-search "Hodge Compass API/w114_query_pack.json"
 ```
+
+## Index the actual Hodge source contents
+
+The revision-pinned catalog is a navigation layer. For millisecond full-text search over the **contents** of local source trees, ingest the checked-out repositories:
+
+```sh
+# From Other-Projects-
+python "Hodge Compass API/hodge_compass_api.py" \
+  --db .hodge-compass/index.sqlite3 \
+  ingest-tree \
+  --root ../conscience64 \
+  --repo redogit/conscience64 \
+  --prefix research/hodge \
+  --root-object hodge:conscience64:research-spine
+
+python "Hodge Compass API/hodge_compass_api.py" \
+  --db .hodge-compass/index.sqlite3 \
+  ingest-tree \
+  --root . \
+  --repo redogit/Other-Projects- \
+  --prefix "Hodge Span Lab" \
+  --prefix "Hodge Compass API" \
+  --prefix "Decision Field Operator Lab"
+```
+
+Every file becomes one stable source semantic object. A changed file creates a new occurrence under that object; re-indexing unchanged bytes is idempotent. UTF-8 text is hashed before ingestion, binary/oversized files are skipped, and every generated relation still defaults to `evidence_transfer=DENY`.
 
 ## API
 
@@ -57,7 +84,9 @@ python "Hodge Compass API/client.py" search "Compass remainder"
 | `GET /v1/hodge/sources` | revision-pinned Hodge/source catalog |
 | `POST /v1/hodge/sources/search` | fast path/repo/role filtering |
 | `POST /v1/records` | ingest private/local provenance records |
-| `POST /v1/search` | FTS5 occurrence search with fallback |
+| `POST /v1/search` | FTS5 occurrence/source-content search with fallback |
+| `POST /v1/batch/search` | up to 64 searches in one request |
+| `POST /v1/graph/traverse` | bounded typed relation traversal; gates preserved |
 | `GET /v1/objects/{SemanticObjectID}` | object + occurrences + relations |
 | `POST /v1/hodge/span` | existing exact Hodge Span Lab in-process |
 | `POST /v1/hodge/bridge` | existing exact deformation→span bridge |
@@ -73,6 +102,8 @@ See `openapi.json`.
 - the current `Other-Projects-` revision containing Hodge tools and connected method surfaces.
 
 A catalog entry means **discoverable source**, not verified theorem or promoted evidence.
+
+The local content index is deliberately separate from the catalog: the catalog says *what source snapshot exists*; the local FTS index makes its text fast to search. This prevents a convenient search index from becoming the source of truth.
 
 ## Normal + Work history
 
@@ -131,3 +162,40 @@ python -m unittest discover -s "Hodge Span Lab" -p 'test_*.py' -v
 ```
 
 CI runs both suites on API/Hodge-Span changes.
+
+## Batch proof-work queries
+
+`w114_query_pack.json` bundles the current high-value search channels—W114, matrix factorization, primitive Chern character, Favero–Kelly, Shioda/coset screens, Jacobian target, observer remainder, monodromy bridge and span separation—into one API round trip.
+
+```sh
+python "Hodge Compass API/client.py" batch-search "Hodge Compass API/w114_query_pack.json"
+```
+
+## Relation traversal
+
+Traverse the typed graph without dropping evidence gates:
+
+```sh
+python "Hodge Compass API/client.py" traverse \
+  hodge:w114:alpha:1-7-78-79-86-91 \
+  --max-depth 3 --direction both
+```
+
+Returned edges retain `permission` and `evidence_transfer`; traversal itself never promotes either.
+
+## v1.1 speed model
+
+The fast path is now:
+
+```text
+local source bytes
+→ exact SHA-256 occurrence
+→ stable SemanticObjectID
+→ SQLite WAL
+→ FTS5
+→ batch query
+→ typed relation traversal
+→ exact Hodge/observer probe
+```
+
+Network discovery remains useful for refresh, but routine proof-work queries can stay entirely local once the source trees are indexed.
