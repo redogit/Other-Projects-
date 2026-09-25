@@ -143,6 +143,23 @@ def bridge(root,p):
     if set(p)!={"source","map","hodge_template"}:raise ValueError("bridge requires source,map,hodge_template")
     return m.execute_bridge(p["source"],p["map"],p["hodge_template"])
 
+def source_catalog(root):
+    p=Path(root)/"Hodge Compass API/source_catalog.json"
+    if not p.exists(): raise FileNotFoundError(p)
+    return json.loads(p.read_text(encoding="utf-8"))
+
+def source_search(root,p):
+    cat=source_catalog(root); q=str(p.get("q","")).lower(); repo=p.get("repo"); role=p.get("role"); limit=int(p.get("limit",100))
+    if not 1<=limit<=500: raise ValueError("limit 1..500")
+    out=[]
+    for x in cat.get("sources",[]):
+        if q and q not in x.get("path","").lower(): continue
+        if repo and repo!=x.get("repo"): continue
+        if role and role!=x.get("role"): continue
+        out.append(x)
+        if len(out)>=limit: break
+    return {"catalog_sha256":sha(cat),"generated_from":cat.get("generated_from"),"count":len(out),"results":out,"boundaries":cat.get("boundaries",[])}
+
 class Handler(BaseHTTPRequestHandler):
     def sendj(self,n,x):
         b=json.dumps(x,sort_keys=True,ensure_ascii=False).encode(); self.send_response(n); self.send_header("Content-Type","application/json"); self.send_header("Content-Length",str(len(b))); self.end_headers(); self.wfile.write(b)
@@ -155,6 +172,7 @@ class Handler(BaseHTTPRequestHandler):
             p=unquote(urlparse(self.path).path)
             if p=="/v1/health":return self.sendj(200,{"schema":SCHEMA,"status":"ok","stats":self.server.idx.stats(),"boundaries":BOUNDARIES})
             if p=="/v1/hodge/w114":return self.sendj(200,{**W114,"boundaries":BOUNDARIES})
+            if p=="/v1/hodge/sources":return self.sendj(200,source_search(self.server.root,{"limit":500}))
             if p.startswith("/v1/objects/"):
                 x=self.server.idx.get(p[len("/v1/objects/"):]);return self.sendj(200 if x else 404,x or {"error":"not found"})
             return self.sendj(404,{"error":"not found"})
@@ -169,6 +187,7 @@ class Handler(BaseHTTPRequestHandler):
             if p=="/v1/search":return self.sendj(200,{"results":self.server.idx.search(b)})
             if p=="/v1/hodge/span":return self.sendj(200,span(self.server.root,b))
             if p=="/v1/hodge/bridge":return self.sendj(200,bridge(self.server.root,b))
+            if p=="/v1/hodge/sources/search":return self.sendj(200,source_search(self.server.root,b))
             if p=="/v1/observer/remainder":return self.sendj(200,observe(b))
             return self.sendj(404,{"error":"not found"})
         except Exception as e:return self.sendj(400,{"error":type(e).__name__,"message":str(e)})
@@ -182,7 +201,7 @@ def main():
     a=argparse.ArgumentParser();a.add_argument("--db",default=DB);a.add_argument("--repo-root",default=".");s=a.add_subparsers(dest="cmd",required=True)
     sv=s.add_parser("serve");sv.add_argument("--host",default=HOST);sv.add_argument("--port",type=int,default=PORT);sv.add_argument("--quiet",action="store_true")
     ig=s.add_parser("ingest");ig.add_argument("manifest");q=s.add_parser("search");q.add_argument("query");q.add_argument("--domain");q.add_argument("--surface");q.add_argument("--limit",type=int,default=20)
-    s.add_parser("stats");s.add_parser("w114");x=a.parse_args()
+    s.add_parser("stats");s.add_parser("w114");src=s.add_parser("sources");src.add_argument("--query",default="");src.add_argument("--repo");src.add_argument("--role");src.add_argument("--limit",type=int,default=100);x=a.parse_args()
     if x.cmd=="serve":
         idx=Index(x.db);h=ThreadingHTTPServer((x.host,x.port),Handler);h.idx=idx;h.root=Path(x.repo_root);h.quiet=x.quiet;print(json.dumps({"url":f"http://{x.host}:{x.port}","schema":SCHEMA}));
         try:h.serve_forever()
@@ -193,6 +212,7 @@ def main():
         if x.cmd=="ingest":o=ingest_manifest(idx,x.manifest)
         elif x.cmd=="search":o=idx.search({"q":x.query,"domain":x.domain,"surface":x.surface,"limit":x.limit})
         elif x.cmd=="stats":o=idx.stats()
+        elif x.cmd=="sources":o=source_search(x.repo_root,{"q":x.query,"repo":x.repo,"role":x.role,"limit":x.limit})
         else:o={**W114,"boundaries":BOUNDARIES}
         print(json.dumps(o,indent=2,sort_keys=True))
     finally:idx.close()
