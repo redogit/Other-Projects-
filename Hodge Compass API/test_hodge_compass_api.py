@@ -26,6 +26,22 @@ class APITests(unittest.TestCase):
     def test_search(self):
         self.idx.ingest(self.record("normal","W114 alpha target and Compass remainder"))
         self.assertEqual(self.idx.search({"q":"W114","limit":10})[0]["semantic_object_id"],"obj:compass-hodge")
+    def test_batch_search_preserves_query_boundaries(self):
+        self.idx.ingest(self.record("normal","W114 alpha target and Compass remainder"))
+        out=self.idx.search_many({"queries":[{"q":"W114","limit":5},{"q":"Compass","limit":5}]})
+        self.assertEqual(out["count"],2)
+        self.assertEqual(len(out["queries"]),2)
+        self.assertEqual(out["queries"][0]["results"][0]["semantic_object_id"],"obj:compass-hodge")
+    def test_graph_traversal_preserves_evidence_gate(self):
+        self.idx.ingest(self.record("normal"))
+        self.idx.ingest({
+            "semantic_object_id":"hodge:w114","kind":"proof-obligation","domain":"hodge","title":"W114",
+            "claim_ceiling":"OPEN","occurrence":{"surface":"github","source_ref":"issue:99",
+            "authority":"target-native","status":"OPEN","text":"W114 target","provenance":["issue:99"]}})
+        out=self.idx.traverse({"start":"obj:compass-hodge","max_depth":2,"direction":"both"})
+        self.assertEqual(out["edge_count"],1)
+        self.assertEqual(out["edges"][0]["evidence_transfer"],"DENY")
+        self.assertEqual({n["id"] for n in out["nodes"]},{"obj:compass-hodge","hodge:w114"})
     def test_exact_observer_remainder(self):
         out=api.exact_observer_remainder({
             "ground_truth":["1","2","3","5"],"baseline":["1","2","3","0"],
@@ -51,5 +67,25 @@ class APITests(unittest.TestCase):
         self.assertTrue(any("w114" in x["path"].lower() for x in out["results"]))
         full=api.source_search(root,{"limit":500})
         self.assertGreaterEqual(full["count"],100)
+    def test_local_source_content_index_is_stable_and_searchable(self):
+        root=Path(self.tmp.name)/"repo"; (root/"research/hodge").mkdir(parents=True)
+        p=root/"research/hodge"/"note.md"
+        p.write_text("W114 exact residual and target coefficient",encoding="utf-8")
+        first=api.ingest_tree(self.idx,root=root,repo="example/repo",prefixes=["research/hodge"],
+                              domain="hodge",surface="local-repo",root_object_id=None,max_bytes=2_000_000)
+        second=api.ingest_tree(self.idx,root=root,repo="example/repo",prefixes=["research/hodge"],
+                               domain="hodge",surface="local-repo",root_object_id=None,max_bytes=2_000_000)
+        self.assertEqual(first["ingested"],1); self.assertEqual(second["ingested"],1)
+        self.assertEqual(self.idx.stats()["objects"],1)
+        self.assertEqual(self.idx.stats()["occurrences"],1)
+        hit=self.idx.search({"q":"target coefficient","limit":5})
+        self.assertEqual(hit[0]["semantic_object_id"],"source:example/repo:research/hodge/note.md")
+    def test_local_source_index_skips_binary(self):
+        root=Path(self.tmp.name)/"repo2"; root.mkdir()
+        (root/"x.bin").write_bytes(b"\x00\xff")
+        out=api.ingest_tree(self.idx,root=root,repo="example/repo2",prefixes=[],domain="hodge",
+                            surface="local-repo",root_object_id=None,max_bytes=2_000_000)
+        self.assertEqual(out["ingested"],0)
+        self.assertEqual(out["skipped"]["extension"],1)
 
 if __name__=="__main__": unittest.main()
