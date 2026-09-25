@@ -22,6 +22,7 @@ This API makes those surfaces queryable through one local interface while preser
 - `PROJECTION != FULL_STATE`
 - `NONZERO_TARGET_COEFFICIENT != FULL_HODGE_PROOF`
 - `FAILED_ANSATZ != NONALGEBRAIC_CLASS`
+- `SAME_STABLE_ID + DIFFERENT_METADATA = REJECT`
 
 Private chat/work-history text is **not bundled**. Local clients may ingest their own authorized occurrences into the local SQLite database.
 
@@ -202,13 +203,19 @@ Network discovery remains useful for refresh, but routine proof-work queries can
 
 ## Seed the target-native Hodge proof graph
 
-The API ships a small typed graph distilled from the current target-native Hodge spine and W114 research loop:
+The API ships a small typed graph distilled from the current target-native Hodge spine and W114 research loop. Ingest the bootstrap first and the richer graph second:
 
 ```sh
 python "Hodge Compass API/hodge_compass_api.py" \
   --db .hodge-compass/index.sqlite3 \
+  ingest "Hodge Compass API/bootstrap_manifest.json"
+
+python "Hodge Compass API/hodge_compass_api.py" \
+  --db .hodge-compass/index.sqlite3 \
   ingest "Hodge Compass API/hodge_proof_graph_seed.json"
 ```
+
+The two manifests deliberately reuse the same admitted stable IDs for the Hodge spine, W114, Hodge Span Lab and Compass method surface. If any later manifest reuses a stable object, occurrence or explicit relation ID with different immutable metadata, ingestion fails closed instead of silently rewriting identity.
 
 Then traverse directly from W114:
 
