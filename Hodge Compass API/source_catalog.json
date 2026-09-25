@@ -1,0 +1,1093 @@
+{
+  "schema": "hodge-compass-source-catalog/v1",
+  "generated_from": {
+    "conscience64": {
+      "repo": "redogit/conscience64",
+      "sha": "6395d52f0580446de8df706f8cba19cf3c4b51df",
+      "count": 40
+    },
+    "other_projects": {
+      "repo": "redogit/Other-Projects-",
+      "sha": "9217c9269db118e03bf7e980adb60acf2e6252e7",
+      "count": 113
+    }
+  },
+  "boundaries": [
+    "CATALOG_ENTRY != VERIFIED_CLAIM",
+    "METHOD_TRANSFER != EVIDENCE_TRANSFER",
+    "SOURCE_PATH != AUTHORITY_PROMOTION"
+  ],
+  "sources": [
+    {
+      "repo": "redogit/conscience64",
+      "path": ".github/workflows/hodge-decision-field-check.yml",
+      "blob_sha": "40d07c0cb383142604195f192c35bb44695311e6",
+      "size": 2422,
+      "role": "hodge-ci"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/CONSCIENCE64_COOPERATION.md",
+      "blob_sha": "d3ed4f17ac39ae99c241f80096ac3ceabeba549f",
+      "size": 6472,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/DECISION_FIELD_CONTEXT_REFLOW.md",
+      "blob_sha": "700c27b59e57e5449854491bc81b6051b73c26d4",
+      "size": 12136,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/DF_HODGE_01_RESULT.json",
+      "blob_sha": "eabc4e7e1d30ddcc18dbd7a3e1d1ac716d7121a9",
+      "size": 2250,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/DF_HODGE_02_RESULT.json",
+      "blob_sha": "8904768c3ab7b3df194be0edba1bb9334cd23c08",
+      "size": 1195,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/DF_HODGE_03_RESULT.json",
+      "blob_sha": "cf29075e4af2fa9dfe38e1edd5e5c3a542f09272",
+      "size": 2441,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/EVEN_WALL_SHIODA_CUBIC_SCREEN_2026-09-15.md",
+      "blob_sha": "4962b1f83376b62839bec99dc45f483a39a74cef",
+      "size": 8195,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/EVEN_WALL_SHIODA_CUBIC_SCREEN_RESULT.json",
+      "blob_sha": "007c988ec7fbde9ba38260b47851a86ba5b0922d",
+      "size": 4582,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/EVEN_WALL_STAR_SPLIT_COSET_SEARCH_RESULT.json",
+      "blob_sha": "829b924eca060eddf01f3ec9f668cbc9d1747857",
+      "size": 2564,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/GAP_COSET_TRANSFER_FILTER.md",
+      "blob_sha": "9eec77b7350dfbcfceabddbefc0be3437129c425",
+      "size": 3195,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/HODGE_FRONTIER_CORRECTION_2026-09-14.md",
+      "blob_sha": "dc8f0d0e166e1f558f80b52278029093f0b18f50",
+      "size": 5144,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/LIFTED_TWO_PAIR_COSET_RESULT.json",
+      "blob_sha": "2afde006de0a545c1df4db46855cb8af0127f34d",
+      "size": 2267,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/M39_SHIODA_KATSURA_DEPENDENCY_NOTE.md",
+      "blob_sha": "79f6d0e2933a7f1277259d8a1e931b892b7d3a9a",
+      "size": 2568,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/M39_STAR_SPLIT_RESULT.json",
+      "blob_sha": "07111790eb8d4b2a639cee6b520083afa99944fe",
+      "size": 1585,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/METHOD_FIREWALL.md",
+      "blob_sha": "3e81d0c19177c576f086b5ba2794f4b50815c4c7",
+      "size": 829,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/ODD_DIVISOR_INFLATION_COSET_RESULT.json",
+      "blob_sha": "04c65d4b93bbba8ffbd6962d67e7275f9f1c52ac",
+      "size": 3571,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/README.md",
+      "blob_sha": "9109e97c5b5d3cbe97ec155d13e4de897db0eb9e",
+      "size": 2225,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/RESEARCH_INTEGRATION_MAP.md",
+      "blob_sha": "c983b5296207bd07dda0bd34989ec0ab07d74cb0",
+      "size": 8486,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/STRUCTURAL_SUPPORTS.md",
+      "blob_sha": "18282d8f07d00929c6732ea09ceda6ae81418bb7",
+      "size": 7072,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/TWO_PAIR_COSET_OBSTRUCTION.md",
+      "blob_sha": "4ddbfeeb83da486a76ba289ac0caee6851ac0bcb",
+      "size": 3157,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/TWO_PAIR_COSET_SEARCH_RESULT.json",
+      "blob_sha": "70bf6cffaf6ed3e84fa1676b08059f24ccfde25d",
+      "size": 1784,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/W114_FACTORIZATION_CONTROLS_RESULT.json",
+      "blob_sha": "02d2c69390c13bc34e83718d0d82be8229456f0d",
+      "size": 1514,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/W114_LIFT570_TWO_PAIR_RESULT.json",
+      "blob_sha": "8fdba416038a489096f662c838c1a43767be287d",
+      "size": 2126,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/W114_MATRIX_FACTORIZATION_TARGET_CONTRACT_2026-09-15.md",
+      "blob_sha": "1654bc9365a9349425d758c81628296d7bb474dd",
+      "size": 6843,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/W114_RESEARCH_LOOP_SNAPSHOT.json",
+      "blob_sha": "08832753d5be77624a9227007cc8fe69b04b303f",
+      "size": 1374,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/claim_matrix.json",
+      "blob_sha": "a688ca3828aad04c9f7d21501f88cfb8d728b180",
+      "size": 7027,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/coset_star_split_search.py",
+      "blob_sha": "993cb166da0175afd518d758d0457060f53c8098",
+      "size": 6775,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/decision_field_v0_1.py",
+      "blob_sha": "6d6fa70230372d447b57da9e4bbadfae9d1c4880",
+      "size": 3723,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/df_hodge_02.py",
+      "blob_sha": "73c52345a54ae35819d98bcaf6ba2d98c9b5b13b",
+      "size": 2377,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/even_wall_shioda_cubic_screen.cpp",
+      "blob_sha": "3852b27dbacf40b811032894afed43656fba8d5a",
+      "size": 15435,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/even_wall_verify.py",
+      "blob_sha": "caf01bf08f063d785aae1cdac2aba2929c7c3293",
+      "size": 2097,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/m39_star_split_verify.py",
+      "blob_sha": "794b9d5867b063177dd9d8ebd8c388bfc77fac0f",
+      "size": 1385,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/odd_divisor_inflation_coset_search.py",
+      "blob_sha": "589e7e27e6e5eb55906ec760c295fb6f70607efd",
+      "size": 3855,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/test_even_wall_shioda_cubic_screen.py",
+      "blob_sha": "8820818d71f5bf04538878ad6b7776134fdb3625",
+      "size": 3341,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/test_w114_factorization_controls.py",
+      "blob_sha": "2c26d2c4a62045daa0591b437a6dadc326ae7519",
+      "size": 1133,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/test_w114_research_loop.py",
+      "blob_sha": "b42f92aca344bc7c9a208d108a4181f8f67adc8a",
+      "size": 2168,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/two_pair_coset_search.py",
+      "blob_sha": "e53433d6e277c816c5aaa00b09d732ecdfce2dc7",
+      "size": 2690,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/w114_factorization_controls.py",
+      "blob_sha": "d31be1cbf2fb44afecedc5d8aa228b87581681c7",
+      "size": 2597,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/w114_lift570_two_pair.py",
+      "blob_sha": "a296409179e76eead1679008c2545214770594a9",
+      "size": 4317,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/conscience64",
+      "path": "research/hodge/w114_research_loop.py",
+      "blob_sha": "f192f167b69613243628b8e68585d190d984023b",
+      "size": 13235,
+      "role": "target-native-hodge"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": ".github/workflows/hodge-span-check.yml",
+      "blob_sha": "db20a3fc9ff9884a7c931650ea4f54a02d4672d8",
+      "size": 1241,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "BIDIRECTIONAL_HANDOFF_ADAPTER_2026-09-20.json",
+      "blob_sha": "3d664ce9950fd113f0d693aea6060bb63dc262b5",
+      "size": 1728,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/CLAIM_BOUNDARY_2026-09-17.md",
+      "blob_sha": "8b9876274154e19c93446a4e23b1f8763fcfc9bb",
+      "size": 851,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/CONTEXTUAL_MULTICARRIER_REASONING.md",
+      "blob_sha": "a20c7ad407b71c6cedf73fe22ba72d5ecccd6662",
+      "size": 3021,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/COORDINATION.md",
+      "blob_sha": "32128148b12c6160c60dbd3f619f2f00dbcf9bba",
+      "size": 4212,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/DECISION_FIELD_CORE_2026-09-17.md",
+      "blob_sha": "c0603a7dc2a09c9c6bdcdc6f1c6cdd40dd5f4631",
+      "size": 3773,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/GSFL_BIDIRECTIONAL_MACRO_CYCLE.md",
+      "blob_sha": "d48306ad740658a81d174489655e661587b0f296",
+      "size": 3655,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/GSFL_OPERATOR_PROJECTION.md",
+      "blob_sha": "194604dd41f26932cae1ae73858cbc8b18b46b8a",
+      "size": 3479,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/LOCAL_TEST_STATUS_2026-09-17.md",
+      "blob_sha": "f6f1bc3fa178a8a6e3ab01914d2013a8bbe36caa",
+      "size": 539,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/README.md",
+      "blob_sha": "fafe507e0aca044261b354950faafa4186885214",
+      "size": 12405,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/README_DECISION_FIELD_2026-09-17.md",
+      "blob_sha": "09f0ebf2ca5b7ced65e2cde01693a02fc301c0ed",
+      "size": 1653,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/RELATIONAL_FIELD_CARRIER_2026-09-20.md",
+      "blob_sha": "aebde2fad4e4645802c3ca1be1a937f6b77ede34",
+      "size": 2855,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/RMAPL_OMEGA_DOMAIN_COLLATION_2026-09-18.md",
+      "blob_sha": "2ecef84ba38badba6a57d80c1780ceddf67660cc",
+      "size": 12338,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/RMAPL_OMEGA_DOMAIN_COLLATION_2026-09-20.md",
+      "blob_sha": "3f88bea305580bf34d85affba02ffc4d0465ab4e",
+      "size": 10104,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/RMAPL_V0_GRAMMAR.md",
+      "blob_sha": "8ec88918174d933f79e9f6c115fb54c9bed1b4bb",
+      "size": 10427,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/RUN.md",
+      "blob_sha": "b5c29725b745336e43cd8d65c623a4ba1523a937",
+      "size": 230,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/agents/operators/README.md",
+      "blob_sha": "246b4c4a94240ca4a38bb298f32ec4c204a60b9c",
+      "size": 1311,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/agents/operators/attack/AGENT.md",
+      "blob_sha": "891fa266a2a22d50d1a64249c40e2bb10f7a9a4a",
+      "size": 883,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/agents/operators/distinguish/AGENT.md",
+      "blob_sha": "3fbf730024155e2173fbd328583c80d2f519029e",
+      "size": 915,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/agents/operators/ground/AGENT.md",
+      "blob_sha": "d0a066ea94fa20cd373d3fac81e2b7d997fca6d6",
+      "size": 909,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/agents/operators/gsfl-profile/AGENT.md",
+      "blob_sha": "d04fef05e0ff35b78c68ded9defa7bbf650deb5d",
+      "size": 1103,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/agents/operators/repair/AGENT.md",
+      "blob_sha": "7baef3eed33b75e618a2be98cd74a07e79b96f2d",
+      "size": 872,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/agents/operators/select/AGENT.md",
+      "blob_sha": "97fe3f54fbd4a9e9ba086f6c1632c6b82508ad87",
+      "size": 946,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/agents/operators/transport/AGENT.md",
+      "blob_sha": "033974c61d1f46ea1ce41d21629599255e7f37a8",
+      "size": 783,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/builder.py",
+      "blob_sha": "d83906ef65cf8023c81f8322a2118857a1bde590",
+      "size": 20941,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/contextual-multicarrier-profile.json",
+      "blob_sha": "fdfba7a307500c78b3c5b78d0b62eeca2300c8c8",
+      "size": 1377,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/contextual_multicarrier.py",
+      "blob_sha": "299a8028d3ba430996e9f4c0d6a5dc0d086c2300",
+      "size": 10261,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/decision-field.schema.json",
+      "blob_sha": "99ab24c5eddeb2c5b44b8cc5e703a0a8d0177032",
+      "size": 2272,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/decision_field.py",
+      "blob_sha": "2439e4fc816d2df7410bbb23c2719e6ae76e9aa9",
+      "size": 5208,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/docs/CARRIER_SURFACE_KERNEL.md",
+      "blob_sha": "c30a3924a7029f1ba911eb56683e4ce1c00f1233",
+      "size": 6525,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/docs/CARRIER_SURFACE_PUBLICATION.md",
+      "blob_sha": "9c11910280e1f39f390e914a2a3ce0c1cefca7a5",
+      "size": 2185,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/docs/CONVERSATION_WIDE_RADAR_LOCALITY_PARITY_2026-09-20.md",
+      "blob_sha": "1faf437c18bef93699bf2807a7cfb3a17f44c2a4",
+      "size": 12531,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/docs/S1_CARRIER_SURFACE_BRIDGE.md",
+      "blob_sha": "bdb7aaf4d2529916bd569dec8b4efc502ac8314d",
+      "size": 3410,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/docs/carrier_surface_traversal.schema.json",
+      "blob_sha": "eb9e0697231b3ea71c70267576eb37ae1f4a6cab",
+      "size": 1991,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/docs/conversation_radar_locality_parity_2026-09-20.json",
+      "blob_sha": "6118f867864394ef4dc9495606d65685f617bb02",
+      "size": 5844,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/docs/superpowers/plans/2026-09-16-gsfl-operator-projection.md",
+      "blob_sha": "4af25fa7f882d43b384a43f5a48b3eebb828dc74",
+      "size": 5253,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/docs/superpowers/specs/2026-09-16-gsfl-operator-projection-design.md",
+      "blob_sha": "ad8ff93285be09268eea61450c0a29c30ee0a498",
+      "size": 3511,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/evidence/CONTEXTUAL_MULTICARRIER_RESULTS.json",
+      "blob_sha": "558f098f7e57f5b7a574246a991d85c2c0126bb6",
+      "size": 2021,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/evidence/GSFL_BIDIRECTIONAL_RESULTS.json",
+      "blob_sha": "c508bd67e67db8594a032a736694c9720b8e7e12",
+      "size": 1677,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/evidence/GSFL_OPERATOR_RESULTS.json",
+      "blob_sha": "302cfa08973df64d137f612b4ab278342d33ba91",
+      "size": 1311,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/evidence/RESULTS.json",
+      "blob_sha": "d1d478febb8d98c8d387fc49ecc3c274b4519565",
+      "size": 1612,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/evidence/RMAPL_OMEGA_RESULTS.json",
+      "blob_sha": "1ffda53b532fd2e8831ad6550a2b99a04a153e34",
+      "size": 1012,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/evidence/RMAPL_OMEGA_STRESS_RESULTS.json",
+      "blob_sha": "4ff88b80a1ec3a8a6fbba97945b7e1ea4c1f5364",
+      "size": 2469,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/evidence/S1_CARRIER_SURFACE_RESULTS.json",
+      "blob_sha": "390c34850621daeba3cddddbac6969b87ad17562",
+      "size": 2805,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/evidence/history/RMAPL_OMEGA_STRESS_PRE_RUNTIME_BOUNDS_20260920.json",
+      "blob_sha": "a5b316844163f06de5bdea8ad020d09b634632a1",
+      "size": 2469,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/evidence/history/RMAPL_OMEGA_STRESS_RESULTS.pre-pr82.json",
+      "blob_sha": "5a2dff0f1bb9f85ad03e3a76fa4ff41205fc6386",
+      "size": 2500,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/example_field.json",
+      "blob_sha": "cf1c42ae563030732fcacc3c487f632f65abbad4",
+      "size": 815,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/examples/omega_repair_fit.rmapl",
+      "blob_sha": "a1407b62a926678e6988b9b70305e6a034474f9e",
+      "size": 535,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/fixtures/omega_decision_field_native.json",
+      "blob_sha": "ff1eebc36ac7bc04103ffc5c2af0c19a12a0fe1b",
+      "size": 648,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/fixtures/omega_s1_native.json",
+      "blob_sha": "0bcdab8dcb3e27f511443ec72bf8ca53a01d0a3f",
+      "size": 868,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/fixtures/s1_current_semantic_object.json",
+      "blob_sha": "fa94b7c41ef68eca9a4593c78e92e9f34ffe0776",
+      "size": 1366,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/gsfl-bidirectional-macro-profile.json",
+      "blob_sha": "f98076599981c08b1294466407d3157426797078",
+      "size": 2184,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/gsfl-operator-profile.json",
+      "blob_sha": "e1ff60565b4bf346cedcd36e7ebaff367cfa1820",
+      "size": 8074,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/gsfl_bidirectional_cycle.py",
+      "blob_sha": "34f7c7b354bb6d57e5f38cf02fbdccd2030534fa",
+      "size": 6258,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/gsfl_operator_projection.py",
+      "blob_sha": "e4573a23344ec46e81ed1bd1ae431939fd3c53af",
+      "size": 7707,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/omega.py",
+      "blob_sha": "00156f6856d25d86a56c95821f6fe7a357d6fffc",
+      "size": 9778,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/omega.schema.json",
+      "blob_sha": "94c7bb865a0ae0cab4d8b4e8888a0179fd8c14a8",
+      "size": 2764,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/omega_adapters.py",
+      "blob_sha": "4404c1463198360771a608cc3f676ee461781b64",
+      "size": 25861,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/omega_relations.py",
+      "blob_sha": "7472dc073a43b875ee5915263374b5644012bcbb",
+      "size": 8636,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/operator-skill-registry.json",
+      "blob_sha": "ef0ab2e23d2ed2be594593f1f5718bd28f253d70",
+      "size": 2388,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/rmapl.py",
+      "blob_sha": "9a70bb0798fe75ac7fc8599fe32695868bf74511",
+      "size": 10764,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/rmapl_runtime.py",
+      "blob_sha": "8593553c4ea4fa3ba15e659d28a5e2a33cf4ea7f",
+      "size": 25488,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/run_audit.py",
+      "blob_sha": "d985b16e76e94f6a6806900ace32a151275dfabb",
+      "size": 4246,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/run_contextual_multicarrier_audit.py",
+      "blob_sha": "5a7036018e2415eabf13858a536d2c0b29d19be6",
+      "size": 7901,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/run_gsfl_bidirectional_audit.py",
+      "blob_sha": "282a533080008e43915da2ba13b239096ffbe322",
+      "size": 7604,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/run_gsfl_operator_audit.py",
+      "blob_sha": "5c909cd67d184b8eda76ecf6a929b534804b1c0b",
+      "size": 5149,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/run_rmapl_omega_audit.py",
+      "blob_sha": "c3e2555c4ef661cf82631baeb21b66ac2fd5c884",
+      "size": 11590,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/run_rmapl_omega_stress.py",
+      "blob_sha": "4e2407f035b102731a85c74f2db72a3b62e9c158",
+      "size": 36495,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/run_s1_carrier_surface_audit.py",
+      "blob_sha": "a64b33b10c23fd1fed9071c1c3a696c19253d93d",
+      "size": 6705,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/s1_carrier_surface.py",
+      "blob_sha": "5bb3e730b58e4ded7246698e9187e5aa30311515",
+      "size": 19594,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/skills/operators/README.md",
+      "blob_sha": "2f6577c0d6615b0d3b4267514d51751f87878064",
+      "size": 3043,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/skills/operators/attack/SKILL.md",
+      "blob_sha": "18fe85b567f1ca184d7f702f718f93c8e775e0d8",
+      "size": 1771,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/skills/operators/distinguish/SKILL.md",
+      "blob_sha": "05b75ae261153e41ada26e9e0422bcf8b80d3cf8",
+      "size": 1767,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/skills/operators/ground/SKILL.md",
+      "blob_sha": "90bb07dd0344903f1c4095cce2a7c298c7fc7b99",
+      "size": 1644,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/skills/operators/gsfl-profile/SKILL.md",
+      "blob_sha": "7b506fc46332b4372644f3231c8fa54a166068a6",
+      "size": 1690,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/skills/operators/repair/SKILL.md",
+      "blob_sha": "0d01b342dec76bbf4a07591d382918d6e1f69e80",
+      "size": 1755,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/skills/operators/select/SKILL.md",
+      "blob_sha": "eb53bcc99259839a527d61d5748f9fa955a44906",
+      "size": 1809,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/skills/operators/transport/SKILL.md",
+      "blob_sha": "67e763860b9dd4a6d0745f0e44c16b857b57d712",
+      "size": 1651,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/test_builder.py",
+      "blob_sha": "41290c6ee31e2f6dd7463854e609b8194a4f516a",
+      "size": 5378,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/test_contextual_multicarrier.py",
+      "blob_sha": "a02b97491b68bf771518cac5785a194669450fdd",
+      "size": 7734,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/test_decision_field.py",
+      "blob_sha": "cfff5ddb6c05b4ea199943f93e2df1521f9f96b4",
+      "size": 3485,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/test_gsfl_bidirectional_cycle.py",
+      "blob_sha": "d411d206f37e8a1c776c1180411e1d6f3a5778e3",
+      "size": 8424,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/test_gsfl_operator_projection.py",
+      "blob_sha": "1428a2586a41def670c1760211d3b18066724359",
+      "size": 5536,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/test_omega.py",
+      "blob_sha": "3db06d53c68eb8656b6a10a936e138bc7e8b032f",
+      "size": 5246,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/test_omega_adapters.py",
+      "blob_sha": "e231c829524b78d14af0dcf02d47cfc8d15c351f",
+      "size": 4366,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/test_omega_domain_adapters.py",
+      "blob_sha": "3923337595cc390ccf759589c6cf8377ac077d6e",
+      "size": 8459,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/test_omega_relations.py",
+      "blob_sha": "120bda3fbd7eca5247a518b004c4e4bde3e3ceec",
+      "size": 6084,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/test_omega_relations_decision_field.py",
+      "blob_sha": "97b22a02b1c7b3b73bf5594243e60bcc3c8388d6",
+      "size": 5264,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/test_operator_skills.py",
+      "blob_sha": "f785e05d54259049e1a04650f09c02701e9f5ab6",
+      "size": 5460,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/test_rmapl.py",
+      "blob_sha": "65f1cebd725650302946e852f5305fe8517412cd",
+      "size": 3626,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/test_rmapl_contract_gaps.py",
+      "blob_sha": "0ea759aa6a46a7a0e3e1ff28e063c1fcf838dae1",
+      "size": 6958,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/test_rmapl_fitter_authority_floor.py",
+      "blob_sha": "a962938c464176b01909628927fe671f301c6a79",
+      "size": 7146,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/test_rmapl_mutation_scope.py",
+      "blob_sha": "6fe466b9d1312f1a4a0c78ae6cf4128c37fd1594",
+      "size": 9525,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/test_rmapl_omega_audit.py",
+      "blob_sha": "8b7f88e8e0210bc9178112f528fb830e6c1aba87",
+      "size": 2098,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/test_rmapl_omega_stress.py",
+      "blob_sha": "b7baf0d1a36d0564fd5fd8811432e85dc79597fe",
+      "size": 4242,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/test_rmapl_runtime.py",
+      "blob_sha": "4fea6e0efe62c3852adb8b23902279dab4a8393d",
+      "size": 11828,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/test_rmapl_runtime_bounds.py",
+      "blob_sha": "ce5ffd2edf4c9b31c63ea0de8c92597513a31b48",
+      "size": 8571,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/test_runtime_bounds_evidence_transition.py",
+      "blob_sha": "a47419da7ffae71ff39d05b691d9ad8d0da02037",
+      "size": 2865,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/test_s1_carrier_surface.py",
+      "blob_sha": "947e708c87d3f316b11382db1415d6952364ca74",
+      "size": 6120,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Decision Field Operator Lab/test_stress_currentness_dependencies.py",
+      "blob_sha": "b3578b13011d25c0e7a22ee862efe5edae4f5588",
+      "size": 3510,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Hodge Span Lab/README.md",
+      "blob_sha": "6c0386bf21cb67fcb7c5f255e378b8b4d3da3bae",
+      "size": 5663,
+      "role": "hodge-method-tool"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Hodge Span Lab/bridge.py",
+      "blob_sha": "594ac50d8b818d1c50b44a7543fb76719f7dd22f",
+      "size": 10676,
+      "role": "hodge-method-tool"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Hodge Span Lab/bridge_calibration.json",
+      "blob_sha": "ff711f6e9fced9b6f2b515dc12f2ab7996f12f0e",
+      "size": 1025,
+      "role": "hodge-method-tool"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Hodge Span Lab/evidence/issue43_bridge_calibration_result.json",
+      "blob_sha": "f837d5d7ffea1d5912f249432c0a220ed4d45680",
+      "size": 3080,
+      "role": "hodge-method-tool"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Hodge Span Lab/example.json",
+      "blob_sha": "32e0428252254b0e222e0630254e6d0999618900",
+      "size": 206,
+      "role": "hodge-method-tool"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Hodge Span Lab/span.py",
+      "blob_sha": "a2ae2f1e3346348bbec8e53ec3f683d55cf7693e",
+      "size": 4436,
+      "role": "hodge-method-tool"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Hodge Span Lab/test_bridge.py",
+      "blob_sha": "75d2a3dbe1a5e2d77d4759abd92fb3fc28adc274",
+      "size": 8306,
+      "role": "hodge-method-tool"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Hodge Span Lab/test_bridge_evidence.py",
+      "blob_sha": "33598b405154a6093888ed5964d6aab6651ba985",
+      "size": 1470,
+      "role": "hodge-method-tool"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "Hodge Span Lab/test_span.py",
+      "blob_sha": "b99440a47edf8f52c1b56c4c9d99dc4c0b056edb",
+      "size": 1909,
+      "role": "hodge-method-tool"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "evidence/hodge-span-001/manifest.json",
+      "blob_sha": "0ce684a2f5d6a199e0c58f511d0ac3dc187dfc51",
+      "size": 3407,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "evidence/hodge-span-001/stderr.txt",
+      "blob_sha": "f9f689d1c39ccfe4d441b0e3c532baa18a7748a6",
+      "size": 453,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "evidence/hodge-span-001/stdout.txt",
+      "blob_sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "role": "related-method-surface"
+    },
+    {
+      "repo": "redogit/Other-Projects-",
+      "path": "hodge-run-contract.json",
+      "blob_sha": "f0423391221dc95908eb6424897c5794ba5e8fec",
+      "size": 936,
+      "role": "related-method-surface"
+    }
+  ]
+}
