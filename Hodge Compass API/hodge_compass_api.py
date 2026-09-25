@@ -6,8 +6,9 @@ from fractions import Fraction
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import unquote, urlparse
+from content_index import records_for_tree
 
-SCHEMA="hodge-compass-api/v1"; HOST="127.0.0.1"; PORT=8765; DB=".hodge-compass/index.sqlite3"
+SCHEMA="hodge-compass-api/v1.1"; HOST="127.0.0.1"; PORT=8765; DB=".hodge-compass/index.sqlite3"
 BOUNDARIES=[
  "RELATION != IDENTITY",
  "NORMAL_OCCURRENCE + WORK_OCCURRENCE != INDEPENDENT_CORROBORATION",
@@ -139,6 +140,53 @@ class Index:
         if dom:s+=" AND o.domain=?";a+=[dom]
         if sid:s+=" AND x.object_id=?";a+=[sid]
         s+=" LIMIT ?";a+=[limit]; return [dict(x) for x in self.db.execute(s,a)]
+    def search_many(self,p):
+        queries=p.get("queries")
+        if not isinstance(queries,list) or not 1<=len(queries)<=64: raise ValueError("queries must be a list of 1..64 items")
+        out=[]
+        for q in queries:
+            spec={"q":q} if isinstance(q,str) else q
+            if not isinstance(spec,dict): raise TypeError("each query must be a string or object")
+            out.append({"query":spec,"results":self.search(spec)})
+        return {"count":len(out),"queries":out}
+
+    def traverse(self,p):
+        starts=p.get("start")
+        starts=[starts] if isinstance(starts,str) else starts
+        if not isinstance(starts,list) or not starts or any(not isinstance(x,str) or not x for x in starts):
+            raise ValueError("start must be a non-empty string or list of strings")
+        max_depth=int(p.get("max_depth",2)); max_nodes=int(p.get("max_nodes",500)); direction=p.get("direction","both")
+        if not 0<=max_depth<=8: raise ValueError("max_depth must be 0..8")
+        if not 1<=max_nodes<=2000: raise ValueError("max_nodes must be 1..2000")
+        if direction not in {"out","in","both"}: raise ValueError("direction must be out, in, or both")
+        types=set(p.get("types") or []); ev=p.get("evidence_transfer"); perm=p.get("permission")
+        if ev not in {None,"ALLOW","DENY"}: raise ValueError("bad evidence_transfer filter")
+        if perm not in {None,"ALLOW","DENY","UNKNOWN"}: raise ValueError("bad permission filter")
+        seen=set(starts); queue=[(x,0) for x in starts]; edges={}
+        pos=0
+        while pos<len(queue):
+            node,depth=queue[pos]; pos+=1
+            if depth>=max_depth: continue
+            rows=[]
+            if direction in {"out","both"}: rows += list(self.db.execute("SELECT * FROM relations WHERE source_id=?",(node,)))
+            if direction in {"in","both"}: rows += list(self.db.execute("SELECT * FROM relations WHERE target_id=?",(node,)))
+            for row in rows:
+                d=dict(row)
+                if types and d["type"] not in types: continue
+                if ev and d["evidence_transfer"]!=ev: continue
+                if perm and d["permission"]!=perm: continue
+                edges[d["id"]]=d
+                neighbor=d["target_id"] if d["source_id"]==node else d["source_id"]
+                if neighbor not in seen and len(seen)<max_nodes:
+                    seen.add(neighbor); queue.append((neighbor,depth+1))
+        nodes=[]
+        depths={x:d for x,d in queue}
+        for sid in sorted(seen):
+            row=self.db.execute("SELECT id,kind,domain,title,claim_ceiling,sha FROM objects WHERE id=?",(sid,)).fetchone()
+            nodes.append({**(dict(row) if row else {"id":sid,"unresolved":True}),"depth":depths.get(sid)})
+        return {"start":starts,"max_depth":max_depth,"direction":direction,"node_count":len(nodes),
+                "edge_count":len(edges),"nodes":nodes,"edges":list(edges.values()),"boundaries":BOUNDARIES}
+
     def stats(self):
         return {"objects":self.db.execute("SELECT count(*) FROM objects").fetchone()[0],"occurrences":self.db.execute("SELECT count(*) FROM occurrences").fetchone()[0],"relations":self.db.execute("SELECT count(*) FROM relations").fetchone()[0],"fts5":self.fts}
 
@@ -194,6 +242,8 @@ class Handler(BaseHTTPRequestHandler):
                 if len(rr)>1000:raise ValueError("max 1000 records")
                 return self.sendj(200,{"results":self.server.idx.ingest_many(rr)})
             if p=="/v1/search":return self.sendj(200,{"results":self.server.idx.search(b)})
+            if p=="/v1/batch/search":return self.sendj(200,self.server.idx.search_many(b))
+            if p=="/v1/graph/traverse":return self.sendj(200,self.server.idx.traverse(b))
             if p=="/v1/hodge/span":return self.sendj(200,span(self.server.root,b))
             if p=="/v1/hodge/bridge":return self.sendj(200,bridge(self.server.root,b))
             if p=="/v1/hodge/sources/search":return self.sendj(200,source_search(self.server.root,b))
@@ -206,10 +256,22 @@ class Handler(BaseHTTPRequestHandler):
 def ingest_manifest(idx,p):
     x=json.loads(Path(p).read_text()); rr=x.get("records",x) if isinstance(x,dict) else x
     return {"count":len(rr),"results":idx.ingest_many(rr)}
+
+def ingest_tree(idx,*,root,repo,prefixes,domain,surface,root_object_id,max_bytes):
+    records,report=records_for_tree(root=root,repo=repo,prefixes=prefixes,domain=domain,surface=surface,
+                                    root_object_id=root_object_id,max_bytes=max_bytes)
+    ingested=0
+    for i in range(0,len(records),500):
+        ingested += len(idx.ingest_many(records[i:i+500]))
+    return {**report,"ingested":ingested}
 def main():
     a=argparse.ArgumentParser();a.add_argument("--db",default=DB);a.add_argument("--repo-root",default=".");s=a.add_subparsers(dest="cmd",required=True)
     sv=s.add_parser("serve");sv.add_argument("--host",default=HOST);sv.add_argument("--port",type=int,default=PORT);sv.add_argument("--quiet",action="store_true")
-    ig=s.add_parser("ingest");ig.add_argument("manifest");q=s.add_parser("search");q.add_argument("query");q.add_argument("--domain");q.add_argument("--surface");q.add_argument("--limit",type=int,default=20)
+    ig=s.add_parser("ingest");ig.add_argument("manifest")
+    it=s.add_parser("ingest-tree");it.add_argument("--root",required=True);it.add_argument("--repo",required=True);it.add_argument("--prefix",action="append",default=[]);it.add_argument("--domain",default="hodge");it.add_argument("--surface",default="local-repo");it.add_argument("--root-object");it.add_argument("--max-bytes",type=int,default=2_000_000)
+    q=s.add_parser("search");q.add_argument("query");q.add_argument("--domain");q.add_argument("--surface");q.add_argument("--limit",type=int,default=20)
+    bs=s.add_parser("batch-search");bs.add_argument("manifest")
+    gr=s.add_parser("traverse");gr.add_argument("start");gr.add_argument("--max-depth",type=int,default=2);gr.add_argument("--direction",choices=["out","in","both"],default="both");gr.add_argument("--max-nodes",type=int,default=500)
     s.add_parser("stats");s.add_parser("w114");src=s.add_parser("sources");src.add_argument("--query",default="");src.add_argument("--repo");src.add_argument("--role");src.add_argument("--limit",type=int,default=100);x=a.parse_args()
     if x.cmd=="serve":
         idx=Index(x.db);h=ThreadingHTTPServer((x.host,x.port),Handler);h.idx=idx;h.root=Path(x.repo_root);h.quiet=x.quiet;print(json.dumps({"url":f"http://{x.host}:{x.port}","schema":SCHEMA}));
@@ -219,7 +281,10 @@ def main():
     idx=Index(x.db)
     try:
         if x.cmd=="ingest":o=ingest_manifest(idx,x.manifest)
+        elif x.cmd=="ingest-tree":o=ingest_tree(idx,root=x.root,repo=x.repo,prefixes=x.prefix,domain=x.domain,surface=x.surface,root_object_id=x.root_object,max_bytes=x.max_bytes)
         elif x.cmd=="search":o=idx.search({"q":x.query,"domain":x.domain,"surface":x.surface,"limit":x.limit})
+        elif x.cmd=="batch-search":o=idx.search_many(json.loads(Path(x.manifest).read_text()))
+        elif x.cmd=="traverse":o=idx.traverse({"start":x.start,"max_depth":x.max_depth,"direction":x.direction,"max_nodes":x.max_nodes})
         elif x.cmd=="stats":o=idx.stats()
         elif x.cmd=="sources":o=source_search(x.repo_root,{"q":x.query,"repo":x.repo,"role":x.role,"limit":x.limit})
         else:o={**W114,"boundaries":BOUNDARIES}
