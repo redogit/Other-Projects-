@@ -95,7 +95,7 @@ class Index:
         rid=rel.get("relation_id",f"rel:{sha(body)}")
         self.db.execute("INSERT OR REPLACE INTO relations VALUES(?,?,?,?,?,?,?,?)",(rid,s,t,typ,perm,ev,canon(prov),sha(body)))
         return rid
-    def ingest(self,r):
+    def ingest(self,r,commit=True):
         need={"semantic_object_id","kind","domain","title","claim_ceiling","occurrence"}
         if need-set(r): raise ValueError(f"missing {sorted(need-set(r))}")
         sid=r["semantic_object_id"]; obj={k:r[k] for k in ["semantic_object_id","kind","domain","title","claim_ceiling"]}
@@ -107,7 +107,16 @@ class Index:
         if self.fts:
             self.db.execute("DELETE FROM fts WHERE occurrence_id=?",(oid,)); self.db.execute("INSERT INTO fts VALUES(?,?,?,?,?,?)",(oid,sid,r["domain"],o["surface"],r["title"],o["text"]))
         for rel in r.get("relations",[]): self.relation(sid,rel)
-        self.db.commit(); return {"semantic_object_id":sid,"occurrence_id":oid,"object_sha256":sha(obj),"occurrence_sha256":sha(body)}
+        if commit:self.db.commit()
+        return {"semantic_object_id":sid,"occurrence_id":oid,"object_sha256":sha(obj),"occurrence_sha256":sha(body)}
+    def ingest_many(self,records):
+        out=[]
+        try:
+            for r in records: out.append(self.ingest(r,commit=False))
+            self.db.commit()
+        except Exception:
+            self.db.rollback(); raise
+        return out
     def get(self,sid):
         o=self.db.execute("SELECT * FROM objects WHERE id=?",(sid,)).fetchone()
         if not o:return None
@@ -183,7 +192,7 @@ class Handler(BaseHTTPRequestHandler):
             if p=="/v1/records":
                 rr=b if isinstance(b,list) else [b]
                 if len(rr)>1000:raise ValueError("max 1000 records")
-                return self.sendj(200,{"results":[self.server.idx.ingest(x) for x in rr]})
+                return self.sendj(200,{"results":self.server.idx.ingest_many(rr)})
             if p=="/v1/search":return self.sendj(200,{"results":self.server.idx.search(b)})
             if p=="/v1/hodge/span":return self.sendj(200,span(self.server.root,b))
             if p=="/v1/hodge/bridge":return self.sendj(200,bridge(self.server.root,b))
@@ -196,7 +205,7 @@ class Handler(BaseHTTPRequestHandler):
 
 def ingest_manifest(idx,p):
     x=json.loads(Path(p).read_text()); rr=x.get("records",x) if isinstance(x,dict) else x
-    return {"count":len(rr),"results":[idx.ingest(r) for r in rr]}
+    return {"count":len(rr),"results":idx.ingest_many(rr)}
 def main():
     a=argparse.ArgumentParser();a.add_argument("--db",default=DB);a.add_argument("--repo-root",default=".");s=a.add_subparsers(dest="cmd",required=True)
     sv=s.add_parser("serve");sv.add_argument("--host",default=HOST);sv.add_argument("--port",type=int,default=PORT);sv.add_argument("--quiet",action="store_true")
