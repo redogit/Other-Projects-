@@ -20,7 +20,7 @@
       "kind": "research-spine",
       "domain": "hodge",
       "title": "Conscience64 Hodge research spine",
-      "claim_ceiling": "OPEN_HODGE_RESEARCH_STRICT_CLAIM_CEILING",
+      "claim_ceiling": "PUBLIC_RESEARCH_SPINE_NOT_HODGE_PROOF",
       "occurrence": {
         "surface": "github",
         "source_ref": "redogit/conscience64:research/projects/hodge-conjecture.md@c6cccf86fb49320051ce46a6882a32b21c53930e",
@@ -69,8 +69,8 @@
       "semantic_object_id": "hodge:w114:alpha:1-7-78-79-86-91",
       "kind": "proof-obligation",
       "domain": "hodge",
-      "title": "W114 Fermat-fourfold target",
-      "claim_ceiling": "OPEN; NONZERO_TARGET_COEFFICIENT != FULL_HODGE_PROOF",
+      "title": "W114 primitive Chern-character target",
+      "claim_ceiling": "NONZERO_TARGET_COEFFICIENT != FULL_HODGE_PROOF",
       "occurrence": {
         "surface": "github",
         "source_ref": "https://github.com/redogit/conscience64/issues/99",
@@ -120,7 +120,7 @@
           ]
         },
         {
-          "target_object_id": "hodge:tool:span-deficit",
+          "target_object_id": "tool:hodge-span-lab",
           "type": "CAN_USE_DIAGNOSTIC",
           "permission": "ALLOW",
           "evidence_transfer": "DENY",
@@ -452,7 +452,7 @@
       },
       "relations": [
         {
-          "target_object_id": "hodge:tool:span-deficit",
+          "target_object_id": "tool:hodge-span-lab",
           "type": "EXECUTED_BY",
           "permission": "ALLOW",
           "evidence_transfer": "DENY",
@@ -481,7 +481,7 @@
       ]
     },
     {
-      "semantic_object_id": "hodge:tool:span-deficit",
+      "semantic_object_id": "tool:hodge-span-lab",
       "kind": "exact-software-tool",
       "domain": "hodge",
       "title": "Hodge Span Lab",
@@ -514,7 +514,7 @@
       "kind": "observer-framework",
       "domain": "compass",
       "title": "Eye of the Storm / Compass observer-return loop",
-      "claim_ceiling": "METHOD_ONLY; COMPASS_OBSERVATION != ALGEBRAIC_REALIZATION",
+      "claim_ceiling": "OBSERVER_FRAMEWORK != ALGEBRAIC_CYCLE",
       "occurrence": {
         "surface": "private-lineage-pointer",
         "source_ref": "semantic-only:no-private-history-content-bundled",
