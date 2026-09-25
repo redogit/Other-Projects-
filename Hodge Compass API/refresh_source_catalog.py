@@ -7,6 +7,7 @@ from urllib.request import Request, urlopen
 
 API="https://api.github.com/repos"
 REPOS=("redogit/conscience64","redogit/Other-Projects-")
+SELF_CATALOG="Hodge Compass API/source_catalog.json"
 
 def get_json(url, token=None):
     headers={"Accept":"application/vnd.github+json","User-Agent":"hodge-compass-api"}
@@ -19,6 +20,8 @@ def select(repo,path):
         return path.startswith("research/hodge/") or (
             path.startswith(".github/workflows/") and "hodge" in path.lower()
         )
+    if path==SELF_CATALOG:
+        return False
     return (
         "hodge" in path.lower()
         or path.startswith("Decision Field Operator Lab/")
@@ -52,7 +55,8 @@ def main():
         "boundaries":[
             "CATALOG_ENTRY != VERIFIED_CLAIM",
             "METHOD_TRANSFER != EVIDENCE_TRANSFER",
-            "SOURCE_PATH != AUTHORITY_PROMOTION"
+            "SOURCE_PATH != AUTHORITY_PROMOTION",
+            "CATALOG_EXCLUDES_SELF_TO_AVOID_RECURSIVE_PIN"
         ],
         "sources":sources,
     }

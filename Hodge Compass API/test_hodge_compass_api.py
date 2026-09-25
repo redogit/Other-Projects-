@@ -2,6 +2,7 @@ from pathlib import Path
 import tempfile
 import unittest
 import hodge_compass_api as api
+import refresh_source_catalog as catalog_refresh
 
 class APITests(unittest.TestCase):
     def setUp(self):
@@ -60,6 +61,12 @@ class APITests(unittest.TestCase):
         self.assertEqual(api.W114["alpha"],[1,7,78,79,86,91])
         self.assertEqual(api.W114["jacobian_degree"],336)
         self.assertIn("FULL_HODGE_PROOF",api.W114["claim_ceiling"])
+    def test_source_catalog_excludes_itself_from_recursive_pin(self):
+        self.assertFalse(catalog_refresh.select(
+            "redogit/Other-Projects-","Hodge Compass API/source_catalog.json"))
+        self.assertTrue(catalog_refresh.select(
+            "redogit/Other-Projects-","Hodge Compass API/hodge_proof_graph_seed.json"))
+
     def test_source_catalog_is_revision_pinned_and_searchable(self):
         root=Path(__file__).resolve().parents[1]
         out=api.source_search(root,{"q":"W114","limit":200})
