@@ -1,17 +1,117 @@
 {
-  "openapi":"3.1.0",
-  "info":{"title":"Hodge Compass API","version":"1.0.0"},
-  "servers":[{"url":"http://127.0.0.1:8765"}],
-  "paths":{
-    "/v1/health":{"get":{"responses":{"200":{"description":"health and boundaries"}}}},
-    "/v1/hodge/w114":{"get":{"responses":{"200":{"description":"frozen W114 target contract"}}}},
-    "/v1/objects/{semantic_object_id}":{"get":{
-      "parameters":[{"name":"semantic_object_id","in":"path","required":true,"schema":{"type":"string"}}],
-      "responses":{"200":{"description":"object with occurrences and relations"},"404":{"description":"not found"}}}},
-    "/v1/records":{"post":{"responses":{"200":{"description":"ingested records"}}}},
-    "/v1/search":{"post":{"responses":{"200":{"description":"ranked occurrence search"}}}},
-    "/v1/hodge/span":{"post":{"responses":{"200":{"description":"exact Hodge Span Lab result"}}}},
-    "/v1/hodge/bridge":{"post":{"responses":{"200":{"description":"exact deformation-to-span bridge result"}}}},
-    "/v1/observer/remainder":{"post":{"responses":{"200":{"description":"exact controlled observer residual result"}}}}
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Hodge Compass API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8765"
+    }
+  ],
+  "paths": {
+    "/v1/health": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "health and boundaries"
+          }
+        }
+      }
+    },
+    "/v1/hodge/w114": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "frozen W114 target contract"
+          }
+        }
+      }
+    },
+    "/v1/objects/{semantic_object_id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "semantic_object_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "object with occurrences and relations"
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    },
+    "/v1/records": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "ingested records"
+          }
+        }
+      }
+    },
+    "/v1/search": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "ranked occurrence search"
+          }
+        }
+      }
+    },
+    "/v1/hodge/span": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "exact Hodge Span Lab result"
+          }
+        }
+      }
+    },
+    "/v1/hodge/bridge": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "exact deformation-to-span bridge result"
+          }
+        }
+      }
+    },
+    "/v1/observer/remainder": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "exact controlled observer residual result"
+          }
+        }
+      }
+    },
+    "/v1/hodge/sources": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "revision-pinned Hodge source catalog"
+          }
+        }
+      }
+    },
+    "/v1/hodge/sources/search": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "filtered revision-pinned Hodge source catalog"
+          }
+        }
+      }
+    }
   }
 }
