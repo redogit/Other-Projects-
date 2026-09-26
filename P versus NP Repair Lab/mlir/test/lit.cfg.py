@@ -16,6 +16,8 @@ llvm_config.with_environment("PATH", os.path.join(config.pnpmlir_binary_dir, "bi
 
 tool_dirs = [config.llvm_tools_dir, os.path.join(config.pnpmlir_binary_dir, "bin")]
 tools = ["FileCheck", "count", "not"]
-if os.path.exists(os.path.join(config.pnpmlir_binary_dir, "bin", "pnp-opt")):
-    tools.append("pnp-opt")
 llvm_config.add_tool_substitutions(tools, tool_dirs)
+
+pnp_opt = os.path.join(config.pnpmlir_binary_dir, "bin", "pnp-opt")
+if os.path.exists(pnp_opt):
+    config.substitutions.append(("%pnp-opt", pnp_opt))
