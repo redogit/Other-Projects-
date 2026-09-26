@@ -1,0 +1,11 @@
+MODULE cooperative_implementation_protocol
+EXPORT root_goal,design_authority,implementation_relation,cross_write_default
+CONST root_goal = "Help humans remain free, capable, and able to recover what they need to live well."
+CONST design_authority = "RYAN_MCMILLAN"
+CONST implementation_relation = "HUMAN_AI_COIMPLEMENTATION"
+CONST cross_write_default = "DENY"
+CONTEXT CooperativeImplementation authority=USER_DESIGN cooperation=HANDOFF_REQUIRED evidence_transfer=DENY
+RELATION CooperatesWith ALLOW read_reference proposal handoff target_acceptance DENY cross_write evidence_transfer authority_transfer
+PRESERVE provenance predecessor_evidence target_authority privacy accessibility uncertainty unresolved_remainder
+VERIFY "Target acceptance precedes target-local successor"
+CONTINUE
