@@ -1,0 +1,12 @@
+MODULE hello;
+const greeting = "RMAL";
+fn fib(n) {
+  if n <= 1 { return n; }
+  return fib(n - 1) + fib(n - 2);
+}
+print greeting + " 3";
+print fib(10);
+assert fib(10) == 55;
+CONTEXT Demo authority=LOCAL evidence_transfer=DENY
+VERIFY "execution is deterministic for this program";
+CONTINUE;
