@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#050308">
+<title>W114 Perturbation Lab</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<canvas id="field" tabindex="0" aria-label="W114 perturbation and candidate-stability game"></canvas>
+<header id="hud">
+  <div class="scoreblock"><span class="micro">W114 · PERTURBATION LAB</span><strong id="score">000000</strong><span id="combo">COMBO ×1</span></div>
+  <div class="centerblock"><span id="object-id">ROOT:W114</span><b id="status">REFERENCE CENTERED</b></div>
+  <div class="rightblock"><span>LOAD <b id="load">0</b></span><span>PARTIAL <b id="partial">0</b></span><span>REJECTED <b id="rejected">0</b></span></div>
+</header>
+<div id="event" role="status" aria-live="polite"></div><div id="popups"></div>
+<nav id="controls" aria-label="Game controls">
+  <button id="perturb" aria-label="Apply perturbation">∂</button>
+  <button id="scan" aria-label="Run synchronized observer scan">◎</button>
+  <button id="clock" aria-label="Toggle pulse clock">⏱</button>
+  <button id="recenter" aria-label="Recenter on W114">⊙</button>
+  <button id="ledger-toggle" aria-label="Open scientific ledger">≡</button>
+</nav>
+<section id="hint"><b>PERTURB THE CANDIDATE FIELD.</b><span>Drag to rotate · tap a candidate to lock · tap ∂ to perturb · double-tap to reverse · hold to recenter</span></section>
+<aside id="ledger" aria-label="Scientific ledger" hidden>
+  <div class="ledger-head"><div><span class="micro">SCIENTIFIC STATE</span><h1>Trace / Residual / Reconstruction</h1></div><button id="ledger-close" aria-label="Close ledger">×</button></div>
+  <div class="target"><code>Q = Σ xᵢ¹¹⁴ = 0</code><code>α = (1,7,78,79,86,91)</code><code>Pα = x₁⁶x₂⁷⁷x₃⁷⁸x₄⁸⁵x₅⁹⁰</code><p>MOT-1 · explicit rank-one Chow/motivic morphism remains open.</p></div>
+  <div class="ledger-grid">
+    <article><h2>Five synchronized observer channels</h2><div id="observer-readout"></div></article>
+    <article><h2>Transformation set</h2><div id="transform-readout"></div></article>
+    <article><h2>Rejected controls</h2><ul id="rejected-list"></ul></article>
+    <article><h2>Partially stable / robust</h2><ul id="partial-list"></ul></article>
+    <article><h2>Cognate relations</h2><ul id="cognate-list"></ul></article>
+    <article><h2>Residuals</h2><ul id="remainder-list"></ul></article>
+  </div>
+  <div class="tracebox"><h2>Object → Surface → Carrier → Trace → Residual → Repair → Reprojection</h2><ol id="trace"></ol></div>
+  <div class="ledger-actions"><button id="copy-state">Copy exact game state</button><button id="export-state">Export JSON</button><label>Import JSON<input id="import-state" type="file" accept="application/json,.json"></label><button id="reset">Reset local game</button></div>
+  <p class="boundary">GAME_SCORE ≠ MATHEMATICAL_EVIDENCE · COGNATE ≠ IDENTITY · NEW_TO_ACTIVE_SEARCH ≠ NEW_MATHEMATICAL_CYCLE · GENERATE ≠ VERIFY ≠ ADMIT · SOFTWARE_VERIFICATION ≠ MATHEMATICAL_PROOF</p>
+</aside>
+<script src="game.js"></script>
+</body>
+</html>

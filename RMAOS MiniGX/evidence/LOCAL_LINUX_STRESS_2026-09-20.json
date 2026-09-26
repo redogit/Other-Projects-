@@ -1,0 +1,56 @@
+{
+  "schema": "rmaos/minigx-local-linux-stress/v1",
+  "date": "2026-09-20",
+  "candidate": "post-hardening-before-ci",
+  "environment": {
+    "python": "3.13.5",
+    "java": "21.0.11",
+    "android_sdk_local": false,
+    "gradle_local": false,
+    "glslang_local": false
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "status": "FIXED",
+      "text": "Semantic graph digest depended on carrier filename."
+    },
+    {
+      "id": "F2",
+      "status": "FIXED",
+      "text": "Duplicate edges, claims and authority directives were accepted."
+    },
+    {
+      "id": "F3",
+      "status": "FIXED",
+      "text": "Negative node stages were accepted."
+    },
+    {
+      "id": "F4",
+      "status": "FIXED",
+      "text": "Compiled graph was verified at runtime but important graphics parameters were hardcoded."
+    },
+    {
+      "id": "F5",
+      "status": "FIXED",
+      "text": "Root and Android shader copies could drift; previous exported source bundle demonstrated the risk."
+    }
+  ],
+  "local_results": {
+    "compiler_unit_tests": "14/14 PASS",
+    "representation_permutations": "200 PASS",
+    "generated_valid_circuits": 5000,
+    "injected_cycles_rejected": 5000,
+    "generated_digest_collisions": 0,
+    "java_game_operations": 250000,
+    "java_game_deterministic_twin": "PASS",
+    "transitions": {
+      "ash": 12458,
+      "ember": 22784,
+      "survivor": 10328
+    },
+    "predecessor_apk_zip_integrity": "PASS",
+    "predecessor_apk_dex_semantic_tokens": "PASS"
+  },
+  "boundary": "LOCAL_LINUX_PASS != ANDROID_DEVICE_RUNTIME_PASS != MATHEMATICAL_PROOF"
+}
