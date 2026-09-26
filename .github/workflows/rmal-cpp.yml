@@ -1,0 +1,27 @@
+name: RMAL C++ Toolchain
+on:
+  push:
+    paths:
+      - "RMAL/**"
+      - ".github/workflows/rmal-cpp.yml"
+  pull_request:
+    paths:
+      - "RMAL/**"
+      - ".github/workflows/rmal-cpp.yml"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: cmake -S RMAL -B RMAL/build -DCMAKE_BUILD_TYPE=Release
+      - name: Build
+        run: cmake --build RMAL/build --parallel
+      - name: Self-check
+        run: RMAL/build/rmalc selfcheck
+      - name: Legacy syntax check
+        run: RMAL/build/rmalc check RMAL/tests/legacy.rmal
+      - name: Execute example
+        run: RMAL/build/rmalc run RMAL/examples/hello.rmal
+      - name: CTest
+        run: ctest --test-dir RMAL/build --output-on-failure
