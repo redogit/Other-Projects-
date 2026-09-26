@@ -1,4 +1,4 @@
-// RUN: %pnp-opt %s | FileCheck %s
+// RUN: %pnp-opt "%s" | FileCheck "%s"
 
 module {
   %c0 = "pnp_core.source"() <{source_id = "compiler_0:k4", obligation = "sat", states_evaluated = 7 : i64, maximum_depth = 2 : i64}> : () -> !pnp_carrier.carrier<"cnf">
