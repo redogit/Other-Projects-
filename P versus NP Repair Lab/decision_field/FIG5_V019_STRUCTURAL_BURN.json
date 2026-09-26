@@ -1,0 +1,40 @@
+{
+  "schema": "fig5-v019-structural-burn/v1",
+  "date": "2026-09-21",
+  "status": "PRE_EXECUTION_INPUT_FAMILY_DIAGNOSTIC",
+  "source_manifest": "P versus NP Repair Lab/decision_field/FIG5_V019_OFFICIAL_MANIFEST.json",
+  "rows": 30,
+  "adjacent_transitions": 25,
+  "finding": {
+    "parameter_increment": "delta = 1 variable",
+    "mean_old_clauses_displaced": 6.92,
+    "median_old_clauses_displaced": 7,
+    "min_old_clauses_displaced": 3,
+    "max_old_clauses_displaced": 12,
+    "mean_fresh_variable_clauses_selected": 10.52,
+    "median_fresh_variable_clauses_selected": 11,
+    "min_fresh_variable_clauses_selected": 6,
+    "max_fresh_variable_clauses_selected": 16,
+    "mean_replacement_amplification_vs_net_clause_growth": 2.97,
+    "median_replacement_amplification_vs_net_clause_growth": 2.75,
+    "min_replacement_amplification_vs_net_clause_growth": 1.75,
+    "max_replacement_amplification_vs_net_clause_growth": 4.666666666666667,
+    "mean_fresh_fraction_of_new_formula": 0.2745308170090779,
+    "min_fresh_fraction_of_new_formula": 0.14285714285714285,
+    "max_fresh_fraction_of_new_formula": 0.4375
+  },
+  "interpretation": [
+    "Within-block generator parameter changes only in n, so the preregistered one-degree control remains parameter-local.",
+    "The formula surface is not a one-clause or one-local-edit perturbation: the newly eligible fresh-variable shell can displace previously selected old-only clauses.",
+    "This is a deterministic consequence of the frozen common-priority fallback construction, not an adaptive change.",
+    "Treat shell displacement as a frozen non-promotable input-family diagnostic unless a successor experiment preregisters it as an explanatory quantity."
+  ],
+  "boundaries": [
+    "DELTA_ONE_VARIABLE != ONE_CLAUSE_PERTURBATION",
+    "ONE_GENERATOR_DEGREE != ONE_SURFACE_EDIT",
+    "COMMON_PRIORITY != NESTED_MEMBERSHIP",
+    "INPUT_FAMILY_DIAGNOSTIC != DP_EXPLANATION",
+    "GENERATE != VERIFY != ADMIT",
+    "P ?= NP = OPEN"
+  ]
+}

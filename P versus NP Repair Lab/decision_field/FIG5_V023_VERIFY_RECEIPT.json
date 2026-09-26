@@ -1,0 +1,15 @@
+{
+  "schema":"fig5-v023-verify-receipt/v1",
+  "date":"2026-09-21",
+  "status":"VERIFY_SEALED_ADMIT_NOT_RUN",
+  "admission_authority":"complete brute-force truth enumeration on n<=13",
+  "truth_counts":{"SAT":28,"UNSAT":2},
+  "active_truth_resolved_disagreements":0,
+  "dp160_diagnostic_counts":{"SAT":10,"UNKNOWN":20},
+  "dp160_truth_resolved_disagreements":0,
+  "carrier_validation_rows":15,
+  "carrier_failures":0,
+  "full_local_verify_sha256":"fb7e8ada9e094be7b40e747f4813212ee9cecb3fd013c7b4853939c0dcf7e2e9",
+  "admit_run":false,
+  "boundaries":["DP160_DIAGNOSTIC != ADMISSION_AUTHORITY","VERIFY != ADMIT","EXACT_REPLICATION != NEW_METHOD","P ?= NP = OPEN"]
+}

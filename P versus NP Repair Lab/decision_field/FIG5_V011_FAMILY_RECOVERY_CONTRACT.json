@@ -1,0 +1,1009 @@
+{
+  "schema_version": "fig5-family-recovery-contract/v0.11",
+  "experiment_id": "FIG-5",
+  "status": "INCONCLUSIVE_VERIFICATION_CAP_BLOCKED",
+  "date": "2026-09-20",
+  "authority": {
+    "linear_issue": "FIG-5",
+    "linear_issue_uuid": "bbe1a0c5-9d17-4fe6-ad79-5f5ca32482dd",
+    "linear_issue_url": "https://linear.app/fighting-decay-of-knowlege/issue/FIG-5/fig-5-measure-bounded-sat-family-growth-after-v010",
+    "v0_10_evidence_comment_id": "872e7480-423f-4a78-9586-72ab95eb479f",
+    "repository": "redogit/Other-Projects-",
+    "base_main_sha": "cca44e23ca663600cc3466f45d7dc509c466b796",
+    "lab_checkpoint_path": "P versus NP Repair Lab/CURRENT.md",
+    "authority_rule": "EXACT_CURRENT_CONTRACT_OR_PIN > EXACT_LOCAL_EXECUTABLE > METHOD_RECEIPT > ATLAS > MEMORY > HISTORICAL_PREDECESSOR",
+    "local_successor_archive_sha256": "dd1494ce0b8376a814311826ca38509e6ce1a4416aa1e26462a6b146c6716fd2",
+    "locality_parity_scope": "FIG-5/MOK lineage only; not whole-repository parity",
+    "locality_parity_version": "MOK-v0.13-locality-parity",
+    "locality_parity_archive_sha256": "37b477d86672df0e679384af95f4d83231a14cd72d4448acb58758dce9fa1fc4",
+    "correction_rule": "SOURCE_FACT != CONTRACT_PARAMETER_UNLESS_BOUND",
+    "locality_parity_successor": "FIG5-locality-v0.17-constructor-repair",
+    "nstar_binding_receipt_sha256": "682bbcf6ed83e6d3f3264b7ca41257e60c64dc56b4c0fc331057808a845d440d",
+    "nstar_binding_authority": "Explicit current approval of the already-frozen FIG-5 plan definition plus exact recovered v0.10 source; private approval text is not exported.",
+    "delta_binding_witness_sha256": "2b1b2d04819f262ab5d8d8fd654a5c550a3978fa8bd8d75a9737322aacb5df09",
+    "delta_binding_successor_archive_sha256": "4f33e806735b4b0bfe8a3f7860252ced1a5666a0f4da88ce828c3a0abc27bffe",
+    "delta_binding_authority": "Current user-requested exact family-preserving increment witness; delta is derived from one-fresh-variable cardinality, not integer adjacency.",
+    "family_constructor_path": "P versus NP Repair Lab/decision_field/fig5_family_dynamics_v017.py",
+    "family_constructor_commit": "700d4cf84cc09f1c95db0bffb37cd6aceda53892",
+    "family_constructor_github_blob_sha": "a1585e65f4228d6ad940b36fc7be31f7de9a5605",
+    "family_constructor_verified_local_sha256": "9b9f274513bb83e61643a7bcf515553888a354c625cb2e7ac7c4e5648200c4dd",
+    "family_constructor_selftest_sha256": "3e254b98bdb25ef6585a41c9ab2379237c9bf991ab9bb2563276f38cbc35c284",
+    "locality_parity_successor_archive_sha256": "a7148ee988bd7be7d09bf3fb84199399241e4073cc4ea5d4bc79f181baa250d2",
+    "family_constructor_stress_sha256": "2161a6fabd315cab3e643c0a4e3b3fa2537abbd82994f1b7822aa3296683be38",
+    "family_constructor_reference_check_sha256": "a6b1f4709c52b3e51a33c4f1b4d4c106a55ecab2b3bd46a8fc5088e0eefd7a5f",
+    "family_constructor_evidence_archive_sha256": "453fcefe7e4d8cebf780514d42efd75d58bc5be7ec47c26c2b8881f39d89e064",
+    "block_seed_rule_path": "P versus NP Repair Lab/decision_field/fig5_block_seed_rule_v018.py",
+    "block_seed_rule_version": "FIG5-block-seed/v0.18",
+    "block_seed_rule_commit": "0cf337239c1d5d9eaa76533c968cc3bccc41ecca",
+    "block_seed_rule_github_blob_sha": "fda47d848ceb5c5b3df11493c21d8bec97d37eab",
+    "block_seed_rule_verified_local_sha256": "a243bd9e69c833e41279e82b1c5d4592c7e3d21f3f9193aec496f9b583b80791",
+    "block_seed_rule_selftest_sha256": "ed0ae74ea4f66e4ec73e192e03ea59419b7e1085e4cc2cc2665b4efc2079db5e",
+    "block_seed_rule_evidence_archive_sha256": "0bdb628c8eeebc39069af6f41e42baafe2f6420416f0e4bdcb66b5708776d8ff",
+    "official_manifest_path": "P versus NP Repair Lab/decision_field/FIG5_V019_OFFICIAL_MANIFEST.json",
+    "official_manifest_commit": "dbd11326f22a70d037b4e32a738e9893a69ec266",
+    "official_manifest_github_blob_sha": "cb4dbd48cc326fe31d6f54f2ab8fc518e6609051",
+    "official_manifest_compact_sha256": "e7cc604244ececbfa32685ec9201e56cdf895d396c9c842578dea2888646ae8f",
+    "official_manifest_full_local_sha256": "1349a3ed6ed8c3e6960fccb3536a53404461d55ae24ff7527782e8814c8e6367",
+    "official_formula_pack_local_sha256": "119959d9a72ada061d9fc56940e47219cf5914a169b2f3cd8a8cd6854e4266a3",
+    "v019_evidence_archive_sha256": "53a89359811b147c7205cae1a97921b34678eafd46a4ae2b51338d39f363e7eb",
+    "active_solver_path": "P versus NP Repair Lab/decision_field/fig5_dp_mirror_v020.py",
+    "active_solver_version": "FIG5-DP-MIRROR/v0.20",
+    "active_solver_commit": "5e42c2fd9030f161f48c96a6d3bcef12f8357315",
+    "active_solver_github_blob_sha": "ccd66a10f0f6b9e321d7f9cea3ea25dbcbfaf1a1",
+    "active_solver_sha256": "b6c6e5c360b2166e43e383c280d33f8f2c48b9a9a763212bc2ec467b62a628c5",
+    "active_solver_prefreeze_commit": "c0bae2413b5787a5fa0e89af175526e4149b581b"
+  },
+  "recovered_v0_10_checkpoint": {
+    "adaptive_evaluations": 141,
+    "accepted_sat_preserving_mutations": 7,
+    "active_generation_cap_resolvents": 80,
+    "independent_validation_cap_resolvents": 160,
+    "best_candidate_sat": true,
+    "exact_dp_generated_resolvents": 103,
+    "planning_parent_pairs_considered": 1063,
+    "q": 2,
+    "branch_mass_best_slack": -63,
+    "residual_equality_count": 0,
+    "recorded_status": "SHORTCUT_FREE_DP_EXACT",
+    "robust_hard_core_found": false,
+    "interpretation": "ACTIVE_BUDGET_OVERRUN_REMAINS_INDEPENDENTLY_VERIFIABLE_NOT_HARD_CORE"
+  },
+  "implementation_recovery": {
+    "local_source_status": "LOCAL_IMPLEMENTATION_IDENTITY_RECOVERED_GITHUB_PARITY_NOT_ESTABLISHED",
+    "connected_github_source_status": "V0_10_IMPLEMENTATION_PARITY_NOT_ESTABLISHED",
+    "local_v0_10_package_sha256": "a86de2f05f357c07e5585d3c2bb5a203fc8ab67d5813e4a142fd34782833967d",
+    "local_v0_12_atlas_overlay_sha256": "764e914b0f770aafa73bde6c31b130a10b76b49ba0ebb9135c721e8ca8a2b98a",
+    "local_v0_13_locality_parity_sha256": "37b477d86672df0e679384af95f4d83231a14cd72d4448acb58758dce9fa1fc4",
+    "source_hashes": {
+      "adaptive_search_py": "48cc8cae2bc9bc0852a62d1a15b8bdc10b4d58ab32df15914be9a4d71589eeb0",
+      "hard_core_py": "944bc8d67dd566378e29a6c1e2418fa1f0ee284758560aa5334473093a447228",
+      "robust_search_py": "1ce0bf49478a38a1584f9a888623d183a08ca391542809d258a78c37b7f2751a",
+      "v0_10_result_json": "b8d4695b57d5d1eac5cea7f88605e41c2b0f4014753e5ad68ef51419146f8633",
+      "v0_10_robust_search_json": "6032710bf3c9cfd36dff429f7074c0c9b85ac6bfeb2ce8efa6847c561f85f4e7"
+    },
+    "recovered_source_facts": {
+      "robust_search_num_vars": 10,
+      "robust_search_seed": 20260920,
+      "robust_search_rounds": 25,
+      "robust_search_candidates_per_round": 6,
+      "robust_search_min_clauses": 20,
+      "robust_search_max_clauses": 44,
+      "active_budget": 80,
+      "validation_budget": 160
+    },
+    "binding_limits": {
+      "exact_v0_10_anchor_n": 10,
+      "n_star_candidate_source_fact": 10,
+      "n_star_rule": "BOUND: n_star is defined by the approved plan as the variable-count size of the retained v0.10 103-resolvent anchor; exact recovered source fixes that size at 10.",
+      "exact_family_increment_delta": 1,
+      "family_manifest": "MATERIALIZED_V0_19_NOT_EXECUTED",
+      "family_executed": false,
+      "delta_rule": "BOUND: delta is the exact variable-set cardinality increase under the verified one-fresh-variable parity extension; the carrier label of the fresh variable is not the binding argument.",
+      "family_constructor": "FROZEN_V0_17_CLAUSE_PRIORITY",
+      "block_seed_rule": "FROZEN_V0_18_PROVENANCE_HASH_DERIVATION",
+      "official_seeds_materialized": true,
+      "official_seed_count": 5,
+      "official_formula_identity_count": 30
+    },
+    "execution_blocked_until": [
+      "recover the exact v0.10 active DP/runtime source bodies byte-for-byte in an executable carrier and verify the pinned SHA-256 identities",
+      "pin the exact elimination/ordering and counter semantics from that recovered source",
+      "only then open active GENERATE on the already-materialized v0.19 30-row family",
+      "after GENERATE is sealed, open independent VERIFY; ADMIT remains separate"
+    ],
+    "boundaries": [
+      "NSTAR_BOUND != DELTA_BOUND",
+      "PARAMETER_BINDING != FAMILY_VALIDITY",
+      "LOCAL_ARTIFACT_IDENTITY != GITHUB_IMPLEMENTATION_PARITY",
+      "GENERATE != VERIFY != ADMIT",
+      "DELTA_DERIVED_FROM_FRESH_VARIABLE_CARDINALITY != INTEGER_ADJACENCY_INFERENCE",
+      "DELTA_BOUND != FAMILY_CONSTRUCTOR_FROZEN",
+      "DELTA_BOUND != 30_ROW_MANIFEST_MATERIALIZED",
+      "CONSTRUCTOR_FROZEN != BLOCK_SEED_RULE_FROZEN",
+      "SOFTWARE_SELF_TEST != FAMILY_EXECUTION",
+      "ANCHOR_SIZE_CENTER != ANCHOR_FORMULA_MEMBER",
+      "COMMON_STREAM_FAMILY != NESTED_FAMILY",
+      "TARGET_DENSITY_PARAMETER != REALIZED_DENSITY_AT_ODD_N",
+      "COMMON_PRIORITY != NESTED_MEMBERSHIP",
+      "SYNTHETIC_STRESS != OFFICIAL_SEED_VALIDITY",
+      "SEED_RULE_FROZEN != OFFICIAL_SEEDS_MATERIALIZED",
+      "OFFICIAL_SEEDS_MATERIALIZED != 30_ROW_MANIFEST_MATERIALIZED",
+      "SEED_COLLISION != PERMISSION_TO_RESEED",
+      "CONSTRUCTOR_SOURCE_HASH_MISMATCH != PERMISSION_TO_DERIVE",
+      "RUNTIME_IDENTITY_RECOVERED != RUNTIME_BYTES_EXECUTABLE_HERE",
+      "OFFICIAL_INPUT_MATERIALIZATION != ACTIVE_DP_EXECUTION",
+      "DELTA_ONE_VARIABLE != ONE_CLAUSE_PERTURBATION",
+      "ONE_GENERATOR_DEGREE != ONE_SURFACE_EDIT",
+      "INPUT_FAMILY_DIAGNOSTIC != DP_EXPLANATION"
+    ]
+  },
+  "one_degree_family": {
+    "blocks": 5,
+    "n_levels_per_block": 6,
+    "total_instances": 30,
+    "changing_degree_within_block": "n",
+    "preferred_construction": "nested F[s,n0] subset ... subset F[s,n5]",
+    "fallback_construction": "fixed seed/common random stream with identical generator parameters",
+    "calibration_level_indices": [
+      0,
+      1,
+      2
+    ],
+    "locked_validation_level_indices": [
+      3,
+      4,
+      5
+    ],
+    "n_ladder_rule": [
+      "n_star - 2*delta",
+      "n_star - delta",
+      "n_star",
+      "n_star + delta",
+      "n_star + 2*delta",
+      "n_star + 3*delta"
+    ],
+    "invalid_low_n_rule": "shift entire six-level ladder upward before execution; do not edit individual levels after results",
+    "adaptation_after_validation_opened": "FORBIDDEN",
+    "family_constructor_status": "FROZEN_V0_17",
+    "block_seed_rule_status": "FROZEN_V0_18",
+    "inputs_materialized": true,
+    "n_star_status": "BOUND_BY_APPROVED_PLAN_PLUS_EXACT_SOURCE",
+    "delta_status": "BOUND_BY_EXACT_FAMILY_PRESERVING_INCREMENT_WITNESS",
+    "execution_allowed": false,
+    "anchor_n": 10,
+    "selected_construction": "fallback_common_clause_priority",
+    "selected_construction_version": "FIG5-clause-priority-3cnf/v0.17",
+    "selected_construction_reason": "v0.16 preserved the fallback common-stream intent but adversarial review exposed an executable describe-path typo, an overbroad n-domain with a guaranteed n=3 nontermination case, a latent nested retry-state nontermination path, an unused-namespace common-stream self-test, and size-dependent coverage-scaffold confounds. v0.17 preserves one n-independent SHA-256 priority per canonical eligible clause, selects a finite bottom-m set, fails closed on missing active support, and has no unbounded candidate/retry loop.",
+    "constructor_contract": {
+      "changing_degree_within_block": "n only",
+      "allowed_n": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "width": 3,
+      "target_density_parameter": "7/2",
+      "density_design_basis": "retained v0.10 anchor has 35 canonical clauses / 10 active variables; continuity design choice, not inherited family validity",
+      "clause_count_law": "round_half_up((7/2)*n)",
+      "realized_density_rule": "target_clause_count(n)/n; odd n is not exactly 7/2",
+      "active_variable_coverage": "exact variables 1..n must all occur; missing support is a fail-closed structural precondition failure and is never repaired by seed search or clause injection",
+      "common_random_object": "n-independent SHA-256 priority assigned to every canonical eligible width-3 clause",
+      "priority_namespace": "FIG5/CLAUSE-PRIORITY/v0.17",
+      "selection": "enumerate finite canonical clause universe over 1..n and select the lowest target_clause_count(n) priorities; digest bytes then canonical clause bytes tie-break",
+      "seed_role": "external block coordinate; five-block derivation rule not frozen in v0.17",
+      "generation_feedback": "none from active solver or verifier",
+      "termination": "finite enumeration plus finite sort; no unbounded candidate/retry loop",
+      "nested": false,
+      "common_priority_membership_rule": "old eligible clauses retain identical priorities as n grows, but newly eligible clauses may displace them",
+      "anchor_formula_membership": false,
+      "source_path": "P versus NP Repair Lab/decision_field/fig5_family_dynamics_v017.py"
+    },
+    "seed_rule_contract": {
+      "version": "FIG5-block-seed/v0.18",
+      "derivation": "SHA256(length-prefixed ordered inputs)",
+      "block_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output_representation": "64 lowercase hexadecimal characters",
+      "ordered_inputs": [
+        "FIG5/BLOCK-SEED/v0.18",
+        "FIG-5",
+        "FIG5-clause-priority-3cnf/v0.17",
+        "v0.17 constructor source SHA-256",
+        "n_star binding receipt SHA-256",
+        "delta binding witness SHA-256",
+        "block_id"
+      ],
+      "constructor_source_sha256": "9b9f274513bb83e61643a7bcf515553888a354c625cb2e7ac7c4e5648200c4dd",
+      "nstar_binding_receipt_sha256": "682bbcf6ed83e6d3f3264b7ca41257e60c64dc56b4c0fc331057808a845d440d",
+      "delta_binding_witness_sha256": "2b1b2d04819f262ab5d8d8fd654a5c550a3978fa8bd8d75a9737322aacb5df09",
+      "materialization_preconditions": [
+        "constructor source bytes must match the frozen SHA-256",
+        "derive exactly block ids 0..4 once each",
+        "five seeds must be pairwise distinct; collision => STOP_NO_RETRY_NO_RESEED"
+      ],
+      "forbidden_inputs": [
+        "formula content",
+        "solver/verifier output",
+        "DP/resolvent/chi_DP measurements",
+        "calibration/validation result",
+        "nonce/search/retry criterion",
+        "clock/environment entropy"
+      ],
+      "official_seed_values_materialized": false
+    },
+    "official_seed_values_materialized": true,
+    "official_manifest_status": "MATERIALIZED_V0_19_NOT_EXECUTED",
+    "official_seeds": [
+      {
+        "block_id": 0,
+        "seed": "82f8a6708f87e1d912f8f0bcb16cd3afd1a12ae8c9a4435ee9d9c1658b9adf38"
+      },
+      {
+        "block_id": 1,
+        "seed": "0deba528faee7246d5fcc25ff78ff4c4697802b9c672d7ae2decce85f512045e"
+      },
+      {
+        "block_id": 2,
+        "seed": "fe1cd784fb645b8533618b2be1ed04aec6737c187dae81a47f23af73681a1c96"
+      },
+      {
+        "block_id": 3,
+        "seed": "a78f25337f1ecd92023ba0c55d394b7234a13bd5d0b0e17f9ca15bea047c2afe"
+      },
+      {
+        "block_id": 4,
+        "seed": "443231e4f3990d547b2d66e8d36c97d91a1b7af4b68636ea0dc5a60dc25f0fef"
+      }
+    ],
+    "official_materialization": {
+      "version": "v0.19",
+      "status": "OFFICIAL_INPUTS_MATERIALIZED_NOT_EXECUTED",
+      "row_count": 30,
+      "distinct_formula_digests": 30,
+      "support_failures": 0,
+      "priority_hash_collisions": 0,
+      "mean_adjacent_jaccard": 0.6203223794830948,
+      "median_adjacent_jaccard": 0.6086956521739131,
+      "min_adjacent_jaccard": 0.42857142857142855,
+      "max_adjacent_jaccard": 0.8,
+      "mean_old_clause_retention": 0.8008113553113553,
+      "min_old_clause_retention": 0.6428571428571429,
+      "max_old_clause_retention": 0.9230769230769231,
+      "min_variable_degree_over_rows": 4,
+      "max_variable_degree_over_rows": 17,
+      "max_polarity_imbalance_over_rows": 8,
+      "manifest_path": "P versus NP Repair Lab/decision_field/FIG5_V019_OFFICIAL_MANIFEST.json",
+      "manifest_sha256": "e7cc604244ececbfa32685ec9201e56cdf895d396c9c842578dea2888646ae8f",
+      "full_local_formula_pack_sha256": "119959d9a72ada061d9fc56940e47219cf5914a169b2f3cd8a8cd6854e4266a3",
+      "execution": {
+        "active_dp": "NOT_RUN",
+        "verify": "NOT_RUN",
+        "admit": "NOT_OPEN"
+      }
+    },
+    "pre_execution_structural_confound": {
+      "status": "FROZEN_INPUT_FAMILY_DIAGNOSTIC",
+      "source_path": "P versus NP Repair Lab/decision_field/FIG5_V019_STRUCTURAL_BURN.json",
+      "source_commit": "5122befb9c2dfdca3754aeeb9b9ae35bd998d9b5",
+      "finding": {
+        "mean_old_clauses_displaced": 6.92,
+        "range_old_clauses_displaced": [
+          3,
+          12
+        ],
+        "mean_fresh_variable_clauses_selected": 10.52,
+        "range_fresh_variable_clauses_selected": [
+          6,
+          16
+        ],
+        "mean_replacement_amplification_vs_net_clause_growth": 2.97,
+        "range_replacement_amplification_vs_net_clause_growth": [
+          1.75,
+          4.666666666666667
+        ],
+        "mean_fresh_fraction_of_new_formula": 0.2745308170090779,
+        "range_fresh_fraction_of_new_formula": [
+          0.14285714285714285,
+          0.4375
+        ]
+      },
+      "interpretation": "delta=1 changes one generator coordinate (variable-count size) but is not a one-clause or one-local-edit perturbation on the formula surface; common-priority shell entry can displace old clauses.",
+      "promotion": "NON_PROMOTABLE_INPUT_FAMILY_DIAGNOSTIC_IN_V0_11"
+    }
+  },
+  "primary_quantity": {
+    "name": "normalized Davis-Putnam opposite-polarity pair pressure",
+    "symbol": "chi_DP",
+    "pair_pressure_symbol": "P_DP",
+    "definition": "P_DP(F;pi) = sum_t d_t^+(x_t) * d_t^-(x_t)",
+    "normalization": "chi_DP(F;pi) = P_DP(F;pi) / n",
+    "measurement_time": "immediately before resolution at each frozen elimination step",
+    "diagnostic_survival_ratio": "eta = R / P_DP",
+    "primary_quantity_count": 1,
+    "post_hoc_metric_substitution": "FORBIDDEN",
+    "measurement_source": "Existing DP trace fields can support read-only P_DP measurement, but source num_vars=10 is not the contract n_star.",
+    "source_replay_diagnostic": {
+      "evidence_class": "SAME_SOURCE_REPLAY_NOT_INDEPENDENT_VALIDATION",
+      "source_num_vars": 10,
+      "generated_resolvents": 103,
+      "planning_pairs_considered": 1063,
+      "P_DP": 152,
+      "chi_using_source_num_vars": 15.2,
+      "boundary": "SOURCE_NUM_VARS_10 != CONTRACT_N_STAR"
+    }
+  },
+  "controls": {
+    "size_linear": "R_hat_1 = a*n",
+    "size_quadratic": "R_hat_2 = b*n^2",
+    "diagnostic_only_not_promotable_in_v0_11": [
+      "planning_work / n^k",
+      "Psi_q",
+      "width",
+      "rank",
+      "q",
+      "branch_slack",
+      "residual_equality",
+      "peak_live_clauses"
+    ]
+  },
+  "stage_firewall": {
+    "invariant": "GENERATE != VERIFY != ADMIT",
+    "generate": {
+      "active_generation_cap_resolvents": 80,
+      "may": [
+        "execute frozen family generator",
+        "execute frozen Davis-Putnam policy",
+        "record complete trace and provenance"
+      ],
+      "may_not": [
+        "read verifier outcomes to adapt later instances",
+        "change family construction after validation is opened",
+        "change primary quantity or thresholds"
+      ],
+      "active_solver": "FROZEN_FIG5_DP_MIRROR_V0_20",
+      "active_solver_lineage_boundary": "MIRROR_V020 != V0_10_ORIGINAL_BYTES",
+      "open": false,
+      "executed": true,
+      "sealed": true,
+      "result_receipt_path": "P versus NP Repair Lab/decision_field/FIG5_V020_ACTIVE_GENERATE_RECEIPT.json",
+      "result_receipt_commit": "22bd0f5fa0c1c2437dd8cf0fa43f947e9f2af65f",
+      "full_local_trace_sha256": "f6490df2a27c5ed0d6a344da55b690aee1013aec858fc46abf78a62010554d6f",
+      "status_counts": {
+        "SAT": 27,
+        "UNSAT": 2,
+        "UNKNOWN": 1
+      },
+      "unknown_rows": [
+        {
+          "block_id": 2,
+          "n": 13,
+          "executed_generated_resolvents": 57,
+          "cap_crossing_at": 81
+        }
+      ]
+    },
+    "verify": {
+      "independent_validation_cap_resolvents": 160,
+      "may": [
+        "independently establish SAT/UNSAT/certificate status within bound"
+      ],
+      "may_not": [
+        "change generator",
+        "change elimination ordering",
+        "change chi_DP",
+        "change family",
+        "change caps"
+      ],
+      "open": false,
+      "executed": true,
+      "verifier_version": "FIG5-DP-MIRROR/v0.20::independent_dp160 + brute_force_sat",
+      "validation_dp_cap_resolvents": 160,
+      "truth_counterprobe": "complete brute-force enumeration on frozen n<=13 domain",
+      "sealed": true,
+      "receipt_path": "P versus NP Repair Lab/decision_field/FIG5_V020_VERIFY_RECEIPT.json",
+      "receipt_commit": "fee2541de85ef475fec90fcd2be3064be4a9aca2",
+      "dp160_status_counts": {
+        "SAT": 9,
+        "UNSAT": 1,
+        "UNKNOWN": 20
+      },
+      "truth_status_counts": {
+        "SAT": 28,
+        "UNSAT": 2
+      },
+      "resolved_disagreements": 0,
+      "carrier_validation_rows": 15,
+      "carrier_failures": 0,
+      "carrier_sidecar_sha256": "cf36bbcde0a40864386227c2bc74f1c8f613d53f9d7cfe481566ad42f4447ab1",
+      "full_local_verify_sha256": "ea8c2c702d052f0f3314dfd468bcbc103df74ac7532458686e80049153a1a391"
+    },
+    "admit": {
+      "rule": "admit row only when generation provenance and independent verification agree",
+      "oracle_cap_exhaustion_result": "UNKNOWN",
+      "oracle_cap_exhaustion_is_hard_core": false,
+      "cap_scaling_with_n": "FORBIDDEN",
+      "open": false,
+      "executed": true,
+      "sealed": true,
+      "receipt_path": "P versus NP Repair Lab/decision_field/FIG5_V020_ADMIT_RECEIPT.json",
+      "receipt_commit": "5cfc378c099896b8a5debd6b3113756a7ed96785",
+      "admitted_rows": 10,
+      "unadmitted_rows": 20,
+      "admitted_validation_rows": 0
+    }
+  },
+  "calibration_and_validation": {
+    "fit_on": "calibration rows only",
+    "scale_estimator": "eta_hat = median(R / P_DP)",
+    "structural_prediction": "R_hat_chi = eta_hat * P_DP",
+    "error": "E = abs(log(1 + R) - log(1 + R_hat))",
+    "aggregation": "for each held-out n level, median error across five blocks",
+    "bounded_structural_collapse_rule": "E_chi < E_n AND E_chi < E_n2 at each of all three held-out n levels",
+    "validation_reuse_for_refit": "FORBIDDEN"
+  },
+  "carrier_counterprobe": {
+    "transform": [
+      "deterministic variable permutation",
+      "deterministic clause-order permutation",
+      "transport frozen elimination sequence through the same variable permutation"
+    ],
+    "exact_reconstruction_required": [
+      "P_DP",
+      "chi_DP",
+      "R",
+      "SAT/UNSAT result",
+      "oracle certificate validity"
+    ],
+    "mismatch_classification": "CARRIER_OR_ORDER_IMPLEMENTATION_RESIDUAL_NOT_COMPLEXITY_EVIDENCE"
+  },
+  "required_row_fields": [
+    "family_version",
+    "generator_hash",
+    "active_solver_hash",
+    "oracle_hash",
+    "ordering_policy_hash",
+    "block_id",
+    "size_index",
+    "n",
+    "seed",
+    "q",
+    "Psi_q",
+    "branch_slack",
+    "residual_equality",
+    "initial_clause_count",
+    "initial_clause_density",
+    "rank",
+    "induced_width",
+    "dp_pair_pressure_sum",
+    "dp_pair_pressure_per_n",
+    "generated_resolvents",
+    "resolvents_per_n",
+    "resolvents_per_n2",
+    "resolvent_survival",
+    "peak_live_clauses",
+    "planning_work",
+    "verification_work",
+    "active_result",
+    "active_cap",
+    "oracle_result",
+    "oracle_cap",
+    "certificate_digest",
+    "admission",
+    "residuals"
+  ],
+  "claim_ceiling": [
+    "BOUNDED_FAMILY_COLLAPSE != ASYMPTOTIC_LAW",
+    "ACTIVE_BUDGET_OVERRUN != HARD_CORE",
+    "FINITE_COUNTEREXAMPLE != COMPLEXITY_LOWER_BOUND",
+    "GENERATION_CAP_EXHAUSTION != VERIFICATION_FAILURE",
+    "GENERATE != VERIFY != ADMIT",
+    "FIG-5_RESULT != P_VS_NP_RESULT",
+    "REPLAY != INDEPENDENT_VALIDATION",
+    "MEMORY != EVIDENCE",
+    "LOCAL_CURRENT != GITHUB_PROJECTION",
+    "SOURCE_FACT != CONTRACT_PARAMETER_UNLESS_BOUND",
+    "RECOVERED != ADMITTED_PARAMETER",
+    "NSTAR_BOUND != DELTA_BOUND",
+    "PARAMETER_BINDING != FAMILY_VALIDITY",
+    "DELTA_DERIVED_FROM_FRESH_VARIABLE_CARDINALITY != INTEGER_ADJACENCY_INFERENCE",
+    "DELTA_BOUND != FAMILY_CONSTRUCTOR_FROZEN",
+    "DELTA_BOUND != 30_ROW_MANIFEST_MATERIALIZED",
+    "P ?= NP = OPEN",
+    "CONSTRUCTOR_FROZEN != BLOCK_SEED_RULE_FROZEN",
+    "SOFTWARE_SELF_TEST != FIG5_FAMILY_EXECUTION",
+    "ANCHOR_SIZE_CENTER != ANCHOR_FORMULA_MEMBER",
+    "COMMON_STREAM_FAMILY != NESTED_FAMILY",
+    "TARGET_DENSITY_PARAMETER != REALIZED_DENSITY_AT_ODD_N",
+    "COMMON_PRIORITY != NESTED_MEMBERSHIP",
+    "SYNTHETIC_STRESS != OFFICIAL_SEED_VALIDITY",
+    "SEED_RULE_FROZEN != OFFICIAL_SEEDS_MATERIALIZED",
+    "OFFICIAL_SEEDS_MATERIALIZED != 30_ROW_MANIFEST_MATERIALIZED",
+    "SEED_COLLISION != PERMISSION_TO_RESEED",
+    "CONSTRUCTOR_SOURCE_HASH_MISMATCH != PERMISSION_TO_DERIVE",
+    "RUNTIME_IDENTITY_RECOVERED != RUNTIME_BYTES_EXECUTABLE_HERE",
+    "OFFICIAL_INPUT_MATERIALIZATION != ACTIVE_DP_EXECUTION",
+    "DELTA_ONE_VARIABLE != ONE_CLAUSE_PERTURBATION",
+    "ONE_GENERATOR_DEGREE != ONE_SURFACE_EDIT",
+    "INPUT_FAMILY_DIAGNOSTIC != DP_EXPLANATION",
+    "ZERO_ADMITTED_VALIDATION_ROWS != CHI_DP_FAILURE",
+    "ZERO_ADMITTED_VALIDATION_ROWS != CHI_DP_SUCCESS",
+    "VERIFIER_DESIGN_FAILURE != COMPLEXITY_EVIDENCE"
+  ],
+  "current_stop": {
+    "completed_step": "seal FIG-5 v0.11 as INCONCLUSIVE_VERIFICATION_CAP_BLOCKED",
+    "experiment_executed": true,
+    "next_one_degree_step": "preregister a fresh successor family before materialization: keep v0.17 constructor, v0.20 active solver, chi_DP, controls and 80 cap frozen; replace admission verifier with complete brute-force truth on n<=13; retain DP160 only as diagnostic; use a new seed namespace because v0.11 validation rows are consumed"
+  },
+  "locality_parity": {
+    "version": "FIG5-locality-v0.19-official-materialization",
+    "status": "PASS_OFFICIAL_INPUTS_MATERIALIZED_EXECUTION_STACK_BYTES_BLOCKED",
+    "scope": "private local working filesystem + Library + read-only pinned external receipts",
+    "n_star_status": "BOUND_10",
+    "delta_status": "BOUND_1_BY_EXACT_INCREMENT_WITNESS",
+    "local_v0_10_identity_recovered": true,
+    "local_v0_10_signature_matched": true,
+    "github_v0_10_implementation_parity": false,
+    "whole_repository_parity": false,
+    "public_export_performed": false,
+    "user_device_updated": false,
+    "domain_firewall": "PNP and HODGE remain separate native authorities; shared method only",
+    "binding_receipt_sha256": "682bbcf6ed83e6d3f3264b7ca41257e60c64dc56b4c0fc331057808a845d440d",
+    "successor_archive_sha256": "453fcefe7e4d8cebf780514d42efd75d58bc5be7ec47c26c2b8881f39d89e064",
+    "delta_binding_witness_sha256": "2b1b2d04819f262ab5d8d8fd654a5c550a3978fa8bd8d75a9737322aacb5df09",
+    "family_constructor_status": "FROZEN_V0_17_CLAUSE_PRIORITY",
+    "block_seed_rule_status": "FROZEN_V0_18_PROVENANCE_HASH_DERIVATION",
+    "family_manifest_status": "MATERIALIZED_V0_19_NOT_EXECUTED",
+    "family_executed": false,
+    "seed_rule_evidence_archive_sha256": "0bdb628c8eeebc39069af6f41e42baafe2f6420416f0e4bdcb66b5708776d8ff",
+    "official_seeds_materialized": true,
+    "official_manifest_sha256": "e7cc604244ececbfa32685ec9201e56cdf895d396c9c842578dea2888646ae8f",
+    "v019_evidence_archive_sha256": "53a89359811b147c7205cae1a97921b34678eafd46a4ae2b51338d39f363e7eb"
+  },
+  "correction_history": [
+    {
+      "event": "V0_13_CORRECTION",
+      "result": "Correctly rejected n_star binding from source num_vars=10 alone.",
+      "preserved": true
+    },
+    {
+      "event": "V0_14_AUTHORITY_BINDING",
+      "result": "A new explicit plan-approval authority event supplies the missing linkage: approved plan defines n_star as the retained v0.10 anchor size; exact source fixes that size at 10.",
+      "n_star": 10,
+      "delta": "UNRESOLVED",
+      "family_executed": false
+    },
+    {
+      "event": "V0_15_EXACT_DELTA_BINDING",
+      "result": "Rejected integer-adjacency inference is not restored. An exact one-fresh-variable width-3 parity extension preserves clause nesting and exact projection, so delta is bound by |Var(E(F)) \\\\ Var(F)| = 1.",
+      "n_star": 10,
+      "delta": 1,
+      "family_constructor_frozen": false,
+      "family_manifest": "NOT_MATERIALIZED",
+      "family_executed": false,
+      "witness_sha256": "2b1b2d04819f262ab5d8d8fd654a5c550a3978fa8bd8d75a9737322aacb5df09"
+    },
+    {
+      "event": "V0_16_CONSTRUCTOR_FREEZE",
+      "result": "Primary FIG-5 family constructor frozen as deterministic fallback common SHA-256 stream with exact width 3, density 7/2, active-variable coverage, and n as the only changing within-block degree. XOR nesting retained as delta witness/carrier control rather than primary family because repeated definitional extension would keep the semantic core fixed.",
+      "n_star": 10,
+      "delta": 1,
+      "family_constructor": "FROZEN_V0_16_COMMON_HASH_STREAM",
+      "block_seed_rule": "NOT_YET_FROZEN",
+      "family_manifest": "NOT_MATERIALIZED",
+      "family_executed": false,
+      "source_commit": "c7003c0bb168f6e45c5d6f962c1b761ab9c3e3b5",
+      "successor_archive_sha256": "a7148ee988bd7be7d09bf3fb84199399241e4073cc4ea5d4bc79f181baa250d2"
+    },
+    {
+      "event": "V0_17_ADVERSARIAL_CONSTRUCTOR_REPAIR",
+      "result": "v0.16 adversarial review exposed executable and scientific-control residuals before official seed freeze. The primary constructor is replaced by a finite complete width-3 clause universe with one n-independent SHA-256 priority per clause and bottom-m selection. Missing active support fails closed; no seed search or adaptive repair is allowed.",
+      "n_star": 10,
+      "delta": 1,
+      "predecessor_constructor": "FROZEN_V0_16_COMMON_HASH_STREAM",
+      "family_constructor": "FROZEN_V0_17_CLAUSE_PRIORITY",
+      "block_seed_rule": "NOT_YET_FROZEN",
+      "family_manifest": "NOT_MATERIALIZED",
+      "family_executed": false,
+      "official_seeds_derived": false,
+      "source_commit": "700d4cf84cc09f1c95db0bffb37cd6aceda53892",
+      "evidence_archive_sha256": "453fcefe7e4d8cebf780514d42efd75d58bc5be7ec47c26c2b8881f39d89e064"
+    },
+    {
+      "event": "V0_18_BLOCK_SEED_RULE_FREEZE",
+      "result": "The five future block seeds are now logically fixed by a single SHA-256 length-prefixed provenance derivation over the official namespace, experiment id, v0.17 constructor identity, n_star binding receipt, delta binding witness, and block id. No valid official block id was evaluated in the self-test. No nonce/search/retry or result-dependent input is permitted.",
+      "family_constructor": "FROZEN_V0_17_CLAUSE_PRIORITY",
+      "block_seed_rule": "FROZEN_V0_18_PROVENANCE_HASH_DERIVATION",
+      "official_seed_values_materialized": false,
+      "family_manifest": "NOT_MATERIALIZED",
+      "family_executed": false,
+      "source_commit": "0cf337239c1d5d9eaa76533c968cc3bccc41ecca",
+      "evidence_archive_sha256": "0bdb628c8eeebc39069af6f41e42baafe2f6420416f0e4bdcb66b5708776d8ff"
+    },
+    {
+      "event": "V0_19_OFFICIAL_INPUT_MATERIALIZATION_AND_STRUCTURAL_BURN",
+      "result": "The frozen v0.18 rule was evaluated exactly once for block ids 0..4, yielding five distinct official seeds. The frozen v0.17 constructor materialized all 30 official formula identities. All rows have exact active support, zero observed priority collisions, and 30 distinct formula digests. Active DP, independent verification, and admission were not run.",
+      "family_constructor": "FROZEN_V0_17_CLAUSE_PRIORITY",
+      "block_seed_rule": "FROZEN_V0_18_PROVENANCE_HASH_DERIVATION",
+      "official_seed_values_materialized": true,
+      "family_manifest": "MATERIALIZED_V0_19_NOT_EXECUTED",
+      "family_executed": false,
+      "manifest_commit": "dbd11326f22a70d037b4e32a738e9893a69ec266",
+      "manifest_sha256": "e7cc604244ececbfa32685ec9201e56cdf895d396c9c842578dea2888646ae8f",
+      "evidence_archive_sha256": "53a89359811b147c7205cae1a97921b34678eafd46a4ae2b51338d39f363e7eb"
+    },
+    {
+      "event": "V0_19_PRE_EXECUTION_SHELL_DISPLACEMENT_DIAGNOSTIC",
+      "result": "Before any active DP or verifier outcome was observed, the official v0.19 family was audited for surface locality. A +1 variable step selects 6-16 fresh-variable clauses and displaces 3-12 old clauses across the 25 adjacent transitions. This is frozen as an input-family confound, not promoted as an explanatory quantity.",
+      "source_commit": "5122befb9c2dfdca3754aeeb9b9ae35bd998d9b5",
+      "active_dp_run": false,
+      "verifier_run": false
+    },
+    {
+      "event": "V0_20_DP_MIRROR_FREEZE",
+      "result": "Exact v0.10 runtime bytes remained unavailable in the current carrier. Rather than silently substitute, a new explicitly versioned exact DP mirror was frozen before official execution. It passed 12,000 random CNF truth comparisons, 6,670 raw projection assignment checks, and 5,000 carrier-transport checks with zero required mismatches.",
+      "mirror_version": "FIG5-DP-MIRROR/v0.20",
+      "source_sha256": "b6c6e5c360b2166e43e383c280d33f8f2c48b9a9a763212bc2ec467b62a628c5",
+      "official_dp_rows_executed": 0,
+      "verify_open": false,
+      "admit_open": false
+    },
+    {
+      "event": "V0_20_ACTIVE_GENERATE_SEALED",
+      "result": "Frozen v0.20 active solver executed all 30 frozen v0.19 inputs with cap 80. Outcomes: 27 SAT, 2 UNSAT, 1 UNKNOWN. The UNKNOWN row is block 2 n=13; 57 resolvents had executed and the next chosen elimination would cross the cap at 81. No verifier was called before the active trace was sealed.",
+      "full_trace_sha256": "f6490df2a27c5ed0d6a344da55b690aee1013aec858fc46abf78a62010554d6f",
+      "receipt_commit": "22bd0f5fa0c1c2437dd8cf0fa43f947e9f2af65f",
+      "verify_run": false,
+      "admit_open": false
+    },
+    {
+      "event": "V0_20_VERIFY_SEALED",
+      "result": "Independent DP160 plus complete brute-force truth counterprobe executed only after GENERATE was sealed. DP160 resolved 10/30 rows (9 SAT, 1 UNSAT) and returned UNKNOWN on 20. There were zero disagreements among resolved DP160, active resolved outputs, and brute-force truth. The active UNKNOWN row is SAT by brute force. Carrier counterprobe passed 15/15 validation rows after a trace-completeness sidecar reconstructed the omitted blocked cap event.",
+      "receipt_commit": "fee2541de85ef475fec90fcd2be3064be4a9aca2",
+      "full_verify_sha256": "ea8c2c702d052f0f3314dfd468bcbc103df74ac7532458686e80049153a1a391",
+      "admit_open": false
+    },
+    {
+      "event": "V0_20_ADMIT_AND_V011_CLOSE",
+      "result": "10/30 rows admitted; all 10 are calibration rows and zero locked validation rows are admitted. Therefore the preregistered held-out structural-collapse comparison is not executable. v0.11 closes INCONCLUSIVE_VERIFICATION_CAP_BLOCKED; chi_DP is neither confirmed nor falsified on admitted validation evidence.",
+      "admit_receipt_commit": "5cfc378c099896b8a5debd6b3113756a7ed96785",
+      "bounded_structural_collapse": "UNRESOLVED",
+      "p_vs_np": "OPEN"
+    }
+  ],
+  "delta_binding_witness": {
+    "schema": "fig5_delta_increment_witness/v1",
+    "stable_id": "FIG-5/delta",
+    "status": "BOUND",
+    "payload_sha256": "2b1b2d04819f262ab5d8d8fd654a5c550a3978fa8bd8d75a9737322aacb5df09",
+    "binding": {
+      "parameter": "delta",
+      "value": 1,
+      "derivation": "delta := |Var(E(F)) \\ Var(F)| = 1",
+      "basis": "exact constructive one-fresh-variable family-preserving extension",
+      "not_basis": "integer adjacency of 10 and 11"
+    },
+    "operator": {
+      "name": "balanced_parity_extension",
+      "input_preconditions": [
+        "F is a canonical 3-CNF family member",
+        "p and g are two distinct existing variables selected deterministically",
+        "z is one fresh variable not in Var(F)"
+      ],
+      "definition": "E(F) := F union G(z;p,g)",
+      "gadget": [
+        [
+          "NOT z",
+          "p",
+          "g"
+        ],
+        [
+          "z",
+          "p",
+          "NOT g"
+        ],
+        [
+          "z",
+          "NOT p",
+          "g"
+        ],
+        [
+          "NOT z",
+          "NOT p",
+          "NOT g"
+        ]
+      ],
+      "semantic_identity": "G(z;p,g) iff z = p XOR g"
+    },
+    "exact_invariants": {
+      "nested_clause_set": "F subset E(F)",
+      "old_formula_unchanged": true,
+      "fresh_variable_count": 1,
+      "fresh_variable_active": "z occurs in all four added clauses, both polarities, and is uniquely determined by p,g",
+      "unique_extension": "every assignment to Var(F) has exactly one z satisfying G",
+      "projection": "exists z E(F) iff F",
+      "clause_width": "all four added clauses are canonical non-tautological width-3 clauses"
+    },
+    "restricted_minimality": {
+      "scope": "one fresh z; two existing p,g; non-tautological canonical width-3 clauses over exactly {z,p,g}; every old (p,g) assignment has exactly one z extension",
+      "candidate_clause_universe": 8,
+      "unique_extension_cnf_counts_by_added_clause_count": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 16
+      },
+      "minimum_added_clauses": 4,
+      "selected_four_clause_relation": "z = p XOR g"
+    },
+    "source_check": {
+      "v0_10_package_sha256": "a86de2f05f357c07e5585d3c2bb5a203fc8ab67d5813e4a142fd34782833967d",
+      "v0_10_robust_search_json_sha256": "6032710bf3c9cfd36dff429f7074c0c9b85ac6bfeb2ce8efa6847c561f85f4e7",
+      "anchor_n": 10,
+      "generic_truth_table_rows_checked": 8,
+      "generic_truth_table_mismatches": 0,
+      "anchor_old_assignment_rows_checked": 1024,
+      "anchor_projection_mismatches": 0,
+      "anchor_unique_extension_mismatches": 0,
+      "source_canonical_preprocess_residual": "NONE",
+      "private_anchor_clauses_exported": false
+    },
+    "scope_limits": [
+      "NSTAR_BOUND != DELTA_BOUND",
+      "PARAMETER_BINDING != FAMILY_VALIDITY",
+      "DELTA_BOUND != FAMILY_CONSTRUCTOR_FROZEN",
+      "DELTA_BOUND != 30_ROW_MANIFEST_MATERIALIZED",
+      "GENERATE != VERIFY != ADMIT",
+      "P ?= NP = OPEN"
+    ]
+  },
+  "family_constructor_verification": {
+    "status": "SOFTWARE_SELF_TEST_AND_SYNTHETIC_STRESS_PASS",
+    "constructor_version": "FIG5-clause-priority-3cnf/v0.17",
+    "tested_levels": [
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "test_seed": "TEST-ONLY-NOT-A-FIG5-BLOCK",
+    "self_test": {
+      "synthetic_seed_count": 256,
+      "synthetic_formula_count": 1536,
+      "structural_failures": 0,
+      "sha256_priority_collisions_observed": 0,
+      "source_sha256": "9b9f274513bb83e61643a7bcf515553888a354c625cb2e7ac7c4e5648200c4dd",
+      "selftest_sha256": "3e254b98bdb25ef6585a41c9ab2379237c9bf991ab9bb2563276f38cbc35c284"
+    },
+    "widened_synthetic_stress": {
+      "synthetic_seed_count": 1000,
+      "synthetic_formula_count": 6000,
+      "structural_failures": 0,
+      "sha256_priority_collisions_observed": 0,
+      "adjacent_pairs": 5000,
+      "mean_exact_clause_jaccard": 0.6184194319035838,
+      "median_exact_clause_jaccard": 0.62,
+      "mean_old_clause_retention": 0.7982516483516483,
+      "mean_old_clauses_displaced": 6.9618,
+      "max_old_clauses_displaced": 19,
+      "evidence_sha256": "2161a6fabd315cab3e643c0a4e3b3fa2537abbd82994f1b7822aa3296683be38",
+      "boundary": "SYNTHETIC_STRESS != OFFICIAL_SEED_VALIDITY"
+    },
+    "independent_reference_reconstruction": {
+      "matched_constructions": 96,
+      "mismatches": 0,
+      "reference_harness_sha256": "a6b1f4709c52b3e51a33c4f1b4d4c106a55ecab2b3bd46a8fc5088e0eefd7a5f"
+    },
+    "exact_properties_checked": [
+      "describe contract path executes",
+      "n domain is exactly 8..13",
+      "determinism",
+      "exact active-variable coverage on synthetic probes",
+      "all clauses width 3 with three distinct variable identities",
+      "finite clause-universe cardinality",
+      "target clause-count law",
+      "same clause has identical priority across n",
+      "different external seeds change output",
+      "finite termination path"
+    ],
+    "claim_ceiling": [
+      "SOFTWARE_SELF_TEST != FIG5_FAMILY_EXECUTION",
+      "SYNTHETIC_STRESS != OFFICIAL_SEED_VALIDITY",
+      "CONSTRUCTOR_FROZEN != BLOCK_SEED_RULE_FROZEN",
+      "PARAMETER_BINDING != FAMILY_VALIDITY",
+      "GENERATE != VERIFY != ADMIT",
+      "P ?= NP = OPEN"
+    ]
+  },
+  "last_updated": "2026-09-21",
+  "predecessor_v0_16_adversarial_residuals": {
+    "status": "SUPERSEDED_BY_V0_17_CONSTRUCTOR_REPAIR",
+    "source_path": "P versus NP Repair Lab/decision_field/fig5_family_dynamics_v016.py",
+    "residuals": [
+      "describe_contract references DENSITY_DENOMATOR instead of DENSITY_DENOMINATOR, so the contract-description path can fail even while self-test passes",
+      "_validate_n accepts n=3, but target_clause_count(3)=11 exceeds the eight possible canonical non-tautological width-3 clauses on three variables, so generation cannot terminate",
+      "_uniform_index may internally advance the same retry coordinate used by outer duplicate-variable retry without returning the consumed counter, leaving a latent repeat/nontermination path after modulo-bias rejection",
+      "the raw-stream reproducibility self-test uses namespace raw-stream, while generation uses stream-var, stream-sign, coverage-order, and coverage-sign",
+      "7/2 is a target density parameter, not exact realized density at odd n after integer clause-count rounding",
+      "coverage scaffold size changes as ceil(n/3) and its hash-keyed permutation can reshuffle existing variables when n changes, injecting a size-dependent structural confound"
+    ],
+    "evidence_boundary": "V0_16_SOFTWARE_OR_CONTRACT_RESIDUAL != FIG5_FAMILY_RESULT"
+  },
+  "seed_rule_verification": {
+    "status": "SOFTWARE_SELF_TEST_PASS_NO_OFFICIAL_SEED_EVALUATION",
+    "version": "FIG5-block-seed/v0.18",
+    "source_sha256": "a243bd9e69c833e41279e82b1c5d4592c7e3d21f3f9193aec496f9b583b80791",
+    "selftest_sha256": "ed0ae74ea4f66e4ec73e192e03ea59419b7e1085e4cc2cc2665b4efc2079db5e",
+    "evidence_archive_sha256": "0bdb628c8eeebc39069af6f41e42baafe2f6420416f0e4bdcb66b5708776d8ff",
+    "official_valid_block_ids_evaluated": 0,
+    "official_seed_values_materialized": false,
+    "tests": [
+      "contract description executes",
+      "invalid official ids rejected without deriving an official seed",
+      "test-only namespace deterministic",
+      "test-only namespace yields five distinct outputs",
+      "output representation is 64 lowercase hexadecimal characters",
+      "changing a frozen provenance input changes the test-domain digest"
+    ],
+    "claim_ceiling": [
+      "SEED_RULE_SELF_TEST != OFFICIAL_SEED_EVALUATION",
+      "SEED_RULE_FROZEN != FAMILY_VALIDITY",
+      "GENERATE != VERIFY != ADMIT",
+      "P ?= NP = OPEN"
+    ]
+  },
+  "execution_stack_recovery": {
+    "status": "ORIGINAL_V010_BYTES_UNAVAILABLE_CURRENT_CARRIER; V020_MIRROR_FROZEN_AS_NEW_ACTIVE_SOLVER",
+    "package": {
+      "name": "meta_obligation_kernel_v0_10.zip",
+      "bytes": 41621,
+      "sha256": "a86de2f05f357c07e5585d3c2bb5a203fc8ab67d5813e4a142fd34782833967d",
+      "library_present": true
+    },
+    "source_files": {
+      "04_ADAPTERS/pnp/runtime/adaptive_search.py": "48cc8cae2bc9bc0852a62d1a15b8bdc10b4d58ab32df15914be9a4d71589eeb0",
+      "04_ADAPTERS/pnp/runtime/hard_core.py": "944bc8d67dd566378e29a6c1e2418fa1f0ee284758560aa5334473093a447228",
+      "04_ADAPTERS/pnp/runtime/robust_search.py": "1ce0bf49478a38a1584f9a888623d183a08ca391542809d258a78c37b7f2751a"
+    },
+    "recovered_signature": {
+      "active_budget": 80,
+      "validation_budget": 160,
+      "adaptive_evaluations": 141,
+      "exact_generated_resolvents": 103,
+      "planning_pairs_considered": 1063,
+      "validation_dp_status": "SAT",
+      "same_source_replay_P_DP": 152,
+      "same_source_replay_chi_DP_at_n10": 15.2
+    },
+    "connected_github_exact_runtime_bodies": false,
+    "current_execution_carrier_archive_extraction": false,
+    "substitution_policy": "NO_SILENT_SUBSTITUTION; V0.20 IS EXPLICITLY NEW AND VERSIONED",
+    "boundary": "RUNTIME_IDENTITY_RECOVERED != RUNTIME_BYTES_EXECUTABLE_HERE",
+    "v020_mirror_frozen": true
+  },
+  "active_solver_freeze": {
+    "version": "FIG5-DP-MIRROR/v0.20",
+    "status": "FROZEN_BEFORE_OFFICIAL_EXECUTION",
+    "source_sha256": "b6c6e5c360b2166e43e383c280d33f8f2c48b9a9a763212bc2ec467b62a628c5",
+    "source_commit": "5e42c2fd9030f161f48c96a6d3bcef12f8357315",
+    "semantics": {
+      "preprocessing": "order-independent simultaneous unit closure + subsumption + exhaustive SSR strengthening to fixed point",
+      "elimination": "exact Davis-Putnam",
+      "ordering": "one-step preview of every active variable; lexicographic post-surface score",
+      "active_cap": 80,
+      "planning_pairs": "all preview parent pairs",
+      "generated_resolvents": "executed non-tautological candidates before dedup/subsumption",
+      "P_DP": "sum d_plus*d_minus immediately before executed elimination"
+    },
+    "tests": {
+      "random_cnf_exactness": 12000,
+      "raw_projection_assignment_checks": 6670,
+      "carrier_transport_cases": 5000,
+      "mismatches": 0
+    },
+    "lineage_boundary": "MIRROR_V020 != V0_10_ORIGINAL_BYTES"
+  },
+  "active_generate_result": {
+    "version": "v0.20",
+    "status": "SEALED_VERIFY_NOT_OPEN",
+    "rows": 30,
+    "status_counts": {
+      "SAT": 27,
+      "UNSAT": 2,
+      "UNKNOWN": 1
+    },
+    "generated_resolvents_range": [
+      0,
+      80
+    ],
+    "dp_pair_pressure_range": [
+      0,
+      102
+    ],
+    "planning_pairs_range": [
+      0,
+      1406
+    ],
+    "unknown_row": {
+      "block_id": 2,
+      "n": 13,
+      "generated_before_cap": 57,
+      "next_step_would_reach": 81
+    },
+    "full_trace_sha256": "f6490df2a27c5ed0d6a344da55b690aee1013aec858fc46abf78a62010554d6f",
+    "receipt_commit": "22bd0f5fa0c1c2437dd8cf0fa43f947e9f2af65f",
+    "boundary": "ACTIVE_RESULT != VERIFIED_RESULT"
+  },
+  "verify_result": {
+    "status": "SEALED_ADMIT_NOT_OPEN",
+    "rows": 30,
+    "bounded_dp160": {
+      "SAT": 9,
+      "UNSAT": 1,
+      "UNKNOWN": 20
+    },
+    "truth_counterprobe": {
+      "SAT": 28,
+      "UNSAT": 2
+    },
+    "resolved_disagreements": 0,
+    "active_unknown_truth": {
+      "block_id": 2,
+      "n": 13,
+      "truth": "SAT"
+    },
+    "carrier_counterprobe": {
+      "rows": 15,
+      "failures": 0,
+      "sidecar_sha256": "cf36bbcde0a40864386227c2bc74f1c8f613d53f9d7cfe481566ad42f4447ab1"
+    },
+    "negative_evidence": "active UNKNOWN trace omitted blocked-next-variable; sidecar reconstructs cap event but does not alter sealed active result",
+    "receipt_commit": "fee2541de85ef475fec90fcd2be3064be4a9aca2"
+  },
+  "final_v011_result": {
+    "status": "INCONCLUSIVE_VERIFICATION_CAP_BLOCKED",
+    "generate": {
+      "rows": 30,
+      "SAT": 27,
+      "UNSAT": 2,
+      "UNKNOWN": 1
+    },
+    "verify": {
+      "dp160_SAT": 9,
+      "dp160_UNSAT": 1,
+      "dp160_UNKNOWN": 20,
+      "truth_SAT": 28,
+      "truth_UNSAT": 2,
+      "resolved_disagreements": 0
+    },
+    "admit": {
+      "admitted": 10,
+      "not_admitted": 20,
+      "validation_admitted": 0
+    },
+    "primary_analysis": {
+      "status": "NOT_EXECUTABLE",
+      "reason": "all 15 locked validation rows are unadmitted under the preregistered DP160 admission gate",
+      "bounded_structural_collapse": "UNRESOLVED",
+      "chi_DP": "NEITHER_CONFIRMED_NOR_FALSIFIED_BY_ADMITTED_VALIDATION"
+    },
+    "interpretation": "The frozen independent validation cap is too restrictive for this official family under its frozen verifier ordering. This is a verification-design failure for v0.11, not complexity evidence and not a chi_DP result.",
+    "boundaries": [
+      "ZERO_ADMITTED_VALIDATION_ROWS != CHI_DP_FAILURE",
+      "ZERO_ADMITTED_VALIDATION_ROWS != CHI_DP_SUCCESS",
+      "VERIFIER_CAP_EXHAUSTION != HARD_CORE",
+      "INCONCLUSIVE != FALSE",
+      "FIG5_RESULT != P_VS_NP_RESULT",
+      "P ?= NP = OPEN"
+    ]
+  }
+}

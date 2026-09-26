@@ -1,0 +1,33 @@
+{
+  "schema":"fig5-v023-close-receipt/v1",
+  "date":"2026-09-21",
+  "status":"REPLICATION_BOUNDED_STRUCTURAL_COLLAPSE",
+  "preregistration_commit":"fc46003ada91cc33287421ab3ce0d5b657ba03b9",
+  "manifest_receipt_commit":"5781a8cc1320df6f0647570cb6f7fe1fac3ff243",
+  "generate_receipt_commit":"1318e51bb132a4e1d97da702390c1ebaccda0188",
+  "verify_receipt_commit":"1e4ad27a62b877a9c7871e0eb785b09babbc4da3",
+  "admit_receipt_commit":"bcf9f36088722d6fe6ef29bf3582f6091c75717f",
+  "analysis_receipt_commit":"da3984d0a8335905a9c9332533d3eacb01cb2d15",
+  "pair_pressure_identity_commit":"459977edc5707e70728d292f92fb6fd286476fa9",
+  "evidence":{
+    "rows":30,"all_admitted":true,"validation_rows":15,
+    "active_status_counts":{"SAT":28,"UNSAT":2},
+    "eta_hat":0.7080200501253133,"a_hat":2.4444444444444446,"b_hat":0.26,
+    "validation":{
+      "11":{"median_E_chi":0.07921237732043496,"median_E_n":0.3353332843340815,"median_E_n2":0.18355308404320114,"passes":true},
+      "12":{"median_E_chi":0.1043458377309836,"median_E_n":0.3677247801253176,"median_E_n2":0.430222759233891,"passes":true},
+      "13":{"median_E_chi":0.1260407208953649,"median_E_n":0.3116969486556549,"median_E_n2":0.5121598467791273,"passes":true}
+    },
+    "passes_all_three_levels":true
+  },
+  "combined_interpretation":[
+    "v0.22 preregistered bounded result replicated prospectively in v0.23 with no method or threshold changes.",
+    "Exact counter identity P_DP=R+T_taut holds for every row in both panels; eta is the non-tautological candidate survival fraction.",
+    "The replicated evidence supports bounded transfer of a survival-fraction predictor relative to n and n^2 controls, not an independent causal complexity variable.",
+    "No asymptotic law or P-vs-NP conclusion follows."
+  ],
+  "next_discriminating_probe":"one-degree transfer test that changes family density while keeping solver, counters, n ladder, estimator, verification, and success rule frozen; preregister before constructing rows.",
+  "full_local_close_sha256":"65336f1691b3a5b3b98bc701e29f50f6da965a77f30d542ab9271b3fa2ce7ad9",
+  "evidence_bundle_sha256":"e9572f60312ed9d1c49ecc5f182f1e7d704d3bf1aa41a739ea20149fedbae4fd",
+  "boundaries":["REPLICATION_SUCCESS != ASYMPTOTIC_LAW","P_DP_UPSTREAM_OF_R != INDEPENDENT_CAUSAL_EXPLANATION","FINITE_TWO_PANEL_RESULT != COMPLEXITY_CLASS_RESULT","P ?= NP = OPEN"]
+}

@@ -1,0 +1,15 @@
+{
+  "schema":"fig5-v024-density4-analysis-receipt/v1",
+  "date":"2026-09-21",
+  "status":"DENSITY4_BOUNDED_STRUCTURAL_COLLAPSE",
+  "density":4.0,
+  "success":true,
+  "calibration":{"eta_hat":0.75,"a_hat":2.1,"b_hat":0.21,"eta_positive_rows":15},
+  "validation":{
+    "11":{"median_E_chi":0.1296778233085325,"median_E_n":0.18647956694261847,"median_E_n2":0.27801045275505,"margin_vs_n":0.056801743634085966,"margin_vs_n2":0.14833262944651748,"passes":true},
+    "12":{"median_E_chi":0.03696519423347144,"median_E_n":0.49317068852727,"median_E_n2":0.669110602731704,"margin_vs_n":0.45620549429379853,"margin_vs_n2":0.6321454084982325,"passes":true},
+    "13":{"median_E_chi":0.0779615414697119,"median_E_n":0.6824898860859578,"median_E_n2":0.4283134402867934,"margin_vs_n":0.6045283446162459,"margin_vs_n2":0.3503518988170815,"passes":true}
+  },
+  "full_local_analysis_sha256":"7532f27eaf3fa131d38817c855cabe866d042a8c7f413e609ebbb3cf05cb7a78",
+  "boundaries":["DENSITY4_SUCCESS != DENSITY_INVARIANCE_GENERAL","BOUNDED_DENSITY_TRANSFER != ASYMPTOTIC_LAW","P_DP_UPSTREAM_OF_R != INDEPENDENT_CAUSAL_EXPLANATION","P ?= NP = OPEN"]
+}

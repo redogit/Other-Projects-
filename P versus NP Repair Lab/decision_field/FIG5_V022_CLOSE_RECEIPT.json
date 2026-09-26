@@ -1,0 +1,39 @@
+{
+  "schema":"fig5-v022-close-receipt/v1",
+  "date":"2026-09-21",
+  "status":"BOUNDED_STRUCTURAL_COLLAPSE",
+  "preregistration_commit":"0ca4f22c350d249c8a75183615dbdb4b952d4497",
+  "manifest_receipt_commit":"da1ec8990e279aaf20da9eb92d6cbb29d6f221fd",
+  "generate_receipt_commit":"f7e69aa607b3ed7380d4d925b5a3293885134e67",
+  "verify_receipt_commit":"1b2716ceebe03b86d6648974c1a87bb523e2d43b",
+  "admit_receipt_commit":"9e5ce980df9bd6ff9485fb58996ebab22aa5edab",
+  "analysis_receipt_commit":"fe44938435c41ecb1f96cde012e0c503c8488050",
+  "posthoc_receipt_commit":"aab1177b3ebb470c06877005e8ebdaf1ecdff3ba",
+  "cap_counterfactual_commit":"487620e445fcde531ae7ff4a4b9a8ef16d8bb25a",
+  "evidence":{
+    "rows_materialized":30,"rows_active_resolved":30,"rows_truth_verified":30,"rows_admitted":30,"validation_rows_admitted":15,
+    "active_status_counts":{"SAT":27,"UNSAT":3},"active_max_generated_resolvents":76,
+    "eta_hat_exact":"79/104","a_hat_exact":"2","b_hat_exact":"1/4",
+    "validation_median_errors":{
+      "11":{"chi":0.13133600206108698,"n":0.44802472252696024,"n2":0.2956502421009577},
+      "12":{"chi":0.09637912699322992,"n":0.6539264674066638,"n2":0.3780661339200502},
+      "13":{"chi":0.047671609130570225,"n":0.9236708391717778,"n2":0.45251047179821846}
+    },
+    "passes_all_three_levels":true
+  },
+  "posthoc":{
+    "leave_one_block_out_all_pass":true,
+    "rowwise_chi_beats_both":13,"rowwise_validation_rows":15,
+    "R_le_P_DP_rows":30,"pearson_R_P_DP":0.9910481574776427,
+    "cap80_counterfactual_identical_to_cap160":true
+  },
+  "interpretation":[
+    "Under the frozen v0.22 finite protocol, the chi/P_DP-based predictor has lower median held-out log error than both n and n^2 controls at n=11,12,13.",
+    "This is a bounded predictive result, not an asymptotic law or complexity-class result.",
+    "P_DP is mechanically upstream of R, so the result does not establish an independent causal complexity variable.",
+    "The cap 80->160 change was inactive on the realized v0.22 panel; successful v0.22 outcomes cannot be causally attributed to that cap change."
+  ],
+  "next_step":"exact fresh replication with all v0.22 mechanics and thresholds unchanged, new seed namespace only",
+  "full_local_close_sha256":"7471f1ced9e979c7db201a2e32515c2257443f9955b6722206fde19340799df9",
+  "boundaries":["BOUNDED_STRUCTURAL_COLLAPSE != ASYMPTOTIC_LAW","P_DP_UPSTREAM_OF_R != INDEPENDENT_CAUSAL_EXPLANATION","V022_SUCCESS != EVIDENCE_CAP160_CAUSED_SUCCESS","EXACT_REPLICATION_REQUIRED","FIG5_RESULT != P_VS_NP_RESULT","P ?= NP = OPEN"]
+}

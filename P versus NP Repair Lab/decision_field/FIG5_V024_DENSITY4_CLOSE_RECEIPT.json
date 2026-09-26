@@ -1,0 +1,36 @@
+{
+  "schema":"fig5-v024-density4-close-receipt/v1",
+  "date":"2026-09-21",
+  "status":"DENSITY4_BOUNDED_STRUCTURAL_COLLAPSE",
+  "constructor_commit":"bd789285109ddbd6c7db35f188cdb845b86a0d75",
+  "preregistration_commit":"8977eb374508188512fa50f337da3fae5914a2f4",
+  "manifest_receipt_commit":"d485fb0b72ebe8e613a1e992a600040baa4636ce",
+  "generate_receipt_commit":"4e58bfc3068ce01fce30dc73f68af03547bcfd87",
+  "verify_receipt_commit":"5b4e72561cd95eab619bbd7d0162e4e591d1f0a0",
+  "admit_receipt_commit":"4205635f962299d974a2c4d0ee2fac74af7271d3",
+  "analysis_receipt_commit":"904bfecfb3ccef67dd29a39d6231252e5ad12f20",
+  "posthoc_receipt_commit":"910a9c2fc3465cb1defb18b81380a4e4047d20c2",
+  "evidence":{
+    "density":4.0,"rows":30,"all_admitted":true,
+    "active_status_counts":{"SAT":25,"UNSAT":5},"active_R_max":123,
+    "eta_hat":0.75,"a_hat":2.1,"b_hat":0.21,
+    "validation":{
+      "11":{"median_E_chi":0.1296778233085325,"median_E_n":0.18647956694261847,"median_E_n2":0.27801045275505,"passes":true},
+      "12":{"median_E_chi":0.03696519423347144,"median_E_n":0.49317068852727,"median_E_n2":0.669110602731704,"passes":true},
+      "13":{"median_E_chi":0.0779615414697119,"median_E_n":0.6824898860859578,"median_E_n2":0.4283134402867934,"passes":true}
+    },
+    "passes_all_three_levels":true,
+    "pair_pressure_identity_rows":30
+  },
+  "posthoc":{"leave_one_block_out_all_pass":true,"cap80_would_leave_unknown_validation_rows":3},
+  "interpretation":[
+    "The survival-fraction predictor beat n and n^2 controls at every held-out n level after the one-degree density shift from 3.5 to 4.0.",
+    "The result survived exact fresh replication at density 3.5 and a fresh one-degree density-4 transfer probe.",
+    "Because P_DP=R+T_taut exactly under the frozen counters, the surviving object is stability/transfer of a non-tautological resolvent survival fraction, not an independent complexity coordinate.",
+    "No general density-invariance, asymptotic law, or P-vs-NP conclusion is admitted."
+  ],
+  "next_step":"If continuing, change one structurally consequential property that changes tautology mechanics (e.g. clause width) while freezing the execution/verification/fit protocol before rows exist.",
+  "full_local_close_sha256":"e999272a76cf642058a2fbaecb06475dc5194d7fa819e219774e5c80d1e707bf",
+  "evidence_bundle_sha256":"3a10133ab38ff2f4d591cdc23815f8999ddc6c17f42e54729293b2fca62334f3",
+  "boundaries":["DENSITY4_SUCCESS != GENERAL_DENSITY_INVARIANCE","SURVIVAL_FRACTION_TRANSFER != INDEPENDENT_COMPLEXITY_LAW","FINITE_THREE_PANEL_RESULT != ASYMPTOTIC_LAW","P ?= NP = OPEN"]
+}

@@ -1,0 +1,21 @@
+{
+  "schema":"fig5-v024-density4-manifest-receipt/v1",
+  "date":"2026-09-21",
+  "status":"MATERIALIZED_NOT_EXECUTED",
+  "preregistration_commit":"8977eb374508188512fa50f337da3fae5914a2f4",
+  "constructor_sha256":"5a57c595799c38735f852d6637f7907764116cd3ef3b16a4e60edf50af1ca596",
+  "target_density":"4/1",
+  "clause_counts":[32,36,40,44,48,52],
+  "official_seeds":[
+    {"block_id":0,"seed":"91c26b222ddd3fe231d6c9275e493ed9739beaba9852ea99a76b015a11fb1241"},
+    {"block_id":1,"seed":"dfbf4bdd3b7af7554928d5869abfb1235c47c8ba5a99e210854048d544e1302b"},
+    {"block_id":2,"seed":"f78ace0b1c594c0ff41df12fb50d0f731f95bb896ab6bc587c258f8a6a2f8730"},
+    {"block_id":3,"seed":"64b86187a78e454b234ac137de87d65fcfa84759bceb9ab24510eae770d3ef8a"},
+    {"block_id":4,"seed":"0c073073be151f2291c7a241482041bba6295ccf0fd7635669dc30507b74dea9"}
+  ],
+  "structural_qa":{"rows":30,"distinct_formula_digests":30,"support_failures":0,"priority_collisions":0,"mean_adjacent_jaccard":0.6046897468848259,"mean_old_clause_retention":0.7869318181818182,"min_old_clause_retention":0.5625,"max_old_clause_retention":0.9545454545454546},
+  "manifest_sha256":"e1f61d713476060a1ec1bf5d8faebc57fa00977708fb60e53880403f55bfd462",
+  "formula_pack_sha256":"0546e5265a623789203df345671820a66f77c148223806e77335967348d8a66a",
+  "generate_run":false,
+  "boundaries":["MATERIALIZATION != GENERATE","DENSITY4_PROBE != RETROACTIVE_REINTERPRETATION","P ?= NP = OPEN"]
+}

@@ -1,0 +1,42 @@
+{
+  "schema": "fig5-v021-active-generate-receipt/v1",
+  "date": "2026-09-21",
+  "status": "GENERATE_SEALED_VERIFY_NOT_RUN",
+  "preregistration_commit": "da7f24db76ade9dfc22dc701acf31005903ae223",
+  "manifest_receipt_commit": "3cccb1f4e60d2a63f0bf7c34a6410cc1173f220d",
+  "solver": {
+    "version": "FIG5-DP-MIRROR/v0.20",
+    "sha256": "b6c6e5c360b2166e43e383c280d33f8f2c48b9a9a763212bc2ec467b62a628c5",
+    "cap": 80
+  },
+  "result": {
+    "status_counts": {
+      "SAT": 28,
+      "UNSAT": 1,
+      "UNKNOWN": 1
+    },
+    "generated_resolvents_range": [
+      4,
+      77
+    ],
+    "dp_pair_pressure_range": [
+      6,
+      98
+    ],
+    "unknown_rows": [
+      {
+        "block_id": 0,
+        "n": 13,
+        "executed_generated_resolvents": 77,
+        "cap_crossing_at": 102
+      }
+    ]
+  },
+  "full_local_generate_sha256": "e31f51bf375aa33d92ebd842e2886dd447f358e2dda21167329ae90485f2a8c8",
+  "verify_run": false,
+  "boundaries": [
+    "GENERATE != VERIFY != ADMIT",
+    "ACTIVE_UNKNOWN != FALSE",
+    "P ?= NP = OPEN"
+  ]
+}

@@ -1,4 +1,4 @@
-// RUN: %pnp-opt %s | FileCheck %s
+// RUN: %pnp-opt "%s" | FileCheck "%s"
 
 module {
   %src = "pnp_core.source"() <{source_id = "xor-native", obligation = "sat"}> : () -> !pnp_carrier.carrier<"gf2">

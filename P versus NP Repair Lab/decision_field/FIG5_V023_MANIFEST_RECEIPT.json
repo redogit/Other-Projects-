@@ -1,0 +1,19 @@
+{
+  "schema":"fig5-v023-manifest-receipt/v1",
+  "date":"2026-09-21",
+  "status":"MATERIALIZED_NOT_EXECUTED",
+  "preregistration_commit":"fc46003ada91cc33287421ab3ce0d5b657ba03b9",
+  "seed_namespace":"FIG5/BLOCK-SEED/v0.23-REPLICATION",
+  "official_seeds":[
+    {"block_id":0,"seed":"bf6d1f8ae00c68ec61f56eacf99748173e1371186f6618fb6aa9a21722334df2"},
+    {"block_id":1,"seed":"2e1131c9dadb661a5881640d188e04bfaa5cce0b703bc9ee090fcdd78f0a682c"},
+    {"block_id":2,"seed":"15d245d67c3e65ce8ec2f55f19bb711bd86c0cb3d3f86cf1abf75c32ebdbfb20"},
+    {"block_id":3,"seed":"c5f51a585ed1472ccc49d6a80e828378c095692d929e115271f696f141d66c2a"},
+    {"block_id":4,"seed":"4a4ec03d5abb26cc2f2b9ed70c002d1fbac8d4255ee80c3403d8be5deea4f5d4"}
+  ],
+  "structural_qa":{"rows":30,"distinct_formula_digests":30,"support_failures":0,"priority_collisions":0,"mean_adjacent_jaccard":0.5966091254917036,"mean_old_clause_retention":0.7796208791208791,"min_old_clause_retention":0.6071428571428571,"max_old_clause_retention":0.9428571428571428},
+  "manifest_sha256":"1c4ba7e7071b85d734d553db28a27ea62aebfdc5d2ca66e39c25021d3110766f",
+  "formula_pack_sha256":"534753dd7fe37a3defa87d6df9c965b7660f5e69c7d9171e52455bcc9b893e2e",
+  "generate_run":false,
+  "boundaries":["MATERIALIZATION != GENERATE","EXACT_REPLICATION != NEW_METHOD","P ?= NP = OPEN"]
+}

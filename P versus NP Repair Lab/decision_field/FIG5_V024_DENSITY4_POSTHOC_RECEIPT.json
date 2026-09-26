@@ -1,0 +1,13 @@
+{
+  "schema":"fig5-v024-density4-posthoc-receipt/v1",
+  "date":"2026-09-21",
+  "status":"NON_PROMOTABLE_DIAGNOSTIC",
+  "leave_one_block_out":{"omitted_blocks_tested":5,"all_three_levels_pass_for_every_omission":true},
+  "cap80_counterfactual":{"status_counts":{"SAT":22,"UNSAT":5,"UNKNOWN":3},"unknown_rows":[{"block_id":0,"n":12,"executed_R":15,"cap_crossing_at":89},{"block_id":0,"n":13,"executed_R":59,"cap_crossing_at":87},{"block_id":4,"n":13,"executed_R":75,"cap_crossing_at":89}]},
+  "interpretation":[
+    "Density-4 preregistered result survives every leave-one-block-out refit/evaluation diagnostic.",
+    "Unlike v0.22, the cap-160 setting is operationally relevant on this denser panel: cap 80 would block three validation rows.",
+    "This does not make cap 160 complexity evidence; it only records that the denser bounded panel needs the preregistered execution allowance to complete."
+  ],
+  "boundaries":["POSTHOC_DIAGNOSTIC != PREREGISTERED_EVIDENCE","CAP160_COMPLETES_PANEL != COMPLEXITY_BOUND","DENSITY4_SUCCESS != GENERAL_DENSITY_INVARIANCE","P ?= NP = OPEN"]
+}

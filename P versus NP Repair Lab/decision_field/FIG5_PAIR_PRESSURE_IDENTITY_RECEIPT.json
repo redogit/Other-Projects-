@@ -1,0 +1,19 @@
+{
+  "schema":"fig5-pair-pressure-identity-receipt/v1",
+  "date":"2026-09-21",
+  "status":"EXACT_COUNTER_IDENTITY_PLUS_BOUNDED_SURVIVAL_OBSERVATION",
+  "identity":{
+    "statement":"P_DP = R + T_taut",
+    "T_taut":"opposite-polarity parent pairs whose raw resolvent is tautological",
+    "consequence":"eta = R/P_DP is exactly the non-tautological candidate survival fraction whenever P_DP>0"
+  },
+  "checks":{"v0.22_rows":30,"v0.22_identity_failures":0,"v0.23_rows":30,"v0.23_identity_failures":0},
+  "median_survival_all":{"v0.22":0.7727272727272727,"v0.23":0.7647058823529411},
+  "interpretation":[
+    "The replicated bounded result is most precisely a finite transfer result for stability of the non-tautological survival fraction under the frozen family and ordering policy.",
+    "P_DP is not an independent causal explanatory coordinate for R because both counters are generated from the same parent-pair events.",
+    "The useful surviving claim is predictive compression: one calibration survival scale beat size-only controls on held-out rows in two fresh bounded panels."
+  ],
+  "full_local_identity_sha256":"5333ceba7cfaebbe5927058936dd979e3cf145087c526a494cc44946e444cf70",
+  "boundaries":["EXACT_COUNTER_IDENTITY != ASYMPTOTIC_COMPLEXITY_LAW","P_DP_PREDICTS_R != INDEPENDENT_CAUSAL_DISCOVERY","REPLICATION != P_VS_NP_RESULT","P ?= NP = OPEN"]
+}
