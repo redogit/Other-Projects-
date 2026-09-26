@@ -4,7 +4,7 @@ import lit.formats
 from lit.llvm import llvm_config
 
 config.name = "PNPMLIR"
-config.test_format = lit.formats.ShTest(not llvm_config.use_lit_shell)
+config.test_format = lit.formats.ShTest(False)
 config.suffixes = [".mlir"]
 config.excludes = ["CMakeLists.txt", "lit.cfg.py", "lit.site.cfg.py.in"]
 config.test_source_root = os.path.dirname(__file__)
