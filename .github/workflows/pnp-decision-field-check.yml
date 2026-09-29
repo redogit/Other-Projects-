@@ -120,6 +120,29 @@ jobs:
             exit 1
           fi
 
+      - name: Verify FIG-5 width-4 constructor and stage firewall
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "P versus NP Repair Lab/decision_field"
+          python3 -m unittest test_fig5_width4_probe_v025.py -v
+          python3 -m py_compile \
+            fig5_width4_family_v025.py \
+            fig5_width4_probe_v025.py \
+            test_fig5_width4_probe_v025.py
+          python3 fig5_width4_family_v025.py --self-test --stress-seeds 32 > /tmp/fig5-v025-width4-self-test.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          result = json.loads(Path('/tmp/fig5-v025-width4-self-test.json').read_text())
+          assert result['status'] == 'PASS'
+          assert result['tests']['stress_formula_count'] == 192
+          assert result['tests']['stress_structural_failures'] == 0
+          assert result['tests']['max_sha256_priority_collisions_observed'] == 0
+          print('PASS - FIG-5 width-4 universe and staged execution firewall verified')
+          PY
+
       - name: Hold protected publication boundary
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         shell: bash

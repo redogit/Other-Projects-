@@ -1,0 +1,76 @@
+{
+  "schema": "fig5-v025-width4-prefreeze-receipt/v1",
+  "date": "2026-09-29",
+  "status": "PREFREEZE_PASS_OFFICIAL_NOT_MATERIALIZED",
+  "changed_scientific_degree": "clause width 3 -> 4",
+  "frozen_scientific_baseline": {
+    "density": "4/1",
+    "n_levels": [8, 9, 10, 11, 12, 13],
+    "ranking_method": "SHA256(length-prefixed namespace, block seed, canonical clause bytes), bottom 4n",
+    "active_solver": "FIG5-DP-MIRROR/v0.20",
+    "active_cap": 160,
+    "independent_truth": "complete brute-force enumeration on n<=13",
+    "estimators": ["median(R/P_DP)", "median(R/n)", "median(R/n^2)"],
+    "aggregation": "median held-out log error across five blocks at each validation n",
+    "success_rule": "at each n in {11,12,13}, exactly five rows admitted and median E_chi < median E_n and median E_n2"
+  },
+  "source_identities": {
+    "constructor_path": "P versus NP Repair Lab/decision_field/fig5_width4_family_v025.py",
+    "constructor_sha256": "3c5b549b5b35e320894090f5408756bacbdc5965f1cd611893dd22d232f7327a",
+    "runner_path": "P versus NP Repair Lab/decision_field/fig5_width4_probe_v025.py",
+    "runner_sha256": "6fa0bc14cc6f13094c84bb24cb02482baf925f7b133ee11e07f423ff35bf254a",
+    "test_path": "P versus NP Repair Lab/decision_field/test_fig5_width4_probe_v025.py",
+    "test_sha256": "896242de4d447e83b65d3bff37761771b537f89b018b61f31b5d49ba3ff9a508",
+    "solver_path": "P versus NP Repair Lab/decision_field/fig5_dp_mirror_v020.py",
+    "solver_sha256": "b6c6e5c360b2166e43e383c280d33f8f2c48b9a9a763212bc2ec467b62a628c5"
+  },
+  "width4_structural_countertests": {
+    "unittest_count": 11,
+    "unittest_failures": 0,
+    "synthetic_seed_count": 256,
+    "synthetic_formula_count": 1536,
+    "structural_failures": 0,
+    "priority_collisions": 0,
+    "complete_universe_size_rule": "16*C(n,4)",
+    "maximum_universe_size_at_n13": 11440,
+    "self_test_output_sha256": "e443c30329cf184b89839f21fd7fe4df402aa122bbbe1f8c9a7da1fdd087cad6"
+  },
+  "efficiency_receipt": {
+    "pre_repair_priority_evaluations_per_six_level_block": 31136,
+    "frozen_priority_evaluations_per_six_level_block": 11440,
+    "pre_repair_sorts_per_six_level_block": 6,
+    "frozen_sorts_per_six_level_block": 1,
+    "mechanism": "rank the maximum eligible universe once per block; obtain every lower-n formula by stable eligibility filtering",
+    "identity_check": "all six pinned test-only formula digests are byte-identical to independent per-n generation",
+    "parallelism": "independent rows execute in a bounded five-worker pool; serial and parallel JSON results are byte-identical",
+    "test_only_full_pipeline_serial_seconds": 17.935011968,
+    "test_only_full_pipeline_parallel_seconds": 4.666669713,
+    "timing_role": "local non-scientific performance diagnostic"
+  },
+  "test_only_full_pipeline": {
+    "rows": 30,
+    "truth_certificates_valid": true,
+    "active_truth_resolved_disagreements": 0,
+    "carrier_failures": 0,
+    "pair_pressure_identity_holds_on_all_executed_prefixes": true,
+    "official_namespace_used": false
+  },
+  "freshness": {
+    "preregistration_committed": false,
+    "official_seeds_materialized": false,
+    "official_formulas_materialized": false,
+    "generate_run": false,
+    "verify_run": false,
+    "admit_run": false,
+    "analysis_run": false
+  },
+  "boundaries": [
+    "SYNTHETIC_COUNTERTEST != OFFICIAL_PANEL",
+    "EFFICIENCY_CHANGE != SCIENTIFIC_DEGREE_CHANGE",
+    "PARALLEL_EXECUTION != COUNTER_OR_ORDER_CHANGE",
+    "GENERATE != VERIFY != ADMIT",
+    "WIDTH4_BOUNDED_PROBE != ASYMPTOTIC_LAW",
+    "FIG5_RESULT != P_VS_NP_RESULT",
+    "P ?= NP = OPEN"
+  ]
+}
