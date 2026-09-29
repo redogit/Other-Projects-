@@ -1,0 +1,320 @@
+{
+  "boundaries": [
+    "WIDTH4_BOUNDED_RESULT != ASYMPTOTIC_LAW",
+    "SURVIVAL_FRACTION_TRANSFER != INDEPENDENT_COMPLEXITY_LAW",
+    "FINITE_FOUR_PANEL_RESULT != GENERAL_WIDTH_INVARIANCE",
+    "FIG5_RESULT != P_VS_NP_RESULT",
+    "P ?= NP = OPEN"
+  ],
+  "calibration": {
+    "a_hat": {
+      "exact": "20/3",
+      "float": 6.666666666666667
+    },
+    "admitted_calibration_rows": 15,
+    "b_hat": {
+      "exact": "59/81",
+      "float": 0.7283950617283951
+    },
+    "eta_hat": {
+      "exact": "47/113",
+      "float": 0.415929203539823
+    },
+    "eta_positive_rows": 15
+  },
+  "experiment_id": "FIG-5-v0.25-width4-density4",
+  "inputs": {
+    "admit_canonical_sha256": "54cccf733604c41d3545c08530ccde0f876a8ce5416cad4956556ca1ed38dbc6",
+    "generate_canonical_sha256": "79f623af69c26582329c07fe9341c9f10e40faabe202ae4dcd79fecd0abcc07a",
+    "manifest_canonical_sha256": "4462e73d9ad3478d0e18c4e5f662cb939eafb79bb54dde7d622847572c3d70cb",
+    "verify_canonical_sha256": "af9a0c2fb48741150dae70141afc71af097d16f70b6341d868e2d5fdda304cf7"
+  },
+  "schema": "fig5-v025-width4-analysis/v1",
+  "stage": "ANALYZE",
+  "status": "WIDTH4_DENSITY4_INCONCLUSIVE_ADMISSION",
+  "success": false,
+  "success_rule": "at each n in {11,12,13}, exactly five rows admitted and median E_chi < median E_n and median E_n2",
+  "validation": {
+    "11": {
+      "admitted_rows": 5,
+      "expected_admitted_rows": 5,
+      "margin_vs_n": 0.09571106970587895,
+      "margin_vs_n2": 0.15322406584259785,
+      "median_E_chi": 0.1524054025397108,
+      "median_E_n": 0.24811647224558975,
+      "median_E_n2": 0.30562946838230864,
+      "n": 11,
+      "passes": true,
+      "row_errors": [
+        {
+          "P_DP": 160,
+          "block_id": 0,
+          "errors": {
+            "chi": 0.1524054025397108,
+            "n": 0.24811647224558975,
+            "n2": 0.4297180666680136
+          },
+          "n": 11,
+          "observed_R": 57,
+          "predicted": {
+            "chi": {
+              "exact": "7520/113",
+              "float": 66.54867256637168
+            },
+            "n": {
+              "exact": "220/3",
+              "float": 73.33333333333333
+            },
+            "n2": {
+              "exact": "7139/81",
+              "float": 88.1358024691358
+            }
+          }
+        },
+        {
+          "P_DP": 183,
+          "block_id": 1,
+          "errors": {
+            "chi": 0.14333798176709323,
+            "n": 0.1800768869401308,
+            "n2": 0.0015247074822930529
+          },
+          "n": 11,
+          "observed_R": 88,
+          "predicted": {
+            "chi": {
+              "exact": "8601/113",
+              "float": 76.11504424778761
+            },
+            "n": {
+              "exact": "220/3",
+              "float": 73.33333333333333
+            },
+            "n2": {
+              "exact": "7139/81",
+              "float": 88.1358024691358
+            }
+          }
+        },
+        {
+          "P_DP": 268,
+          "block_id": 2,
+          "errors": {
+            "chi": 0.26833056791622223,
+            "n": 0.1457878134614985,
+            "n2": 0.03581378096092536
+          },
+          "n": 11,
+          "observed_R": 85,
+          "predicted": {
+            "chi": {
+              "exact": "12596/113",
+              "float": 111.46902654867256
+            },
+            "n": {
+              "exact": "220/3",
+              "float": 73.33333333333333
+            },
+            "n2": {
+              "exact": "7139/81",
+              "float": 88.1358024691358
+            }
+          }
+        },
+        {
+          "P_DP": 238,
+          "block_id": 3,
+          "errors": {
+            "chi": 0.1907088590998356,
+            "n": 0.4872310628047325,
+            "n2": 0.30562946838230864
+          },
+          "n": 11,
+          "observed_R": 120,
+          "predicted": {
+            "chi": {
+              "exact": "11186/113",
+              "float": 98.99115044247787
+            },
+            "n": {
+              "exact": "220/3",
+              "float": 73.33333333333333
+            },
+            "n2": {
+              "exact": "7139/81",
+              "float": 88.1358024691358
+            }
+          }
+        },
+        {
+          "P_DP": 321,
+          "block_id": 4,
+          "errors": {
+            "chi": 0.0036118903164021887,
+            "n": 0.5967152956464208,
+            "n2": 0.41511370122399693
+          },
+          "n": 11,
+          "observed_R": 134,
+          "predicted": {
+            "chi": {
+              "exact": "15087/113",
+              "float": 133.5132743362832
+            },
+            "n": {
+              "exact": "220/3",
+              "float": 73.33333333333333
+            },
+            "n2": {
+              "exact": "7139/81",
+              "float": 88.1358024691358
+            }
+          }
+        }
+      ]
+    },
+    "12": {
+      "admitted_rows": 4,
+      "expected_admitted_rows": 5,
+      "failure": "EXACT_ADMITTED_ROW_COUNT_NOT_MET",
+      "n": 12,
+      "passes": false,
+      "row_errors": [
+        {
+          "P_DP": 251,
+          "block_id": 0,
+          "errors": {
+            "chi": 0.12974589914504087,
+            "n": 0.3930425881096067,
+            "n2": 0.12510141646406314
+          },
+          "n": 12,
+          "observed_R": 119,
+          "predicted": {
+            "chi": {
+              "exact": "11797/113",
+              "float": 104.39823008849558
+            },
+            "n": {
+              "exact": "80",
+              "float": 80.0
+            },
+            "n2": {
+              "exact": "944/9",
+              "float": 104.88888888888889
+            }
+          }
+        },
+        {
+          "P_DP": 289,
+          "block_id": 2,
+          "errors": {
+            "chi": 0.04388108856281825,
+            "n": 0.35914103643392536,
+            "n2": 0.09119986478838182
+          },
+          "n": 12,
+          "observed_R": 115,
+          "predicted": {
+            "chi": {
+              "exact": "13583/113",
+              "float": 120.20353982300885
+            },
+            "n": {
+              "exact": "80",
+              "float": 80.0
+            },
+            "n2": {
+              "exact": "944/9",
+              "float": 104.88888888888889
+            }
+          }
+        },
+        {
+          "P_DP": 321,
+          "block_id": 3,
+          "errors": {
+            "chi": 0.0036118903164021887,
+            "n": 0.5108256237659905,
+            "n2": 0.24288445212044696
+          },
+          "n": 12,
+          "observed_R": 134,
+          "predicted": {
+            "chi": {
+              "exact": "15087/113",
+              "float": 133.5132743362832
+            },
+            "n": {
+              "exact": "80",
+              "float": 80.0
+            },
+            "n2": {
+              "exact": "944/9",
+              "float": 104.88888888888889
+            }
+          }
+        },
+        {
+          "P_DP": 339,
+          "block_id": 4,
+          "errors": {
+            "chi": 0.19365312280350455,
+            "n": 0.3677247801253172,
+            "n2": 0.09978360847977363
+          },
+          "n": 12,
+          "observed_R": 116,
+          "predicted": {
+            "chi": {
+              "exact": "141",
+              "float": 141.0
+            },
+            "n": {
+              "exact": "80",
+              "float": 80.0
+            },
+            "n2": {
+              "exact": "944/9",
+              "float": 104.88888888888889
+            }
+          }
+        }
+      ]
+    },
+    "13": {
+      "admitted_rows": 1,
+      "expected_admitted_rows": 5,
+      "failure": "EXACT_ADMITTED_ROW_COUNT_NOT_MET",
+      "n": 13,
+      "passes": false,
+      "row_errors": [
+        {
+          "P_DP": 293,
+          "block_id": 0,
+          "errors": {
+            "chi": 0.048930623471579615,
+            "n": 0.2886321912881016,
+            "n2": 0.058903809193287415
+          },
+          "n": 13,
+          "observed_R": 116,
+          "predicted": {
+            "chi": {
+              "exact": "13771/113",
+              "float": 121.86725663716814
+            },
+            "n": {
+              "exact": "260/3",
+              "float": 86.66666666666667
+            },
+            "n2": {
+              "exact": "9971/81",
+              "float": 123.09876543209876
+            }
+          }
+        }
+      ]
+    }
+  }
+}
