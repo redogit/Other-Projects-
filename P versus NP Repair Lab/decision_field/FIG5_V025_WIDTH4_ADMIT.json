@@ -1,0 +1,229 @@
+{
+  "analysis_run": false,
+  "boundaries": [
+    "ADMIT != ANALYZE",
+    "WIDTH4_RESULT_NOT_YET_KNOWN",
+    "FIG5_RESULT != P_VS_NP_RESULT",
+    "P ?= NP = OPEN"
+  ],
+  "experiment_id": "FIG-5-v0.25-width4-density4",
+  "generate_canonical_sha256": "79f623af69c26582329c07fe9341c9f10e40faabe202ae4dcd79fecd0abcc07a",
+  "manifest_canonical_sha256": "4462e73d9ad3478d0e18c4e5f662cb939eafb79bb54dde7d622847572c3d70cb",
+  "rows": [
+    {
+      "admitted": true,
+      "block_id": 0,
+      "formula_digest": "fba5fb16a4fa106e4643becdfec060ed0b59ab1294bfd6509c557c422f0da1df",
+      "n": 8,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": true,
+      "block_id": 0,
+      "formula_digest": "f9725087f6a9930b9bd840ac4c8d9e3ace8c7e315cca2ba5d9b0598467d5adcb",
+      "n": 9,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": true,
+      "block_id": 0,
+      "formula_digest": "40e715dc1e719b71f14dee8e2a4f44e36e141a7ff3fe01859fc1c87e8cfdf4b6",
+      "n": 10,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": true,
+      "block_id": 0,
+      "formula_digest": "561a8b7e19f64290aea032ad854973748c7b53e10903839a239a4e790be3ce60",
+      "n": 11,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": true,
+      "block_id": 0,
+      "formula_digest": "88deca8a6601d3be781215bc6082a76114a52a0ca992c1d377f4f333b09cd220",
+      "n": 12,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": true,
+      "block_id": 0,
+      "formula_digest": "c5de5747828aca3d07ec52375f4498835edd846260a0e4692e432b42c82b99af",
+      "n": 13,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": true,
+      "block_id": 1,
+      "formula_digest": "be0abc4721730c70e6707fc4931eb3dc62f9ece56d17fac6dab81f0ad278016e",
+      "n": 8,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": true,
+      "block_id": 1,
+      "formula_digest": "9b27bcc2e5dbf2d8203374af8fe5d3104e91c1c6d25259e4a6a92c6dde06c59c",
+      "n": 9,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": true,
+      "block_id": 1,
+      "formula_digest": "ce456383b54a0140372e42825739d75e54a2cf8dce911715c13b0b81fa033d7a",
+      "n": 10,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": true,
+      "block_id": 1,
+      "formula_digest": "1006815ab5d461f391cc2f78486f7e84249dd7ee6094f12e00dac2238596be09",
+      "n": 11,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": false,
+      "block_id": 1,
+      "formula_digest": "f9b92bca145df3eaa0f6da172d83c3dba1d7313b974f3f42060aff545c6a1207",
+      "n": 12,
+      "reason": "ACTIVE_UNRESOLVED_OR_DISAGREES"
+    },
+    {
+      "admitted": false,
+      "block_id": 1,
+      "formula_digest": "49ad71cde805567e9f4fde67ac9457742f8646ccbf7e79327d7fecb2a2906a72",
+      "n": 13,
+      "reason": "ACTIVE_UNRESOLVED_OR_DISAGREES"
+    },
+    {
+      "admitted": true,
+      "block_id": 2,
+      "formula_digest": "a89f81eb0979a9faed83b0af31efd233a43961ba5a020e2896d16db7853b2649",
+      "n": 8,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": true,
+      "block_id": 2,
+      "formula_digest": "f61a87a09ae0c16eed214ab66f40efc4dc14b90cf4b8d68fa9227ca620110e8f",
+      "n": 9,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": true,
+      "block_id": 2,
+      "formula_digest": "91ac52fe6af9d55e81e8ecbf8d16688e9cf9e2a6cf9c8da8e5a434a33bf774fa",
+      "n": 10,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": true,
+      "block_id": 2,
+      "formula_digest": "c4b0b7e11df65b7c831b4898167c2ca765ffbcdae14eb3d6638e9dc73f26d25f",
+      "n": 11,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": true,
+      "block_id": 2,
+      "formula_digest": "5ed01788a7f89759cc583c5c2c6addd10ee9598735df168f6d11a52393e9220e",
+      "n": 12,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": false,
+      "block_id": 2,
+      "formula_digest": "2c5c09e202bd92f8509bceba7d6b679c103f2a1e78cae33f656b45b18954821a",
+      "n": 13,
+      "reason": "ACTIVE_UNRESOLVED_OR_DISAGREES"
+    },
+    {
+      "admitted": true,
+      "block_id": 3,
+      "formula_digest": "bbb438ee6aa00b78bfb36d0e3efcd66af7800861473bdc5e68fdd82ab1ef6bdf",
+      "n": 8,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": true,
+      "block_id": 3,
+      "formula_digest": "7dca83a5b895c52483a22c37a1c017bbd438c4e3e5f455480a3611494dcdebb8",
+      "n": 9,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": true,
+      "block_id": 3,
+      "formula_digest": "ba6ae71d2bcede2b21689abe11d672ee44245c0de7c230d37a90345941f129ce",
+      "n": 10,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": true,
+      "block_id": 3,
+      "formula_digest": "d5fa26abbb8a926da4ed74af775061dfdebf56cfa527a9d0ebaa93e983a8a2dc",
+      "n": 11,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": true,
+      "block_id": 3,
+      "formula_digest": "dda9ede9a5e326fe14d19df2e5c0c73896634ee18152a5c00eb9aaeb4a52ad50",
+      "n": 12,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": false,
+      "block_id": 3,
+      "formula_digest": "f45e3f040ddc888a089179649e88a4ab3a879b37040eb32d568b9f2443caaf21",
+      "n": 13,
+      "reason": "ACTIVE_UNRESOLVED_OR_DISAGREES"
+    },
+    {
+      "admitted": true,
+      "block_id": 4,
+      "formula_digest": "199922e2243ddd05526734f69d9d14fa19a62ef81a521ae2354c7983577e8f3f",
+      "n": 8,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": true,
+      "block_id": 4,
+      "formula_digest": "e95c87cd4e02dba78942faf9f2515374f8ec72b8861b86c37f64a3d9a20c1bd2",
+      "n": 9,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": true,
+      "block_id": 4,
+      "formula_digest": "2c700b04ecc5c5a440f9d009cbce61a8fe1a617199f14b86140e3e04aa136e7f",
+      "n": 10,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": true,
+      "block_id": 4,
+      "formula_digest": "decda02b5aff1a0981120859ac96780d75d9466407cb4d6754e8ff9b0af25a56",
+      "n": 11,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": true,
+      "block_id": 4,
+      "formula_digest": "5a4399e1f77946bf8b38fc666955b50c2c00efe56ddbfe78c740c83da31f120c",
+      "n": 12,
+      "reason": "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+    },
+    {
+      "admitted": false,
+      "block_id": 4,
+      "formula_digest": "504f6800fe423171e28032abc7675acebce0a2e94ced5a4ec652234c9adda843",
+      "n": 13,
+      "reason": "ACTIVE_UNRESOLVED_OR_DISAGREES"
+    }
+  ],
+  "rule": "admit iff active status is resolved and equals complete brute-force truth; provenance is frozen",
+  "schema": "fig5-v025-width4-admit/v1",
+  "stage": "ADMIT",
+  "status": "ADMIT_SEALED_ANALYSIS_NOT_RUN",
+  "verify_canonical_sha256": "af9a0c2fb48741150dae70141afc71af097d16f70b6341d868e2d5fdda304cf7"
+}
