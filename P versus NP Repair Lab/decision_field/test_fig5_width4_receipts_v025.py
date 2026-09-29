@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 import hashlib
+import copy
 import json
 from pathlib import Path
 import unittest
+
+import fig5_width4_probe_v025 as probe
 
 
 ROOT = Path(__file__).resolve().parent
@@ -76,6 +79,15 @@ class Width4ReceiptIntegrityTests(unittest.TestCase):
         self.assertIn("P ?= NP = OPEN", self.close["boundaries"])
         self.assertEqual(self.close["admit"]["admitted_by_n"]["12"], 4)
         self.assertEqual(self.close["admit"]["admitted_by_n"]["13"], 1)
+
+    def test_analysis_rejects_tampered_admission_flags(self) -> None:
+        tampered = copy.deepcopy(self.admit)
+        for row in tampered["rows"]:
+            row["admitted"] = True
+            row["reason"] = "ACTIVE_RESOLVED_EQUALS_COMPLETE_TRUTH"
+
+        with self.assertRaisesRegex(ValueError, "ADMIT rows do not match frozen admission rule"):
+            probe.run_analyze(self.manifest, self.generate, self.verify, tampered)
 
 
 if __name__ == "__main__":

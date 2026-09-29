@@ -37,6 +37,7 @@ from fig5_dp_mirror_v020 import (
 
 
 EXPERIMENT_ID = "FIG-5-v0.25-width4-density4"
+TEST_EXPERIMENT_ID = f"TEST-ONLY/{EXPERIMENT_ID}"
 OFFICIAL_SEED_NAMESPACE = "FIG5/BLOCK-SEED/v0.25-WIDTH4-DENSITY4"
 TEST_SEED_NAMESPACE = "TEST-ONLY/FIG5/BLOCK-SEED/v0.25-WIDTH4-DENSITY4"
 CONSTRUCTOR_SHA256 = "3c5b549b5b35e320894090f5408756bacbdc5965f1cd611893dd22d232f7327a"
@@ -46,9 +47,29 @@ INDEPENDENT_DP_CAP = 160
 NSTAR_RECEIPT_SHA256 = "682bbcf6ed83e6d3f3264b7ca41257e60c64dc56b4c0fc331057808a845d440d"
 DELTA_WITNESS_SHA256 = "2b1b2d04819f262ab5d8d8fd654a5c550a3978fa8bd8d75a9737322aacb5df09"
 PREDECESSOR_CLOSE_COMMIT = "8e24af67b75a7135f868afb0bed0d9b3e53067f2"
+PREREGISTRATION_COMMIT = "9247685f93a0822d5db0c81a7cba25de8b8cb610"
 BLOCK_COUNT = 5
 CALIBRATION_N = frozenset({8, 9, 10})
 VALIDATION_N = frozenset({11, 12, 13})
+
+OFFICIAL_SCHEMAS = {
+    "MATERIALIZE": "fig5-v025-width4-manifest/v1",
+    "GENERATE": "fig5-v025-width4-generate/v1",
+    "VERIFY": "fig5-v025-width4-verify/v1",
+    "ADMIT": "fig5-v025-width4-admit/v1",
+    "ANALYZE": "fig5-v025-width4-analysis/v1",
+    "POSTHOC": "fig5-v025-width4-posthoc/v1",
+}
+TEST_SCHEMAS = {
+    stage: schema.replace("width4-", "width4-test-")
+    for stage, schema in OFFICIAL_SCHEMAS.items()
+}
+OFFICIAL_CANONICAL_SHA256 = {
+    "MATERIALIZE": "4462e73d9ad3478d0e18c4e5f662cb939eafb79bb54dde7d622847572c3d70cb",
+    "GENERATE": "79f623af69c26582329c07fe9341c9f10e40faabe202ae4dcd79fecd0abcc07a",
+    "VERIFY": "af9a0c2fb48741150dae70141afc71af097d16f70b6341d868e2d5fdda304cf7",
+    "ADMIT": "54cccf733604c41d3545c08530ccde0f876a8ce5416cad4956556ca1ed38dbc6",
+}
 
 
 def canonical_json_bytes(value: object) -> bytes:
@@ -106,8 +127,18 @@ def materialize_rows(
     seeds: Sequence[dict],
     n_levels: Sequence[int],
     provenance: dict,
+    *,
+    official: bool = False,
 ) -> dict:
     """Materialize formulas only; no active or independent solver is invoked."""
+    if official:
+        if provenance.get("preregistration_commit") != PREREGISTRATION_COMMIT:
+            raise ValueError("official materialization requires the frozen preregistration commit")
+        test_only = False
+    else:
+        if provenance.get("test_only") is not True:
+            raise ValueError("non-official materialization must declare test_only provenance")
+        test_only = True
     rows: list[dict] = []
     block_efficiency: list[dict] = []
     for seed_record in seeds:
@@ -148,8 +179,8 @@ def materialize_rows(
         row["generation_trace"]["priority_hash_collision_count"] for row in rows
     )
     return {
-        "schema": "fig5-v025-width4-manifest/v1",
-        "experiment_id": EXPERIMENT_ID,
+        "schema": TEST_SCHEMAS["MATERIALIZE"] if test_only else OFFICIAL_SCHEMAS["MATERIALIZE"],
+        "experiment_id": TEST_EXPERIMENT_ID if test_only else EXPERIMENT_ID,
         "stage": "MATERIALIZE",
         "status": "MATERIALIZED_NOT_EXECUTED",
         "provenance": provenance,
@@ -195,6 +226,8 @@ def materialize_rows(
 def official_manifest(preregistration_commit: str) -> dict:
     """Materialize the five official blocks after preregistration is committed."""
     _validate_commit(preregistration_commit)
+    if preregistration_commit != PREREGISTRATION_COMMIT:
+        raise ValueError("official materialization requires the frozen preregistration commit")
     root = Path(__file__).resolve().parent
     constructor_path = root / "fig5_width4_family_v025.py"
     solver_path = root / "fig5_dp_mirror_v020.py"
@@ -234,6 +267,7 @@ def official_manifest(preregistration_commit: str) -> dict:
             ],
             "collision_policy": "STOP_NO_RETRY_NO_RESEED",
         },
+        official=True,
     )
 
 
@@ -248,11 +282,90 @@ def _rows_by_key(stage: dict) -> dict[tuple[int, int], dict]:
     return keyed
 
 
+def _is_test_manifest(manifest: dict) -> bool:
+    schema = manifest.get("schema")
+    experiment_id = manifest.get("experiment_id")
+    if schema == TEST_SCHEMAS["MATERIALIZE"] and experiment_id == TEST_EXPERIMENT_ID:
+        if manifest.get("provenance", {}).get("test_only") is not True:
+            raise ValueError("test manifest must declare test_only provenance")
+        return True
+    if schema == OFFICIAL_SCHEMAS["MATERIALIZE"] and experiment_id == EXPERIMENT_ID:
+        if manifest.get("provenance", {}).get("test_only") is True:
+            raise ValueError("official manifest cannot declare test_only provenance")
+        return False
+    raise ValueError("manifest identity is neither frozen official nor explicit test-only")
+
+
+def _stage_schema(manifest: dict, stage: str) -> str:
+    return TEST_SCHEMAS[stage] if _is_test_manifest(manifest) else OFFICIAL_SCHEMAS[stage]
+
+
+def _stage_experiment_id(manifest: dict) -> str:
+    return TEST_EXPERIMENT_ID if _is_test_manifest(manifest) else EXPERIMENT_ID
+
+
+def _validate_official_manifest_contract(manifest: dict) -> None:
+    expected_constructor = {
+        "version": family.FAMILY_VERSION,
+        "sha256": CONSTRUCTOR_SHA256,
+        "width": family.WIDTH,
+        "density": "4/1",
+        "priority_namespace": family.PRIORITY_NAMESPACE,
+    }
+    if manifest.get("constructor") != expected_constructor:
+        raise ValueError("official manifest constructor identity differs from preregistration")
+    expected_provenance = {
+        "preregistration_commit": PREREGISTRATION_COMMIT,
+        "predecessor_close_commit": PREDECESSOR_CLOSE_COMMIT,
+        "seed_namespace": OFFICIAL_SEED_NAMESPACE,
+        "seed_derivation": "SHA256(length-prefixed ordered inputs)",
+        "seed_ordered_inputs": [
+            "namespace",
+            "experiment_id",
+            "constructor_sha256",
+            "active_solver_sha256",
+            "active_cap",
+            "nstar_receipt_sha256",
+            "delta_witness_sha256",
+            "predecessor_close_commit",
+            "preregistration_commit",
+            "block_id",
+        ],
+        "collision_policy": "STOP_NO_RETRY_NO_RESEED",
+    }
+    if manifest.get("provenance") != expected_provenance:
+        raise ValueError("official manifest provenance differs from preregistration")
+    expected_seeds = [
+        {
+            "block_id": block_id,
+            "seed": derive_seed(OFFICIAL_SEED_NAMESPACE, PREREGISTRATION_COMMIT, block_id),
+        }
+        for block_id in range(BLOCK_COUNT)
+    ]
+    if manifest.get("seeds") != expected_seeds:
+        raise ValueError("official manifest seeds differ from preregistered derivation")
+    expected_keys = {
+        (block_id, n)
+        for block_id in range(BLOCK_COUNT)
+        for n in family.ALLOWED_N
+    }
+    manifest_rows = _rows_by_key(manifest)
+    if set(manifest_rows) != expected_keys:
+        raise ValueError("official manifest row identities must be five blocks across n=8..13")
+    expected_seed_by_block = {row["block_id"]: row["seed"] for row in expected_seeds}
+    if any(row["seed"] != expected_seed_by_block[row["block_id"]] for row in manifest["rows"]):
+        raise ValueError("official manifest row seed differs from derived block seed")
+
+
 def _validate_manifest(manifest: dict) -> None:
     if manifest.get("stage") != "MATERIALIZE" or manifest.get("status") != "MATERIALIZED_NOT_EXECUTED":
         raise ValueError("expected a sealed MATERIALIZE object")
     if manifest.get("generate_run") or manifest.get("verify_run") or manifest.get("admit_run"):
         raise ValueError("manifest collapses stage firewall")
+    if not _is_test_manifest(manifest):
+        _validate_official_manifest_contract(manifest)
+        if canonical_sha256(manifest) != OFFICIAL_CANONICAL_SHA256["MATERIALIZE"]:
+            raise ValueError("official MATERIALIZE receipt hash differs from sealed receipt")
     rows_by_seed: dict[str, list[dict]] = {}
     for row in manifest["rows"]:
         rows_by_seed.setdefault(row["seed"], []).append(row)
@@ -298,14 +411,17 @@ def run_generate(
 ) -> dict:
     """Execute only the frozen active solver."""
     _validate_manifest(manifest)
+    test_only = _is_test_manifest(manifest)
+    if not test_only and active_cap != ACTIVE_CAP:
+        raise ValueError("official active cap must remain 160")
     rows = _ordered_map(
         _generate_one,
         [(row, active_cap) for row in manifest["rows"]],
         workers,
     )
     return {
-        "schema": "fig5-v025-width4-generate/v1",
-        "experiment_id": EXPERIMENT_ID,
+        "schema": _stage_schema(manifest, "GENERATE"),
+        "experiment_id": _stage_experiment_id(manifest),
         "stage": "GENERATE",
         "status": "GENERATE_SEALED_VERIFY_NOT_RUN",
         "manifest_canonical_sha256": canonical_sha256(manifest),
@@ -328,10 +444,20 @@ def _validate_generate(manifest: dict, generated: dict) -> None:
         raise ValueError("expected a sealed GENERATE object")
     if generated.get("verify_run") or generated.get("admit_run"):
         raise ValueError("GENERATE object collapses stage firewall")
+    if generated.get("schema") != _stage_schema(manifest, "GENERATE"):
+        raise ValueError("GENERATE schema does not match manifest mode")
+    if generated.get("experiment_id") != _stage_experiment_id(manifest):
+        raise ValueError("GENERATE experiment identity does not match manifest mode")
     if generated.get("manifest_canonical_sha256") != canonical_sha256(manifest):
         raise ValueError("GENERATE input manifest hash mismatch")
     if set(_rows_by_key(generated)) != set(_rows_by_key(manifest)):
         raise ValueError("GENERATE row identities differ from manifest")
+    if not _is_test_manifest(manifest):
+        expected_solver = {"version": SOLVER_VERSION, "sha256": SOLVER_SHA256, "cap": ACTIVE_CAP}
+        if generated.get("solver") != expected_solver:
+            raise ValueError("official GENERATE solver or cap differs from preregistration")
+        if canonical_sha256(generated) != OFFICIAL_CANONICAL_SHA256["GENERATE"]:
+            raise ValueError("official GENERATE receipt hash differs from sealed receipt")
 
 
 def _satisfies(formula: Sequence[Sequence[int]], witness: Sequence[int]) -> bool:
@@ -425,6 +551,8 @@ def run_verify(
 ) -> dict:
     """Run independent truth, bounded DP diagnostic, and carrier probes only."""
     _validate_generate(manifest, generated)
+    if not _is_test_manifest(manifest) and validation_n != VALIDATION_N:
+        raise ValueError("official carrier scope must remain n=11..13")
     manifest_rows = _rows_by_key(manifest)
     generate_rows = _rows_by_key(generated)
     rows = _ordered_map(
@@ -436,8 +564,8 @@ def run_verify(
         workers,
     )
     return {
-        "schema": "fig5-v025-width4-verify/v1",
-        "experiment_id": EXPERIMENT_ID,
+        "schema": _stage_schema(manifest, "VERIFY"),
+        "experiment_id": _stage_experiment_id(manifest),
         "stage": "VERIFY",
         "status": "VERIFY_SEALED_ADMIT_NOT_RUN",
         "manifest_canonical_sha256": canonical_sha256(manifest),
@@ -463,19 +591,28 @@ def _validate_verify(manifest: dict, generated: dict, verified: dict) -> None:
         raise ValueError("expected a sealed VERIFY object")
     if verified.get("admit_run"):
         raise ValueError("VERIFY object collapses stage firewall")
+    if verified.get("schema") != _stage_schema(manifest, "VERIFY"):
+        raise ValueError("VERIFY schema does not match manifest mode")
+    if verified.get("experiment_id") != _stage_experiment_id(manifest):
+        raise ValueError("VERIFY experiment identity does not match manifest mode")
     if verified.get("manifest_canonical_sha256") != canonical_sha256(manifest):
         raise ValueError("VERIFY input manifest hash mismatch")
     if verified.get("generate_canonical_sha256") != canonical_sha256(generated):
         raise ValueError("VERIFY input GENERATE hash mismatch")
     if set(_rows_by_key(verified)) != set(_rows_by_key(manifest)):
         raise ValueError("VERIFY row identities differ from manifest")
+    if not _is_test_manifest(manifest):
+        if verified.get("carrier_scope_n") != sorted(VALIDATION_N):
+            raise ValueError("official carrier scope must remain n=11..13")
+        if canonical_sha256(verified) != OFFICIAL_CANONICAL_SHA256["VERIFY"]:
+            raise ValueError("official VERIFY receipt hash differs from sealed receipt")
 
 
-def run_admit(manifest: dict, generated: dict, verified: dict) -> dict:
-    """Apply the frozen admission rule; do not estimate or score predictors."""
-    _validate_verify(manifest, generated, verified)
+def _expected_admission_rows(generated: dict, verified: dict) -> list[dict]:
     generate_rows = _rows_by_key(generated)
     verify_rows = _rows_by_key(verified)
+    if set(generate_rows) != set(verify_rows):
+        raise ValueError("GENERATE and VERIFY row identities differ")
     rows: list[dict] = []
     for key in sorted(generate_rows):
         active = generate_rows[key]["active"]
@@ -496,9 +633,16 @@ def run_admit(manifest: dict, generated: dict, verified: dict) -> dict:
                 "reason": reason,
             }
         )
+    return rows
+
+
+def run_admit(manifest: dict, generated: dict, verified: dict) -> dict:
+    """Apply the frozen admission rule; do not estimate or score predictors."""
+    _validate_verify(manifest, generated, verified)
+    rows = _expected_admission_rows(generated, verified)
     return {
-        "schema": "fig5-v025-width4-admit/v1",
-        "experiment_id": EXPERIMENT_ID,
+        "schema": _stage_schema(manifest, "ADMIT"),
+        "experiment_id": _stage_experiment_id(manifest),
         "stage": "ADMIT",
         "status": "ADMIT_SEALED_ANALYSIS_NOT_RUN",
         "manifest_canonical_sha256": canonical_sha256(manifest),
@@ -522,6 +666,10 @@ def _validate_admit(manifest: dict, generated: dict, verified: dict, admitted: d
         raise ValueError("expected a sealed ADMIT object")
     if admitted.get("analysis_run"):
         raise ValueError("ADMIT object collapses stage firewall")
+    if admitted.get("schema") != _stage_schema(manifest, "ADMIT"):
+        raise ValueError("ADMIT schema does not match manifest mode")
+    if admitted.get("experiment_id") != _stage_experiment_id(manifest):
+        raise ValueError("ADMIT experiment identity does not match manifest mode")
     expected_hashes = {
         "manifest_canonical_sha256": canonical_sha256(manifest),
         "generate_canonical_sha256": canonical_sha256(generated),
@@ -530,6 +678,12 @@ def _validate_admit(manifest: dict, generated: dict, verified: dict, admitted: d
     for field, expected in expected_hashes.items():
         if admitted.get(field) != expected:
             raise ValueError(f"ADMIT input hash mismatch: {field}")
+    expected_rows = _expected_admission_rows(generated, verified)
+    if admitted.get("rows") != expected_rows:
+        raise ValueError("ADMIT rows do not match frozen admission rule")
+    if not _is_test_manifest(manifest):
+        if canonical_sha256(admitted) != OFFICIAL_CANONICAL_SHA256["ADMIT"]:
+            raise ValueError("official ADMIT receipt hash differs from sealed receipt")
 
 
 def _median_fraction(values: Iterable[Fraction]) -> Fraction:
@@ -679,8 +833,8 @@ def run_analyze(manifest: dict, generated: dict, verified: dict, admitted: dict)
     else:
         status = "WIDTH4_DENSITY4_PREREGISTERED_RULE_NOT_MET"
     return {
-        "schema": "fig5-v025-width4-analysis/v1",
-        "experiment_id": EXPERIMENT_ID,
+        "schema": _stage_schema(manifest, "ANALYZE"),
+        "experiment_id": _stage_experiment_id(manifest),
         "stage": "ANALYZE",
         "status": status,
         "success": success,
@@ -786,8 +940,8 @@ def run_posthoc(
         )
 
     return {
-        "schema": "fig5-v025-width4-posthoc/v1",
-        "experiment_id": EXPERIMENT_ID,
+        "schema": _stage_schema(manifest, "POSTHOC"),
+        "experiment_id": _stage_experiment_id(manifest),
         "stage": "POSTHOC",
         "status": "NON_PROMOTABLE_DIAGNOSTIC",
         "inputs": {

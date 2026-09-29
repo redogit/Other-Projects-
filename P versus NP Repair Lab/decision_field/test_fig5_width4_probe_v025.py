@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import copy
+import json
 import math
+from pathlib import Path
 import unittest
 
 import fig5_width4_family_v025 as family
@@ -90,6 +93,8 @@ class StageFirewallTests(unittest.TestCase):
 
     def test_materialize_does_not_execute_generate_verify_or_admit(self) -> None:
         self.assertEqual(self.manifest["stage"], "MATERIALIZE")
+        self.assertEqual(self.manifest["schema"], "fig5-v025-width4-test-manifest/v1")
+        self.assertTrue(self.manifest["experiment_id"].startswith("TEST-ONLY/"))
         self.assertFalse(self.manifest["generate_run"])
         self.assertFalse(self.manifest["verify_run"])
         self.assertFalse(self.manifest["admit_run"])
@@ -150,6 +155,56 @@ class StageFirewallTests(unittest.TestCase):
         serial_verify = probe.run_verify(manifest, serial_generate, validation_n=frozenset({8}), workers=1)
         parallel_verify = probe.run_verify(manifest, parallel_generate, validation_n=frozenset({8}), workers=2)
         self.assertEqual(serial_verify, parallel_verify)
+
+
+class OfficialConfigurationTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        root = Path(__file__).resolve().parent
+        cls.manifest = json.loads((root / "FIG5_V025_WIDTH4_MANIFEST.json").read_text())
+        cls.generated = json.loads((root / "FIG5_V025_WIDTH4_GENERATE.json").read_text())
+        cls.verified = json.loads((root / "FIG5_V025_WIDTH4_VERIFY.json").read_text())
+
+    def test_official_generate_rejects_nonfrozen_cap(self) -> None:
+        with self.assertRaisesRegex(ValueError, "official active cap must remain 160"):
+            probe.run_generate(self.manifest, active_cap=0, workers=1)
+
+    def test_official_generate_rejects_partial_panel(self) -> None:
+        partial = copy.deepcopy(self.manifest)
+        partial["rows"] = partial["rows"][:-1]
+        with self.assertRaisesRegex(ValueError, "official manifest row identities"):
+            probe.run_generate(partial, workers=1)
+
+    def test_official_manifest_rejects_a_different_preregistration_commit(self) -> None:
+        with self.assertRaisesRegex(ValueError, "frozen preregistration commit"):
+            probe.official_manifest("0" * 40)
+
+    def test_official_verify_rejects_a_different_carrier_scope(self) -> None:
+        with self.assertRaisesRegex(ValueError, "official carrier scope"):
+            probe.run_verify(
+                self.manifest,
+                self.generated,
+                validation_n=frozenset({11}),
+                workers=1,
+            )
+
+    def test_official_manifest_rejects_formula_tampering(self) -> None:
+        tampered = copy.deepcopy(self.manifest)
+        tampered["rows"][0]["formula"][0][0] *= -1
+        with self.assertRaisesRegex(ValueError, "official MATERIALIZE receipt hash"):
+            probe.run_generate(tampered, workers=1)
+
+    def test_official_verify_rejects_generate_receipt_tampering(self) -> None:
+        tampered = copy.deepcopy(self.generated)
+        tampered["rows"][0]["active"]["generated_resolvents"] += 1
+        with self.assertRaisesRegex(ValueError, "official GENERATE receipt hash"):
+            probe.run_verify(self.manifest, tampered, workers=1)
+
+    def test_official_admit_rejects_verify_receipt_tampering(self) -> None:
+        tampered = copy.deepcopy(self.verified)
+        tampered["rows"][0]["truth"]["assignments_tested"] += 1
+        with self.assertRaisesRegex(ValueError, "official VERIFY receipt hash"):
+            probe.run_admit(self.manifest, self.generated, tampered)
 
 
 if __name__ == "__main__":
