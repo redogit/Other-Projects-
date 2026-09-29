@@ -126,10 +126,12 @@ jobs:
           set -euo pipefail
           cd "P versus NP Repair Lab/decision_field"
           python3 -m unittest test_fig5_width4_probe_v025.py -v
+          python3 -m unittest test_fig5_width4_receipts_v025.py -v
           python3 -m py_compile \
             fig5_width4_family_v025.py \
             fig5_width4_probe_v025.py \
-            test_fig5_width4_probe_v025.py
+            test_fig5_width4_probe_v025.py \
+            test_fig5_width4_receipts_v025.py
           python3 fig5_width4_family_v025.py --self-test --stress-seeds 32 > /tmp/fig5-v025-width4-self-test.json
           python3 - <<'PY'
           import json
