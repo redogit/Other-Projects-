@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-import hashlib
 import copy
+import hashlib
 import json
 from pathlib import Path
 import unittest
@@ -35,6 +35,35 @@ class Width4ReceiptIntegrityTests(unittest.TestCase):
         cls.analysis = load("FIG5_V025_WIDTH4_ANALYSIS.json")
         cls.posthoc = load("FIG5_V025_WIDTH4_POSTHOC.json")
         cls.close = load("FIG5_V025_WIDTH4_CLOSE_RECEIPT.json")
+        cls.prefreeze = load("FIG5_V025_WIDTH4_PREFREEZE_RECEIPT.json")
+        cls.hardening = load("FIG5_V025_WIDTH4_VALIDATION_HARDENING_RECEIPT.json")
+
+    def test_validation_hardening_source_and_receipt_hashes_are_exact(self) -> None:
+        frozen = self.prefreeze["source_identities"]
+        historical = self.hardening["historical_frozen_sources"]
+        self.assertEqual(historical["constructor_sha256"], frozen["constructor_sha256"])
+        self.assertEqual(historical["runner_sha256_at_prefreeze"], frozen["runner_sha256"])
+        self.assertEqual(historical["active_solver_sha256"], frozen["solver_sha256"])
+        self.assertEqual(historical["constructor_sha256"], file_sha256("fig5_width4_family_v025.py"))
+        self.assertEqual(historical["active_solver_sha256"], file_sha256("fig5_dp_mirror_v020.py"))
+        self.assertEqual(
+            self.hardening["hardened_sources"]["runner_sha256"],
+            file_sha256("fig5_width4_probe_v025.py"),
+        )
+        receipt_files = {
+            "manifest_sha256": "FIG5_V025_WIDTH4_MANIFEST.json",
+            "generate_sha256": "FIG5_V025_WIDTH4_GENERATE.json",
+            "verify_sha256": "FIG5_V025_WIDTH4_VERIFY.json",
+            "admit_sha256": "FIG5_V025_WIDTH4_ADMIT.json",
+            "analysis_sha256": "FIG5_V025_WIDTH4_ANALYSIS.json",
+            "posthoc_sha256": "FIG5_V025_WIDTH4_POSTHOC.json",
+        }
+        for field, filename in receipt_files.items():
+            with self.subTest(field=field):
+                self.assertEqual(
+                    self.hardening["sealed_scientific_receipts"][field],
+                    file_sha256(filename),
+                )
 
     def test_stage_chain_hashes_are_exact(self) -> None:
         self.assertEqual(self.generate["manifest_canonical_sha256"], canonical_sha256(self.manifest))
