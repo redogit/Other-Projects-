@@ -80,3 +80,32 @@ Canonical JSON comparison preserves type distinctions such as `false` versus `0`
 `PRESERVES` and `FORBIDS` still win over mutation permission and retain their existing rejection diagnostics. An additional scope violation is returned as an unadmitted `MUTATION`, retained in the branch record, with sorted changed paths in `inspection.mutated` and a failed `may_mutate` gate. Existing successful audit shapes remain unchanged. `FITTER` has no `MAY_MUTATE` clause in v0 and retains its existing contract.
 
 This checks candidate admission after an operator returns. It does not sandbox arbitrary Python, prove the truth of operator-supplied metrics/reconstruction claims, or establish global evidence authority. Callers must still declare appropriate protected fields and use independent validation. No schema, parser, scheduling, initial bound-resolution, fresh RMALC, or scientific claim is changed. Regression witnesses: `test_rmapl_mutation_scope.py`.
+
+## FITTER authority floor — 2026-09-20
+
+`FITTER` retains its v0 syntax and its existing flexible fitting contract over ordinary mutable state, subject to declared `PRESERVES`. It still has no `MAY_MUTATE` clause.
+
+After canonical Omega validation, every fitter additionally inherits a fixed runtime authority floor. A fitter candidate is rejected as an unadmitted `MUTATION` if it changes any of:
+
+```text
+nativeIdentity
+sourceRefs
+evidence
+claimCeiling
+provenance
+```
+
+The authority floor is not an evidence verifier: it preserves the input carrier's authority-bearing identity, source references, evidence records, claim ceiling, and provenance against fitter rewrite. It does not establish the truth of those records.
+
+Existing `PRESERVES` diagnostics retain precedence. If a candidate already violates an explicitly declared preserved path, that existing rejection record is kept rather than replaced with a redundant `fitter_authority` diagnostic. Otherwise, an authority-floor violation is retained in `inspection.mutated` and reported by a failed `fitter_authority` gate with the changed paths.
+
+Ordinary state fitting remains permitted when declared preserves survive. This change adds no FITTER syntax, no Omega schema field, no new evidence class, and no change to REPAIR `MAY_MUTATE` behavior.
+
+```text
+FITTER != AUTHORITY_REWRITER
+FIT != EVIDENCE_PROMOTION
+METHOD_TRANSFER != EVIDENCE_TRANSFER
+```
+
+This is an admission check after a registered Python operator returns. It is not a sandbox and does not prove operator-supplied metrics, reconstruction claims, or scientific validity. Regression witnesses: `test_rmapl_fitter_authority_floor.py`.
+

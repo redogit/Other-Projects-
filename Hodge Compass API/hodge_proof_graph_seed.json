@@ -1,0 +1,626 @@
+{
+  "schema": "hodge-compass-proof-graph/v1",
+  "generated_from": [
+    "redogit/conscience64:research/projects/hodge-conjecture.md@c6cccf86fb49320051ce46a6882a32b21c53930e",
+    "redogit/conscience64:research/hodge/RESEARCH_INTEGRATION_MAP.md@c983b5296207bd07dda0bd34989ec0ab07d74cb0",
+    "redogit/conscience64:research/hodge/METHOD_FIREWALL.md@3e81d0c19177c576f086b5ba2794f4b50815c4c7",
+    "redogit/conscience64:research/hodge/w114_research_loop.py@f192f167b69613243628b8e68585d190d984023b",
+    "redogit/conscience64#99",
+    "redogit/Other-Projects-:Hodge Span Lab/README.md@6c0386bf21cb67fcb7c5f255e378b8b4d3da3bae"
+  ],
+  "boundaries": [
+    "GRAPH_RELATION != EVIDENCE_TRANSFER",
+    "METHOD_EDGE != MATHEMATICAL_IMPLICATION",
+    "CURRENT != PROVED",
+    "SEARCH_TRAVERSAL != PROOF"
+  ],
+  "records": [
+    {
+      "semantic_object_id": "hodge:conscience64:research-spine",
+      "kind": "research-spine",
+      "domain": "hodge",
+      "title": "Conscience64 Hodge research spine",
+      "claim_ceiling": "PUBLIC_RESEARCH_SPINE_NOT_HODGE_PROOF",
+      "occurrence": {
+        "surface": "github",
+        "source_ref": "redogit/conscience64:research/projects/hodge-conjecture.md@c6cccf86fb49320051ce46a6882a32b21c53930e",
+        "authority": "target-native-public-research",
+        "status": "CURRENT_CANONICAL",
+        "text": "Canonical Hodge research state: cycle-span deficit, symmetry-sector deficit, calibrated ladders, proof admission, and strict separation of structural resemblance, finite computation, theorem and full Hodge proof.",
+        "provenance": [
+          "redogit/conscience64",
+          "research/projects/hodge-conjecture.md",
+          "blob:c6cccf86fb49320051ce46a6882a32b21c53930e"
+        ]
+      },
+      "relations": [
+        {
+          "target_object_id": "hodge:w114:alpha:1-7-78-79-86-91",
+          "type": "HAS_OPEN_TARGET",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "issue #99",
+            "w114_research_loop.py"
+          ]
+        },
+        {
+          "target_object_id": "hodge:frontier:cycle-span-sector-deficit",
+          "type": "HAS_OPERATIONAL_FRONTIER",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "hodge-conjecture.md",
+            "RESEARCH_INTEGRATION_MAP.md"
+          ]
+        },
+        {
+          "target_object_id": "hodge:method:evidence-firewall",
+          "type": "PROTECTED_BY",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "METHOD_FIREWALL.md"
+          ]
+        }
+      ]
+    },
+    {
+      "semantic_object_id": "hodge:w114:alpha:1-7-78-79-86-91",
+      "kind": "proof-obligation",
+      "domain": "hodge",
+      "title": "W114 primitive Chern-character target",
+      "claim_ceiling": "NONZERO_TARGET_COEFFICIENT != FULL_HODGE_PROOF",
+      "occurrence": {
+        "surface": "github",
+        "source_ref": "https://github.com/redogit/conscience64/issues/99",
+        "authority": "target-native-public-research",
+        "status": "OPEN",
+        "text": "alpha=(1,7,78,79,86,91); target monomial x1^6 x2^77 x3^78 x4^85 x5^90, degree 336. Current routes are motivic, matrix factorization, higher-level lift, and historical direct Shioda cubic.",
+        "provenance": [
+          "redogit/conscience64#99",
+          "research/hodge/w114_research_loop.py"
+        ]
+      },
+      "relations": [
+        {
+          "target_object_id": "hodge:w114:route:motivic",
+          "type": "HAS_ROUTE",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "w114_research_loop.py:current canonical"
+          ]
+        },
+        {
+          "target_object_id": "hodge:w114:route:matrix-factorization",
+          "type": "HAS_ROUTE",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "w114_research_loop.py:coexisting lineage"
+          ]
+        },
+        {
+          "target_object_id": "hodge:w114:route:lift",
+          "type": "HAS_ROUTE",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "w114_research_loop.py:preserved unresolved"
+          ]
+        },
+        {
+          "target_object_id": "hodge:w114:route:shioda-cubic",
+          "type": "HAS_ROUTE",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "w114_research_loop.py:historical superseded"
+          ]
+        },
+        {
+          "target_object_id": "tool:hodge-span-lab",
+          "type": "CAN_USE_DIAGNOSTIC",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "Other-Projects-/Hodge Span Lab"
+          ]
+        },
+        {
+          "target_object_id": "compass:observer-return-loop",
+          "type": "CAN_USE_METHOD_SURFACE",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "Compass observer lineage",
+            "METHOD_ONLY"
+          ]
+        },
+        {
+          "target_object_id": "hodge:method:evidence-firewall",
+          "type": "PROTECTED_BY",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "METHOD_FIREWALL.md"
+          ]
+        }
+      ]
+    },
+    {
+      "semantic_object_id": "hodge:w114:route:motivic",
+      "kind": "research-route",
+      "domain": "hodge",
+      "title": "W114 motivic / Hecke-to-Chow route",
+      "claim_ceiling": "REALIZATION_MATCH != CHOW_MORPHISM",
+      "occurrence": {
+        "surface": "github",
+        "source_ref": "redogit/conscience64:research/hodge/w114_research_loop.py@f192f167b69613243628b8e68585d190d984023b",
+        "authority": "target-native-public-research",
+        "status": "CURRENT_CANONICAL",
+        "text": "Construct the localized rank-one Chow/motivic morphism. Arithmetic realizations and explicit quadratic Artin carrier are preserved, but the explicit nonzero Chow correspondence remains the load-bearing obligation.",
+        "provenance": [
+          "w114_research_loop.py",
+          "route:motivic"
+        ]
+      },
+      "relations": [
+        {
+          "target_object_id": "hodge:w114:obligation:MOT-1",
+          "type": "HAS_OBLIGATION",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "w114_research_loop.py"
+          ]
+        },
+        {
+          "target_object_id": "hodge:w114:alpha:1-7-78-79-86-91",
+          "type": "ATTACKS_TARGET",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "w114_research_loop.py"
+          ]
+        }
+      ]
+    },
+    {
+      "semantic_object_id": "hodge:w114:route:matrix-factorization",
+      "kind": "research-route",
+      "domain": "hodge",
+      "title": "W114 matrix-factorization / coherent-sheaf route",
+      "claim_ceiling": "NONZERO_TARGET_COEFFICIENT != FULL_HODGE_PROOF; MATCHED_EIGENSPACE != AUTHENTICATED_SOURCE_SHEAF",
+      "occurrence": {
+        "surface": "github",
+        "source_ref": "redogit/conscience64:research/hodge/w114_research_loop.py@f192f167b69613243628b8e68585d190d984023b",
+        "authority": "target-native-public-research",
+        "status": "COEXISTING_LINEAGE",
+        "text": "Seek explicit graded A,B with AB=BA=QI exactly and nonzero W114 primitive Chern-character coefficient; authenticate the matrix factorization/coherent sheaf independently.",
+        "provenance": [
+          "w114_research_loop.py",
+          "conscience64#99",
+          "route:mf"
+        ]
+      },
+      "relations": [
+        {
+          "target_object_id": "hodge:w114:obligation:MF-1",
+          "type": "HAS_OBLIGATION",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "w114_research_loop.py"
+          ]
+        },
+        {
+          "target_object_id": "hodge:w114:obligation:MF-2",
+          "type": "HAS_OBLIGATION",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "w114_research_loop.py"
+          ]
+        },
+        {
+          "target_object_id": "hodge:w114:alpha:1-7-78-79-86-91",
+          "type": "ATTACKS_TARGET",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "conscience64#99"
+          ]
+        }
+      ]
+    },
+    {
+      "semantic_object_id": "hodge:w114:route:lift",
+      "kind": "research-route",
+      "domain": "hodge",
+      "title": "W114 higher-level / certificate-lift route",
+      "claim_ceiling": "NO_FIRE_BOUNDED_SEARCH != NO_LEVEL_LIFT_EXISTS; TIMEOUT != NEGATIVE_RESULT",
+      "occurrence": {
+        "surface": "github",
+        "source_ref": "redogit/conscience64:research/hodge/w114_research_loop.py@f192f167b69613243628b8e68585d190d984023b",
+        "authority": "target-native-public-research",
+        "status": "PRESERVED_UNRESOLVED",
+        "text": "Deeper lifted-certificate route. e=2..8 depth<=2 is bounded negative; the level-342 depth-3 attempt remains unresolved by runtime and must not be promoted to NO-FIRE.",
+        "provenance": [
+          "w114_research_loop.py",
+          "route:lift"
+        ]
+      },
+      "relations": [
+        {
+          "target_object_id": "hodge:w114:obligation:LIFT-1",
+          "type": "HAS_OBLIGATION",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "w114_research_loop.py"
+          ]
+        },
+        {
+          "target_object_id": "hodge:w114:alpha:1-7-78-79-86-91",
+          "type": "ATTACKS_TARGET",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "w114_research_loop.py"
+          ]
+        }
+      ]
+    },
+    {
+      "semantic_object_id": "hodge:w114:route:shioda-cubic",
+      "kind": "research-route",
+      "domain": "hodge",
+      "title": "W114 direct cubic Delsarte / Shioda route",
+      "claim_ceiling": "NO_CUBIC_DELSARTE_SHIODA_PREIMAGE != NO_HIGHER_DEGREE_OR_WEIGHTED_PREIMAGE",
+      "occurrence": {
+        "surface": "github",
+        "source_ref": "redogit/conscience64:research/hodge/EVEN_WALL_SHIODA_CUBIC_SCREEN_2026-09-15.md@4962b1f83376b62839bec99dc45f483a39a74cef",
+        "authority": "target-native-public-research",
+        "status": "HISTORICAL_SUPERSEDED",
+        "text": "Exact bounded direct cubic six-row screen produced no admissible preimage for the necessary character equation. This closes only that carrier species and motivates other routes.",
+        "provenance": [
+          "EVEN_WALL_SHIODA_CUBIC_SCREEN_2026-09-15.md",
+          "w114_research_loop.py"
+        ]
+      },
+      "relations": [
+        {
+          "target_object_id": "hodge:w114:alpha:1-7-78-79-86-91",
+          "type": "BOUNDED_NEGATIVE_FOR_TARGET_ROUTE",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "Shioda cubic screen"
+          ]
+        },
+        {
+          "target_object_id": "hodge:w114:route:matrix-factorization",
+          "type": "MOTIVATES_ALTERNATIVE_ROUTE",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "conscience64#99 dependency"
+          ]
+        }
+      ]
+    },
+    {
+      "semantic_object_id": "hodge:w114:obligation:MOT-1",
+      "kind": "finite-obligation",
+      "domain": "hodge",
+      "title": "MOT-1 explicit Chow correspondence",
+      "claim_ceiling": "OPEN_LEMMA",
+      "occurrence": {
+        "surface": "github",
+        "source_ref": "redogit/conscience64:research/hodge/w114_research_loop.py@f192f167b69613243628b8e68585d190d984023b",
+        "authority": "target-native-public-research",
+        "status": "OPEN",
+        "text": "Construct one explicit nonzero correspondence from the residual gap motive to the standard-part motive tensored with the quadratic Artin motive, and independently verify source, target, Galois behavior and induced realization map.",
+        "provenance": [
+          "w114_research_loop.py:MOT-1"
+        ]
+      },
+      "relations": [
+        {
+          "target_object_id": "hodge:w114:route:motivic",
+          "type": "OBLIGATION_OF",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "w114_research_loop.py"
+          ]
+        }
+      ]
+    },
+    {
+      "semantic_object_id": "hodge:w114:obligation:MF-1",
+      "kind": "finite-obligation",
+      "domain": "hodge",
+      "title": "MF-1 mixed non-CI graded factorization ansatz",
+      "claim_ceiling": "OPEN_LEMMA",
+      "occurrence": {
+        "surface": "github",
+        "source_ref": "redogit/conscience64:research/hodge/w114_research_loop.py@f192f167b69613243628b8e68585d190d984023b",
+        "authority": "target-native-public-research",
+        "status": "OPEN",
+        "text": "Specify one genuinely mixed non-complete-intersection graded matrix-factorization ansatz and verify grading plus AB=BA=QI exactly before any Chern-character evaluation.",
+        "provenance": [
+          "w114_research_loop.py:MF-1"
+        ]
+      },
+      "relations": [
+        {
+          "target_object_id": "hodge:w114:route:matrix-factorization",
+          "type": "OBLIGATION_OF",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "w114_research_loop.py"
+          ]
+        }
+      ]
+    },
+    {
+      "semantic_object_id": "hodge:w114:obligation:MF-2",
+      "kind": "finite-obligation",
+      "domain": "hodge",
+      "title": "MF-2 exact W114 target-coefficient evaluation",
+      "claim_ceiling": "NONZERO_TARGET_COEFFICIENT != FULL_HODGE_PROOF",
+      "occurrence": {
+        "surface": "github",
+        "source_ref": "redogit/conscience64:research/hodge/w114_research_loop.py@f192f167b69613243628b8e68585d190d984023b",
+        "authority": "target-native-public-research",
+        "status": "OPEN",
+        "text": "For an authenticated factorization, compute exactly the coefficient of x1^6*x2^77*x3^78*x4^85*x5^90 in the Favero-Kelly trace expression after Jacobian reduction.",
+        "provenance": [
+          "w114_research_loop.py:MF-2",
+          "conscience64#99"
+        ]
+      },
+      "relations": [
+        {
+          "target_object_id": "hodge:w114:obligation:MF-1",
+          "type": "DEPENDS_ON",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "w114_research_loop.py"
+          ]
+        },
+        {
+          "target_object_id": "hodge:w114:route:matrix-factorization",
+          "type": "OBLIGATION_OF",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "w114_research_loop.py"
+          ]
+        }
+      ]
+    },
+    {
+      "semantic_object_id": "hodge:w114:obligation:LIFT-1",
+      "kind": "finite-obligation",
+      "domain": "hodge",
+      "title": "LIFT-1 resolve/sharpen level-342 depth-3 timeout",
+      "claim_ceiling": "TIMEOUT != NEGATIVE_RESULT",
+      "occurrence": {
+        "surface": "github",
+        "source_ref": "redogit/conscience64:research/hodge/w114_research_loop.py@f192f167b69613243628b8e68585d190d984023b",
+        "authority": "target-native-public-research",
+        "status": "TIMEOUT",
+        "text": "Resolve or sharpen the level-342 depth-3 timeout using one bounded resource/algorithm change, recording FIRE, NO-FIRE, or TIMEOUT exactly.",
+        "provenance": [
+          "w114_research_loop.py:LIFT-1"
+        ]
+      },
+      "relations": [
+        {
+          "target_object_id": "hodge:w114:route:lift",
+          "type": "OBLIGATION_OF",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "w114_research_loop.py"
+          ]
+        }
+      ]
+    },
+    {
+      "semantic_object_id": "hodge:frontier:cycle-span-sector-deficit",
+      "kind": "research-frontier",
+      "domain": "hodge",
+      "title": "Cycle-span / representation-sector deficit frontier",
+      "claim_ceiling": "POSITIVE_DEFICIT != NONALGEBRAIC_CLASS",
+      "occurrence": {
+        "surface": "github",
+        "source_ref": "redogit/conscience64:research/projects/hodge-conjecture.md@c6cccf86fb49320051ce46a6882a32b21c53930e",
+        "authority": "target-native-public-research",
+        "status": "CURRENT_CANONICAL",
+        "text": "Compute exact span of authenticated cycle classes; refine by certified symmetry sectors; positive deficits are targeted cycle-discovery sectors, not counterexamples to Hodge.",
+        "provenance": [
+          "hodge-conjecture.md",
+          "RESEARCH_INTEGRATION_MAP.md"
+        ]
+      },
+      "relations": [
+        {
+          "target_object_id": "tool:hodge-span-lab",
+          "type": "EXECUTED_BY",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "Hodge Span Lab"
+          ]
+        },
+        {
+          "target_object_id": "hodge:calibration:fermat-quartic",
+          "type": "CALIBRATED_ON",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "hodge-conjecture.md"
+          ]
+        },
+        {
+          "target_object_id": "hodge:calibration:cubic-fourfold",
+          "type": "CALIBRATED_ON",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "hodge-conjecture.md"
+          ]
+        }
+      ]
+    },
+    {
+      "semantic_object_id": "tool:hodge-span-lab",
+      "kind": "exact-software-tool",
+      "domain": "hodge",
+      "title": "Hodge Span Lab",
+      "claim_ceiling": "SPAN_RESULT != GEOMETRIC_AUTHENTICATION",
+      "occurrence": {
+        "surface": "github",
+        "source_ref": "redogit/Other-Projects-:Hodge Span Lab/README.md@6c0386bf21cb67fcb7c5f255e378b8b4d3da3bae",
+        "authority": "method-only",
+        "status": "CURRENT",
+        "text": "Exact rational rank/span/separation instrument. Accepts supplied exact cycle and target vectors, returns rank/containment and separating covectors. It does not authenticate geometry, Hodge status, algebraicity, or completeness.",
+        "provenance": [
+          "redogit/Other-Projects-",
+          "Hodge Span Lab/README.md"
+        ]
+      },
+      "relations": [
+        {
+          "target_object_id": "hodge:frontier:cycle-span-sector-deficit",
+          "type": "IMPLEMENTS_METHOD_FOR",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "Hodge Span Lab README"
+          ]
+        }
+      ]
+    },
+    {
+      "semantic_object_id": "compass:observer-return-loop",
+      "kind": "observer-framework",
+      "domain": "compass",
+      "title": "Eye of the Storm / Compass observer-return loop",
+      "claim_ceiling": "OBSERVER_FRAMEWORK != ALGEBRAIC_CYCLE",
+      "occurrence": {
+        "surface": "private-lineage-pointer",
+        "source_ref": "semantic-only:no-private-history-content-bundled",
+        "authority": "method-only",
+        "status": "ACTIVE",
+        "text": "2D Surface -> 3D frame -> 4D directional observers -> controlled probe -> residual/disagreement -> repair/recenter -> 3D reprojection -> 2D return. Used as representation/counterprobe methodology only.",
+        "provenance": [
+          "Normal + Work history lineage",
+          "no private content bundled"
+        ]
+      },
+      "relations": [
+        {
+          "target_object_id": "hodge:w114:alpha:1-7-78-79-86-91",
+          "type": "PROVIDES_METHOD_SURFACE",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "METHOD_ONLY"
+          ]
+        },
+        {
+          "target_object_id": "hodge:method:evidence-firewall",
+          "type": "SUBJECT_TO",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "METHOD_FIREWALL.md"
+          ]
+        }
+      ]
+    },
+    {
+      "semantic_object_id": "hodge:method:evidence-firewall",
+      "kind": "research-control",
+      "domain": "hodge",
+      "title": "Hodge Decision-Field evidence firewall",
+      "claim_ceiling": "HODGE_CLAIMS_REQUIRE_HODGE_NATIVE_EVIDENCE",
+      "occurrence": {
+        "surface": "github",
+        "source_ref": "redogit/conscience64:research/hodge/METHOD_FIREWALL.md@3e81d0c19177c576f086b5ba2794f4b50815c4c7",
+        "authority": "target-native-public-research",
+        "status": "ACTIVE_BOUNDARY",
+        "text": "Shared method schema does not transfer mathematical evidence. Cross-project references must be METHOD_ONLY, ANALOGY_ONLY, or NO_EVIDENCE_TRANSFER; Hodge claims require Hodge-native definitions, sources, computations, constructions and proofs.",
+        "provenance": [
+          "METHOD_FIREWALL.md"
+        ]
+      },
+      "relations": []
+    },
+    {
+      "semantic_object_id": "hodge:calibration:fermat-quartic",
+      "kind": "calibration",
+      "domain": "hodge",
+      "title": "Fermat quartic K3 calibration",
+      "claim_ceiling": "SPECIAL_CALIBRATION != GENERAL_HODGE_RESULT",
+      "occurrence": {
+        "surface": "github",
+        "source_ref": "redogit/conscience64:research/projects/hodge-conjecture.md@c6cccf86fb49320051ce46a6882a32b21c53930e",
+        "authority": "target-native-public-research",
+        "status": "CALIBRATION",
+        "text": "Explicit line-rich K3 calibration: 48 constructed lines collapse to rank-20 rational intersection span. Used to validate span/rank and symmetry machinery; special geometry must not be generalized silently.",
+        "provenance": [
+          "hodge-conjecture.md"
+        ]
+      },
+      "relations": [
+        {
+          "target_object_id": "hodge:frontier:cycle-span-sector-deficit",
+          "type": "CALIBRATES",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "hodge-conjecture.md"
+          ]
+        }
+      ]
+    },
+    {
+      "semantic_object_id": "hodge:calibration:cubic-fourfold",
+      "kind": "calibration",
+      "domain": "hodge",
+      "title": "Smooth cubic fourfold calibration",
+      "claim_ceiling": "CALIBRATION_RESULT != OPEN_TARGET_RESULT",
+      "occurrence": {
+        "surface": "github",
+        "source_ref": "redogit/conscience64:research/projects/hodge-conjecture.md@c6cccf86fb49320051ce46a6882a32b21c53930e",
+        "authority": "target-native-public-research",
+        "status": "CALIBRATION",
+        "text": "Codimension-two/period/Hodge-locus calibration. Ordinary smooth cubic-fourfold H4 is not an unresolved Hodge-conjecture instance and is not to be relabeled as one.",
+        "provenance": [
+          "hodge-conjecture.md",
+          "RESEARCH_INTEGRATION_MAP.md"
+        ]
+      },
+      "relations": [
+        {
+          "target_object_id": "hodge:frontier:cycle-span-sector-deficit",
+          "type": "CALIBRATES",
+          "permission": "ALLOW",
+          "evidence_transfer": "DENY",
+          "provenance": [
+            "hodge-conjecture.md"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+from pathlib import Path
+import tempfile
+import unittest
+import hodge_compass_api as api
+import refresh_source_catalog as catalog_refresh
+
+class APITests(unittest.TestCase):
+    def setUp(self):
+        self.tmp=tempfile.TemporaryDirectory()
+        self.idx=api.Index(Path(self.tmp.name)/"x.sqlite")
+    def tearDown(self):
+        self.idx.close(); self.tmp.cleanup()
+    def record(self,surface,text="same object"):
+        return {
+            "semantic_object_id":"obj:compass-hodge","kind":"thread","domain":"hodge",
+            "title":"Compass Hodge","claim_ceiling":"METHOD_ONLY",
+            "occurrence":{"surface":surface,"source_ref":f"{surface}:1","authority":"lineage",
+                          "status":"CURRENT","text":text,"provenance":[surface]},
+            "relations":[{"target_object_id":"hodge:w114","type":"RELATES_TO",
+                          "permission":"ALLOW","provenance":[surface]}]}
+    def test_normal_work_are_two_occurrences_one_object(self):
+        a=self.idx.ingest(self.record("normal")); b=self.idx.ingest(self.record("work"))
+        self.assertNotEqual(a["occurrence_id"],b["occurrence_id"])
+        obj=self.idx.get_object("obj:compass-hodge")
+        self.assertEqual(len(obj["occurrences"]),2)
+        self.assertTrue(all(r["evidence_transfer"]=="DENY" for r in obj["relations"]))
+    def test_search(self):
+        self.idx.ingest(self.record("normal","W114 alpha target and Compass remainder"))
+        self.assertEqual(self.idx.search({"q":"W114","limit":10})[0]["semantic_object_id"],"obj:compass-hodge")
+    def test_batch_search_preserves_query_boundaries(self):
+        self.idx.ingest(self.record("normal","W114 alpha target and Compass remainder"))
+        out=self.idx.search_many({"queries":[{"q":"W114","limit":5},{"q":"Compass","limit":5}]})
+        self.assertEqual(out["count"],2)
+        self.assertEqual(len(out["queries"]),2)
+        self.assertEqual(out["queries"][0]["results"][0]["semantic_object_id"],"obj:compass-hodge")
+    def test_graph_traversal_preserves_evidence_gate(self):
+        self.idx.ingest(self.record("normal"))
+        self.idx.ingest({
+            "semantic_object_id":"hodge:w114","kind":"proof-obligation","domain":"hodge","title":"W114",
+            "claim_ceiling":"OPEN","occurrence":{"surface":"github","source_ref":"issue:99",
+            "authority":"target-native","status":"OPEN","text":"W114 target","provenance":["issue:99"]}})
+        out=self.idx.traverse({"start":"obj:compass-hodge","max_depth":2,"direction":"both"})
+        self.assertEqual(out["edge_count"],1)
+        self.assertEqual(out["edges"][0]["evidence_transfer"],"DENY")
+        self.assertEqual({n["id"] for n in out["nodes"]},{"obj:compass-hodge","hodge:w114"})
+    def test_exact_observer_remainder(self):
+        out=api.exact_observer_remainder({
+            "ground_truth":["1","2","3","5"],"baseline":["1","2","3","0"],
+            "observers":[
+                {"id":"xyz","matrix":[[1,0,0,0],[0,1,0,0],[0,0,1,0]]},
+                {"id":"w","matrix":[[0,0,0,1]]}]})
+        self.assertFalse(out["observer_results"][0]["sees_remainder"])
+        self.assertTrue(out["observer_results"][1]["sees_remainder"])
+        self.assertEqual(out["combined_observer_rank"],4)
+        self.assertEqual(out["collective_blind_dimension"],0)
+    def test_float_rejected(self):
+        with self.assertRaises(TypeError):
+            api.exact_observer_remainder({"ground_truth":[1.0],"baseline":[0],
+                                          "observers":[{"id":"x","matrix":[[1]]}]})
+    def test_w114_contract(self):
+        self.assertEqual(api.W114["alpha"],[1,7,78,79,86,91])
+        self.assertEqual(api.W114["jacobian_degree"],336)
+        self.assertIn("FULL_HODGE_PROOF",api.W114["claim_ceiling"])
+    def test_source_catalog_excludes_itself_from_recursive_pin(self):
+        self.assertFalse(catalog_refresh.select(
+            "redogit/Other-Projects-","Hodge Compass API/source_catalog.json"))
+        self.assertTrue(catalog_refresh.select(
+            "redogit/Other-Projects-","Hodge Compass API/hodge_proof_graph_seed.json"))
+
+    def test_source_catalog_is_revision_pinned_and_searchable(self):
+        root=Path(__file__).resolve().parents[1]
+        out=api.source_search(root,{"q":"W114","limit":200})
+        self.assertTrue(out["generated_from"]["conscience64"]["sha"])
+        self.assertTrue(any("w114" in x["path"].lower() for x in out["results"]))
+        full=api.source_search(root,{"limit":500})
+        self.assertGreaterEqual(full["count"],100)
+    def test_local_source_content_index_is_stable_and_searchable(self):
+        root=Path(self.tmp.name)/"repo"; (root/"research/hodge").mkdir(parents=True)
+        p=root/"research/hodge"/"note.md"
+        p.write_text("W114 exact residual and target coefficient",encoding="utf-8")
+        first=api.ingest_tree(self.idx,root=root,repo="example/repo",prefixes=["research/hodge"],
+                              domain="hodge",surface="local-repo",root_object_id=None,max_bytes=2_000_000)
+        second=api.ingest_tree(self.idx,root=root,repo="example/repo",prefixes=["research/hodge"],
+                               domain="hodge",surface="local-repo",root_object_id=None,max_bytes=2_000_000)
+        self.assertEqual(first["ingested"],1); self.assertEqual(second["ingested"],1)
+        self.assertEqual(self.idx.stats()["objects"],1)
+        self.assertEqual(self.idx.stats()["occurrences"],1)
+        hit=self.idx.search({"q":"target coefficient","limit":5})
+        self.assertEqual(hit[0]["semantic_object_id"],"source:example/repo:research/hodge/note.md")
+    def test_local_source_index_skips_binary(self):
+        root=Path(self.tmp.name)/"repo2"; root.mkdir()
+        (root/"x.bin").write_bytes(b"\x00\xff")
+        out=api.ingest_tree(self.idx,root=root,repo="example/repo2",prefixes=[],domain="hodge",
+                            surface="local-repo",root_object_id=None,max_bytes=2_000_000)
+        self.assertEqual(out["ingested"],0)
+        self.assertEqual(out["skipped"]["extension"],1)
+
+    def test_stable_semantic_object_metadata_drift_is_rejected(self):
+        self.idx.ingest(self.record("normal"))
+        changed=self.record("work")
+        changed["title"]="Different object title under same stable ID"
+        with self.assertRaises(ValueError):
+            self.idx.ingest(changed)
+        obj=self.idx.get_object("obj:compass-hodge")
+        self.assertEqual(obj["title"],"Compass Hodge")
+        self.assertEqual(len(obj["occurrences"]),1)
+
+    def test_proof_graph_seed_traverses_w114_without_evidence_transfer(self):
+        root=Path(__file__).resolve().parent
+        api.ingest_manifest(self.idx,root/"bootstrap_manifest.json")
+        api.ingest_manifest(self.idx,root/"hodge_proof_graph_seed.json")
+        out=self.idx.traverse({
+            "start":"hodge:w114:alpha:1-7-78-79-86-91",
+            "max_depth":2,"direction":"both","max_nodes":100
+        })
+        ids={n["id"] for n in out["nodes"]}
+        self.assertIn("hodge:w114:route:motivic",ids)
+        self.assertIn("hodge:w114:route:matrix-factorization",ids)
+        self.assertIn("hodge:w114:route:lift",ids)
+        self.assertIn("hodge:w114:route:shioda-cubic",ids)
+        self.assertIn("hodge:w114:obligation:MOT-1",ids)
+        self.assertIn("hodge:w114:obligation:MF-1",ids)
+        self.assertIn("hodge:w114:obligation:MF-2",ids)
+        self.assertIn("hodge:w114:obligation:LIFT-1",ids)
+        self.assertTrue(out["edges"])
+        self.assertTrue(all(e["evidence_transfer"]=="DENY" for e in out["edges"]))
+
+if __name__=="__main__": unittest.main()

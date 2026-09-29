@@ -1,0 +1,44 @@
+name: W114 Perturbation Android
+on:
+  pull_request:
+    paths:
+      - "android/w114-perturbation-lab/**"
+      - "Decision Field Operator Lab/hodge-perturbation-game/**"
+      - ".github/workflows/w114-perturbation-android.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    env:
+      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v5
+        with: {distribution: temurin, java-version: "17"}
+      - name: Install Android SDK 35
+        shell: bash
+        run: |
+          SDKMANAGER="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
+          yes | "$SDKMANAGER" --licenses >/dev/null || true
+          "$SDKMANAGER" "platforms;android-35" "build-tools;35.0.0"
+      - uses: gradle/actions/setup-gradle@v4
+        with: {gradle-version: "8.10.2"}
+      - name: Verify Android contract
+        working-directory: android/w114-perturbation-lab
+        run: python verify_project.py
+      - name: Verify W114 game contract
+        run: python -m unittest "Decision Field Operator Lab/test_hodge_perturbation_game.py" -v
+      - name: Verify JavaScript syntax
+        run: |
+          node --check "Decision Field Operator Lab/hodge-perturbation-game/game.js"
+          node --check "android/w114-perturbation-lab/app/src/main/assets/game.js"
+      - name: Build debug APK
+        working-directory: android/w114-perturbation-lab
+        run: gradle :app:assembleDebug --stacktrace
+      - uses: actions/upload-artifact@v4
+        with:
+          name: W114-Perturbation-Lab-debug-apk
+          path: android/w114-perturbation-lab/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error

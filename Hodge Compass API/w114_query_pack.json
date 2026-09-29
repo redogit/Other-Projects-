@@ -1,0 +1,58 @@
+{
+  "queries": [
+    {
+      "q": "W114",
+      "domain": "hodge",
+      "limit": 20
+    },
+    {
+      "q": "matrix factorization",
+      "domain": "hodge",
+      "limit": 20
+    },
+    {
+      "q": "primitive Chern character",
+      "domain": "hodge",
+      "limit": 20
+    },
+    {
+      "q": "Favero Kelly",
+      "domain": "hodge",
+      "limit": 20
+    },
+    {
+      "q": "Shioda cubic",
+      "domain": "hodge",
+      "limit": 20
+    },
+    {
+      "q": "two pair coset",
+      "domain": "hodge",
+      "limit": 20
+    },
+    {
+      "q": "star split",
+      "domain": "hodge",
+      "limit": 20
+    },
+    {
+      "q": "Jacobian monomial",
+      "domain": "hodge",
+      "limit": 20
+    },
+    {
+      "q": "observer remainder",
+      "limit": 20
+    },
+    {
+      "q": "monodromy bridge",
+      "domain": "hodge",
+      "limit": 20
+    },
+    {
+      "q": "span separation",
+      "domain": "hodge",
+      "limit": 20
+    }
+  ]
+}

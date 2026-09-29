@@ -37,6 +37,14 @@ _MINIMIZE = (
 )
 _METRIC_KEYS = _MAXIMIZE + _MINIMIZE
 
+_FITTER_AUTHORITY_FLOOR = (
+    "nativeIdentity",
+    "sourceRefs",
+    "evidence",
+    "claimCeiling",
+    "provenance",
+)
+
 _STOP_PRECEDENCE = (
     "SUCCESS",
     "CERTIFIED_IMPOSSIBLE",
@@ -376,8 +384,16 @@ def _proposal_outcome(
         if isinstance(spec, RepairSpec) and not (changed_preserved or changed_forbidden)
         else ()
     )
+    # Fitters remain free to optimize ordinary mutable state, but they cannot
+    # rewrite the identity/evidence/provenance authority carried by the input.
+    # Preserve existing PRESERVES rejection diagnostics when both would fail.
+    fitter_authority_changed = (
+        _changed_paths(original, candidate, _FITTER_AUTHORITY_FLOOR)
+        if isinstance(spec, FitterSpec) and not changed_preserved
+        else ()
+    )
 
-    if changed_preserved or changed_forbidden or outside_scope:
+    if changed_preserved or changed_forbidden or outside_scope or fitter_authority_changed:
         classification = "MUTATION"
         admitted = False
     elif reconstruction["status"] == "exact":
@@ -406,7 +422,12 @@ def _proposal_outcome(
         residual_before=original["residuals"],
         residual_after=candidate["residuals"],
         preserved=[item for item in preserves if item not in changed_preserved],
-        mutated=sorted(set(changed_preserved) | set(changed_forbidden) | set(outside_scope)),
+        mutated=sorted(
+            set(changed_preserved)
+            | set(changed_forbidden)
+            | set(outside_scope)
+            | set(fitter_authority_changed)
+        ),
         lost=list(decay.loss),
         introduced=list(decay.introduction),
         reconstruction=dict(reconstruction),
@@ -435,6 +456,11 @@ def _proposal_outcome(
             {"name": "reconstruction", "status": reconstruction["status"]},
             *([{"name": "may_mutate", "status": "failed", "paths": list(outside_scope)}]
               if outside_scope else []),
+            *([{
+                "name": "fitter_authority",
+                "status": "failed",
+                "paths": list(fitter_authority_changed),
+            }] if fitter_authority_changed else []),
         ],
     )
     return CandidateOutcome(
