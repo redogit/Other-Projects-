@@ -6,6 +6,8 @@ on:
     paths:
       - 'Decision Field Operator Lab/examples/independent_browser_http.rmapl'
       - 'Decision Field Operator Lab/test_independent_browser_http.py'
+      - 'Decision Field Operator Lab/test_independent_browser_http_session.py'
+      - 'Decision Field Operator Lab/tools/interact_independent_browser.py'
       - 'Decision Field Operator Lab/surface/win32_http.c'
       - 'Decision Field Operator Lab/tools/plan_independent_browser_http.py'
       - '.github/workflows/rmapl-http-win32.yml'
@@ -13,6 +15,8 @@ on:
     paths:
       - 'Decision Field Operator Lab/examples/independent_browser_http.rmapl'
       - 'Decision Field Operator Lab/test_independent_browser_http.py'
+      - 'Decision Field Operator Lab/test_independent_browser_http_session.py'
+      - 'Decision Field Operator Lab/tools/interact_independent_browser.py'
       - 'Decision Field Operator Lab/surface/win32_http.c'
       - 'Decision Field Operator Lab/tools/plan_independent_browser_http.py'
       - '.github/workflows/rmapl-http-win32.yml'
@@ -42,6 +46,10 @@ jobs:
       - name: Run RMAPL HTTP regression
         shell: pwsh
         run: python -m unittest discover -s "Decision Field Operator Lab" -p "test_independent_browser_http.py" -v
+
+      - name: Run live-session HTTP routing regression
+        shell: pwsh
+        run: python -m unittest discover -s "Decision Field Operator Lab" -p "test_independent_browser_http_session.py" -v
 
       - name: Materialize RMAPL request bytes
         shell: pwsh
