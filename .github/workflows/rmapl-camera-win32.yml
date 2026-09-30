@@ -7,9 +7,11 @@ on:
       - 'Decision Field Operator Lab/examples/independent_browser_native.rmapl'
       - 'Decision Field Operator Lab/examples/independent_browser_navigation.rmapl'
       - 'Decision Field Operator Lab/examples/independent_browser_keyboard.rmapl'
+      - 'Decision Field Operator Lab/examples/independent_browser_url.rmapl'
       - 'Decision Field Operator Lab/test_independent_browser_native.py'
       - 'Decision Field Operator Lab/test_independent_browser_navigation.py'
       - 'Decision Field Operator Lab/test_independent_browser_keyboard.py'
+      - 'Decision Field Operator Lab/test_independent_browser_url.py'
       - 'Decision Field Operator Lab/surface/win32_camera.c'
       - 'Decision Field Operator Lab/tools/render_independent_browser.py'
       - 'Decision Field Operator Lab/tools/interact_independent_browser.py'
@@ -19,9 +21,11 @@ on:
       - 'Decision Field Operator Lab/examples/independent_browser_native.rmapl'
       - 'Decision Field Operator Lab/examples/independent_browser_navigation.rmapl'
       - 'Decision Field Operator Lab/examples/independent_browser_keyboard.rmapl'
+      - 'Decision Field Operator Lab/examples/independent_browser_url.rmapl'
       - 'Decision Field Operator Lab/test_independent_browser_native.py'
       - 'Decision Field Operator Lab/test_independent_browser_navigation.py'
       - 'Decision Field Operator Lab/test_independent_browser_keyboard.py'
+      - 'Decision Field Operator Lab/test_independent_browser_url.py'
       - 'Decision Field Operator Lab/surface/win32_camera.c'
       - 'Decision Field Operator Lab/tools/render_independent_browser.py'
       - 'Decision Field Operator Lab/tools/interact_independent_browser.py'
@@ -60,6 +64,10 @@ jobs:
       - name: Run RMAPL keyboard-link regression
         shell: pwsh
         run: python -m unittest discover -s "Decision Field Operator Lab" -p "test_independent_browser_keyboard.py" -v
+
+      - name: Run RMAPL URL-identity regression
+        shell: pwsh
+        run: python -m unittest discover -s "Decision Field Operator Lab" -p "test_independent_browser_url.py" -v
 
       - name: Render fixture to P5 camera stream
         shell: pwsh
