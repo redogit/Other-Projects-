@@ -7,6 +7,7 @@
 #include <ws2tcpip.h>
 #include <security.h>
 #include <winternl.h>
+#define SCHANNEL_USE_BLACKLISTS
 #include <schannel.h>
 #include <wincrypt.h>
 #include <stdint.h>
