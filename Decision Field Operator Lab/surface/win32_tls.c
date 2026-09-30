@@ -6,6 +6,7 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <security.h>
+#include <winternl.h>
 #include <schannel.h>
 #include <wincrypt.h>
 #include <stdint.h>
