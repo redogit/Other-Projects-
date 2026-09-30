@@ -1,0 +1,91 @@
+name: RMAPL Independent Browser TLS
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Decision Field Operator Lab/examples/independent_browser_http.rmapl'
+      - 'Decision Field Operator Lab/test_independent_browser_http.py'
+      - 'Decision Field Operator Lab/test_independent_browser_http_session.py'
+      - 'Decision Field Operator Lab/tools/plan_independent_browser_http.py'
+      - 'Decision Field Operator Lab/tools/interact_independent_browser.py'
+      - 'Decision Field Operator Lab/surface/win32_tls.c'
+      - '.github/workflows/rmapl-tls-win32.yml'
+  pull_request:
+    paths:
+      - 'Decision Field Operator Lab/examples/independent_browser_http.rmapl'
+      - 'Decision Field Operator Lab/test_independent_browser_http.py'
+      - 'Decision Field Operator Lab/test_independent_browser_http_session.py'
+      - 'Decision Field Operator Lab/tools/plan_independent_browser_http.py'
+      - 'Decision Field Operator Lab/tools/interact_independent_browser.py'
+      - 'Decision Field Operator Lab/surface/win32_tls.c'
+      - '.github/workflows/rmapl-tls-win32.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  VERIFY_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+
+jobs:
+  tls:
+    runs-on: windows-latest
+    timeout-minutes: 8
+    steps:
+      - name: Fetch exact verification commit
+        shell: pwsh
+        run: |
+          git init "$env:GITHUB_WORKSPACE"
+          Set-Location "$env:GITHUB_WORKSPACE"
+          git remote add origin "https://github.com/$env:GITHUB_REPOSITORY.git"
+          git fetch --depth=1 origin "$env:VERIFY_SHA"
+          git checkout --detach FETCH_HEAD
+          if ((git rev-parse HEAD).Trim() -ne "$env:VERIFY_SHA") { throw "exact-head mismatch" }
+
+      - name: Run RMAPL network regressions
+        shell: pwsh
+        run: |
+          python -m unittest discover -s "Decision Field Operator Lab" -p "test_independent_browser_http.py" -v
+          python -m unittest discover -s "Decision Field Operator Lab" -p "test_independent_browser_http_session.py" -v
+
+      - name: Materialize HTTPS request bytes in RMAPL
+        shell: pwsh
+        run: |
+          python "Decision Field Operator Lab/tools/plan_independent_browser_http.py" --scheme https --host example.com --path / --out "$env:RUNNER_TEMP\https-request.bin" --receipt "$env:RUNNER_TEMP\https-request-receipt.json"
+
+      - name: Verify HTTPS request carrier
+        shell: pwsh
+        run: |
+          $bytes = [System.IO.File]::ReadAllBytes("$env:RUNNER_TEMP\https-request.bin")
+          $text = [Text.Encoding]::UTF8.GetString($bytes)
+          $expected = "GET / HTTP/1.1`r`nHost: example.com`r`nConnection: close`r`nAccept: text/html`r`nUser-Agent: RMAPL-Independent/0`r`n`r`n"
+          if ($text -ne $expected) { throw "RMAPL HTTPS request bytes differ from bounded profile" }
+          $receipt = Get-Content "$env:RUNNER_TEMP\https-request-receipt.json" | ConvertFrom-Json
+          if ($receipt.port -ne 443) { throw "RMAPL HTTPS planner did not declare port 443" }
+          if ($receipt.residual.kind -ne "native-tls-transport-pending") { throw "RMAPL HTTPS planner did not stop at TLS carrier seam" }
+
+      - name: Compile strict SChannel TLS carrier
+        shell: cmd
+        run: |
+          for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do set "VSINSTALL=%%i"
+          if not defined VSINSTALL exit /b 1
+          call "%VSINSTALL%\VC\Auxiliary\Build\vcvars64.bat"
+          cl /nologo /W4 /WX /O2 "Decision Field Operator Lab\surface\win32_tls.c" /Fe:"%RUNNER_TEMP%\win32_tls.exe" ws2_32.lib secur32.lib crypt32.lib
+
+      - name: Verify SChannel credential policy
+        shell: cmd
+        run: '"%RUNNER_TEMP%\win32_tls.exe" --self-test'
+
+      - name: Fetch trusted HTTPS response with RMAPL request
+        shell: cmd
+        run: '"%RUNNER_TEMP%\win32_tls.exe" --host example.com --port 443 --request "%RUNNER_TEMP%\https-request.bin" --out "%RUNNER_TEMP%\https-response.bin" --max 262144'
+
+      - name: Verify decrypted HTTP response boundary
+        shell: pwsh
+        run: |
+          $bytes = [System.IO.File]::ReadAllBytes("$env:RUNNER_TEMP\https-response.bin")
+          if ($bytes.Length -lt 32) { throw "TLS carrier returned implausibly short plaintext" }
+          $prefixLength = [Math]::Min(64, $bytes.Length)
+          $prefix = [Text.Encoding]::ASCII.GetString($bytes[0..($prefixLength - 1)])
+          if (-not $prefix.StartsWith("HTTP/1.1 200 ")) { throw "decrypted TLS bytes are not bounded HTTP/1.1 200 response" }
