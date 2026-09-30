@@ -2,7 +2,7 @@ RMAPL 0
 PROGRAM independent-browser-v0
 LOAD independent-browser-fixture
 BOUND maxCandidates=1
-BOUND maxSteps=6
+BOUND maxSteps=7
 OPERATOR browser_html_tokenize
 LIMIT 20000
 BUFFER_LIMIT 65536
@@ -314,7 +314,7 @@ JUMP_IF_FALSE ["$has_ink","fail"]
 CONST ["true",true]
 SET ["$candidate","construction.state.camera.verified","$true"]
 SET ["$candidate","construction.state.camera.blackPixels","$black"]
-CONST ["next_residual",[{"kind":"frame-admission-pending","detail":"frame-verified"}]]
+CONST ["next_residual",[{"kind":"camera-pack-pending","detail":"frame-verified"}]]
 SET ["$candidate","construction.residuals","$next_residual"]
 OMEGA_REBUILD ["$candidate"]
 RETURN ["$candidate","frame-verified"]
@@ -325,6 +325,24 @@ CONST ["error_residual",[{"kind":"frame-verification-error","detail":"invalid-fr
 SET ["$candidate","construction.residuals","$error_residual"]
 OMEGA_REBUILD ["$candidate"]
 RETURN ["$candidate","frame-verification-error"]
+END
+OPERATOR browser_camera_pack
+LIMIT 2000
+BUFFER_LIMIT 1048576
+METRICS {"residualReduction":0,"invariantPreservation":1,"reconstructibility":1,"reversibility":1,"evidenceCoverage":1,"branchReduction":0,"provenanceCompleteness":1,"semanticLoss":0,"ambiguityIntroduction":0,"relationGrowth":0,"runtimeCost":0,"economicCost":0,"unresolvedGrowth":0,"irreversibleMutation":0}
+KNOWLEDGE_DECAY {"loss":[],"introduction":[],"aliasing":[],"ambiguity":[],"provenanceGap":[],"reconstructionCost":0,"oracleShift":[],"unresolvedGrowth":[]}
+RECONSTRUCTION "exact"
+CODE
+CLONE ["candidate","$omega"]
+CONST ["header","P5\n160 64\n255\n"]
+BYTES_UTF8 ["header_bytes","$header"]
+GET ["pixels","$candidate","construction.state.camera.pixels"]
+CONCAT ["pgm","$header_bytes","$pixels"]
+SET ["$candidate","construction.state.camera.pgm","$pgm"]
+CONST ["next_residual",[{"kind":"frame-admission-pending","detail":"camera-packed"}]]
+SET ["$candidate","construction.residuals","$next_residual"]
+OMEGA_REBUILD ["$candidate"]
+RETURN ["$candidate","camera-packed"]
 END
 OPERATOR browser_frame_admit
 LIMIT 1000
@@ -393,6 +411,17 @@ PRESERVES ["identity","claim-ceiling","provenance","evidence","sourceRefs"]
 MAY_MUTATE ["state.camera.verified","state.camera.blackPixels","residuals"]
 FORBIDS ["provenance","evidence","sourceRefs"]
 APPLY browser_frame_verify
+EVIDENCE []
+COST 1
+END
+REPAIR pack-camera
+WHEN "camera-pack-pending"
+REQUIRES []
+TARGETS ["camera-pack-pending"]
+PRESERVES ["identity","claim-ceiling","provenance","evidence","sourceRefs"]
+MAY_MUTATE ["state.camera.pgm","residuals"]
+FORBIDS ["provenance","evidence","sourceRefs"]
+APPLY browser_camera_pack
 EVIDENCE []
 COST 1
 END
