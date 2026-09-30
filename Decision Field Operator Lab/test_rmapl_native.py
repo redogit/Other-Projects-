@@ -176,6 +176,27 @@ RETURN ["$omega","unused"]""",
         with self.assertRaisesRegex(NativeResourceBound, "BUFFER_LIMIT 3"):
             op(source)
 
+    def test_string_slice_find_prefix_and_dynamic_map_lookup_are_native(self):
+        source = omega_with_residual()
+        code = """CONST ["raw","a href=\\\"page2\\\""]
+STR_STARTS ["anchor","$raw","a href=\\\""]
+STR_FIND ["q1","$raw","\\\""]
+ADD ["start","$q1",1]
+STR_FIND ["q2","$raw","\\\"","$start"]
+SLICE ["href","$raw","$start","$q2"]
+CONST ["docs",{"page2":"<h1>DONE</h1>"}]
+MAP_GET ["doc","$docs","$href"]
+CLONE ["candidate","$omega"]
+SET ["$candidate","construction.state.x","$anchor"]
+CONST ["empty",[]]
+SET ["$candidate","construction.residuals","$empty"]
+OMEGA_REBUILD ["$candidate"]
+RETURN ["$candidate","$doc"]"""
+        program = native_program(code, limit=32)
+        proposal = native_registry(program)["repair_x"](source)
+        self.assertTrue(proposal["omega"]["state"]["x"])
+        self.assertEqual(proposal["consequenceKey"], "<h1>DONE</h1>")
+
     def test_arithmetic_and_bounded_control_flow_are_native(self):
         source = omega_with_residual()
         code = """CONST ["i",0]
