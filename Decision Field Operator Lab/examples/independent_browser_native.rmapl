@@ -2,7 +2,7 @@ RMAPL 0
 PROGRAM independent-browser-v0
 LOAD independent-browser-fixture
 BOUND maxCandidates=1
-BOUND maxSteps=7
+BOUND maxSteps=8
 OPERATOR browser_html_tokenize
 LIMIT 20000
 BUFFER_LIMIT 65536
@@ -95,7 +95,7 @@ KNOWLEDGE_DECAY {"loss":[],"introduction":[],"aliasing":[],"ambiguity":[],"prove
 RECONSTRUCTION "exact"
 CODE
 CLONE ["candidate","$omega"]
-CONST ["nodes",[{"kind":"element","tag":"document","parent":-1,"text":""}]]
+CONST ["nodes",[{"kind":"element","tag":"document","parent":-1,"text":"","href":""}]]
 SET ["$candidate","construction.state.dom.nodes","$nodes"]
 GET ["tokens","$candidate","construction.state.html.tokens"]
 LEN ["tn","$tokens"]
@@ -109,7 +109,7 @@ GET ["kind","$token","kind"]
 EQ ["is_text","$kind","text"]
 JUMP_IF_FALSE ["$is_text","not_text"]
 GET ["value","$token","value"]
-CONST ["node",{"kind":"text","tag":"","parent":0,"text":""}]
+CONST ["node",{"kind":"text","tag":"","parent":0,"text":"","href":""}]
 SET ["$node","parent","$current"]
 SET ["$node","text","$value"]
 APPEND ["$candidate","construction.state.dom.nodes","$node"]
@@ -118,10 +118,22 @@ LABEL ["not_text"]
 EQ ["is_start","$kind","start"]
 JUMP_IF_FALSE ["$is_start","end_tag"]
 GET ["tag","$token","name"]
+CONST ["href",""]
+STR_STARTS ["is_anchor","$tag","a href=\""]
+JUMP_IF_FALSE ["$is_anchor","tag_ready"]
+STR_FIND ["quote1","$tag","\""]
+ADD ["href_start","$quote1",1]
+STR_FIND ["quote2","$tag","\"","$href_start"]
+GE ["closed_href","$quote2","$href_start"]
+JUMP_IF_FALSE ["$closed_href","tag_ready"]
+SLICE ["href","$tag","$href_start","$quote2"]
+CONST ["tag","a"]
+LABEL ["tag_ready"]
 GET ["nodes_now","$candidate","construction.state.dom.nodes"]
 LEN ["new_index","$nodes_now"]
-CONST ["node",{"kind":"element","tag":"","parent":0,"text":""}]
+CONST ["node",{"kind":"element","tag":"","parent":0,"text":"","href":""}]
 SET ["$node","tag","$tag"]
+SET ["$node","href","$href"]
 SET ["$node","parent","$current"]
 APPEND ["$candidate","construction.state.dom.nodes","$node"]
 CLONE ["current","$new_index"]
@@ -165,6 +177,7 @@ GET ["text","$node","text"]
 GET ["parent_index","$node","parent"]
 INDEX ["parent","$nodes","$parent_index"]
 GET ["tag","$parent","tag"]
+GET ["href","$parent","href"]
 CONST ["scale",1]
 EQ ["is_h1","$tag","h1"]
 JUMP_IF_FALSE ["$is_h1","scale_done"]
@@ -174,12 +187,13 @@ LEN ["chars","$text"]
 MUL ["width","$chars",6]
 MUL ["width","$width","$scale"]
 MUL ["height",7,"$scale"]
-CONST ["box",{"x":4,"y":0,"width":0,"height":0,"scale":1,"text":""}]
+CONST ["box",{"x":4,"y":0,"width":0,"height":0,"scale":1,"text":"","href":""}]
 SET ["$box","y","$cursor_y"]
 SET ["$box","width","$width"]
 SET ["$box","height","$height"]
 SET ["$box","scale","$scale"]
 SET ["$box","text","$text"]
+SET ["$box","href","$href"]
 APPEND ["$candidate","construction.state.layout.boxes","$box"]
 ADD ["advance","$height",4]
 ADD ["cursor_y","$cursor_y","$advance"]
@@ -187,10 +201,51 @@ LABEL ["next"]
 ADD ["i","$i",1]
 JUMP ["loop"]
 LABEL ["done"]
-CONST ["next_residual",[{"kind":"raster-pending","detail":"layout-complete"}]]
+CONST ["next_residual",[{"kind":"hit-map-pending","detail":"layout-complete"}]]
 SET ["$candidate","construction.residuals","$next_residual"]
 OMEGA_REBUILD ["$candidate"]
 RETURN ["$candidate","layout-complete"]
+END
+OPERATOR browser_hit_map
+LIMIT 10000
+BUFFER_LIMIT 65536
+METRICS {"residualReduction":0,"invariantPreservation":1,"reconstructibility":1,"reversibility":1,"evidenceCoverage":1,"branchReduction":0,"provenanceCompleteness":1,"semanticLoss":0,"ambiguityIntroduction":0,"relationGrowth":0,"runtimeCost":0,"economicCost":0,"unresolvedGrowth":0,"irreversibleMutation":0}
+KNOWLEDGE_DECAY {"loss":[],"introduction":[],"aliasing":[],"ambiguity":[],"provenanceGap":[],"reconstructionCost":0,"oracleShift":[],"unresolvedGrowth":[]}
+RECONSTRUCTION "exact"
+CODE
+CLONE ["candidate","$omega"]
+CONST ["hits",[]]
+SET ["$candidate","construction.state.hitMap","$hits"]
+GET ["boxes","$candidate","construction.state.layout.boxes"]
+LEN ["bn","$boxes"]
+CONST ["i",0]
+LABEL ["loop"]
+LT ["more","$i","$bn"]
+JUMP_IF_FALSE ["$more","done"]
+INDEX ["box","$boxes","$i"]
+GET ["href","$box","href"]
+LEN ["href_len","$href"]
+GT ["clickable","$href_len",0]
+JUMP_IF_FALSE ["$clickable","next"]
+GET ["x","$box","x"]
+GET ["y","$box","y"]
+GET ["width","$box","width"]
+GET ["height","$box","height"]
+CONST ["hit",{"x":0,"y":0,"width":0,"height":0,"href":""}]
+SET ["$hit","x","$x"]
+SET ["$hit","y","$y"]
+SET ["$hit","width","$width"]
+SET ["$hit","height","$height"]
+SET ["$hit","href","$href"]
+APPEND ["$candidate","construction.state.hitMap","$hit"]
+LABEL ["next"]
+ADD ["i","$i",1]
+JUMP ["loop"]
+LABEL ["done"]
+CONST ["next_residual",[{"kind":"raster-pending","detail":"hit-map-built"}]]
+SET ["$candidate","construction.residuals","$next_residual"]
+OMEGA_REBUILD ["$candidate"]
+RETURN ["$candidate","hit-map-built"]
 END
 OPERATOR browser_raster
 LIMIT 250000
@@ -389,6 +444,17 @@ PRESERVES ["identity","claim-ceiling","provenance","evidence","sourceRefs"]
 MAY_MUTATE ["state.layout.boxes","residuals"]
 FORBIDS ["provenance","evidence","sourceRefs"]
 APPLY browser_layout
+EVIDENCE []
+COST 1
+END
+REPAIR build-hit-map
+WHEN "hit-map-pending"
+REQUIRES []
+TARGETS ["hit-map-pending"]
+PRESERVES ["identity","claim-ceiling","provenance","evidence","sourceRefs"]
+MAY_MUTATE ["state.hitMap","residuals"]
+FORBIDS ["provenance","evidence","sourceRefs"]
+APPLY browser_hit_map
 EVIDENCE []
 COST 1
 END
