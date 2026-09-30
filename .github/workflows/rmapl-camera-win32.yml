@@ -5,16 +5,22 @@ on:
     branches: [main]
     paths:
       - 'Decision Field Operator Lab/examples/independent_browser_native.rmapl'
+      - 'Decision Field Operator Lab/examples/independent_browser_navigation.rmapl'
       - 'Decision Field Operator Lab/test_independent_browser_native.py'
+      - 'Decision Field Operator Lab/test_independent_browser_navigation.py'
       - 'Decision Field Operator Lab/surface/win32_camera.c'
       - 'Decision Field Operator Lab/tools/render_independent_browser.py'
+      - 'Decision Field Operator Lab/tools/interact_independent_browser.py'
       - '.github/workflows/rmapl-camera-win32.yml'
   pull_request:
     paths:
       - 'Decision Field Operator Lab/examples/independent_browser_native.rmapl'
+      - 'Decision Field Operator Lab/examples/independent_browser_navigation.rmapl'
       - 'Decision Field Operator Lab/test_independent_browser_native.py'
+      - 'Decision Field Operator Lab/test_independent_browser_navigation.py'
       - 'Decision Field Operator Lab/surface/win32_camera.c'
       - 'Decision Field Operator Lab/tools/render_independent_browser.py'
+      - 'Decision Field Operator Lab/tools/interact_independent_browser.py'
       - '.github/workflows/rmapl-camera-win32.yml'
   workflow_dispatch:
 
@@ -42,6 +48,10 @@ jobs:
       - name: Run RMAPL browser regression
         shell: pwsh
         run: python -m unittest discover -s "Decision Field Operator Lab" -p "test_independent_browser_native.py" -v
+
+      - name: Run RMAPL local-navigation regression
+        shell: pwsh
+        run: python -m unittest discover -s "Decision Field Operator Lab" -p "test_independent_browser_navigation.py" -v
 
       - name: Render fixture to P5 camera stream
         shell: pwsh
@@ -72,3 +82,13 @@ jobs:
       - name: Verify presenter decoder and pixel conversion
         shell: cmd
         run: '"%RUNNER_TEMP%\win32_camera.exe" --self-test'
+
+      - name: Emit deterministic native pointer carrier
+        shell: cmd
+        run: '"%RUNNER_TEMP%\win32_camera.exe" --emit-test-click "%RUNNER_TEMP%\click.txt"'
+
+      - name: Verify native pointer carrier
+        shell: pwsh
+        run: |
+          $event = (Get-Content -Raw "$env:RUNNER_TEMP\click.txt").Trim()
+          if ($event -ne "CLICK 5 23") { throw "unexpected click carrier: $event" }

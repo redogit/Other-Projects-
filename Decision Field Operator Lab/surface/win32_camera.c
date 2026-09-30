@@ -1,6 +1,7 @@
 #define UNICODE
 #define _UNICODE
 #include <windows.h>
+#include <windowsx.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,6 +20,8 @@ typedef struct CameraFrame {
 
 static CameraFrame g_frame = {0};
 static BITMAPINFO g_bmi = {0};
+static const wchar_t *g_event_path = NULL;
+static int g_event_error = 0;
 
 static void frame_free(CameraFrame *frame) {
     if (!frame) return;
@@ -189,6 +192,46 @@ static int read_file_bytes(
     return 1;
 }
 
+
+static int map_client_to_frame(
+    int client_x,
+    int client_y,
+    int client_width,
+    int client_height,
+    int frame_width,
+    int frame_height,
+    int *frame_x,
+    int *frame_y
+) {
+    if (!frame_x || !frame_y ||
+        client_width <= 0 || client_height <= 0 ||
+        frame_width <= 0 || frame_height <= 0) {
+        return 0;
+    }
+    if (client_x < 0) client_x = 0;
+    if (client_y < 0) client_y = 0;
+    if (client_x >= client_width) client_x = client_width - 1;
+    if (client_y >= client_height) client_y = client_height - 1;
+
+    *frame_x = (int)(((int64_t)client_x * frame_width) / client_width);
+    *frame_y = (int)(((int64_t)client_y * frame_height) / client_height);
+    if (*frame_x >= frame_width) *frame_x = frame_width - 1;
+    if (*frame_y >= frame_height) *frame_y = frame_height - 1;
+    return 1;
+}
+
+static int write_click_event(const wchar_t *path, int x, int y) {
+    FILE *file = NULL;
+    if (!path) return 0;
+    if (_wfopen_s(&file, path, L"wb") != 0 || !file) return 0;
+    if (fprintf(file, "CLICK %d %d\n", x, y) < 0) {
+        fclose(file);
+        return 0;
+    }
+    if (fclose(file) != 0) return 0;
+    return 1;
+}
+
 static LRESULT CALLBACK camera_wndproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
     (void)wparam;
     (void)lparam;
@@ -216,6 +259,26 @@ static LRESULT CALLBACK camera_wndproc(HWND hwnd, UINT msg, WPARAM wparam, LPARA
     }
     case WM_SIZE:
         InvalidateRect(hwnd, NULL, FALSE);
+        return 0;
+    case WM_LBUTTONUP:
+        if (g_event_path) {
+            RECT client;
+            int fx = 0, fy = 0;
+            GetClientRect(hwnd, &client);
+            if (!map_client_to_frame(
+                    GET_X_LPARAM(lparam),
+                    GET_Y_LPARAM(lparam),
+                    client.right - client.left,
+                    client.bottom - client.top,
+                    g_frame.width,
+                    g_frame.height,
+                    &fx,
+                    &fy
+                ) || !write_click_event(g_event_path, fx, fy)) {
+                g_event_error = 1;
+            }
+            DestroyWindow(hwnd);
+        }
         return 0;
     case WM_DESTROY:
         PostQuitMessage(0);
@@ -245,6 +308,21 @@ static int self_test(void) {
         fwprintf(stderr, L"self-test pixel mismatch\n");
         return 2;
     }
+    {
+        int x = -1, y = -1;
+        if (!map_client_to_frame(20, 92, 640, 256, 160, 64, &x, &y) ||
+            x != 5 || y != 23) {
+            frame_free(&frame);
+            fwprintf(stderr, L"self-test coordinate mapping mismatch: %d,%d\n", x, y);
+            return 3;
+        }
+        if (!map_client_to_frame(639, 255, 640, 256, 160, 64, &x, &y) ||
+            x != 159 || y != 63) {
+            frame_free(&frame);
+            fwprintf(stderr, L"self-test coordinate edge mismatch: %d,%d\n", x, y);
+            return 4;
+        }
+    }
     frame_free(&frame);
     wprintf(L"win32 camera self-test PASS\n");
     return 0;
@@ -263,10 +341,27 @@ int wmain(int argc, wchar_t **argv) {
     if (argc == 2 && wcscmp(argv[1], L"--self-test") == 0) {
         return self_test();
     }
-    if (argc != 2) {
-        fwprintf(stderr, L"usage: win32_camera.exe <frame.pgm>\n");
+    if (argc == 3 && wcscmp(argv[1], L"--emit-test-click") == 0) {
+        int x = -1, y = -1;
+        if (!map_client_to_frame(20, 92, 640, 256, 160, 64, &x, &y) ||
+            !write_click_event(argv[2], x, y)) {
+            fwprintf(stderr, L"test click emission failed\n");
+            return 70;
+        }
+        return 0;
+    }
+    if (argc != 2 && argc != 4) {
+        fwprintf(stderr, L"usage: win32_camera.exe <frame.pgm> [--event-out <event.txt>]\n");
         fwprintf(stderr, L"       win32_camera.exe --self-test\n");
+        fwprintf(stderr, L"       win32_camera.exe --emit-test-click <event.txt>\n");
         return 64;
+    }
+    if (argc == 4) {
+        if (wcscmp(argv[2], L"--event-out") != 0 || !argv[3][0]) {
+            fwprintf(stderr, L"expected --event-out <event.txt>\n");
+            return 64;
+        }
+        g_event_path = argv[3];
     }
 
     if (!read_file_bytes(argv[1], &file_data, &file_size, error, 256)) {
@@ -327,5 +422,6 @@ int wmain(int argc, wchar_t **argv) {
     }
 
     frame_free(&g_frame);
+    if (g_event_error) return 69;
     return (int)msg.wParam;
 }
