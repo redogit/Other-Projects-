@@ -1,0 +1,64 @@
+name: RMAPL Independent Browser Transport
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Decision Field Operator Lab/rmapl_runtime.py'
+      - 'Decision Field Operator Lab/test_rmapl_runtime.py'
+      - 'Decision Field Operator Lab/examples/independent_browser_transport.rmapl'
+      - 'Decision Field Operator Lab/test_independent_browser_transport.py'
+      - 'Decision Field Operator Lab/surface/win32_tcp_transport.c'
+      - 'Decision Field Operator Lab/tools/tcp_fetch_independent_browser.py'
+      - '.github/workflows/rmapl-transport-win32.yml'
+  pull_request:
+    paths:
+      - 'Decision Field Operator Lab/rmapl_runtime.py'
+      - 'Decision Field Operator Lab/test_rmapl_runtime.py'
+      - 'Decision Field Operator Lab/examples/independent_browser_transport.rmapl'
+      - 'Decision Field Operator Lab/test_independent_browser_transport.py'
+      - 'Decision Field Operator Lab/surface/win32_tcp_transport.c'
+      - 'Decision Field Operator Lab/tools/tcp_fetch_independent_browser.py'
+      - '.github/workflows/rmapl-transport-win32.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  VERIFY_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+
+jobs:
+  transport:
+    runs-on: windows-latest
+    timeout-minutes: 7
+    steps:
+      - name: Fetch exact verification commit
+        shell: pwsh
+        run: |
+          git init "$env:GITHUB_WORKSPACE"
+          Set-Location "$env:GITHUB_WORKSPACE"
+          git remote add origin "https://github.com/$env:GITHUB_REPOSITORY.git"
+          git fetch --depth=1 origin "$env:VERIFY_SHA"
+          git checkout --detach FETCH_HEAD
+          if ((git rev-parse HEAD).Trim() -ne "$env:VERIFY_SHA") { throw "exact-head mismatch" }
+
+      - name: Verify outer-controller handoff runtime contract
+        shell: pwsh
+        run: python -m unittest discover -s "Decision Field Operator Lab" -p "test_rmapl_runtime.py" -v
+
+      - name: Verify RMAPL HTTP request and TCP handoff profile
+        shell: pwsh
+        run: python -m unittest discover -s "Decision Field Operator Lab" -p "test_independent_browser_transport.py" -v
+
+      - name: Compile native Winsock TCP carrier
+        shell: cmd
+        run: |
+          for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do set "VSINSTALL=%%i"
+          if not defined VSINSTALL exit /b 1
+          call "%VSINSTALL%\VC\Auxiliary\Build\vcvars64.bat"
+          cl /nologo /W4 /WX /O2 "Decision Field Operator Lab\surface\win32_tcp_transport.c" /Fe:"%RUNNER_TEMP%\win32_tcp_transport.exe" Ws2_32.lib
+
+      - name: Verify loopback DNS and TCP byte exchange
+        shell: cmd
+        run: '"%RUNNER_TEMP%\win32_tcp_transport.exe" --self-test'
