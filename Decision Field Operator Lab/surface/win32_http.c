@@ -292,7 +292,7 @@ static DWORD WINAPI loopback_server_thread(LPVOID raw) {
     return 0;
 }
 
-static int self_test(void) {
+static int loopback_transport_test(const ByteBuffer *supplied_request) {
     SOCKET listener = INVALID_SOCKET;
     struct sockaddr_in address;
     int address_len = sizeof(address);
@@ -347,8 +347,12 @@ static int self_test(void) {
         goto cleanup;
     }
 
-    request.data = (uint8_t *)request_text;
-    request.size = strlen(request_text);
+    if (supplied_request) {
+        request = *supplied_request;
+    } else {
+        request.data = (uint8_t *)request_text;
+        request.size = strlen(request_text);
+    }
     if (!http_transport("127.0.0.1", port, &request, 65536, &response, error, 256)) {
         fwprintf(stderr, L"self-test transport failed: %ls\n", error);
         goto cleanup;
@@ -395,6 +399,10 @@ cleanup:
     return result;
 }
 
+static int self_test(void) {
+    return loopback_transport_test(NULL);
+}
+
 static int wide_to_utf8(const wchar_t *input, char *output, int output_cap) {
     int count = WideCharToMultiByte(
         CP_UTF8,
@@ -430,6 +438,18 @@ int wmain(int argc, wchar_t **argv) {
         WSACleanup();
         return result;
     }
+    if (argc == 3 && wcscmp(argv[1], L"--self-test-request") == 0) {
+        ByteBuffer supplied = {0};
+        if (!read_file_bytes(argv[2], 1024UL * 1024UL, &supplied, error, 256)) {
+            fwprintf(stderr, L"%ls\n", error);
+            WSACleanup();
+            return 72;
+        }
+        result = loopback_transport_test(&supplied);
+        buffer_free(&supplied);
+        WSACleanup();
+        return result;
+    }
 
     if (argc != 11 ||
         wcscmp(argv[1], L"--host") != 0 ||
@@ -441,6 +461,8 @@ int wmain(int argc, wchar_t **argv) {
             stderr,
             L"usage: win32_http.exe --host <host> --port <port> "
             L"--request <request.bin> --out <response.bin> --max <bytes>\n"
+            L"       win32_http.exe --self-test\n"
+            L"       win32_http.exe --self-test-request <request.bin>\n"
         );
         WSACleanup();
         return 64;
