@@ -268,17 +268,29 @@ static DWORD WINAPI loopback_server_thread(LPVOID raw) {
         "<h1>LOOPBACK</h1>";
     SOCKET client = INVALID_SOCKET;
     char request[2048];
-    int received = 0;
+    size_t used = 0;
 
     SetEvent(server->ready);
     client = accept(server->listener, NULL, NULL);
     if (client == INVALID_SOCKET) return 1;
-    received = recv(client, request, (int)(sizeof(request) - 1), 0);
-    if (received <= 0) {
-        closesocket(client);
-        return 2;
+
+    for (;;) {
+        int rc = 0;
+        size_t available = sizeof(request) - 1 - used;
+        if (available == 0) {
+            closesocket(client);
+            return 2;
+        }
+        rc = recv(client, request + used, (int)available, 0);
+        if (rc <= 0) {
+            closesocket(client);
+            return 2;
+        }
+        used += (size_t)rc;
+        request[used] = '\0';
+        if (strstr(request, "\r\n\r\n")) break;
     }
-    request[received] = '\0';
+
     if (strncmp(request, expected_prefix, strlen(expected_prefix)) != 0) {
         closesocket(client);
         return 3;
