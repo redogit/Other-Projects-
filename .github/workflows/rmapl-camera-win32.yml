@@ -41,7 +41,7 @@ jobs:
 
       - name: Run RMAPL browser regression
         shell: pwsh
-        run: python -m unittest "Decision Field Operator Lab/test_independent_browser_native.py" -v
+        run: python -m unittest discover -s "Decision Field Operator Lab" -p "test_independent_browser_native.py" -v
 
       - name: Render fixture to P5 camera stream
         shell: pwsh
@@ -64,7 +64,9 @@ jobs:
       - name: Compile native Win32 camera presenter
         shell: cmd
         run: |
-          call "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+          for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do set "VSINSTALL=%%i"
+          if not defined VSINSTALL exit /b 1
+          call "%VSINSTALL%\VC\Auxiliary\Build\vcvars64.bat"
           cl /nologo /W4 /WX /O2 "Decision Field Operator Lab\surface\win32_camera.c" /Fe:"%RUNNER_TEMP%\win32_camera.exe" user32.lib gdi32.lib
 
       - name: Verify presenter decoder and pixel conversion
