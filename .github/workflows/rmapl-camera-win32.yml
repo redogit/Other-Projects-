@@ -5,14 +5,22 @@ on:
     branches: [main]
     paths:
       - 'Decision Field Operator Lab/examples/independent_browser_native.rmapl'
+      - 'Decision Field Operator Lab/examples/independent_browser_interaction.rmapl'
+      - 'Decision Field Operator Lab/examples/independent_browser_documents.json'
       - 'Decision Field Operator Lab/test_independent_browser_native.py'
+      - 'Decision Field Operator Lab/test_independent_browser_interaction.py'
+      - 'Decision Field Operator Lab/tools/interact_independent_browser.py'
       - 'Decision Field Operator Lab/surface/win32_camera.c'
       - 'Decision Field Operator Lab/tools/render_independent_browser.py'
       - '.github/workflows/rmapl-camera-win32.yml'
   pull_request:
     paths:
       - 'Decision Field Operator Lab/examples/independent_browser_native.rmapl'
+      - 'Decision Field Operator Lab/examples/independent_browser_interaction.rmapl'
+      - 'Decision Field Operator Lab/examples/independent_browser_documents.json'
       - 'Decision Field Operator Lab/test_independent_browser_native.py'
+      - 'Decision Field Operator Lab/test_independent_browser_interaction.py'
+      - 'Decision Field Operator Lab/tools/interact_independent_browser.py'
       - 'Decision Field Operator Lab/surface/win32_camera.c'
       - 'Decision Field Operator Lab/tools/render_independent_browser.py'
       - '.github/workflows/rmapl-camera-win32.yml'
@@ -42,6 +50,10 @@ jobs:
       - name: Run RMAPL browser regression
         shell: pwsh
         run: python -m unittest discover -s "Decision Field Operator Lab" -p "test_independent_browser_native.py" -v
+
+      - name: Run RMAPL interaction regression
+        shell: pwsh
+        run: python -m unittest discover -s "Decision Field Operator Lab" -p "test_independent_browser_interaction.py" -v
 
       - name: Render fixture to P5 camera stream
         shell: pwsh
