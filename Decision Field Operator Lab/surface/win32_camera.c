@@ -341,9 +341,19 @@ int wmain(int argc, wchar_t **argv) {
     if (argc == 2 && wcscmp(argv[1], L"--self-test") == 0) {
         return self_test();
     }
+    if (argc == 3 && wcscmp(argv[1], L"--emit-test-click") == 0) {
+        int x = -1, y = -1;
+        if (!map_client_to_frame(20, 92, 640, 256, 160, 64, &x, &y) ||
+            !write_click_event(argv[2], x, y)) {
+            fwprintf(stderr, L"test click emission failed\n");
+            return 70;
+        }
+        return 0;
+    }
     if (argc != 2 && argc != 4) {
         fwprintf(stderr, L"usage: win32_camera.exe <frame.pgm> [--event-out <event.txt>]\n");
         fwprintf(stderr, L"       win32_camera.exe --self-test\n");
+        fwprintf(stderr, L"       win32_camera.exe --emit-test-click <event.txt>\n");
         return 64;
     }
     if (argc == 4) {
