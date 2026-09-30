@@ -353,13 +353,13 @@ static int self_test(void) {
         fwprintf(stderr, L"self-test transport failed: %ls\n", error);
         goto cleanup;
     }
-    if (response.size < strlen(body_marker) ||
-        !strstr((const char *)response.data, body_marker)) {
-        /*
-         * Response is not guaranteed NUL-terminated, so the strstr result
-         * above is only safe if we materialize a temporary terminator.
-         */
-        uint8_t *terminated = (uint8_t *)realloc(response.data, response.size + 1);
+    {
+        uint8_t *terminated = NULL;
+        if (response.size < strlen(body_marker)) {
+            fwprintf(stderr, L"self-test response body too short\n");
+            goto cleanup;
+        }
+        terminated = (uint8_t *)realloc(response.data, response.size + 1);
         if (!terminated) {
             fwprintf(stderr, L"self-test response termination allocation failed\n");
             goto cleanup;
