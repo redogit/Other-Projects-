@@ -43,6 +43,17 @@ class FitterSpec:
 
 
 @dataclass(frozen=True)
+class OperatorSpec:
+    operator_id: str
+    max_instructions: int
+    max_buffer_bytes: int
+    metrics: Mapping[str, Any]
+    knowledge_decay: Mapping[str, Any]
+    reconstruction: str
+    instructions: tuple[str, ...]
+
+
+@dataclass(frozen=True)
 class Program:
     version: str
     program_id: str
@@ -50,6 +61,7 @@ class Program:
     bounds: Mapping[str, Any]
     repairs: tuple[RepairSpec, ...]
     fitters: tuple[FitterSpec, ...]
+    operators: tuple[OperatorSpec, ...] = ()
 
 
 def _identifier(value: str, label: str) -> str:
@@ -191,7 +203,9 @@ def parse_rmapl(program: str) -> Program:
 
     repairs: list[RepairSpec] = []
     fitters: list[FitterSpec] = []
+    operators: list[OperatorSpec] = []
     block_ids: set[str] = set()
+    operator_ids: set[str] = set()
 
     def next_line(expected_prefix: str, label: str) -> str:
         nonlocal index
@@ -213,7 +227,78 @@ def parse_rmapl(program: str) -> Program:
                 bounds=_freeze_json(bounds),
                 repairs=tuple(repairs),
                 fitters=tuple(fitters),
+                operators=tuple(operators),
             )
+
+        if line.startswith("OPERATOR "):
+            operator_id = _identifier(_after_prefix(line, "OPERATOR ", "OPERATOR"), "OPERATOR")
+            if operator_id in operator_ids:
+                raise ValueError(f"duplicate OPERATOR {operator_id!r}")
+            operator_ids.add(operator_id)
+            index += 1
+
+            raw_limit = _strict_json(next_line("LIMIT ", "LIMIT"), "LIMIT")
+            if isinstance(raw_limit, bool) or not isinstance(raw_limit, int) or not (1 <= raw_limit <= 1_000_000):
+                raise ValueError("LIMIT must be an integer in [1, 1000000]")
+
+            raw_buffer_limit = _strict_json(
+                next_line("BUFFER_LIMIT ", "BUFFER_LIMIT"),
+                "BUFFER_LIMIT",
+            )
+            if (
+                isinstance(raw_buffer_limit, bool)
+                or not isinstance(raw_buffer_limit, int)
+                or not (0 <= raw_buffer_limit <= 268_435_456)
+            ):
+                raise ValueError("BUFFER_LIMIT must be an integer in [0, 268435456]")
+
+            metrics_raw = _strict_json(next_line("METRICS ", "METRICS"), "METRICS")
+            if not isinstance(metrics_raw, dict):
+                raise ValueError("METRICS must be a JSON object")
+
+            decay_raw = _strict_json(
+                next_line("KNOWLEDGE_DECAY ", "KNOWLEDGE_DECAY"),
+                "KNOWLEDGE_DECAY",
+            )
+            if not isinstance(decay_raw, dict):
+                raise ValueError("KNOWLEDGE_DECAY must be a JSON object")
+
+            reconstruction = _json_string(
+                next_line("RECONSTRUCTION ", "RECONSTRUCTION"),
+                "RECONSTRUCTION",
+            )
+            if index >= len(lines) or lines[index] != "CODE":
+                got = "end of program" if index >= len(lines) else repr(lines[index])
+                raise ValueError(f"expected CODE, got {got}")
+            index += 1
+
+            instructions: list[str] = []
+            while index < len(lines) and lines[index] != "END":
+                if lines[index] == "RUN":
+                    raise ValueError("OPERATOR must terminate with END before RUN")
+                instructions.append(lines[index])
+                index += 1
+            if index >= len(lines):
+                raise ValueError("expected END, got end of program")
+            if not instructions:
+                raise ValueError("OPERATOR CODE must contain at least one instruction")
+            if len(instructions) > raw_limit:
+                raise ValueError(
+                    f"OPERATOR static instruction count {len(instructions)} exceeds LIMIT {raw_limit}"
+                )
+            index += 1
+            operators.append(
+                OperatorSpec(
+                    operator_id=operator_id,
+                    max_instructions=raw_limit,
+                    max_buffer_bytes=raw_buffer_limit,
+                    metrics=_freeze_json(metrics_raw),
+                    knowledge_decay=_freeze_json(decay_raw),
+                    reconstruction=reconstruction,
+                    instructions=tuple(instructions),
+                )
+            )
+            continue
 
         if line.startswith("REPAIR "):
             repair_id = _identifier(_after_prefix(line, "REPAIR ", "REPAIR"), "REPAIR")
