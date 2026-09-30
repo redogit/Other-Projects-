@@ -21,6 +21,11 @@ def browser_omega(source="<h1>HI</h1><p>WEB</p>"):
             "html": {"tokens": []},
             "dom": {"nodes": []},
             "layout": {"boxes": []},
+            "hitMap": [],
+            "documents": {},
+            "location": "inline:fixture",
+            "history": [],
+            "input": {"clickX": 0, "clickY": 0, "consumed": False},
             "camera": {
                 "width": 160,
                 "height": 64,
@@ -48,7 +53,7 @@ def browser_omega(source="<h1>HI</h1><p>WEB</p>"):
             "MONO8_FRAMEBUFFER != OS_WINDOW_PRESENTATION",
             "SOFTWARE_VERIFICATION != SECURITY_CERTIFICATION",
         ),
-        resource_bounds={"maxCandidates": 1, "maxSteps": 7},
+        resource_bounds={"maxCandidates": 1, "maxSteps": 8},
         domain_remainder={
             "unsupported": [
                 "network",
@@ -78,6 +83,7 @@ class IndependentBrowserNativeTests(unittest.TestCase):
                 "browser_html_tokenize",
                 "browser_dom_build",
                 "browser_layout",
+                "browser_hit_map",
                 "browser_raster",
                 "browser_frame_verify",
                 "browser_camera_pack",
@@ -97,7 +103,7 @@ class IndependentBrowserNativeTests(unittest.TestCase):
         )
 
         self.assertEqual(result["stopReason"], "SUCCESS")
-        self.assertEqual(result["generation"]["executedCount"], 7)
+        self.assertEqual(result["generation"]["executedCount"], 8)
         self.assertEqual(len(result["branches"]), 1)
 
         branch = result["branches"][0]
@@ -133,11 +139,11 @@ class IndependentBrowserNativeTests(unittest.TestCase):
         self.assertEqual(len(boxes), 2)
         self.assertEqual(
             boxes[0],
-            {"x": 4, "y": 4, "width": 24, "height": 14, "scale": 2, "text": "HI"},
+            {"x": 4, "y": 4, "width": 24, "height": 14, "scale": 2, "text": "HI", "href": ""},
         )
         self.assertEqual(
             boxes[1],
-            {"x": 4, "y": 22, "width": 18, "height": 7, "scale": 1, "text": "WEB"},
+            {"x": 4, "y": 22, "width": 18, "height": 7, "scale": 1, "text": "WEB", "href": ""},
         )
 
         camera = state["camera"]
@@ -157,6 +163,27 @@ class IndependentBrowserNativeTests(unittest.TestCase):
         self.assertEqual(len(camera["pgm"]), len(header) + 160 * 64)
         self.assertEqual(camera["pgm"][len(header) + 4 * 160 + 4], 0)
         self.assertEqual(camera["pgm"][len(header)], 255)
+
+    def test_anchor_href_survives_dom_layout_and_hit_map(self):
+        result = run_program(
+            self.program,
+            browser_omega('<a href="page2">NEXT</a>'),
+            native_registry(self.program),
+        )
+        self.assertEqual(result["stopReason"], "SUCCESS")
+        state = result["branches"][0]["omega"]["state"]
+
+        self.assertEqual(state["dom"]["nodes"][1]["tag"], "a")
+        self.assertEqual(state["dom"]["nodes"][1]["href"], "page2")
+        self.assertEqual(state["dom"]["nodes"][2]["text"], "NEXT")
+        self.assertEqual(
+            state["layout"]["boxes"][0],
+            {"x": 4, "y": 4, "width": 24, "height": 7, "scale": 1, "text": "NEXT", "href": "page2"},
+        )
+        self.assertEqual(
+            state["hitMap"],
+            [{"x": 4, "y": 4, "width": 24, "height": 7, "href": "page2"}],
+        )
 
     def test_unterminated_tag_is_preserved_as_explicit_residual(self):
         result = run_program(
