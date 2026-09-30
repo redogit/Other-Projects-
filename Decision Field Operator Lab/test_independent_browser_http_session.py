@@ -34,7 +34,7 @@ class LiveHttpSessionTests(unittest.TestCase):
         cls.http_program = parse_rmapl(HTTP_PROGRAM_PATH.read_text(encoding="utf-8"))
         cls.http_registry = native_registry(cls.http_program)
 
-    def drive(self, omega, transport=None):
+    def drive(self, omega, transport=None, tls_transport=None):
         return drive_browser(
             omega,
             url_program=self.url_program,
@@ -42,6 +42,7 @@ class LiveHttpSessionTests(unittest.TestCase):
             http_program=self.http_program,
             http_registry=self.http_registry,
             transport=transport,
+            tls_transport=tls_transport,
             max_transitions=64,
         )
 
@@ -127,24 +128,76 @@ class LiveHttpSessionTests(unittest.TestCase):
         self.assertTrue(proposed["state"]["camera"]["verified"])
         self.assertTrue(proposed["state"]["camera"]["admitted"])
 
-    def test_https_never_calls_plaintext_http_transport(self):
+    def test_https_uses_only_tls_carrier_then_admits_and_rerenders(self):
         initial, status = self.drive(initial_omega(pages(PAGE_HTTPS), "page1"))
         self.assertEqual(status, "presentable")
-        calls = []
+        http_calls = []
+        tls_calls = []
 
-        def transport(_omega):
-            calls.append(True)
+        def http_transport(_omega):
+            http_calls.append(True)
             return b"should-not-run"
 
-        proposed, status = self.drive(pointer_omega(initial, 5, 23), transport)
-        self.assertEqual(status, "tls-transport-pending")
-        self.assertEqual(residual_kind(proposed), "tls-transport-pending")
-        self.assertEqual(calls, [])
+        def tls_transport(omega):
+            request = omega["state"]["network"]["request"]
+            tls_calls.append({
+                "host": request["host"],
+                "port": request["port"],
+                "bytes": bytes(request["bytes"]),
+            })
+            return (
+                b"HTTP/1.1 200 OK\r\n"
+                b"Content-Type: text/html\r\n"
+                b"Connection: close\r\n"
+                b"\r\n"
+                b"<h1>SECURE</h1>"
+            )
+
+        final, status = self.drive(
+            pointer_omega(initial, 5, 23),
+            http_transport,
+            tls_transport,
+        )
+        self.assertEqual(status, "presentable")
+        self.assertEqual(http_calls, [])
+        self.assertEqual(len(tls_calls), 1)
+        self.assertEqual(tls_calls[0]["host"], "example.com")
+        self.assertEqual(tls_calls[0]["port"], 443)
+        self.assertEqual(
+            tls_calls[0]["bytes"],
+            (
+                b"GET /test HTTP/1.1\r\n"
+                b"Host: example.com\r\n"
+                b"Connection: close\r\n"
+                b"Accept: text/html\r\n"
+                b"User-Agent: RMAPL-Independent/0\r\n"
+                b"\r\n"
+            ),
+        )
+        self.assertEqual(
+            final["state"]["navigation"]["currentUrl"]["canonical"],
+            "https://example.com/test",
+        )
+        self.assertEqual(final["state"]["source"], "<h1>SECURE</h1>")
+        self.assertEqual(final["state"]["dom"]["nodes"][2]["text"], "SECURE")
+        self.assertTrue(final["state"]["camera"]["verified"])
+        self.assertTrue(final["state"]["camera"]["admitted"])
+
+    def test_https_without_tls_carrier_stops_before_encrypted_transport(self):
+        initial, status = self.drive(initial_omega(pages(PAGE_HTTPS), "page1"))
+        self.assertEqual(status, "presentable")
+
+        proposed, status = self.drive(pointer_omega(initial, 5, 23))
+        self.assertEqual(status, "tls-carrier-missing")
+        self.assertEqual(residual_kind(proposed), "native-tls-transport-pending")
         self.assertEqual(
             proposed["state"]["navigation"]["pendingUrl"]["canonical"],
             "https://example.com/test",
         )
+        self.assertEqual(proposed["state"]["network"]["request"]["port"], 443)
         self.assertEqual(proposed["state"]["source"], PAGE_HTTPS)
+        self.assertTrue(proposed["state"]["camera"]["verified"])
+        self.assertTrue(proposed["state"]["camera"]["admitted"])
 
     def test_bad_http_response_does_not_replace_last_visual_state(self):
         initial, status = self.drive(initial_omega(pages(PAGE_HTTP), "page1"))
