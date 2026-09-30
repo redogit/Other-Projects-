@@ -23,6 +23,7 @@ from rmapl import OperatorSpec, Program
 
 _NAME_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_.:-]*$")
 _NUMERIC_OPS = {"ADD", "SUB", "MUL", "DIV", "MOD"}
+_BITWISE_OPS = {"BIT_AND", "BIT_OR", "BIT_XOR", "SHL", "SHR"}
 _COMPARE_OPS = {"EQ", "NE", "LT", "LE", "GT", "GE"}
 
 
@@ -418,6 +419,25 @@ def _native_callable(spec: OperatorSpec) -> Callable[[dict[str, Any]], dict[str,
                         raise NativeOperatorError("MOD by zero")
                     result = left % right
                 env[_name(args[0], f"{opcode} name")] = _checked_number(result, opcode)
+
+            elif opcode in _BITWISE_OPS:
+                if len(args) != 3:
+                    raise NativeOperatorError(f"{opcode} expects [name,left,right]")
+                left = _integral(_value(args[1], env), f"{opcode} left")
+                right = _integral(_value(args[2], env), f"{opcode} right")
+                if opcode in {"SHL", "SHR"} and right < 0:
+                    raise NativeOperatorError(f"{opcode} shift must be non-negative")
+                if opcode == "BIT_AND":
+                    result = left & right
+                elif opcode == "BIT_OR":
+                    result = left | right
+                elif opcode == "BIT_XOR":
+                    result = left ^ right
+                elif opcode == "SHL":
+                    result = left << right
+                else:
+                    result = left >> right
+                env[_name(args[0], f"{opcode} name")] = result
 
             elif opcode in _COMPARE_OPS:
                 if len(args) != 3:
