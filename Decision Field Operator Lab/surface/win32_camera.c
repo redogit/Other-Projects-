@@ -1,6 +1,7 @@
 #define UNICODE
 #define _UNICODE
 #include <windows.h>
+#include <windowsx.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,6 +20,8 @@ typedef struct CameraFrame {
 
 static CameraFrame g_frame = {0};
 static BITMAPINFO g_bmi = {0};
+static wchar_t g_event_path[32768] = {0};
+static int g_emit_click = 0;
 
 static void frame_free(CameraFrame *frame) {
     if (!frame) return;
@@ -189,6 +192,41 @@ static int read_file_bytes(
     return 1;
 }
 
+static int client_to_frame(
+    int client_x,
+    int client_y,
+    int client_width,
+    int client_height,
+    int *frame_x,
+    int *frame_y
+) {
+    if (!frame_x || !frame_y || client_width <= 0 || client_height <= 0 ||
+        g_frame.width <= 0 || g_frame.height <= 0) {
+        return 0;
+    }
+    if (client_x < 0) client_x = 0;
+    if (client_y < 0) client_y = 0;
+    if (client_x >= client_width) client_x = client_width - 1;
+    if (client_y >= client_height) client_y = client_height - 1;
+    *frame_x = (client_x * g_frame.width) / client_width;
+    *frame_y = (client_y * g_frame.height) / client_height;
+    if (*frame_x >= g_frame.width) *frame_x = g_frame.width - 1;
+    if (*frame_y >= g_frame.height) *frame_y = g_frame.height - 1;
+    return 1;
+}
+
+static int write_click_event(int x, int y) {
+    FILE *file = NULL;
+    if (!g_emit_click || !g_event_path[0]) return 0;
+    if (_wfopen_s(&file, g_event_path, L"wb") != 0 || !file) return 0;
+    if (fprintf(file, "%d %d\n", x, y) < 0) {
+        fclose(file);
+        return 0;
+    }
+    fclose(file);
+    return 1;
+}
+
 static LRESULT CALLBACK camera_wndproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
     (void)wparam;
     (void)lparam;
@@ -217,6 +255,27 @@ static LRESULT CALLBACK camera_wndproc(HWND hwnd, UINT msg, WPARAM wparam, LPARA
     case WM_SIZE:
         InvalidateRect(hwnd, NULL, FALSE);
         return 0;
+    case WM_LBUTTONUP: {
+        RECT client;
+        int frame_x = 0;
+        int frame_y = 0;
+        GetClientRect(hwnd, &client);
+        if (client_to_frame(
+                GET_X_LPARAM(lparam),
+                GET_Y_LPARAM(lparam),
+                client.right - client.left,
+                client.bottom - client.top,
+                &frame_x,
+                &frame_y)) {
+            if (g_emit_click) {
+                if (!write_click_event(frame_x, frame_y)) {
+                    MessageBoxW(hwnd, L"Could not write pointer event.", L"RMAPL Camera", MB_OK | MB_ICONERROR);
+                }
+                DestroyWindow(hwnd);
+            }
+        }
+        return 0;
+    }
     case WM_DESTROY:
         PostQuitMessage(0);
         return 0;
@@ -245,6 +304,18 @@ static int self_test(void) {
         fwprintf(stderr, L"self-test pixel mismatch\n");
         return 2;
     }
+    g_frame.width = 160;
+    g_frame.height = 64;
+    {
+        int fx = -1, fy = -1;
+        if (!client_to_frame(20, 20, 640, 256, &fx, &fy) || fx != 5 || fy != 5) {
+            frame_free(&frame);
+            fwprintf(stderr, L"self-test coordinate mapping mismatch: %d,%d\n", fx, fy);
+            return 3;
+        }
+    }
+    g_frame.width = 0;
+    g_frame.height = 0;
     frame_free(&frame);
     wprintf(L"win32 camera self-test PASS\n");
     return 0;
@@ -263,10 +334,18 @@ int wmain(int argc, wchar_t **argv) {
     if (argc == 2 && wcscmp(argv[1], L"--self-test") == 0) {
         return self_test();
     }
-    if (argc != 2) {
-        fwprintf(stderr, L"usage: win32_camera.exe <frame.pgm>\n");
+    if (argc != 2 && argc != 4) {
+        fwprintf(stderr, L"usage: win32_camera.exe <frame.pgm> [--event <event.txt>]\n");
         fwprintf(stderr, L"       win32_camera.exe --self-test\n");
         return 64;
+    }
+    if (argc == 4) {
+        if (wcscmp(argv[2], L"--event") != 0) {
+            fwprintf(stderr, L"expected --event before event path\n");
+            return 64;
+        }
+        wcsncpy_s(g_event_path, 32768, argv[3], _TRUNCATE);
+        g_emit_click = 1;
     }
 
     if (!read_file_bytes(argv[1], &file_data, &file_size, error, 256)) {
