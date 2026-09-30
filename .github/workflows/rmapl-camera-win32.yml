@@ -6,8 +6,10 @@ on:
     paths:
       - 'Decision Field Operator Lab/examples/independent_browser_native.rmapl'
       - 'Decision Field Operator Lab/examples/independent_browser_navigation.rmapl'
+      - 'Decision Field Operator Lab/examples/independent_browser_keyboard.rmapl'
       - 'Decision Field Operator Lab/test_independent_browser_native.py'
       - 'Decision Field Operator Lab/test_independent_browser_navigation.py'
+      - 'Decision Field Operator Lab/test_independent_browser_keyboard.py'
       - 'Decision Field Operator Lab/surface/win32_camera.c'
       - 'Decision Field Operator Lab/tools/render_independent_browser.py'
       - 'Decision Field Operator Lab/tools/interact_independent_browser.py'
@@ -16,8 +18,10 @@ on:
     paths:
       - 'Decision Field Operator Lab/examples/independent_browser_native.rmapl'
       - 'Decision Field Operator Lab/examples/independent_browser_navigation.rmapl'
+      - 'Decision Field Operator Lab/examples/independent_browser_keyboard.rmapl'
       - 'Decision Field Operator Lab/test_independent_browser_native.py'
       - 'Decision Field Operator Lab/test_independent_browser_navigation.py'
+      - 'Decision Field Operator Lab/test_independent_browser_keyboard.py'
       - 'Decision Field Operator Lab/surface/win32_camera.c'
       - 'Decision Field Operator Lab/tools/render_independent_browser.py'
       - 'Decision Field Operator Lab/tools/interact_independent_browser.py'
@@ -52,6 +56,10 @@ jobs:
       - name: Run RMAPL local-navigation regression
         shell: pwsh
         run: python -m unittest discover -s "Decision Field Operator Lab" -p "test_independent_browser_navigation.py" -v
+
+      - name: Run RMAPL keyboard-link regression
+        shell: pwsh
+        run: python -m unittest discover -s "Decision Field Operator Lab" -p "test_independent_browser_keyboard.py" -v
 
       - name: Render fixture to P5 camera stream
         shell: pwsh
@@ -92,3 +100,17 @@ jobs:
         run: |
           $event = (Get-Content -Raw "$env:RUNNER_TEMP\click.txt").Trim()
           if ($event -ne "CLICK 5 23") { throw "unexpected click carrier: $event" }
+
+      - name: Emit deterministic native keyboard carriers
+        shell: cmd
+        run: |
+          "%RUNNER_TEMP%\win32_camera.exe" --emit-test-key TAB "%RUNNER_TEMP%\tab.txt"
+          "%RUNNER_TEMP%\win32_camera.exe" --emit-test-key ENTER "%RUNNER_TEMP%\enter.txt"
+
+      - name: Verify native keyboard carriers
+        shell: pwsh
+        run: |
+          $tab = (Get-Content -Raw "$env:RUNNER_TEMP\tab.txt").Trim()
+          $enter = (Get-Content -Raw "$env:RUNNER_TEMP\enter.txt").Trim()
+          if ($tab -ne "KEY TAB") { throw "unexpected TAB carrier: $tab" }
+          if ($enter -ne "KEY ENTER") { throw "unexpected ENTER carrier: $enter" }

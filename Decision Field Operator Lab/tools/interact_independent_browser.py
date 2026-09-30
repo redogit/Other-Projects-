@@ -30,7 +30,7 @@ from rmapl import parse_rmapl
 from rmapl_native import native_registry
 from rmapl_runtime import run_program
 
-PROGRAM_PATH = LAB / "examples" / "independent_browser_navigation.rmapl"
+PROGRAM_PATH = LAB / "examples" / "independent_browser_keyboard.rmapl"
 
 
 def parse_page(value: str) -> tuple[str, Path]:
@@ -74,9 +74,12 @@ def initial_omega(pages: list[dict], start: str) -> dict:
                 "currentPage": start,
                 "pendingHref": "",
                 "history": [],
+                "focusIndex": -1,
+                "focusedHref": "",
             },
             "input": {
                 "pointer": {"x": 0, "y": 0},
+                "keyboard": "",
                 "lastHit": "",
             },
             "html": {"tokens": []},
@@ -120,7 +123,7 @@ def initial_omega(pages: list[dict], start: str) -> dict:
                 "javascript",
                 "images",
                 "forms",
-                "keyboard-navigation",
+                "text-input",
                 "scrolling",
                 "full-html-error-recovery",
             ]
@@ -134,6 +137,18 @@ def pointer_omega(omega: dict, x: int, y: int) -> dict:
     construction["state"]["input"]["lastHit"] = ""
     construction["residuals"] = [
         {"kind": "pointer-activation-pending", "detail": "native-click-carrier"}
+    ]
+    return make_omega(**construction)
+
+
+def keyboard_omega(omega: dict, key: str) -> dict:
+    if key not in {"TAB", "ENTER"}:
+        raise ValueError(f"unsupported native key carrier: {key}")
+    construction = deepcopy(omega["construction"])
+    construction["state"]["input"]["keyboard"] = key
+    construction["state"]["input"]["lastHit"] = ""
+    construction["residuals"] = [
+        {"kind": "keyboard-activation-pending", "detail": "native-key-carrier"}
     ]
     return make_omega(**construction)
 
@@ -159,17 +174,19 @@ def execute_success(program, registry, omega: dict) -> dict:
     return branch["omega"]
 
 
-def parse_click(path: Path) -> tuple[int, int] | None:
+def parse_event(path: Path):
     if not path.exists():
         return None
     parts = path.read_text(encoding="ascii").strip().split()
-    if len(parts) != 3 or parts[0] != "CLICK":
-        raise ValueError("invalid native click carrier")
-    x = int(parts[1], 10)
-    y = int(parts[2], 10)
-    if not (0 <= x < 160 and 0 <= y < 64):
-        raise ValueError(f"click carrier outside framebuffer: {x},{y}")
-    return x, y
+    if len(parts) == 3 and parts[0] == "CLICK":
+        x = int(parts[1], 10)
+        y = int(parts[2], 10)
+        if not (0 <= x < 160 and 0 <= y < 64):
+            raise ValueError(f"click carrier outside framebuffer: {x},{y}")
+        return ("CLICK", x, y)
+    if len(parts) == 2 and parts[0] == "KEY" and parts[1] in {"TAB", "ENTER"}:
+        return ("KEY", parts[1])
+    raise ValueError("invalid native input carrier")
 
 
 def parse_args() -> argparse.Namespace:
@@ -217,13 +234,20 @@ def main() -> int:
                 f"native presenter exited with code {completed.returncode}"
             )
 
-        click = parse_click(event_path)
-        if click is None:
-            print("window closed without a pointer event")
+        event = parse_event(event_path)
+        if event is None:
+            print("window closed without an input event")
             return 0
 
-        x, y = click
-        candidate = pointer_omega(current, x, y)
+        if event[0] == "CLICK":
+            _, x, y = event
+            candidate = pointer_omega(current, x, y)
+            event_summary = {"click": [x, y]}
+        else:
+            _, key = event
+            candidate = keyboard_omega(current, key)
+            event_summary = {"key": key}
+
         result = run_program(program, candidate, registry)
 
         if result["stopReason"] == "SUCCESS" and len(result["branches"]) == 1:
@@ -233,9 +257,11 @@ def main() -> int:
                 json.dumps(
                     {
                         "interaction": interaction + 1,
-                        "click": [x, y],
+                        **event_summary,
                         "currentPage": nav["currentPage"],
                         "history": nav["history"],
+                        "focusIndex": nav["focusIndex"],
+                        "focusedHref": nav["focusedHref"],
                         "lastHit": current["state"]["input"]["lastHit"],
                     },
                     sort_keys=True,
@@ -243,13 +269,13 @@ def main() -> int:
             )
             continue
 
-        # A miss or unresolved local target does not discard the last admitted
-        # visual state. The next presentation repeats the current page.
+        # A miss, unsupported transition, or unresolved local target does not
+        # discard the last admitted visual state.
         print(
             json.dumps(
                 {
                     "interaction": interaction + 1,
-                    "click": [x, y],
+                    **event_summary,
                     "navigation": "no-admitted-transition",
                     "stopReason": result["stopReason"],
                 },
