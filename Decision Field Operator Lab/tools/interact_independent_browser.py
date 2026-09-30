@@ -30,7 +30,7 @@ from rmapl import parse_rmapl
 from rmapl_native import native_registry
 from rmapl_runtime import run_program
 
-PROGRAM_PATH = LAB / "examples" / "independent_browser_keyboard.rmapl"
+PROGRAM_PATH = LAB / "examples" / "independent_browser_url.rmapl"
 
 
 def parse_page(value: str) -> tuple[str, Path]:
@@ -52,6 +52,7 @@ def load_pages(items: list[tuple[str, Path]]) -> list[dict]:
         pages.append(
             {
                 "id": page_id,
+                "url": f"rmapl://local/{page_id}",
                 "source": path.read_text(encoding="utf-8"),
             }
         )
@@ -64,15 +65,35 @@ def initial_omega(pages: list[dict], start: str) -> dict:
         raise ValueError(f"start page {start!r} is not in the local page table")
 
     return make_omega(
-        native_type="independent-browser-navigation/v0",
-        native_identity="bootstrap:independent-browser-navigation:1",
+        native_type="independent-browser-url/v0",
+        native_identity="bootstrap:independent-browser-url:1",
         source_refs=tuple(f"local-page:{page['id']}" for page in pages),
         state={
             "source": by_id[start]["source"],
             "resources": {"pages": pages},
             "navigation": {
                 "currentPage": start,
+                "currentUrl": {
+                    "raw": f"rmapl://local/{start}",
+                    "scheme": "rmapl",
+                    "authority": "local",
+                    "path": f"/{start}",
+                    "canonical": f"rmapl://local/{start}",
+                    "kind": "local",
+                    "pageId": start,
+                    "networkRequired": False,
+                },
                 "pendingHref": "",
+                "pendingUrl": {
+                    "raw": "",
+                    "scheme": "",
+                    "authority": "",
+                    "path": "",
+                    "canonical": "",
+                    "kind": "",
+                    "pageId": "",
+                    "networkRequired": False,
+                },
                 "history": [],
                 "focusIndex": -1,
                 "focusedHref": "",
@@ -97,24 +118,25 @@ def initial_omega(pages: list[dict], start: str) -> dict:
             },
         },
         path=(),
-        frame={"obligation": "interactive-bounded-local-navigation"},
+        frame={"obligation": "interactive-bounded-url-gated-navigation"},
         invariants=("sourceRefs", "claim-ceiling"),
         observations=(),
         residuals=(
             {"kind": "html-tokenization-pending", "detail": "bootstrap"},
         ),
-        decision_field={"goal": "human-pointer-local-navigation"},
+        decision_field={"goal": "human-input-url-gated-navigation"},
         provenance=(
             {"kind": "bootstrap-loop", "ref": "interact_independent_browser.py"},
         ),
         evidence=(),
         claim_ceiling=(
+            "URL_PARSE_RESOLVE != NETWORK_FETCH",
             "LOCAL_PAGE_NAVIGATION != NETWORK_BROWSING",
-            "POINTER_EVENT_CARRIER != BROWSER_SEMANTICS",
+            "INPUT_EVENT_CARRIER != BROWSER_SEMANTICS",
             "BOOTSTRAP_LOOP != SELF_HOSTED_RUNTIME",
             "SOFTWARE_VERIFICATION != SECURITY_CERTIFICATION",
         ),
-        resource_bounds={"maxCandidates": 1, "maxSteps": 10},
+        resource_bounds={"maxCandidates": 1, "maxSteps": 11},
         domain_remainder={
             "unsupported": [
                 "network",
