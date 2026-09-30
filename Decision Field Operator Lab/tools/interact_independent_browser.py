@@ -87,8 +87,8 @@ def initial_omega(pages: list[dict], start: str) -> dict:
         raise ValueError(f"start page {start!r} is not in the local page table")
 
     return make_omega(
-        native_type="independent-browser-live-http/v0",
-        native_identity="bootstrap:independent-browser-live-http:1",
+        native_type="independent-browser-live-network/v0",
+        native_identity="bootstrap:independent-browser-live-network:1",
         source_refs=tuple(f"local-page:{page['id']}" for page in pages),
         state={
             "source": by_id[start]["source"],
@@ -144,7 +144,7 @@ def initial_omega(pages: list[dict], start: str) -> dict:
             },
         },
         path=(),
-        frame={"obligation": "interactive-url-http-gated-navigation"},
+        frame={"obligation": "interactive-url-http-tls-gated-navigation"},
         invariants=("sourceRefs", "claim-ceiling"),
         observations=(),
         residuals=(
@@ -159,7 +159,8 @@ def initial_omega(pages: list[dict], start: str) -> dict:
             "URL_PARSE_RESOLVE != NETWORK_FETCH",
             "TRANSPORT_SUCCESS != RESPONSE_ADMISSION",
             "HTTP11_CLOSE_PROFILE != GENERAL_HTTP",
-            "PLAINTEXT_HTTP != HTTPS",
+            "PLAINTEXT_HTTP != TLS_TRANSPORT",
+            "TLS_TRANSPORT_SUCCESS != RESPONSE_ADMISSION",
             "INPUT_EVENT_CARRIER != BROWSER_SEMANTICS",
             "BOOTSTRAP_LOOP != SELF_HOSTED_RUNTIME",
             "SOFTWARE_VERIFICATION != SECURITY_CERTIFICATION",
@@ -167,7 +168,6 @@ def initial_omega(pages: list[dict], start: str) -> dict:
         resource_bounds={"maxCandidates": 1, "maxSteps": 1},
         domain_remainder={
             "unsupported": [
-                "tls",
                 "redirects",
                 "chunked-transfer",
                 "compression",
@@ -269,11 +269,12 @@ def execute_one(program, registry, omega: dict) -> tuple[dict | None, dict]:
     return branch["omega"], result
 
 
-def subprocess_http_transport(
+def subprocess_network_transport(
     omega: dict,
     *,
     carrier: Path,
     work_dir: Path,
+    carrier_name: str,
 ) -> bytes:
     request = omega["state"]["network"]["request"]
     host = request["host"]
@@ -282,13 +283,13 @@ def subprocess_http_transport(
     maximum = request["maxResponseBytes"]
 
     if not isinstance(host, str) or not host:
-        raise RuntimeError("RMAPL HTTP request is missing host")
+        raise RuntimeError("RMAPL network request is missing host")
     if type(port) is not int or not (1 <= port <= 65535):
-        raise RuntimeError("RMAPL HTTP request port is outside [1,65535]")
+        raise RuntimeError("RMAPL network request port is outside [1,65535]")
     if not payload:
-        raise RuntimeError("RMAPL HTTP request payload is empty")
+        raise RuntimeError("RMAPL network request payload is empty")
     if type(maximum) is not int or maximum < 1:
-        raise RuntimeError("RMAPL HTTP request response bound is invalid")
+        raise RuntimeError("RMAPL network request response bound is invalid")
 
     work_dir.mkdir(parents=True, exist_ok=True)
     request_path = work_dir / "request.bin"
@@ -314,13 +315,13 @@ def subprocess_http_transport(
     )
     if completed.returncode != 0:
         raise RuntimeError(
-            f"native HTTP carrier exited with code {completed.returncode}"
+            f"native {carrier_name} carrier exited with code {completed.returncode}"
         )
     if not response_path.is_file():
-        raise RuntimeError("native HTTP carrier produced no response file")
+        raise RuntimeError(f"native {carrier_name} carrier produced no response file")
     response = response_path.read_bytes()
     if not response or len(response) > maximum:
-        raise RuntimeError("native HTTP carrier violated response byte bound")
+        raise RuntimeError(f"native {carrier_name} carrier violated response byte bound")
     return response
 
 
@@ -332,6 +333,7 @@ def drive_browser(
     http_program,
     http_registry,
     transport: TransportFn | None = None,
+    tls_transport: TransportFn | None = None,
     max_transitions: int = 64,
 ) -> tuple[dict, str]:
     """Drive admitted RMAPL transitions until presentation or external residual.
@@ -358,6 +360,12 @@ def drive_browser(
             if transport is None:
                 return current, "http-carrier-missing"
             current = response_omega(current, transport(current))
+            continue
+
+        if kind == "native-tls-transport-pending":
+            if tls_transport is None:
+                return current, "tls-carrier-missing"
+            current = response_omega(current, tls_transport(current))
             continue
 
         if kind in {"network-transport-pending", "http-response-parse-pending"}:
@@ -398,6 +406,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--start", required=True)
     parser.add_argument("--presenter", type=Path, required=True)
     parser.add_argument("--http-carrier", type=Path)
+    parser.add_argument("--tls-carrier", type=Path)
     parser.add_argument("--work-dir", type=Path, default=Path(".rmapl-browser"))
     parser.add_argument("--max-interactions", type=int, default=64)
     parser.add_argument("--max-transitions", type=int, default=64)
@@ -414,6 +423,8 @@ def main() -> int:
         raise FileNotFoundError(args.presenter)
     if args.http_carrier is not None and not args.http_carrier.is_file():
         raise FileNotFoundError(args.http_carrier)
+    if args.tls_carrier is not None and not args.tls_carrier.is_file():
+        raise FileNotFoundError(args.tls_carrier)
 
     pages = load_pages(args.page)
     url_program = parse_rmapl(URL_PROGRAM_PATH.read_text(encoding="utf-8"))
@@ -423,10 +434,20 @@ def main() -> int:
 
     transport = None
     if args.http_carrier is not None:
-        transport = lambda omega: subprocess_http_transport(
+        transport = lambda omega: subprocess_network_transport(
             omega,
             carrier=args.http_carrier,
             work_dir=args.work_dir / "http",
+            carrier_name="HTTP",
+        )
+
+    tls_transport = None
+    if args.tls_carrier is not None:
+        tls_transport = lambda omega: subprocess_network_transport(
+            omega,
+            carrier=args.tls_carrier,
+            work_dir=args.work_dir / "tls",
+            carrier_name="TLS",
         )
 
     current, status = drive_browser(
@@ -436,6 +457,7 @@ def main() -> int:
         http_program=http_program,
         http_registry=http_registry,
         transport=transport,
+        tls_transport=tls_transport,
         max_transitions=args.max_transitions,
     )
     if status != "presentable":
@@ -485,6 +507,7 @@ def main() -> int:
             http_program=http_program,
             http_registry=http_registry,
             transport=transport,
+            tls_transport=tls_transport,
             max_transitions=args.max_transitions,
         )
 
