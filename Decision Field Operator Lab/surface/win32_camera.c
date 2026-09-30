@@ -232,6 +232,18 @@ static int write_click_event(const wchar_t *path, int x, int y) {
     return 1;
 }
 
+static int write_key_event(const wchar_t *path, const char *key) {
+    FILE *file = NULL;
+    if (!path || !key) return 0;
+    if (_wfopen_s(&file, path, L"wb") != 0 || !file) return 0;
+    if (fprintf(file, "KEY %s\n", key) < 0) {
+        fclose(file);
+        return 0;
+    }
+    if (fclose(file) != 0) return 0;
+    return 1;
+}
+
 static LRESULT CALLBACK camera_wndproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
     (void)wparam;
     (void)lparam;
@@ -275,6 +287,15 @@ static LRESULT CALLBACK camera_wndproc(HWND hwnd, UINT msg, WPARAM wparam, LPARA
                     &fx,
                     &fy
                 ) || !write_click_event(g_event_path, fx, fy)) {
+                g_event_error = 1;
+            }
+            DestroyWindow(hwnd);
+        }
+        return 0;
+    case WM_KEYUP:
+        if (g_event_path && (wparam == VK_TAB || wparam == VK_RETURN)) {
+            const char *key = (wparam == VK_TAB) ? "TAB" : "ENTER";
+            if (!write_key_event(g_event_path, key)) {
                 g_event_error = 1;
             }
             DestroyWindow(hwnd);
@@ -350,10 +371,21 @@ int wmain(int argc, wchar_t **argv) {
         }
         return 0;
     }
+    if (argc == 4 && wcscmp(argv[1], L"--emit-test-key") == 0) {
+        const char *key = NULL;
+        if (wcscmp(argv[2], L"TAB") == 0) key = "TAB";
+        if (wcscmp(argv[2], L"ENTER") == 0) key = "ENTER";
+        if (!key || !write_key_event(argv[3], key)) {
+            fwprintf(stderr, L"test key emission failed\n");
+            return 71;
+        }
+        return 0;
+    }
     if (argc != 2 && argc != 4) {
         fwprintf(stderr, L"usage: win32_camera.exe <frame.pgm> [--event-out <event.txt>]\n");
         fwprintf(stderr, L"       win32_camera.exe --self-test\n");
         fwprintf(stderr, L"       win32_camera.exe --emit-test-click <event.txt>\n");
+        fwprintf(stderr, L"       win32_camera.exe --emit-test-key <TAB|ENTER> <event.txt>\n");
         return 64;
     }
     if (argc == 4) {
