@@ -25,8 +25,10 @@ from rmapl_runtime import run_program
 PROGRAM_PATH = LAB / "examples" / "independent_browser_http.rmapl"
 
 
-def omega_for(host: str, path: str) -> dict:
-    canonical = f"http://{host}{path}"
+def omega_for(host: str, path: str, scheme: str = "http") -> dict:
+    if scheme not in {"http", "https"}:
+        raise ValueError("scheme must be http or https")
+    canonical = f"{scheme}://{host}{path}"
     empty_url = {
         "raw": "",
         "scheme": "",
@@ -59,7 +61,7 @@ def omega_for(host: str, path: str) -> dict:
                 "pendingHref": canonical,
                 "pendingUrl": {
                     "raw": canonical,
-                    "scheme": "http",
+                    "scheme": scheme,
                     "authority": host,
                     "path": path,
                     "canonical": canonical,
@@ -114,13 +116,13 @@ def omega_for(host: str, path: str) -> dict:
         evidence=(),
         claim_ceiling=(
             "HTTP_REQUEST_PLAN != NETWORK_FETCH",
+            "TLS_REQUEST_PLAN != TLS_HANDSHAKE",
             "HTTP11_CLOSE_PROFILE != GENERAL_HTTP",
             "SOFTWARE_VERIFICATION != SECURITY_CERTIFICATION",
         ),
         resource_bounds={"maxCandidates": 1, "maxSteps": 1},
         domain_remainder={
             "unsupported": [
-                "tls",
                 "redirects",
                 "chunked-transfer",
                 "compression",
@@ -131,9 +133,9 @@ def omega_for(host: str, path: str) -> dict:
     )
 
 
-def plan(host: str, path: str) -> tuple[bytes, dict]:
+def plan(host: str, path: str, scheme: str = "http") -> tuple[bytes, dict]:
     program = parse_rmapl(PROGRAM_PATH.read_text(encoding="utf-8"))
-    result = run_program(program, omega_for(host, path), native_registry(program))
+    result = run_program(program, omega_for(host, path, scheme), native_registry(program))
     if len(result["branches"]) != 1:
         raise RuntimeError(
             "RMAPL HTTP planner did not expose exactly one branch: "
@@ -150,14 +152,18 @@ def plan(host: str, path: str) -> tuple[bytes, dict]:
     if not branch["admitted"]:
         raise RuntimeError("RMAPL HTTP planner proposal was rejected")
     omega = branch["omega"]
-    if omega["residuals"] != [
+    expected_residual = (
         {"kind": "native-http-transport-pending", "detail": "rmapl-request-ready"}
-    ]:
-        raise RuntimeError("RMAPL HTTP planner did not reach native transport seam")
+        if scheme == "http"
+        else {"kind": "native-tls-transport-pending", "detail": "rmapl-tls-request-ready"}
+    )
+    if omega["residuals"] != [expected_residual]:
+        raise RuntimeError("RMAPL request planner did not reach expected native transport seam")
     request = omega["state"]["network"]["request"]
     payload = bytes(request["bytes"])
     receipt = {
-        "schema": "rmapl-http-request-receipt/v0",
+        "schema": "rmapl-network-request-receipt/v0",
+        "scheme": scheme,
         "omegaId": omega["id"],
         "host": request["host"],
         "port": request["port"],
@@ -171,6 +177,7 @@ def plan(host: str, path: str) -> tuple[bytes, dict]:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
+    parser.add_argument("--scheme", choices=("http", "https"), default="http")
     parser.add_argument("--host", required=True)
     parser.add_argument("--path", default="/")
     parser.add_argument("--out", type=Path, required=True)
@@ -184,7 +191,7 @@ def main() -> int:
         raise SystemExit("host must be non-empty and contain no whitespace")
     if not args.path.startswith("/") or any(c.isspace() for c in args.path):
         raise SystemExit("path must start with / and contain no whitespace")
-    payload, receipt = plan(args.host, args.path)
+    payload, receipt = plan(args.host, args.path, args.scheme)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_bytes(payload)
     if args.receipt:
