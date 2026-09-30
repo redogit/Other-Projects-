@@ -101,17 +101,31 @@ class IndependentBrowserHttpTests(unittest.TestCase):
             [{"kind": "native-http-transport-pending", "detail": "rmapl-request-ready"}],
         )
 
-    def test_https_stops_at_explicit_tls_boundary(self):
+    def test_https_request_is_planned_for_native_tls_carrier(self):
         omega = with_network_state(
             url_browser_omega(),
             pending_url=network_url("https", "example.com", "/docs"),
         )
         proposal = self.http_registry["browser_http_plan"](omega)
         candidate = proposal["omega"]
-        self.assertEqual(candidate["state"]["network"]["request"]["bytes"], [])
+        request = candidate["state"]["network"]["request"]
+        self.assertEqual(request["host"], "example.com")
+        self.assertEqual(request["port"], 443)
+        self.assertEqual(request["maxResponseBytes"], 262144)
+        self.assertEqual(
+            bytes(request["bytes"]),
+            (
+                b"GET /docs HTTP/1.1\r\n"
+                b"Host: example.com\r\n"
+                b"Connection: close\r\n"
+                b"Accept: text/html\r\n"
+                b"User-Agent: RMAPL-Independent/0\r\n"
+                b"\r\n"
+            ),
+        )
         self.assertEqual(
             candidate["residuals"],
-            [{"kind": "tls-transport-pending", "detail": "https-requires-native-tls-carrier"}],
+            [{"kind": "native-tls-transport-pending", "detail": "rmapl-tls-request-ready"}],
         )
 
     def test_http_200_response_is_admitted_as_new_document_then_renders(self):
