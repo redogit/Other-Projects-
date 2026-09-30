@@ -222,15 +222,25 @@ def _checked_number(value: Any, label: str) -> float | int:
     return value
 
 
-def _buffer(value: Any, *, limit: int, label: str) -> list[int]:
+def _buffer_shape(value: Any, *, limit: int, label: str) -> list[Any]:
     if not isinstance(value, list):
         raise NativeOperatorError(f"{label} must be a byte buffer list")
     if len(value) > limit:
         raise NativeResourceBound(f"{label} length {len(value)} exceeds BUFFER_LIMIT {limit}")
-    for item in value:
-        if isinstance(item, bool) or not isinstance(item, int) or not (0 <= item <= 255):
-            raise NativeOperatorError(f"{label} contains non-byte value {item!r}")
     return value
+
+
+def _byte(value: Any, label: str) -> int:
+    if isinstance(value, bool) or not isinstance(value, int) or not (0 <= value <= 255):
+        raise NativeOperatorError(f"{label} must be a byte, got {value!r}")
+    return value
+
+
+def _buffer(value: Any, *, limit: int, label: str) -> list[int]:
+    data = _buffer_shape(value, limit=limit, label=label)
+    for index, item in enumerate(data):
+        _byte(item, f"{label}[{index}]")
+    return data
 
 
 def _compile(spec: OperatorSpec) -> tuple[tuple[str, list[Any]], ...]:
@@ -375,7 +385,7 @@ def _native_callable(spec: OperatorSpec) -> Callable[[dict[str, Any]], dict[str,
             elif opcode == "BUF_GET":
                 if len(args) != 3:
                     raise NativeOperatorError("BUF_GET expects [name,buffer,index]")
-                data = _buffer(
+                data = _buffer_shape(
                     _value(args[1], env),
                     limit=spec.max_buffer_bytes,
                     label="BUF_GET buffer",
@@ -383,19 +393,20 @@ def _native_callable(spec: OperatorSpec) -> Callable[[dict[str, Any]], dict[str,
                 index = _integral(_value(args[2], env), "BUF_GET index")
                 if index < 0 or index >= len(data):
                     raise NativeOperatorError(f"BUF_GET index {index} outside buffer length {len(data)}")
-                env[_name(args[0], "BUF_GET name")] = data[index]
+                env[_name(args[0], "BUF_GET name")] = _byte(
+                    data[index],
+                    f"BUF_GET buffer[{index}]",
+                )
 
             elif opcode == "BUF_SET":
                 if len(args) != 3:
                     raise NativeOperatorError("BUF_SET expects [buffer,index,value]")
                 buffer_name, data = _target(args[0], env)
-                data = _buffer(data, limit=spec.max_buffer_bytes, label="BUF_SET buffer")
+                data = _buffer_shape(data, limit=spec.max_buffer_bytes, label="BUF_SET buffer")
                 index = _integral(_value(args[1], env), "BUF_SET index")
-                value = _integral(_value(args[2], env), "BUF_SET value")
+                value = _byte(_value(args[2], env), "BUF_SET value")
                 if index < 0 or index >= len(data):
                     raise NativeOperatorError(f"BUF_SET index {index} outside buffer length {len(data)}")
-                if not (0 <= value <= 255):
-                    raise NativeOperatorError("BUF_SET value must be a byte")
                 data[index] = value
                 env[buffer_name] = data
 
