@@ -315,7 +315,10 @@ class RuntimeTests(unittest.TestCase):
 
     def test_outer_controller_bound_preserves_last_admitted_branch(self):
         source = omega_with_residual()
-        p = program([("handoff", "handoff_op", "[]", '["state.protected"]')])
+        p = program(
+            [("handoff", "handoff_op", "[]", '["state.protected"]')],
+            max_steps=2,
+        )
 
         def handoff_op(value):
             candidate = updated(
@@ -346,7 +349,10 @@ class RuntimeTests(unittest.TestCase):
 
     def test_unrequested_handoff_keeps_legacy_no_progress_behavior(self):
         source = omega_with_residual()
-        p = program([("handoff", "handoff_op", "[]", '["state.protected"]')])
+        p = program(
+            [("handoff", "handoff_op", "[]", '["state.protected"]')],
+            max_steps=2,
+        )
 
         def handoff_op(value):
             candidate = updated(
