@@ -314,6 +314,35 @@ static int self_test(void) {
             return 3;
         }
     }
+    {
+        wchar_t temp_dir[MAX_PATH] = {0};
+        wchar_t temp_file[MAX_PATH] = {0};
+        FILE *event_file = NULL;
+        int x = -1, y = -1;
+        if (!GetTempPathW(MAX_PATH, temp_dir) ||
+            !GetTempFileNameW(temp_dir, L"rmp", 0, temp_file)) {
+            frame_free(&frame);
+            fwprintf(stderr, L"self-test temp path failure\n");
+            return 4;
+        }
+        wcsncpy_s(g_event_path, 32768, temp_file, _TRUNCATE);
+        g_emit_click = 1;
+        if (!write_click_event(5, 5) ||
+            _wfopen_s(&event_file, temp_file, L"rb") != 0 ||
+            !event_file ||
+            fwscanf_s(event_file, L"%d %d", &x, &y) != 2 ||
+            x != 5 || y != 5) {
+            if (event_file) fclose(event_file);
+            DeleteFileW(temp_file);
+            frame_free(&frame);
+            fwprintf(stderr, L"self-test pointer event emission mismatch\n");
+            return 5;
+        }
+        fclose(event_file);
+        DeleteFileW(temp_file);
+        g_emit_click = 0;
+        g_event_path[0] = L'\0';
+    }
     g_frame.width = 0;
     g_frame.height = 0;
     frame_free(&frame);
