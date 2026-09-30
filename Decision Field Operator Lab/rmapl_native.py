@@ -349,6 +349,52 @@ def _native_callable(spec: OperatorSpec) -> Callable[[dict[str, Any]], dict[str,
                     raise NativeOperatorError(f"INDEX {index} outside sequence length {len(source)}")
                 env[_name(args[0], "INDEX name")] = deepcopy(source[index])
 
+            elif opcode == "MAP_GET":
+                if len(args) != 3:
+                    raise NativeOperatorError("MAP_GET expects [name,source,key]")
+                source = _value(args[1], env)
+                key = _value(args[2], env)
+                if not isinstance(source, Mapping):
+                    raise NativeOperatorError("MAP_GET source must be an object")
+                if not isinstance(key, str):
+                    raise NativeOperatorError("MAP_GET key must be text")
+                if key not in source:
+                    raise NativeOperatorError(f"MAP_GET missing key {key!r}")
+                env[_name(args[0], "MAP_GET name")] = deepcopy(source[key])
+
+            elif opcode == "STR_STARTS":
+                if len(args) != 3:
+                    raise NativeOperatorError("STR_STARTS expects [name,text,prefix]")
+                text = _value(args[1], env)
+                prefix = _value(args[2], env)
+                if not isinstance(text, str) or not isinstance(prefix, str):
+                    raise NativeOperatorError("STR_STARTS operands must be text")
+                env[_name(args[0], "STR_STARTS name")] = text.startswith(prefix)
+
+            elif opcode == "STR_FIND":
+                if len(args) not in {3, 4}:
+                    raise NativeOperatorError("STR_FIND expects [name,text,needle] or [name,text,needle,start]")
+                text = _value(args[1], env)
+                needle = _value(args[2], env)
+                if not isinstance(text, str) or not isinstance(needle, str):
+                    raise NativeOperatorError("STR_FIND operands must be text")
+                start = 0 if len(args) == 3 else _integral(_value(args[3], env), "STR_FIND start")
+                if start < 0 or start > len(text):
+                    raise NativeOperatorError("STR_FIND start outside text bounds")
+                env[_name(args[0], "STR_FIND name")] = text.find(needle, start)
+
+            elif opcode == "SLICE":
+                if len(args) not in {3, 4}:
+                    raise NativeOperatorError("SLICE expects [name,source,start] or [name,source,start,end]")
+                source = _value(args[1], env)
+                start = _integral(_value(args[2], env), "SLICE start")
+                end = len(source) if len(args) == 3 else _integral(_value(args[3], env), "SLICE end")
+                if not isinstance(source, (str, list, tuple)):
+                    raise NativeOperatorError("SLICE source must be text or a sequence")
+                if start < 0 or end < start or end > len(source):
+                    raise NativeOperatorError("SLICE bounds outside source")
+                env[_name(args[0], "SLICE name")] = deepcopy(source[start:end])
+
             elif opcode == "BYTES_UTF8":
                 if len(args) != 2:
                     raise NativeOperatorError("BYTES_UTF8 expects [name,text]")
