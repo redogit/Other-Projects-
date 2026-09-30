@@ -37,6 +37,11 @@ def browser_omega(source: str) -> dict:
             "html": {"tokens": []},
             "dom": {"nodes": []},
             "layout": {"boxes": []},
+            "hitMap": [],
+            "documents": {},
+            "location": "bootstrap:inline",
+            "history": [],
+            "input": {"clickX": 0, "clickY": 0, "consumed": False},
             "camera": {
                 "width": 160,
                 "height": 64,
@@ -65,7 +70,7 @@ def browser_omega(source: str) -> dict:
             "RMAPL_BROWSER_LOGIC != SELF_HOSTED_RMAPL_RUNTIME",
             "SOFTWARE_VERIFICATION != SECURITY_CERTIFICATION",
         ),
-        resource_bounds={"maxCandidates": 1, "maxSteps": 7},
+        resource_bounds={"maxCandidates": 1, "maxSteps": 8},
         domain_remainder={
             "unsupported": [
                 "network",
