@@ -28,6 +28,7 @@ def browser_omega(source="<h1>HI</h1><p>WEB</p>"):
                 "verified": False,
                 "admitted": False,
                 "blackPixels": 0,
+                "pgm": [],
             },
         },
         path=(),
@@ -47,7 +48,7 @@ def browser_omega(source="<h1>HI</h1><p>WEB</p>"):
             "MONO8_FRAMEBUFFER != OS_WINDOW_PRESENTATION",
             "SOFTWARE_VERIFICATION != SECURITY_CERTIFICATION",
         ),
-        resource_bounds={"maxCandidates": 1, "maxSteps": 6},
+        resource_bounds={"maxCandidates": 1, "maxSteps": 7},
         domain_remainder={
             "unsupported": [
                 "network",
@@ -79,6 +80,7 @@ class IndependentBrowserNativeTests(unittest.TestCase):
                 "browser_layout",
                 "browser_raster",
                 "browser_frame_verify",
+                "browser_camera_pack",
                 "browser_frame_admit",
             },
         )
@@ -95,7 +97,7 @@ class IndependentBrowserNativeTests(unittest.TestCase):
         )
 
         self.assertEqual(result["stopReason"], "SUCCESS")
-        self.assertEqual(result["generation"]["executedCount"], 6)
+        self.assertEqual(result["generation"]["executedCount"], 7)
         self.assertEqual(len(result["branches"]), 1)
 
         branch = result["branches"][0]
@@ -149,6 +151,12 @@ class IndependentBrowserNativeTests(unittest.TestCase):
         # H glyph, row 0 / column 0 at x=4,y=4 with scale=2.
         self.assertEqual(camera["pixels"][4 * 160 + 4], 0)
         self.assertEqual(camera["pixels"][0], 255)
+
+        header = b"P5\n160 64\n255\n"
+        self.assertEqual(bytes(camera["pgm"][: len(header)]), header)
+        self.assertEqual(len(camera["pgm"]), len(header) + 160 * 64)
+        self.assertEqual(camera["pgm"][len(header) + 4 * 160 + 4], 0)
+        self.assertEqual(camera["pgm"][len(header)], 255)
 
     def test_unterminated_tag_is_preserved_as_explicit_residual(self):
         result = run_program(

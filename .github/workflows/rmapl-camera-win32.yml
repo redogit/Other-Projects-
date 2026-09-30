@@ -1,0 +1,74 @@
+name: RMAPL Independent Browser Camera
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Decision Field Operator Lab/examples/independent_browser_native.rmapl'
+      - 'Decision Field Operator Lab/test_independent_browser_native.py'
+      - 'Decision Field Operator Lab/surface/win32_camera.c'
+      - 'Decision Field Operator Lab/tools/render_independent_browser.py'
+      - '.github/workflows/rmapl-camera-win32.yml'
+  pull_request:
+    paths:
+      - 'Decision Field Operator Lab/examples/independent_browser_native.rmapl'
+      - 'Decision Field Operator Lab/test_independent_browser_native.py'
+      - 'Decision Field Operator Lab/surface/win32_camera.c'
+      - 'Decision Field Operator Lab/tools/render_independent_browser.py'
+      - '.github/workflows/rmapl-camera-win32.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  VERIFY_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+
+jobs:
+  camera:
+    runs-on: windows-latest
+    timeout-minutes: 7
+    steps:
+      - name: Fetch exact verification commit
+        shell: pwsh
+        run: |
+          git init "$env:GITHUB_WORKSPACE"
+          Set-Location "$env:GITHUB_WORKSPACE"
+          git remote add origin "https://github.com/$env:GITHUB_REPOSITORY.git"
+          git fetch --depth=1 origin "$env:VERIFY_SHA"
+          git checkout --detach FETCH_HEAD
+          if ((git rev-parse HEAD).Trim() -ne "$env:VERIFY_SHA") { throw "exact-head mismatch" }
+
+      - name: Run RMAPL browser regression
+        shell: pwsh
+        run: python -m unittest discover -s "Decision Field Operator Lab" -p "test_independent_browser_native.py" -v
+
+      - name: Render fixture to P5 camera stream
+        shell: pwsh
+        run: |
+          python "Decision Field Operator Lab/tools/render_independent_browser.py" --html "<h1>HI</h1><p>WEB</p>" --out "$env:RUNNER_TEMP\independent-browser.pgm" --receipt "$env:RUNNER_TEMP\camera-receipt.json"
+
+      - name: Verify generated P5 carrier
+        shell: pwsh
+        run: |
+          $path = "$env:RUNNER_TEMP\independent-browser.pgm"
+          $bytes = [System.IO.File]::ReadAllBytes($path)
+          $expectedHeader = [byte[]](80,53,10,49,54,48,32,54,52,10,50,53,53,10)
+          if ($bytes.Length -ne (14 + 160 * 64)) { throw "unexpected P5 size: $($bytes.Length)" }
+          for ($i = 0; $i -lt $expectedHeader.Length; $i++) {
+            if ($bytes[$i] -ne $expectedHeader[$i]) { throw "P5 header mismatch at byte $i" }
+          }
+          if ($bytes[14 + (4 * 160) + 4] -ne 0) { throw "known H glyph pixel is not black" }
+          if ($bytes[14] -ne 255) { throw "background origin is not white" }
+
+      - name: Compile native Win32 camera presenter
+        shell: cmd
+        run: |
+          for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do set "VSINSTALL=%%i"
+          if not defined VSINSTALL exit /b 1
+          call "%VSINSTALL%\VC\Auxiliary\Build\vcvars64.bat"
+          cl /nologo /W4 /WX /O2 "Decision Field Operator Lab\surface\win32_camera.c" /Fe:"%RUNNER_TEMP%\win32_camera.exe" user32.lib gdi32.lib
+
+      - name: Verify presenter decoder and pixel conversion
+        shell: cmd
+        run: '"%RUNNER_TEMP%\win32_camera.exe" --self-test'
