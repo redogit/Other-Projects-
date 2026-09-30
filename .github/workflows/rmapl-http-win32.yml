@@ -1,0 +1,73 @@
+name: RMAPL Independent Browser HTTP
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Decision Field Operator Lab/examples/independent_browser_http.rmapl'
+      - 'Decision Field Operator Lab/test_independent_browser_http.py'
+      - 'Decision Field Operator Lab/surface/win32_http.c'
+      - 'Decision Field Operator Lab/tools/plan_independent_browser_http.py'
+      - '.github/workflows/rmapl-http-win32.yml'
+  pull_request:
+    paths:
+      - 'Decision Field Operator Lab/examples/independent_browser_http.rmapl'
+      - 'Decision Field Operator Lab/test_independent_browser_http.py'
+      - 'Decision Field Operator Lab/surface/win32_http.c'
+      - 'Decision Field Operator Lab/tools/plan_independent_browser_http.py'
+      - '.github/workflows/rmapl-http-win32.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  VERIFY_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+
+jobs:
+  http:
+    runs-on: windows-latest
+    timeout-minutes: 7
+    steps:
+      - name: Fetch exact verification commit
+        shell: pwsh
+        run: |
+          git init "$env:GITHUB_WORKSPACE"
+          Set-Location "$env:GITHUB_WORKSPACE"
+          git remote add origin "https://github.com/$env:GITHUB_REPOSITORY.git"
+          git fetch --depth=1 origin "$env:VERIFY_SHA"
+          git checkout --detach FETCH_HEAD
+          if ((git rev-parse HEAD).Trim() -ne "$env:VERIFY_SHA") { throw "exact-head mismatch" }
+
+      - name: Run RMAPL HTTP regression
+        shell: pwsh
+        run: python -m unittest discover -s "Decision Field Operator Lab" -p "test_independent_browser_http.py" -v
+
+      - name: Materialize RMAPL request bytes
+        shell: pwsh
+        run: |
+          python "Decision Field Operator Lab/tools/plan_independent_browser_http.py" --host 127.0.0.1 --path /test --out "$env:RUNNER_TEMP\request.bin" --receipt "$env:RUNNER_TEMP\request-receipt.json"
+
+      - name: Verify RMAPL request carrier
+        shell: pwsh
+        run: |
+          $bytes = [System.IO.File]::ReadAllBytes("$env:RUNNER_TEMP\request.bin")
+          $text = [Text.Encoding]::UTF8.GetString($bytes)
+          $expected = "GET /test HTTP/1.1`r`nHost: 127.0.0.1`r`nConnection: close`r`nAccept: text/html`r`nUser-Agent: RMAPL-Independent/0`r`n`r`n"
+          if ($text -ne $expected) { throw "RMAPL request bytes differ from bounded profile" }
+
+      - name: Compile raw Winsock transport
+        shell: cmd
+        run: |
+          for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do set "VSINSTALL=%%i"
+          if not defined VSINSTALL exit /b 1
+          call "%VSINSTALL%\VC\Auxiliary\Build\vcvars64.bat"
+          cl /nologo /W4 /WX /O2 "Decision Field Operator Lab\surface\win32_http.c" /Fe:"%RUNNER_TEMP%\win32_http.exe" ws2_32.lib
+
+      - name: Verify native transport loopback
+        shell: cmd
+        run: '"%RUNNER_TEMP%\win32_http.exe" --self-test'
+
+      - name: Verify RMAPL request through native loopback transport
+        shell: cmd
+        run: '"%RUNNER_TEMP%\win32_http.exe" --self-test-request "%RUNNER_TEMP%\request.bin"'
