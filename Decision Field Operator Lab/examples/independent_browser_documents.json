@@ -1,0 +1,4 @@
+{
+  "page1": "<h1>HOME</h1><a href=\"page2\">NEXT</a>",
+  "page2": "<h1>DONE</h1><a href=\"page1\">BACK</a>"
+}
