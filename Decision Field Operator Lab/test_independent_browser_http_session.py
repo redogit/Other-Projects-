@@ -1,3 +1,4 @@
+from copy import deepcopy
 from pathlib import Path
 import unittest
 
@@ -211,6 +212,62 @@ class LiveHttpSessionTests(unittest.TestCase):
         self.assertEqual(proposed["state"]["source"], PAGE_HTTP)
         self.assertTrue(proposed["state"]["camera"]["verified"])
         self.assertTrue(proposed["state"]["camera"]["admitted"])
+
+    def assert_admitted_view_unchanged(self, initial, proposed):
+        for key in ("source", "dom", "layout", "hitMap", "camera"):
+            self.assertEqual(proposed["state"][key], initial["state"][key], key)
+        for key in ("currentPage", "currentUrl", "history"):
+            self.assertEqual(proposed["state"]["navigation"][key],
+                             initial["state"]["navigation"][key], key)
+
+    def test_tls_failure_preserves_view_and_never_substitutes_http(self):
+        initial, status = self.drive(initial_omega(pages(PAGE_HTTPS), "page1"))
+        self.assertEqual(status, "presentable")
+        frozen = deepcopy(initial)
+        for failure in (RuntimeError("certificate rejected"), OSError("carrier failed")):
+            with self.subTest(failure=type(failure).__name__):
+                calls = []
+
+                def http_transport(_omega):
+                    calls.append("http")
+                    return b"HTTP/1.1 200 OK\r\n\r\n<h1>DOWNGRADE</h1>"
+
+                def tls_transport(_omega):
+                    calls.append("tls")
+                    raise failure
+
+                proposed, status = self.drive(pointer_omega(initial, 5, 23),
+                                              http_transport, tls_transport)
+                self.assertTrue(status.startswith("tls-carrier-failed:"), status)
+                self.assertEqual(calls, ["tls"])
+                self.assertEqual(residual_kind(proposed), "native-tls-transport-pending")
+                self.assertEqual(proposed["state"]["network"]["responseBytes"], [])
+                self.assert_admitted_view_unchanged(initial, proposed)
+                self.assertEqual(initial, frozen)
+
+    def test_decrypted_bytes_still_require_response_admission(self):
+        initial, status = self.drive(initial_omega(pages(PAGE_HTTPS), "page1"))
+        self.assertEqual(status, "presentable")
+        for payload in (b"HTTP/1.1 404 Not Found\r\n\r\n<h1>NO</h1>",
+                        b"HTTP/1.1 200 OK\r\n<h1>MISSING DELIMITER</h1>"):
+            with self.subTest(payload=payload):
+                calls = []
+
+                def http_transport(_omega):
+                    calls.append("http")
+                    return b"HTTP/1.1 200 OK\r\n\r\n<h1>DOWNGRADE</h1>"
+
+                def tls_transport(_omega):
+                    calls.append("tls")
+                    return payload
+
+                proposed, status = self.drive(pointer_omega(initial, 5, 23),
+                                              http_transport, tls_transport)
+                self.assertTrue(status.startswith("no-admitted-transition:"), status)
+                self.assertEqual(calls, ["tls"])
+                self.assertEqual(residual_kind(proposed), "http-response-invalid")
+                self.assertEqual(bytes(proposed["state"]["network"]["responseBytes"]), payload)
+                self.assert_admitted_view_unchanged(initial, proposed)
 
 
 if __name__ == "__main__":

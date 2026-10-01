@@ -10,6 +10,8 @@ on:
       - 'Decision Field Operator Lab/tools/plan_independent_browser_http.py'
       - 'Decision Field Operator Lab/tools/interact_independent_browser.py'
       - 'Decision Field Operator Lab/surface/win32_tls.c'
+      - 'Decision Field Operator Lab/surface/test_win32_tls_policy.c'
+      - 'Decision Field Operator Lab/tools/check_win32_tls_negative.*'
       - '.github/workflows/rmapl-tls-win32.yml'
   pull_request:
     paths:
@@ -19,6 +21,8 @@ on:
       - 'Decision Field Operator Lab/tools/plan_independent_browser_http.py'
       - 'Decision Field Operator Lab/tools/interact_independent_browser.py'
       - 'Decision Field Operator Lab/surface/win32_tls.c'
+      - 'Decision Field Operator Lab/surface/test_win32_tls_policy.c'
+      - 'Decision Field Operator Lab/tools/check_win32_tls_negative.*'
       - '.github/workflows/rmapl-tls-win32.yml'
   workflow_dispatch:
 
@@ -47,7 +51,9 @@ jobs:
         shell: pwsh
         run: |
           python -m unittest discover -s "Decision Field Operator Lab" -p "test_independent_browser_http.py" -v
+          if ($LASTEXITCODE -ne 0) { throw 'RMAPL request/response regression failed' }
           python -m unittest discover -s "Decision Field Operator Lab" -p "test_independent_browser_http_session.py" -v
+          if ($LASTEXITCODE -ne 0) { throw 'RMAPL session regression failed' }
 
       - name: Materialize HTTPS request bytes in RMAPL
         shell: pwsh
@@ -72,12 +78,27 @@ jobs:
           if not defined VSINSTALL exit /b 1
           call "%VSINSTALL%\VC\Auxiliary\Build\vcvars64.bat"
           cl /nologo /W4 /WX /O2 "Decision Field Operator Lab\surface\win32_tls.c" /Fe:"%RUNNER_TEMP%\win32_tls.exe" ws2_32.lib secur32.lib crypt32.lib
+          if errorlevel 1 exit /b 1
+          cl /nologo /W4 /WX /O2 "Decision Field Operator Lab\surface\test_win32_tls_policy.c" /Fe:"%RUNNER_TEMP%\test_win32_tls_policy.exe" ws2_32.lib secur32.lib crypt32.lib
 
       - name: Verify SChannel credential policy
         shell: cmd
         run: '"%RUNNER_TEMP%\win32_tls.exe" --self-test'
 
-      - name: Fetch trusted HTTPS response with RMAPL request
+      - name: Controlled hostname, trust and expiration rejection
+        shell: pwsh
+        run: |
+          & "Decision Field Operator Lab/tools/check_win32_tls_negative.ps1" -Carrier "$env:RUNNER_TEMP\win32_tls.exe" -PolicyProbe "$env:RUNNER_TEMP\test_win32_tls_policy.exe" -Receipt "$env:RUNNER_TEMP\tls-negative-receipt.json"
+
+      - name: Preserve controlled TLS evidence including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tls-negative-evidence-${{ env.VERIFY_SHA }}
+          path: ${{ runner.temp }}/tls-negative-receipt.json
+          if-no-files-found: warn
+
+      - name: External example.com smoke (non-deterministic)
         shell: cmd
         run: '"%RUNNER_TEMP%\win32_tls.exe" --host example.com --port 443 --request "%RUNNER_TEMP%\https-request.bin" --out "%RUNNER_TEMP%\https-response.bin" --max 262144'
 

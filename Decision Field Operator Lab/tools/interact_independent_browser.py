@@ -161,6 +161,8 @@ def initial_omega(pages: list[dict], start: str) -> dict:
             "HTTP11_CLOSE_PROFILE != GENERAL_HTTP",
             "PLAINTEXT_HTTP != TLS_TRANSPORT",
             "TLS_TRANSPORT_SUCCESS != RESPONSE_ADMISSION",
+            "TLS_HANDSHAKE_SUCCESS != RESPONSE_ADMISSION",
+            "CERTIFICATE_POLICY_PASS != TRUSTED_PAGE_CONTENT",
             "INPUT_EVENT_CARRIER != BROWSER_SEMANTICS",
             "BOOTSTRAP_LOOP != SELF_HOSTED_RUNTIME",
             "SOFTWARE_VERIFICATION != SECURITY_CERTIFICATION",
@@ -365,7 +367,13 @@ def drive_browser(
         if kind == "native-tls-transport-pending":
             if tls_transport is None:
                 return current, "tls-carrier-missing"
-            current = response_omega(current, tls_transport(current))
+            try:
+                next_omega = response_omega(current, tls_transport(current))
+            except (OSError, RuntimeError, ValueError) as exc:
+                # Keep the admitted visual and the unresolved TLS obligation.
+                # A transport error cannot route into the plaintext carrier.
+                return current, f"tls-carrier-failed:{exc}"
+            current = next_omega
             continue
 
         if kind in {"network-transport-pending", "http-response-parse-pending"}:
