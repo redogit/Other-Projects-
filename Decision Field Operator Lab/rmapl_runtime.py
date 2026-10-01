@@ -579,8 +579,9 @@ def run_program(
         "preconditionBlockedCount": 0,
         "truncationReason": None,
         "stepsExecuted": 0,
-        "outerControllerStopKinds": sorted(outer_stop_kinds),
     }
+    if outer_stop_kinds:
+        generation["outerControllerStopKinds"] = sorted(outer_stop_kinds)
     latest: tuple[CandidateOutcome, ...] = ()
     stop_facts: set[str] = set()
 
