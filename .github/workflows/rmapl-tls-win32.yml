@@ -99,11 +99,14 @@ jobs:
           path: ${{ runner.temp }}/tls-negative-receipt.json
           if-no-files-found: warn
 
-      - name: External example.com smoke (non-deterministic)
+      - name: External example.com smoke (non-deterministic, non-blocking)
+        id: external_smoke
+        continue-on-error: true
         shell: cmd
         run: '"%RUNNER_TEMP%\win32_tls.exe" --host example.com --port 443 --request "%RUNNER_TEMP%\https-request.bin" --out "%RUNNER_TEMP%\https-response.bin" --max 262144'
 
-      - name: Verify decrypted HTTP response boundary
+      - name: Verify decrypted HTTP response boundary when external smoke succeeds
+        if: steps.external_smoke.outcome == 'success'
         shell: pwsh
         run: |
           $bytes = [System.IO.File]::ReadAllBytes("$env:RUNNER_TEMP\https-response.bin")
@@ -111,3 +114,31 @@ jobs:
           $prefixLength = [Math]::Min(64, $bytes.Length)
           $prefix = [Text.Encoding]::ASCII.GetString($bytes[0..($prefixLength - 1)])
           if (-not $prefix.StartsWith("HTTP/1.1 200 ")) { throw "decrypted TLS bytes are not bounded HTTP/1.1 200 response" }
+
+      - name: Record external smoke outcome
+        if: always()
+        shell: pwsh
+        run: |
+          $responseExists = Test-Path "$env:RUNNER_TEMP\https-response.bin"
+          [ordered]@{
+            schema = "rmapl-tls-external-smoke/v0"
+            verificationSha = "$env:VERIFY_SHA"
+            host = "example.com"
+            port = 443
+            deterministic = $false
+            mergeGate = $false
+            outcome = "${{ steps.external_smoke.outcome }}"
+            responseFilePresent = $responseExists
+            claimCeiling = @(
+              "EXTERNAL_SMOKE_SUCCESS != TLS_CERTIFICATION",
+              "EXTERNAL_SMOKE_FAILURE != DETERMINISTIC_TLS_REJECTION_EVIDENCE"
+            )
+          } | ConvertTo-Json -Depth 4 | Set-Content -Encoding utf8 "$env:RUNNER_TEMP\tls-external-smoke.json"
+
+      - name: Preserve external smoke evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tls-external-smoke-${{ env.VERIFY_SHA }}
+          path: ${{ runner.temp }}/tls-external-smoke.json
+          if-no-files-found: error
