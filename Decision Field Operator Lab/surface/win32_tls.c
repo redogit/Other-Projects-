@@ -35,6 +35,7 @@ typedef struct TlsClient {
     int context_valid;
     SecPkgContext_StreamSizes stream_sizes;
     ByteBuffer pending_encrypted;
+    unsigned int post_handshake_count;
 } TlsClient;
 
 static void buffer_free(ByteBuffer *buffer) {
@@ -365,6 +366,292 @@ cleanup:
     return ok;
 }
 
+static DWORD tls_context_requirements(void) {
+    return
+        ISC_REQ_SEQUENCE_DETECT |
+        ISC_REQ_REPLAY_DETECT |
+        ISC_REQ_CONFIDENTIALITY |
+        ISC_REQ_EXTENDED_ERROR |
+        ISC_REQ_ALLOCATE_MEMORY |
+        ISC_REQ_STREAM |
+        ISC_REQ_USE_SUPPLIED_CREDS;
+}
+
+static int refresh_tls_context(
+    TlsClient *client,
+    const wchar_t *host_w,
+    wchar_t *error,
+    size_t error_cap
+) {
+    SECURITY_STATUS status = SEC_E_INTERNAL_ERROR;
+
+    if (!validate_remote_certificate(&client->context, host_w, error, error_cap)) {
+        return 0;
+    }
+
+    ZeroMemory(&client->stream_sizes, sizeof(client->stream_sizes));
+    status = QueryContextAttributesW(
+        &client->context,
+        SECPKG_ATTR_STREAM_SIZES,
+        &client->stream_sizes
+    );
+    if (status != SEC_E_OK) {
+        _snwprintf_s(
+            error,
+            error_cap,
+            _TRUNCATE,
+            L"TLS stream size query failed: 0x%08lx",
+            status
+        );
+        return 0;
+    }
+    if (!client->stream_sizes.cbMaximumMessage) {
+        wcsncpy_s(
+            error,
+            error_cap,
+            L"TLS stream maximum message is zero",
+            _TRUNCATE
+        );
+        return 0;
+    }
+    return 1;
+}
+
+static int tls_continue_post_handshake(
+    TlsClient *client,
+    const wchar_t *host_w,
+    size_t encrypted_limit,
+    wchar_t *error,
+    size_t error_cap
+) {
+    ByteBuffer input = {0};
+    SECURITY_STATUS status = SEC_I_CONTINUE_NEEDED;
+    ULONG context_attr = 0;
+    TimeStamp expiry;
+    DWORD requirements = tls_context_requirements();
+    unsigned int legs = 0;
+    const unsigned int max_legs = 8;
+    int ok = 0;
+
+    /*
+     * DecryptMessage modifies the same storage that was supplied as the
+     * encrypted SECBUFFER_DATA. Microsoft requires that storage to be passed
+     * back to InitializeSecurityContext as SECBUFFER_TOKEN after
+     * SEC_I_RENEGOTIATE. Copy it before any receive/memmove can overwrite it.
+     */
+    if (!client->pending_encrypted.data || !client->pending_encrypted.size) {
+        wcsncpy_s(
+            error,
+            error_cap,
+            L"TLS post-handshake continuation has no token",
+            _TRUNCATE
+        );
+        return 0;
+    }
+    if (!buffer_append(
+            &input,
+            client->pending_encrypted.data,
+            client->pending_encrypted.size,
+            encrypted_limit)) {
+        wcsncpy_s(
+            error,
+            error_cap,
+            L"TLS post-handshake token exceeded bounded buffer",
+            _TRUNCATE
+        );
+        return 0;
+    }
+    client->pending_encrypted.size = 0;
+
+    while (status != SEC_E_OK) {
+        SecBuffer in_buffers[2];
+        SecBufferDesc in_desc;
+        SecBuffer out_buffer;
+        SecBufferDesc out_desc;
+        int closed = 0;
+
+        if (++legs > max_legs) {
+            wcsncpy_s(
+                error,
+                error_cap,
+                L"TLS post-handshake continuation exceeded leg bound",
+                _TRUNCATE
+            );
+            goto cleanup;
+        }
+
+        if (input.size == 0) {
+            if (!recv_append(
+                    client->socket_handle,
+                    &input,
+                    encrypted_limit,
+                    &closed)) {
+                wcsncpy_s(
+                    error,
+                    error_cap,
+                    L"TLS post-handshake receive failed",
+                    _TRUNCATE
+                );
+                goto cleanup;
+            }
+            if (closed) {
+                wcsncpy_s(
+                    error,
+                    error_cap,
+                    L"TLS peer closed during post-handshake continuation",
+                    _TRUNCATE
+                );
+                goto cleanup;
+            }
+        }
+
+        ZeroMemory(in_buffers, sizeof(in_buffers));
+        in_buffers[0].BufferType = SECBUFFER_TOKEN;
+        in_buffers[0].pvBuffer = input.data;
+        in_buffers[0].cbBuffer = (unsigned long)input.size;
+        in_buffers[1].BufferType = SECBUFFER_EMPTY;
+
+        in_desc.ulVersion = SECBUFFER_VERSION;
+        in_desc.cBuffers = 2;
+        in_desc.pBuffers = in_buffers;
+
+        ZeroMemory(&out_buffer, sizeof(out_buffer));
+        out_buffer.BufferType = SECBUFFER_TOKEN;
+        out_desc.ulVersion = SECBUFFER_VERSION;
+        out_desc.cBuffers = 1;
+        out_desc.pBuffers = &out_buffer;
+
+        status = InitializeSecurityContextW(
+            &client->credentials,
+            &client->context,
+            (SEC_WCHAR *)host_w,
+            requirements,
+            0,
+            SECURITY_NATIVE_DREP,
+            &in_desc,
+            0,
+            &client->context,
+            &out_desc,
+            &context_attr,
+            &expiry
+        );
+
+        if (!send_schannel_output(
+                client->socket_handle,
+                &out_buffer,
+                error,
+                error_cap)) {
+            goto cleanup;
+        }
+
+        if (status == SEC_E_INCOMPLETE_MESSAGE) {
+            /*
+             * The input storage remains owned by us. Preserve it and append
+             * more bytes before retrying the same continuation leg.
+             */
+            closed = 0;
+            if (!recv_append(
+                    client->socket_handle,
+                    &input,
+                    encrypted_limit,
+                    &closed)) {
+                wcsncpy_s(
+                    error,
+                    error_cap,
+                    L"TLS post-handshake receive failed",
+                    _TRUNCATE
+                );
+                goto cleanup;
+            }
+            if (closed) {
+                wcsncpy_s(
+                    error,
+                    error_cap,
+                    L"TLS peer closed with incomplete post-handshake token",
+                    _TRUNCATE
+                );
+                goto cleanup;
+            }
+            continue;
+        }
+
+        if (status == SEC_I_INCOMPLETE_CREDENTIALS) {
+            wcsncpy_s(
+                error,
+                error_cap,
+                L"TLS post-handshake client authentication is outside bounded profile",
+                _TRUNCATE
+            );
+            goto cleanup;
+        }
+
+        if (status != SEC_I_CONTINUE_NEEDED && status != SEC_E_OK) {
+            _snwprintf_s(
+                error,
+                error_cap,
+                _TRUNCATE,
+                L"TLS post-handshake InitializeSecurityContext failed: 0x%08lx",
+                status
+            );
+            goto cleanup;
+        }
+
+        if (in_buffers[1].BufferType == SECBUFFER_EXTRA &&
+            in_buffers[1].cbBuffer) {
+            size_t extra = in_buffers[1].cbBuffer;
+            if (extra > input.size) {
+                wcsncpy_s(
+                    error,
+                    error_cap,
+                    L"TLS post-handshake returned invalid extra buffer",
+                    _TRUNCATE
+                );
+                goto cleanup;
+            }
+            memmove(input.data, input.data + input.size - extra, extra);
+            input.size = extra;
+        } else {
+            input.size = 0;
+        }
+
+        if (status == SEC_I_CONTINUE_NEEDED) {
+            continue;
+        }
+
+        if (input.size) {
+            if (!buffer_append(
+                    &client->pending_encrypted,
+                    input.data,
+                    input.size,
+                    encrypted_limit)) {
+                wcsncpy_s(
+                    error,
+                    error_cap,
+                    L"TLS post-handshake extra bytes exceeded bound",
+                    _TRUNCATE
+                );
+                goto cleanup;
+            }
+            input.size = 0;
+        }
+    }
+
+    /*
+     * Context attributes can change during negotiation. Re-assert the exact
+     * hostname/trust policy and refresh stream framing before any more
+     * application data is decrypted.
+     */
+    if (!refresh_tls_context(client, host_w, error, error_cap)) {
+        goto cleanup;
+    }
+
+    ok = 1;
+
+cleanup:
+    buffer_free(&input);
+    return ok;
+}
+
 static int tls_handshake(
     TlsClient *client,
     const wchar_t *host_w,
@@ -377,14 +664,7 @@ static int tls_handshake(
     TimeStamp expiry;
     SECURITY_STATUS status = SEC_E_INTERNAL_ERROR;
     ULONG context_attr = 0;
-    DWORD requirements =
-        ISC_REQ_SEQUENCE_DETECT |
-        ISC_REQ_REPLAY_DETECT |
-        ISC_REQ_CONFIDENTIALITY |
-        ISC_REQ_EXTENDED_ERROR |
-        ISC_REQ_ALLOCATE_MEMORY |
-        ISC_REQ_STREAM |
-        ISC_REQ_USE_SUPPLIED_CREDS;
+    DWORD requirements = tls_context_requirements();
     SecBuffer out_buffer;
     SecBufferDesc out_desc;
     const size_t handshake_limit = 1024U * 1024U;
@@ -526,24 +806,7 @@ static int tls_handshake(
         }
     }
 
-    if (!validate_remote_certificate(&client->context, host_w, error, error_cap)) {
-        return 0;
-    }
-
-    status = QueryContextAttributesW(
-        &client->context,
-        SECPKG_ATTR_STREAM_SIZES,
-        &client->stream_sizes
-    );
-    if (status != SEC_E_OK) {
-        _snwprintf_s(error, error_cap, _TRUNCATE, L"TLS stream size query failed: 0x%08lx", status);
-        return 0;
-    }
-    if (!client->stream_sizes.cbMaximumMessage) {
-        wcsncpy_s(error, error_cap, L"TLS stream maximum message is zero", _TRUNCATE);
-        return 0;
-    }
-    return 1;
+    return refresh_tls_context(client, host_w, error, error_cap);
 }
 
 static int tls_send_plaintext(
@@ -619,12 +882,15 @@ static int tls_send_plaintext(
 
 static int tls_receive_plaintext(
     TlsClient *client,
+    const wchar_t *host_w,
     size_t max_plaintext,
     ByteBuffer *plaintext,
     wchar_t *error,
     size_t error_cap
 ) {
     size_t encrypted_limit = max_plaintext + 1024U * 1024U;
+    unsigned int post_handshake_count = 0;
+    const unsigned int max_post_handshake_count = 4;
     int saw_close_notify = 0;
 
     if (encrypted_limit < max_plaintext) {
@@ -689,8 +955,25 @@ static int tls_receive_plaintext(
         if (status == SEC_I_CONTEXT_EXPIRED) {
             saw_close_notify = 1;
         } else if (status == SEC_I_RENEGOTIATE) {
-            wcsncpy_s(error, error_cap, L"TLS renegotiation is outside bounded profile", _TRUNCATE);
-            return 0;
+            if (++post_handshake_count > max_post_handshake_count) {
+                wcsncpy_s(
+                    error,
+                    error_cap,
+                    L"TLS post-handshake continuation exceeded message bound",
+                    _TRUNCATE
+                );
+                return 0;
+            }
+            if (!tls_continue_post_handshake(
+                    client,
+                    host_w,
+                    encrypted_limit,
+                    error,
+                    error_cap)) {
+                return 0;
+            }
+            client->post_handshake_count = post_handshake_count;
+            continue;
         } else if (status != SEC_E_OK) {
             _snwprintf_s(error, error_cap, _TRUNCATE, L"TLS DecryptMessage failed: 0x%08lx", status);
             return 0;
@@ -744,6 +1027,13 @@ static int tls_receive_plaintext(
         wcsncpy_s(error, error_cap, L"TLS produced empty plaintext response", _TRUNCATE);
         return 0;
     }
+    if (client->post_handshake_count) {
+        fwprintf(
+            stderr,
+            L"TLS post-handshake continuations: %u\n",
+            client->post_handshake_count
+        );
+    }
     return 1;
 }
 
@@ -774,6 +1064,7 @@ static int tls_transport(
     }
     if (!tls_receive_plaintext(
             &client,
+            host_w,
             max_response,
             response,
             error,
