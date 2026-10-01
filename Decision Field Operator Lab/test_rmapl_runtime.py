@@ -313,6 +313,72 @@ class RuntimeTests(unittest.TestCase):
         self.assertEqual(result["stopReason"], "SUCCESS")
         self.assertTrue(any(x["candidateId"] == "good" and x["admitted"] for x in result["branches"]))
 
+    def test_outer_controller_bound_preserves_last_admitted_branch(self):
+        source = omega_with_residual(max_steps=2)
+        p = program(
+            [("handoff", "handoff_op", "[]", '["state.protected"]')],
+            max_steps=2,
+        )
+
+        def handoff_op(value):
+            candidate = updated(
+                value,
+                state={"x": 1, "protected": 7},
+                residuals=[{"kind": "tcp-exchange-pending", "detail": "carrier"}],
+            )
+            return proposal(candidate, "tcp-handoff")
+
+        result = run_program(
+            p,
+            source,
+            {"handoff_op": handoff_op},
+            stop_residual_kinds=("tcp-exchange-pending",),
+        )
+        self.assertEqual(result["stopReason"], "OUTER_CONTROLLER_BOUND")
+        self.assertIn("OUTER_CONTROLLER_BOUND", result["stopFacts"])
+        self.assertEqual(
+            result["generation"]["outerControllerStopKinds"],
+            ["tcp-exchange-pending"],
+        )
+        self.assertEqual(len(result["branches"]), 1)
+        self.assertTrue(result["branches"][0]["admitted"])
+        self.assertEqual(
+            result["branches"][0]["omega"]["residuals"],
+            [{"detail": "carrier", "kind": "tcp-exchange-pending"}],
+        )
+
+    def test_unrequested_handoff_keeps_legacy_no_progress_behavior(self):
+        source = omega_with_residual(max_steps=2)
+        p = program(
+            [("handoff", "handoff_op", "[]", '["state.protected"]')],
+            max_steps=2,
+        )
+
+        def handoff_op(value):
+            candidate = updated(
+                value,
+                residuals=[{"kind": "tcp-exchange-pending", "detail": "carrier"}],
+            )
+            return proposal(candidate, "tcp-handoff")
+
+        result = run_program(p, source, {"handoff_op": handoff_op})
+        self.assertEqual(result["stopReason"], "NO_ADMISSIBLE_PROGRESS")
+        self.assertEqual(result["branches"], [])
+        self.assertNotIn("outerControllerStopKinds", result["generation"])
+
+    def test_outer_controller_stop_kinds_fail_closed(self):
+        source = omega_with_residual()
+        p = program([])
+        with self.assertRaisesRegex(ValueError, "non-empty strings"):
+            run_program(p, source, {}, stop_residual_kinds=("",))
+        with self.assertRaisesRegex(ValueError, "duplicates"):
+            run_program(
+                p,
+                source,
+                {},
+                stop_residual_kinds=("x", "x"),
+            )
+
     def test_mutation_and_valid_repair_with_same_consequence_are_not_quotiented_together(self):
         source = omega_with_residual()
         p = program([

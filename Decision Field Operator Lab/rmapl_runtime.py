@@ -552,10 +552,18 @@ def run_program(
     program: Program,
     omega: dict[str, Any],
     registry: Mapping[str, Callable[[dict[str, Any]], Mapping[str, Any]]],
+    *,
+    stop_residual_kinds: Iterable[str] = (),
 ) -> dict[str, Any]:
     if not isinstance(program, Program):
         raise TypeError("program must be parsed RMAPL Program")
     current = [validate_omega(omega)]
+    requested_outer_stops = tuple(stop_residual_kinds)
+    if any(not isinstance(kind, str) or not kind for kind in requested_outer_stops):
+        raise ValueError("stop_residual_kinds must contain non-empty strings")
+    if len(set(requested_outer_stops)) != len(requested_outer_stops):
+        raise ValueError("stop_residual_kinds must not contain duplicates")
+    outer_stop_kinds = frozenset(requested_outer_stops)
     max_candidates, max_steps = _bounds(program, current[0])
     seen = {_cycle_signature(current[0], program)}
 
@@ -572,6 +580,8 @@ def run_program(
         "truncationReason": None,
         "stepsExecuted": 0,
     }
+    if outer_stop_kinds:
+        generation["outerControllerStopKinds"] = sorted(outer_stop_kinds)
     latest: tuple[CandidateOutcome, ...] = ()
     stop_facts: set[str] = set()
 
@@ -625,6 +635,12 @@ def run_program(
         admitted = list(admitted_frontier)
         if any(not item.omega["residuals"] for item in admitted):
             stop_facts.add("SUCCESS")
+
+        if outer_stop_kinds and any(
+            _residual_kinds(item.omega) & outer_stop_kinds
+            for item in admitted
+        ):
+            stop_facts.add("OUTER_CONTROLLER_BOUND")
 
         cycle_outcomes = [
             item for item in admitted
