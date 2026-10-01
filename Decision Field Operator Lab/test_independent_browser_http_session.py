@@ -6,12 +6,16 @@ from rmapl import parse_rmapl
 from rmapl_native import native_registry
 
 from tools.interact_independent_browser import (
+    HTTP_OUTER_STOP_KINDS,
     HTTP_PROGRAM_PATH,
+    URL_OUTER_STOP_KINDS,
     URL_PROGRAM_PATH,
     drive_browser,
+    execute_to_boundary,
     initial_omega,
     pointer_omega,
     residual_kind,
+    response_omega,
 )
 
 
@@ -46,6 +50,69 @@ class LiveHttpSessionTests(unittest.TestCase):
             tls_transport=tls_transport,
             max_transitions=64,
         )
+
+    def test_initial_render_completes_inside_one_host_routing_turn(self):
+        initial, status = drive_browser(
+            initial_omega(pages(PAGE_HTTP), "page1"),
+            url_program=self.url_program,
+            url_registry=self.url_registry,
+            http_program=self.http_program,
+            http_registry=self.http_registry,
+            max_transitions=1,
+        )
+        self.assertEqual(status, "presentable")
+        self.assertTrue(initial["state"]["camera"]["verified"])
+        self.assertTrue(initial["state"]["camera"]["admitted"])
+
+    def test_cross_program_and_native_seams_use_outer_controller_bound(self):
+        initial, status = self.drive(initial_omega(pages(PAGE_HTTP), "page1"))
+        self.assertEqual(status, "presentable")
+
+        url_handoff, url_result = execute_to_boundary(
+            self.url_program,
+            self.url_registry,
+            pointer_omega(initial, 5, 23),
+            stop_residual_kinds=URL_OUTER_STOP_KINDS,
+        )
+        self.assertIsNotNone(url_handoff)
+        self.assertEqual(url_result["stopReason"], "OUTER_CONTROLLER_BOUND")
+        self.assertNotIn("RESOURCE_BOUND", url_result["stopFacts"])
+        self.assertEqual(url_result["generation"]["stepsExecuted"], 2)
+        self.assertEqual(residual_kind(url_handoff), "network-transport-pending")
+
+        http_handoff, http_result = execute_to_boundary(
+            self.http_program,
+            self.http_registry,
+            url_handoff,
+            stop_residual_kinds=HTTP_OUTER_STOP_KINDS,
+        )
+        self.assertIsNotNone(http_handoff)
+        self.assertEqual(http_result["stopReason"], "OUTER_CONTROLLER_BOUND")
+        self.assertNotIn("RESOURCE_BOUND", http_result["stopFacts"])
+        self.assertEqual(http_result["generation"]["stepsExecuted"], 1)
+        self.assertEqual(residual_kind(http_handoff), "native-http-transport-pending")
+
+        returned = response_omega(
+            http_handoff,
+            (
+                b"HTTP/1.1 200 OK\r\n"
+                b"Content-Type: text/html\r\n"
+                b"Connection: close\r\n"
+                b"\r\n"
+                b"<h1>FETCHED</h1>"
+            ),
+        )
+        render_handoff, response_result = execute_to_boundary(
+            self.http_program,
+            self.http_registry,
+            returned,
+            stop_residual_kinds=HTTP_OUTER_STOP_KINDS,
+        )
+        self.assertIsNotNone(render_handoff)
+        self.assertEqual(response_result["stopReason"], "OUTER_CONTROLLER_BOUND")
+        self.assertNotIn("RESOURCE_BOUND", response_result["stopFacts"])
+        self.assertEqual(response_result["generation"]["stepsExecuted"], 1)
+        self.assertEqual(residual_kind(render_handoff), "html-tokenization-pending")
 
     def test_network_link_fetches_admits_and_rerenders_through_rmapl(self):
         initial, status = self.drive(initial_omega(pages(PAGE_HTTP), "page1"))
