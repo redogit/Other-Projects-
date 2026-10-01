@@ -75,7 +75,14 @@ class IndependentBrowserHttpTests(unittest.TestCase):
 
     def test_http_request_is_built_by_rmapl_exactly(self):
         omega = with_network_state(url_browser_omega())
-        result = run_program(self.http_program, omega, self.http_registry)
+        result = run_program(
+            self.http_program,
+            omega,
+            self.http_registry,
+            stop_residual_kinds=("native-http-transport-pending",),
+        )
+        self.assertEqual(result["stopReason"], "OUTER_CONTROLLER_BOUND")
+        self.assertNotIn("RESOURCE_BOUND", result["stopFacts"])
         self.assertEqual(len(result["branches"]), 1)
         branch = result["branches"][0]
         self.assertTrue(branch["admitted"])

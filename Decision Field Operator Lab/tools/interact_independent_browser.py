@@ -8,10 +8,12 @@ The host is an obligation router only. It:
 1. supplies finite local pages,
 2. presents admitted P5 camera bytes,
 3. reads native CLICK/KEY carriers,
-4. executes exactly one admitted RMAPL transition at a time,
+4. lets each RMAPL program execute internally to SUCCESS or an explicitly
+   declared OUTER_CONTROLLER_BOUND,
 5. routes native-http-transport-pending to the raw WinSock carrier,
 6. injects returned bytes as http-response-parse-pending,
-7. resumes RMAPL until a verified admitted camera exists.
+7. resumes the owning RMAPL program until the next declared handoff or a
+   verified admitted camera exists.
 
 HOST_ROUTING != BROWSER_SEMANTICS
 TRANSPORT_SUCCESS != RESPONSE_ADMISSION
@@ -40,6 +42,35 @@ URL_PROGRAM_PATH = LAB / "examples" / "independent_browser_url.rmapl"
 HTTP_PROGRAM_PATH = LAB / "examples" / "independent_browser_http.rmapl"
 
 TransportFn = Callable[[dict], bytes]
+
+URL_OUTER_STOP_KINDS = (
+    "network-transport-pending",
+    "pointer-no-target",
+    "keyboard-no-target",
+    "keyboard-unsupported",
+    "url-invalid",
+    "navigation-target-missing",
+    "html-tokenization-error",
+    "frame-verification-error",
+)
+HTTP_OUTER_STOP_KINDS = (
+    "native-http-transport-pending",
+    "native-tls-transport-pending",
+    "html-tokenization-pending",
+    "http-response-invalid",
+    "network-scheme-unsupported",
+)
+TERMINAL_OUTER_STOP_KINDS = frozenset({
+    "pointer-no-target",
+    "keyboard-no-target",
+    "keyboard-unsupported",
+    "url-invalid",
+    "navigation-target-missing",
+    "html-tokenization-error",
+    "frame-verification-error",
+    "http-response-invalid",
+    "network-scheme-unsupported",
+})
 
 
 def parse_page(value: str) -> tuple[str, Path]:
@@ -167,7 +198,10 @@ def initial_omega(pages: list[dict], start: str) -> dict:
             "BOOTSTRAP_LOOP != SELF_HOSTED_RUNTIME",
             "SOFTWARE_VERIFICATION != SECURITY_CERTIFICATION",
         ),
-        resource_bounds={"maxCandidates": 1, "maxSteps": 1},
+        # Program-local BOUND maxSteps declarations remain authoritative.
+        # This larger Omega ceiling lets RMAPL reach an explicit handoff
+        # without the host manufacturing a one-step resource exhaustion.
+        resource_bounds={"maxCandidates": 1, "maxSteps": 64},
         domain_remainder={
             "unsupported": [
                 "redirects",
@@ -193,9 +227,6 @@ def rebuild(omega: dict, *, state=None, residuals=None) -> dict:
         construction["state"] = state
     if residuals is not None:
         construction["residuals"] = residuals
-    # Interactive orchestration intentionally exposes one admitted transition
-    # per RMAPL run so carrier boundaries cannot be skipped.
-    construction["resource_bounds"]["maxSteps"] = 1
     return make_omega(**construction)
 
 
@@ -259,9 +290,20 @@ def residual_kind(omega: dict) -> str | None:
     return kind
 
 
-def execute_one(program, registry, omega: dict) -> tuple[dict | None, dict]:
-    limited = rebuild(omega)
-    result = run_program(program, limited, registry)
+def execute_to_boundary(
+    program,
+    registry,
+    omega: dict,
+    *,
+    stop_residual_kinds: tuple[str, ...],
+) -> tuple[dict | None, dict]:
+    candidate = rebuild(omega)
+    result = run_program(
+        program,
+        candidate,
+        registry,
+        stop_residual_kinds=stop_residual_kinds,
+    )
     branches = result["branches"]
     if len(branches) != 1:
         return None, result
@@ -379,16 +421,38 @@ def drive_browser(
         if kind in {"network-transport-pending", "http-response-parse-pending"}:
             program = http_program
             registry = http_registry
+            stop_kinds = HTTP_OUTER_STOP_KINDS
         elif kind == "tls-transport-pending":
             return current, "tls-transport-pending"
         else:
             program = url_program
             registry = url_registry
+            stop_kinds = URL_OUTER_STOP_KINDS
 
-        next_omega, result = execute_one(program, registry, current)
+        next_omega, result = execute_to_boundary(
+            program,
+            registry,
+            current,
+            stop_residual_kinds=stop_kinds,
+        )
         if next_omega is None:
             return current, f"no-admitted-transition:{result['stopReason']}"
+
         current = next_omega
+        next_kind = residual_kind(current)
+
+        if result["stopReason"] == "SUCCESS":
+            camera = current["state"]["camera"]
+            if camera["verified"] and camera["admitted"] and camera["pgm"]:
+                return current, "presentable"
+            return current, "terminal-without-camera"
+
+        if result["stopReason"] == "OUTER_CONTROLLER_BOUND":
+            if next_kind in TERMINAL_OUTER_STOP_KINDS:
+                return current, f"no-admitted-transition:OUTER_CONTROLLER_BOUND:{next_kind}"
+            continue
+
+        return current, f"no-admitted-transition:{result['stopReason']}"
 
     return current, "transition-bound"
 
