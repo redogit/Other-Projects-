@@ -77,9 +77,16 @@ The latest inspected workflow at the source commit was
 [run 36787338052](https://github.com/redogit/Other-Projects-/actions/runs/36787338052).
 Its Windows build and credential self-test passed; `example.com:443` failed with
 exit 68: `TLS renegotiation is outside bounded profile`. The decrypted-response
-boundary step did not run. This remains a non-deterministic external smoke check,
-still gating as before, and is not negative certificate-policy evidence. This
-change does not relax the profile to conceal that failure.
+boundary step did not run. This remains a non-deterministic external smoke check
+and is not negative certificate-policy evidence.
+
+That historical failure is retained unchanged. Subsequent workflow revisions keep
+the same external smoke but make it non-blocking: the step outcome is always
+recorded and uploaded as `tls-external-smoke.json`, and decrypted HTTP bytes are
+checked only when the smoke succeeds. Deterministic local certificate-policy,
+loopback rejection, portable session, strict-build, and credential checks remain
+hard merge gates. This does not relax certificate policy or add renegotiation
+support merely to accommodate one external server behavior.
 
 ## Executed Windows evidence
 
@@ -93,9 +100,12 @@ control returned the exact local response. The Windows request/session suites
 passed 5/5 and 7/7 respectively. Local full-suite validation passed 239/239 tests,
 and the existing audit/frozen stress checks passed.
 
-The overall TLS job **failed** afterwards on the separate `example.com` smoke
-check with the same exit 68 renegotiation-profile residual. Do not report the
-overall job as green or count that external failure as deterministic evidence.
+The recorded run's overall TLS job **failed** afterwards on the separate
+`example.com` smoke check with the same exit 68 renegotiation-profile residual.
+Do not retroactively report that historical job as green or count that external
+failure as deterministic evidence. Newer runs may be green while preserving an
+external-smoke failure as a non-blocking recorded outcome; their deterministic
+gates must be evaluated separately.
 
 The original `tls-negative-receipt.json` is preserved byte-for-byte as
 [`evidence/rmapl_tls_negative_7f1b41b.json`](../evidence/rmapl_tls_negative_7f1b41b.json).
