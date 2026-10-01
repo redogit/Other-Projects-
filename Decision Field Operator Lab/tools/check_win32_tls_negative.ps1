@@ -11,13 +11,23 @@ $ErrorActionPreference = 'Stop'
 if ($env:GITHUB_ACTIONS -ne 'true' -or $env:RUNNER_ENVIRONMENT -ne 'github-hosted') {
     throw 'Certificate fixture provisioning requires a disposable GitHub-hosted runner'
 }
+$identity = [System.Security.Principal.WindowsIdentity]::GetCurrent()
+try {
+    $principal = [System.Security.Principal.WindowsPrincipal]::new($identity)
+    if (-not $principal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator)) {
+        throw 'Fixture provisioning requires the hosted runner administrator account'
+    }
+} finally { $identity.Dispose() }
 $fixtureDir = Join-Path $env:RUNNER_TEMP ("rmapl-tls-" + [guid]::NewGuid())
 New-Item -ItemType Directory -Path $fixtureDir | Out-Null
-$store = [X509Store]::new('Root', [StoreLocation]::CurrentUser)
+# CurrentUser Root can open an interactive trust dialog. This disposable
+# administrator runner uses the standard machine store; no dialog is automated.
+$store = [X509Store]::new('Root', [StoreLocation]::LocalMachine)
 $added = [System.Collections.Generic.List[X509Certificate2]]::new()
 $anchor = [DateTimeOffset]::UtcNow
 
 function New-Fixture([string]$Name, [bool]$Trusted, [bool]$Expired) {
+    Write-Host "Creating controlled fixture: $Name"
     $key = [RSA]::Create(2048)
     $cert = $null
     try {
@@ -42,7 +52,9 @@ function New-Fixture([string]$Name, [bool]$Trusted, [bool]$Expired) {
             $public = [X509Certificate2]::new($cert.RawData)
             # Track before Add so even a partial failure reaches cleanup.
             $added.Add($public)
+            Write-Host "Provisioning fixture in disposable machine store: $Name"
             $store.Add($public)
+            Write-Host "Fixture provisioned: $Name"
         }
     } finally {
         if ($cert) { $cert.Dispose() }
@@ -55,6 +67,7 @@ try {
     New-Fixture 'valid' $true $false
     New-Fixture 'untrusted' $false $false
     New-Fixture 'expired' $true $true
+    Write-Host 'Executing explicit policy and loopback checks'
     python (Join-Path $PSScriptRoot 'check_win32_tls_negative.py') --carrier $Carrier --policy-probe $PolicyProbe --fixtures $fixtureDir --receipt $Receipt
     if ($LASTEXITCODE -ne 0) { throw "Controlled TLS checks failed: $LASTEXITCODE" }
 } finally {
@@ -62,6 +75,7 @@ try {
         $cleanupErrors = [System.Collections.Generic.List[string]]::new()
         foreach ($cert in $added) {
             try {
+                Write-Host "Removing fixture: $($cert.Thumbprint)"
                 $store.Remove($cert)
                 if ($store.Certificates.Find([X509FindType]::FindByThumbprint, $cert.Thumbprint, $false).Count -ne 0) {
                     throw "Fixture cleanup failed: $($cert.Thumbprint)"
@@ -73,6 +87,7 @@ try {
             }
         }
         if ($cleanupErrors.Count) { throw ($cleanupErrors -join '; ') }
+        Write-Host 'All fixture certificates removed'
     } finally {
         $store.Close()
         Remove-Item -Recurse -Force $fixtureDir

@@ -86,6 +86,7 @@ jobs:
         run: '"%RUNNER_TEMP%\win32_tls.exe" --self-test'
 
       - name: Controlled hostname, trust and expiration rejection
+        timeout-minutes: 3
         shell: pwsh
         run: |
           & "Decision Field Operator Lab/tools/check_win32_tls_negative.ps1" -Carrier "$env:RUNNER_TEMP\win32_tls.exe" -PolicyProbe "$env:RUNNER_TEMP\test_win32_tls_policy.exe" -Receipt "$env:RUNNER_TEMP\tls-negative-receipt.json"

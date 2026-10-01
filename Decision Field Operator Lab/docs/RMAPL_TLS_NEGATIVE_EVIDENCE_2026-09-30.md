@@ -36,7 +36,8 @@ does not change the client's system-default TLS policy or prove TLS 1.3 support.
 
 Only the disposable GitHub-hosted Windows runner temporarily trusts the two
 self-signed endpoint fixtures needed to isolate name/time rejection. The harness
-refuses other environments, uses CurrentUser Root, records only its own created
+refuses other environments and non-administrator accounts, uses LocalMachine Root
+on that disposable runner, records only its own created
 certificates for removal, verifies removal in `finally`, and deletes the fixture
 directory/private keys. The untrusted fixture is never installed. No production
 custom-CA option, alternate chain engine, certificate-ignore flag, validation
@@ -44,6 +45,15 @@ callback bypass, revocation disablement, or trust-store modification is added.
 The explicit probe and loopback checks are complementary, not independent
 implementations. Revocation availability and compromised roots are outside this
 finite fixture set.
+
+The first harness run, [36795336889](https://github.com/redogit/Other-Projects-/actions/runs/36795336889),
+passed strict compilation and portable regressions but stalled during controlled
+fixture setup/testing. The initial CurrentUser Root provisioning was suspect:
+[the .NET runtime issue](https://github.com/dotnet/runtime/issues/24160) documents
+its interactive trust dialog. The harness now uses administrator machine-store
+provisioning on the disposable runner, logs each stage and bounds the step at
+three minutes. It does not automate or suppress a trust dialog. Timeout or forced
+job termination can preclude `finally`; the hosted runner is then discarded.
 
 ## Session and admission boundaries
 
