@@ -2,7 +2,7 @@ RMAPL 0
 PROGRAM independent-browser-http-v0
 LOAD independent-browser-http-fixture
 BOUND maxCandidates=1
-BOUND maxSteps=1
+BOUND maxSteps=2
 
 OPERATOR browser_http_plan
 LIMIT 12000
