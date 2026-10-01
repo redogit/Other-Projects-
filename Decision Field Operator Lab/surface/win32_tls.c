@@ -35,6 +35,7 @@ typedef struct TlsClient {
     int context_valid;
     SecPkgContext_StreamSizes stream_sizes;
     ByteBuffer pending_encrypted;
+    unsigned int post_handshake_count;
 } TlsClient;
 
 static void buffer_free(ByteBuffer *buffer) {
@@ -971,6 +972,7 @@ static int tls_receive_plaintext(
                     error_cap)) {
                 return 0;
             }
+            client->post_handshake_count = post_handshake_count;
             continue;
         } else if (status != SEC_E_OK) {
             _snwprintf_s(error, error_cap, _TRUNCATE, L"TLS DecryptMessage failed: 0x%08lx", status);
@@ -1024,6 +1026,13 @@ static int tls_receive_plaintext(
     if (!plaintext->size) {
         wcsncpy_s(error, error_cap, L"TLS produced empty plaintext response", _TRUNCATE);
         return 0;
+    }
+    if (client->post_handshake_count) {
+        fwprintf(
+            stderr,
+            L"TLS post-handshake continuations: %u\n",
+            client->post_handshake_count
+        );
     }
     return 1;
 }
