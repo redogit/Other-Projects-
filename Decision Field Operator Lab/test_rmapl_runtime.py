@@ -314,7 +314,7 @@ class RuntimeTests(unittest.TestCase):
         self.assertTrue(any(x["candidateId"] == "good" and x["admitted"] for x in result["branches"]))
 
     def test_outer_controller_bound_preserves_last_admitted_branch(self):
-        source = omega_with_residual()
+        source = omega_with_residual(max_steps=2)
         p = program(
             [("handoff", "handoff_op", "[]", '["state.protected"]')],
             max_steps=2,
@@ -348,7 +348,7 @@ class RuntimeTests(unittest.TestCase):
         )
 
     def test_unrequested_handoff_keeps_legacy_no_progress_behavior(self):
-        source = omega_with_residual()
+        source = omega_with_residual(max_steps=2)
         p = program(
             [("handoff", "handoff_op", "[]", '["state.protected"]')],
             max_steps=2,
@@ -364,7 +364,7 @@ class RuntimeTests(unittest.TestCase):
         result = run_program(p, source, {"handoff_op": handoff_op})
         self.assertEqual(result["stopReason"], "NO_ADMISSIBLE_PROGRESS")
         self.assertEqual(result["branches"], [])
-        self.assertEqual(result["generation"]["outerControllerStopKinds"], [])
+        self.assertNotIn("outerControllerStopKinds", result["generation"])
 
     def test_outer_controller_stop_kinds_fail_closed(self):
         source = omega_with_residual()
