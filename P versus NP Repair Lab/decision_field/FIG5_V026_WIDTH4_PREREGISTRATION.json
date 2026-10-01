@@ -1,0 +1,208 @@
+{
+  "schema": "fig5-width4-fresh-panel-preregistration/v0.26",
+  "date": "2026-10-01",
+  "experiment_id": "FIG-5-v0.26-width4-density4-fresh-cap4096",
+  "panel_id": "FIG-5-v0.26-width4-density4-fresh-cap4096",
+  "status": "PREREGISTERED_SEEDS_FROZEN_FORMULAS_NOT_MATERIALIZED",
+  "mode": "DESIGN_ONLY",
+  "purpose": "Fresh prospective bounded width-4/density-4 test of the frozen survival-fraction predictor under a separately budgeted active allowance; do not rerun or reinterpret the observed cap-160 panel.",
+  "base_commit": "84004bed03113362f595f7be5b31a5f096d4125e",
+  "predecessor": {
+    "experiment_id": "FIG-5-v0.25-width4-density4",
+    "close_file": "FIG5_V025_WIDTH4_CLOSE_RECEIPT.json",
+    "close_sha256": "7293d59a019c375c78554301b6779dc69a67021e731f1c6517470b0bcb7bd4c4",
+    "status": "WIDTH4_DENSITY4_INCONCLUSIVE_ADMISSION",
+    "admitted": 25,
+    "total": 30,
+    "cap": 160,
+    "treatment": "Preserve every existing v0.25 byte; no rerun at raised cap, no pooling, no replacing failed rows."
+  },
+  "changes": [
+    "fresh five-block seed panel and v0.26 protocol identity",
+    "active execution allowance 160 -> 4096; transported-sequence replay follows new active allowance"
+  ],
+  "design_class": "prospective finite descriptive validation; not a paired causal cap effect and not a pure one-degree width comparison to v0.24",
+  "frozen": {
+    "target_density": "4/1",
+    "clause_count_law": "m=4n",
+    "n_star": 10,
+    "delta": 1,
+    "n_levels": [
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "blocks": 5,
+    "constructor": {
+      "version": "FIG5-clause-priority-4cnf-density4/v0.25",
+      "source_sha256": "3c5b549b5b35e320894090f5408756bacbdc5965f1cd611893dd22d232f7327a",
+      "source_commit": "d0a639cc680ad3630d50200092583c368f058864",
+      "priority_namespace": "FIG5/CLAUSE-PRIORITY/4CNF/v0.25",
+      "priority_method": "SHA256(length-prefixed namespace, block seed, canonical clause bytes)",
+      "selection": "lowest 4n priorities; digest bytes then canonical clause bytes tie-break",
+      "identity_boundary": "new width-specific namespace and family version identify the changed object; ranking method is frozen"
+    },
+    "runner": {
+      "role": "method reference only; existing official v0.25 runner remains unchanged and rejects v0.26 inputs",
+      "source_file": "fig5_width4_probe_v025.py",
+      "source_sha256": "16a9f2f4e71ab08ed3bb7eca56a852018076000fba178c2a91688fd796246296",
+      "source_commit": "84004bed03113362f595f7be5b31a5f096d4125e",
+      "execution_adapter_status": "NOT_IMPLEMENTED_NOT_AUTHORIZED_TO_MATERIALIZE",
+      "required_before_materialization": "Commit and hash a v0.26-only stage adapter and its synthetic tests; check this preregistration lock before any official seed is passed to the frozen constructor. Do not edit or relabel the v0.25 runner or receipts.",
+      "permitted_adapter_changes": [
+        "v0.26 panel, schema and receipt identities",
+        "active cap and transported-sequence replay cap 4096",
+        "resource-abort wrapper and fail-closed hash/provenance guards"
+      ],
+      "forbidden_adapter_changes": [
+        "ranking or tie-breaks",
+        "active DP, preprocessing or ordering semantics",
+        "truth or diagnostic implementations",
+        "admission predicate",
+        "estimators, prediction equations, aggregation or strict comparisons"
+      ],
+      "parallel_execution": "1 worker by default; at most 5; canonical output order; no racing, first-finisher selection or row replacement"
+    },
+    "active_solver": {
+      "version": "FIG5-DP-MIRROR/v0.20",
+      "source_sha256": "b6c6e5c360b2166e43e383c280d33f8f2c48b9a9a763212bc2ec467b62a628c5",
+      "cap": 4096,
+      "cap_semantics": "Before executing a chosen elimination, return UNKNOWN if cumulative R + chosen generated_non_tautological exceeds 4096; preview/order semantics unchanged."
+    },
+    "admission_verifier": "complete brute-force truth enumeration on n<=13",
+    "independent_dp160_role": "diagnostic only; cap remains 160; cannot rescue unresolved active rows",
+    "primary_quantity": "chi_DP = P_DP / n",
+    "eta_hat": "median(R/P_DP) on all admitted calibration rows with P_DP>0",
+    "a_hat": "median(R/n) on all admitted calibration rows",
+    "b_hat": "median(R/n^2) on all admitted calibration rows",
+    "calibration_n": [
+      8,
+      9,
+      10
+    ],
+    "validation_n": [
+      11,
+      12,
+      13
+    ],
+    "error": "abs(log(1+R)-log(1+R_hat))",
+    "aggregation": "median error across the five validation blocks separately at each validation n",
+    "success_rule": "at each n in {11,12,13}, exactly five validation rows must be admitted and median E_chi < median E_n and median E_n2; all three n levels must pass",
+    "carrier_counterprobe": "All 15 validation rows n=11,12,13: reverse variable bijection + clause/literal order reversal + transported sealed active elimination sequence; replay cap 4096 on both sides; compare exact executed-prefix counters and truth. Do not rerun active selection under relabeling.",
+    "truth_detail": "brute_force_sat: enumerate assignments in frozen order; SAT may stop at a checked witness; UNSAT requires all 2^n assignments. No bounded diagnostic substitutes for truth.",
+    "counter_definitions": {
+      "R": "executed non-tautological candidates before duplicate/subsumption normalization",
+      "P_DP": "sum d_plus*d_minus before each executed elimination",
+      "planning": "preview work retained separately; neither R nor cap bounds it"
+    },
+    "predictions": {
+      "chi": "eta_hat * P_DP",
+      "n": "a_hat * n",
+      "n2": "b_hat * n^2"
+    },
+    "arithmetic": "Fraction medians and rational predictions; error uses frozen math.log1p(float(prediction)); strict <; equality is not success; record Python/platform at every stage.",
+    "calibration_missingness": "Use all and only admitted n=8,9,10 rows; eta additionally requires P_DP>0. No imputation, no pooling old panels, no require-all-15 change. Empty eligible sets produce unavailable estimators and no success.",
+    "admission_predicate": "active.status in {SAT,UNSAT} AND truth.certificate_valid AND active.status==truth.status AND active_truth_resolved_agree, with exact sealed provenance. UNKNOWN/aborted/missing rows are not admitted.",
+    "carrier_authority": "Diagnostic retained separately, as in v0.25; carrier pass is not an extra row-admission predicate. A mismatch must remain visible and forbids a carrier-invariance claim; numerical success rule is not rewritten."
+  },
+  "execution_allowance": {
+    "policy_id": "FIG5/V026/EXECUTED-CANDIDATE-BUDGET/131072",
+    "budget_origin": "New declared operational policy, not a measured hardware limit or a mathematical sufficiency bound. The predecessor motivates reopening admission, but neither old cap-crossing values nor new formula outcomes determine this budget.",
+    "panel_candidate_budget": 131072,
+    "planned_rows": 30,
+    "cap_rule": "largest power of two <= floor(panel_candidate_budget/planned_rows)",
+    "active_cap": 4096,
+    "max_panel_executed_candidates": 122880,
+    "unused_budget": 8192,
+    "pooling": "No borrowing or redistribution across rows; no escalation, adaptive stopping, retries, replacement or reseeding.",
+    "exclusions": "Executed active R only; excludes preview pairs, normalization, carrier replays and independent verification. This cap alone is not a CPU, memory, or time bound.",
+    "resource_guard": {
+      "cpu_seconds_per_row_stage": 120,
+      "address_space_bytes_per_row_stage": 2147483648,
+      "scope": "Separate child process for each row in GENERATE and VERIFY; full VERIFY truth+diagnostic+carrier work shares its row-stage limit. Parent orchestration is outside this per-row limit. Linux resource limits required; absence of support stops before materialization. Each row-stage starts once.",
+      "on_limit_or_crash": "Retain the attempt and partial trace; seal RESOURCE_ABORT with row and stage identity, leave row not admitted; never rerun or increase limits in the confirmatory panel. A missing VERIFY diagnostic makes that row-stage incomplete, not a truth disagreement."
+    },
+    "sufficiency": "Unknown before execution; resource aborts or UNKNOWN can make exact-five validation inconclusive again."
+  },
+  "seed_commitment": {
+    "panel_file": "FIG5_V026_WIDTH4_SEED_PANEL.json",
+    "panel_file_sha256": "98f5971aad488010c4a85d5f76d8e0e0dca0d8baa5c1bba0b586dba50201d900",
+    "panel_canonical_sha256": "ea147cd65fc8516750b6eef2b49b0234e2264fe25da1be82ea047a73f9190364",
+    "canonicalization": "json.dumps(object, sort_keys=True, separators=(comma,colon), ensure_ascii=True).encode(ascii); no trailing newline",
+    "selection": "Exactly five independent 32-byte draws from Python secrets.token_hex(32), block_id order 0..4, once. Seeds are public experimental inputs, not credentials. No formula constructor, solver, or score was called.",
+    "seed_use": "Pass each exact lowercase 64-hex seed string to frozen family.generate_block(seed, [8,9,10,11,12,13]); no v0.25 commit-derived seed function, no transformation or retry.",
+    "freshness_check": {
+      "new_seed_count": 5,
+      "old_manifest_seed_count": 30,
+      "collisions_with_available_old_manifest_seeds": 0
+    },
+    "independence_boundary": "Fresh OS randomness and disjoint seeds; SHA-256 priorities are treated as pseudorandom, not proved statistically independent. The six n levels within each block intentionally share one seed and are dependent.",
+    "collision_policy": "STOP_NO_RETRY_NO_RESEED; retain any duplicate seed, priority collision, or duplicate formula within the panel or with observed v0.25 formulas as a failed preregistered attempt; no replacement panel under this identity."
+  },
+  "integrity": {
+    "algorithm": "SHA-256",
+    "preserved_file_sha256": {
+      "FIG5_V025_WIDTH4_ADMIT.json": "309946e536c8b64ad22bc8607b017111496af6a91f8125cc7362c0731224d575",
+      "FIG5_V025_WIDTH4_ANALYSIS.json": "f39fedcc4d71a01c1b5a4f1cce0ee7a5ccf7151fcf04b6e0e5046dc4c69ce3ab",
+      "FIG5_V025_WIDTH4_CLOSE_RECEIPT.json": "7293d59a019c375c78554301b6779dc69a67021e731f1c6517470b0bcb7bd4c4",
+      "FIG5_V025_WIDTH4_GENERATE.json": "e4594e7cc50652155878541e93dddb32627203e480e952a18efe245f633d7a2b",
+      "FIG5_V025_WIDTH4_MANIFEST.json": "075ae58e8119f35879f8e47c013bce7c1f33a377578ef66d1e0c5be118fc82d3",
+      "FIG5_V025_WIDTH4_POSTHOC.json": "3014e2109358cca902f6744daf7a07c96bde41d4d66d66737331f24a692a9a46",
+      "FIG5_V025_WIDTH4_PREFREEZE_RECEIPT.json": "a752f5c35254f0876714e9c7368675012bcd2b122efd21b17b7dfb30c08b787d",
+      "FIG5_V025_WIDTH4_PREREGISTRATION.json": "79a8b9733d45920fe9edbcc333d51642acb10319e1ea84debff13feec2ae046d",
+      "FIG5_V025_WIDTH4_VALIDATION_HARDENING_RECEIPT.json": "73fc951a8858a37494c706dd39119f636ed953d92c00299edc4c5837f94ec5fd",
+      "FIG5_V025_WIDTH4_VERIFY.json": "8d254e14b375a1751a82b98eb9adec034848794acbdd00690143b26dfacc5f69",
+      "fig5_dp_mirror_v020.py": "b6c6e5c360b2166e43e383c280d33f8f2c48b9a9a763212bc2ec467b62a628c5",
+      "fig5_width4_family_v025.py": "3c5b549b5b35e320894090f5408756bacbdc5965f1cd611893dd22d232f7327a",
+      "fig5_width4_probe_v025.py": "16a9f2f4e71ab08ed3bb7eca56a852018076000fba178c2a91688fd796246296",
+      "test_fig5_width4_probe_v025.py": "b522e39d69e7f124081491b1b640aa6c15b248550be678852211e9048532a8ef",
+      "test_fig5_width4_receipts_v025.py": "e2ba897474232d9201e78f48f546856f606c77536b63413c1b0ef8bc698f164c"
+    },
+    "lock_file": "FIG5_V026_WIDTH4_PREREGISTRATION.sha256",
+    "lock_rule": "External SHA-256 file binds preregistration, seed panel and protocol note exact bytes. The immutable first Git commit containing them is the freeze anchor, never the moving branch HEAD. Future receipts must bind that exact commit and these file hashes."
+  },
+  "stage_firewall": [
+    "PREREGISTER: publish this seed commitment, panel identity, allowance, method hashes and success rule; stop before any fresh formula.",
+    "PREFLIGHT: before materialization, pin and review a v0.26 adapter against this contract using synthetic non-official inputs only; all guards fail closed. No uncommitted adapter may use official seeds.",
+    "MATERIALIZE: only after preregistration commit and adapter freeze; construct exactly 30 rows and seal formula identities, row set, support and collision checks; no active or verifier call.",
+    "GENERATE: consumes only sealed manifest plus locked protocol; active cap 4096 only; seal all 30 row outcomes or explicit aborts before VERIFY; never inspect truth to choose a cap.",
+    "VERIFY: only after GENERATE commit; complete truth, unchanged DP-160 diagnostic and carrier probes; do not change active results or cap.",
+    "ADMIT: only after VERIFY commit; apply frozen predicate with row and hash validation; preserve rejected rows.",
+    "ANALYZE: only after ADMIT commit; fit calibration and evaluate all three exact-five validation levels; do not alter exclusions or controls.",
+    "POSTHOC: separate identity and non-promotable; cannot alter the locked confirmatory result."
+  ],
+  "failure_contract": {
+    "structural": "Wrong 30-row key set, failed exact support, duplicate/colliding identity, method hash drift, missing seal, or altered protocol => STOP_INVALID_PROTOCOL; no repair by replacing rows.",
+    "truth_disagreement": "Retain full disagreement and deny affected row; no voting with DP-160 and no solver substitution.",
+    "decision_order": [
+      "Protocol-invalid chain: no valid confirmatory result.",
+      "Any unavailable estimator or any validation level with fewer than five admitted rows: INCONCLUSIVE, success=false; keep exact reason.",
+      "Otherwise apply the unchanged three-level strict comparison rule: pass all => bounded rule met; any miss/tie => bounded rule not met."
+    ],
+    "v025_status_edge": "Existing v0.25 run_analyze can label unavailable calibration with all 15 validation rows admitted as RULE_NOT_MET; preserve its bytes, but report the unavailable-estimator reason as inconclusive in v0.26. This is an explicit interpretation clarification, not a new estimator or success criterion.",
+    "no_optional_stopping": "All fixed rows/levels accounted for; no stopping after a favorable level; no additional confirmatory panels selected by these outcomes."
+  },
+  "freshness": {
+    "official_seeds_materialized": true,
+    "official_formulas_materialized": false,
+    "generate_run": false,
+    "verify_run": false,
+    "admit_run": false,
+    "analysis_run": false,
+    "validation_observed": false
+  },
+  "boundaries": [
+    "WIDTH4_INCONCLUSIVE != SURVIVAL_FRACTION_FAILURE",
+    "WIDTH4_INCONCLUSIVE != SURVIVAL_FRACTION_TRANSFER",
+    "FINITE_FOUR_PANEL_PROGRAM != ASYMPTOTIC_LAW",
+    "FRESH_PANEL_PLUS_NEW_CAP != CAUSAL_CAP_EFFECT",
+    "EXECUTED_RESOLVENT_CAP != FULL_LIFECYCLE_COST_BOUND",
+    "SURVIVAL_FRACTION_TRANSFER != INDEPENDENT_COMPLEXITY_LAW",
+    "PREREGISTRATION != EXECUTED_RESULT",
+    "MATERIALIZE != GENERATE != VERIFY != ADMIT != ANALYZE",
+    "P ?= NP = OPEN"
+  ]
+}

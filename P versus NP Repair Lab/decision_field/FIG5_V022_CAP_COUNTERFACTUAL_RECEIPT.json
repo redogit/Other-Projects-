@@ -1,0 +1,14 @@
+{
+  "schema":"fig5-v022-cap-counterfactual/v1",
+  "date":"2026-09-21",
+  "status":"NON_PROMOTABLE_POSTHOC_COUNTERFACTUAL",
+  "frozen_v022_rows":30,
+  "preregistered_cap":160,
+  "counterfactual_cap":80,
+  "counterfactual_status_counts":{"SAT":27,"UNSAT":3,"UNKNOWN":0},
+  "max_generated_resolvents":76,
+  "exact_rowwise_mismatches_vs_cap160":0,
+  "fields_compared":["status","generated_resolvents","planning_pairs_considered","dp_pair_pressure_sum","elimination_sequence"],
+  "interpretation":"The cap change 80->160 was inactive on the realized fresh v0.22 panel. v0.22's successful held-out comparison therefore cannot be causally attributed to the cap increase; fresh family realization and the already-frozen method produced rows that all fit under cap 80.",
+  "boundaries":["POSTHOC_COUNTERFACTUAL != PREREGISTERED_EVIDENCE","V022_SUCCESS != EVIDENCE_CAP160_CAUSED_SUCCESS","FRESH_PANEL_VARIATION != METHOD_IMPROVEMENT","P ?= NP = OPEN"]
+}

@@ -1,0 +1,175 @@
+{
+  "admit": {
+    "admitted": 25,
+    "admitted_by_n": {
+      "10": 5,
+      "11": 5,
+      "12": 4,
+      "13": 1,
+      "8": 5,
+      "9": 5
+    },
+    "not_admitted": 5,
+    "total": 30
+  },
+  "analysis": {
+    "calibration": {
+      "a_hat": 6.666666666666667,
+      "a_hat_exact": "20/3",
+      "admitted_rows": 15,
+      "b_hat": 0.7283950617283951,
+      "b_hat_exact": "59/81",
+      "eta_hat": 0.415929203539823,
+      "eta_hat_exact": "47/113"
+    },
+    "preregistered_rule_met": false,
+    "validation": {
+      "11": {
+        "admitted_rows": 5,
+        "expected_admitted_rows": 5,
+        "median_E_chi": 0.1524054025397108,
+        "median_E_n": 0.24811647224558975,
+        "median_E_n2": 0.30562946838230864,
+        "passes": true
+      },
+      "12": {
+        "admitted_rows": 4,
+        "expected_admitted_rows": 5,
+        "failure": "EXACT_ADMITTED_ROW_COUNT_NOT_MET",
+        "passes": false
+      },
+      "13": {
+        "admitted_rows": 1,
+        "expected_admitted_rows": 5,
+        "failure": "EXACT_ADMITTED_ROW_COUNT_NOT_MET",
+        "passes": false
+      }
+    }
+  },
+  "boundaries": [
+    "WIDTH4_INCONCLUSIVE != SURVIVAL_FRACTION_FAILURE",
+    "WIDTH4_INCONCLUSIVE != SURVIVAL_FRACTION_TRANSFER",
+    "CAP160_ADMISSION_OBSTRUCTION != COMPLEXITY_LOWER_BOUND",
+    "WIDTH4_BOUNDED_RESULT != GENERAL_WIDTH_INVARIANCE",
+    "FINITE_FOUR_PANEL_PROGRAM != ASYMPTOTIC_LAW",
+    "FIG5_RESULT != P_VS_NP_RESULT",
+    "GENERATE != VERIFY != ADMIT",
+    "P ?= NP = OPEN"
+  ],
+  "bounded_result": [
+    "At width 4 and density 4, cap 160 resolved and admitted 25/30 official rows but left one n=12 and four n=13 rows UNKNOWN.",
+    "The survival-fraction predictor beat the n and n^2 controls at n=11, the only validation level with all five rows admitted.",
+    "The preregistered width-transfer rule is not evaluable at n=12 or n=13 because the exact-five admission requirement failed.",
+    "This is an execution-cap admission obstruction under the frozen width-4 panel, not evidence that the predictor succeeds or fails across clause width.",
+    "The exact executed-prefix identity P_DP = R + T_taut remains intact."
+  ],
+  "commit_chain": {
+    "admit_commit": "0f161e4d56faa66adae4778e48624ab8c1bb0ab4",
+    "analysis_commit": "4892d68de00f8c309eb56b8837c5724a338f3726",
+    "constructor_prefreeze_commit": "d0a639cc680ad3630d50200092583c368f058864",
+    "generate_commit": "66b2aaf4e858b6ec8f424b4d25ba2642f81fceb1",
+    "manifest_commit": "fd1ea3378b97958e8c2cba48711aa0e4597c622e",
+    "posthoc_commit": "39aa0d21843638b9244779e8ec6f9977ce024e91",
+    "preregistration_commit": "9247685f93a0822d5db0c81a7cba25de8b8cb610",
+    "verify_commit": "987e0c829d89ce9f5379fa9dcd884e22c3f4c60d"
+  },
+  "date": "2026-09-29",
+  "efficiency": {
+    "method": "one maximum universe ranking per block plus stable lower-n eligibility filters",
+    "parallel_workers_max": 5,
+    "pre_optimization_equivalent_priority_evaluations": 155680,
+    "priority_evaluations": 57200,
+    "role": "execution efficiency only; no scientific method or result change",
+    "serial_parallel_outputs_identical": true,
+    "sorts": 5
+  },
+  "file_receipts": {
+    "admit_sha256": "309946e536c8b64ad22bc8607b017111496af6a91f8125cc7362c0731224d575",
+    "analysis_sha256": "f39fedcc4d71a01c1b5a4f1cce0ee7a5ccf7151fcf04b6e0e5046dc4c69ce3ab",
+    "generate_sha256": "e4594e7cc50652155878541e93dddb32627203e480e952a18efe245f633d7a2b",
+    "manifest_sha256": "075ae58e8119f35879f8e47c013bce7c1f33a377578ef66d1e0c5be118fc82d3",
+    "posthoc_sha256": "3014e2109358cca902f6744daf7a07c96bde41d4d66d66737331f24a692a9a46",
+    "prefreeze_sha256": "a752f5c35254f0876714e9c7368675012bcd2b122efd21b17b7dfb30c08b787d",
+    "preregistration_sha256": "79a8b9733d45920fe9edbcc333d51642acb10319e1ea84debff13feec2ae046d",
+    "verify_sha256": "8d254e14b375a1751a82b98eb9adec034848794acbdd00690143b26dfacc5f69"
+  },
+  "generate": {
+    "dp_pair_pressure_range": [
+      56,
+      365
+    ],
+    "generated_resolvents_range": [
+      28,
+      152
+    ],
+    "status_counts": {
+      "SAT": 25,
+      "UNKNOWN": 5,
+      "UNSAT": 0
+    },
+    "unknown_by_n": {
+      "12": 1,
+      "13": 4
+    }
+  },
+  "materialize": {
+    "clause_counts": [
+      32,
+      36,
+      40,
+      44,
+      48,
+      52
+    ],
+    "distinct_formula_digests": 30,
+    "priority_collisions": 0,
+    "rows": 30,
+    "support_failures": 0
+  },
+  "one_degree_control": {
+    "changed": "canonical clause width 3 -> 4",
+    "frozen": [
+      "density 4",
+      "n ladder 8..13",
+      "five-block aggregation",
+      "bottom SHA-256 clause-priority ranking method",
+      "FIG5-DP-MIRROR/v0.20",
+      "active cap 160",
+      "complete brute-force truth verifier",
+      "eta, n, and n^2 estimators",
+      "median held-out log-error aggregation",
+      "exact-five-at-each-n success rule"
+    ],
+    "honest_width_specific_identities": true
+  },
+  "posthoc_non_promotable": {
+    "cap160_unknown_rows": 5,
+    "cap80_counts": {
+      "SAT": 12,
+      "UNKNOWN": 18,
+      "UNSAT": 0
+    },
+    "leave_one_block_out_all_pass": false,
+    "pair_pressure_identity_holds_on_all_executed_prefixes": true
+  },
+  "residual": "A future confirmatory width-4 run would require a fresh preregistered panel and a separately justified frozen execution allowance; raising the cap on these observed formulas would be post-hoc and non-confirmatory.",
+  "schema": "fig5-v025-width4-close-receipt/v1",
+  "status": "WIDTH4_DENSITY4_INCONCLUSIVE_ADMISSION",
+  "success": false,
+  "verify": {
+    "active_truth_resolved_disagreements": 0,
+    "carrier_failures": 0,
+    "carrier_rows": 15,
+    "complete_truth_counts": {
+      "SAT": 30,
+      "UNSAT": 0
+    },
+    "independent_dp160_counts": {
+      "SAT": 12,
+      "UNKNOWN": 18,
+      "UNSAT": 0
+    },
+    "independent_dp160_truth_resolved_disagreements": 0,
+    "truth_certificate_failures": 0
+  }
+}

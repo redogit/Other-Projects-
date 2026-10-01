@@ -1,0 +1,97 @@
+{
+  "schema": "fig5-successor-preregistration/v0.21",
+  "date": "2026-09-21",
+  "experiment_id": "FIG-5-v0.21",
+  "status": "PREREGISTERED_NOT_MATERIALIZED",
+  "purpose": "fresh prospective rerun after v0.11 closed INCONCLUSIVE_VERIFICATION_CAP_BLOCKED",
+  "inheritance": {
+    "n_star": 10,
+    "delta": 1,
+    "n_levels": [
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "blocks": 5,
+    "constructor": {
+      "version": "FIG5-clause-priority-3cnf/v0.17",
+      "source_sha256": "9b9f274513bb83e61643a7bcf515553888a354c625cb2e7ac7c4e5648200c4dd"
+    },
+    "active_solver": {
+      "version": "FIG5-DP-MIRROR/v0.20",
+      "source_sha256": "b6c6e5c360b2166e43e383c280d33f8f2c48b9a9a763212bc2ec467b62a628c5",
+      "active_cap": 80
+    },
+    "primary_quantity": "chi_DP = P_DP / n",
+    "controls": [
+      "R_hat_1 = a*n",
+      "R_hat_2 = b*n^2"
+    ],
+    "calibration_level_indices": [
+      0,
+      1,
+      2
+    ],
+    "validation_level_indices": [
+      3,
+      4,
+      5
+    ],
+    "fit": "eta_hat = median(R/P_DP) on admitted calibration rows",
+    "prediction": "R_hat_chi = eta_hat * P_DP",
+    "error": "abs(log(1+R)-log(1+R_hat))",
+    "success_rule": "E_chi < E_n AND E_chi < E_n2 at every held-out n level using the preregistered five-block aggregation"
+  },
+  "one_changed_degree": {
+    "field": "admission verifier",
+    "predecessor": "DP160 cap=160 was admission-gating and left 0 admitted validation rows",
+    "successor": "complete brute-force truth enumeration on frozen n<=13 is the admission verifier",
+    "dp160_role": "diagnostic only; UNKNOWN does not block admission",
+    "rationale": "bounded domain makes complete enumeration exact and finite; change is frozen before fresh successor seeds/formulas are materialized"
+  },
+  "fresh_seed_rule": {
+    "version": "FIG5-block-seed/v0.21-FRESH",
+    "namespace": "FIG5/BLOCK-SEED/v0.21-FRESH",
+    "derivation": "SHA256(length-prefixed ordered inputs)",
+    "ordered_inputs": [
+      "namespace",
+      "experiment_id",
+      "constructor_source_sha256",
+      "active_solver_source_sha256",
+      "nstar_binding_receipt_sha256",
+      "delta_binding_witness_sha256",
+      "v0.11_close_commit",
+      "block_id"
+    ],
+    "nstar_binding_receipt_sha256": "682bbcf6ed83e6d3f3264b7ca41257e60c64dc56b4c0fc331057808a845d440d",
+    "delta_binding_witness_sha256": "2b1b2d04819f262ab5d8d8fd654a5c550a3978fa8bd8d75a9737322aacb5df09",
+    "v011_close_commit": "428ec6c9d12f2e30c7b7a60ba35921531bba8394",
+    "block_ids": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "collision_policy": "STOP_NO_RETRY_NO_RESEED"
+  },
+  "freshness": {
+    "successor_seed_values_materialized": false,
+    "successor_formulas_materialized": false,
+    "active_generate_run": false,
+    "truth_verify_run": false,
+    "validation_observed": false
+  },
+  "boundaries": [
+    "V0_21 != RETROACTIVE_REPAIR_OF_V0_11",
+    "FRESH_SUCCESSOR != REUSE_OF_CONSUMED_VALIDATION",
+    "DP160_DIAGNOSTIC != ADMISSION_AUTHORITY",
+    "GENERATE != VERIFY != ADMIT",
+    "BOUNDED_FAMILY_COLLAPSE != ASYMPTOTIC_LAW",
+    "FIG5_RESULT != P_VS_NP_RESULT",
+    "P ?= NP = OPEN"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "schema":"fig5-v023-active-generate-receipt/v1",
+  "date":"2026-09-21",
+  "status":"GENERATE_SEALED_VERIFY_NOT_RUN",
+  "preregistration_commit":"fc46003ada91cc33287421ab3ce0d5b657ba03b9",
+  "manifest_receipt_commit":"5781a8cc1320df6f0647570cb6f7fe1fac3ff243",
+  "solver":{"version":"FIG5-DP-MIRROR/v0.20","sha256":"b6c6e5c360b2166e43e383c280d33f8f2c48b9a9a763212bc2ec467b62a628c5","cap":160},
+  "result":{"status_counts":{"SAT":28,"UNSAT":2},"unknown_rows":[],"generated_resolvents_range":[0,74],"dp_pair_pressure_range":[0,90]},
+  "full_local_generate_sha256":"b54350ab6053cd0dfd249e1daf487e456abe6a123f620be707ef8c1776246205",
+  "verify_run":false,
+  "boundaries":["GENERATE != VERIFY != ADMIT","EXACT_REPLICATION != NEW_METHOD","P ?= NP = OPEN"]
+}

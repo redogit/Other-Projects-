@@ -1,0 +1,58 @@
+{
+  "schema": "fig5-verify-receipt/v0.20",
+  "date": "2026-09-21",
+  "status": "VERIFY_SEALED_ADMIT_NOT_OPEN",
+  "verifier": {
+    "source_version": "FIG5-DP-MIRROR/v0.20",
+    "source_sha256": "b6c6e5c360b2166e43e383c280d33f8f2c48b9a9a763212bc2ec467b62a628c5",
+    "bounded_dp_cap": 160,
+    "bounded_dp_status_counts": {
+      "SAT": 9,
+      "UNSAT": 1,
+      "UNKNOWN": 20
+    },
+    "truth_counterprobe": "complete brute-force enumeration on frozen n<=13",
+    "truth_status_counts": {
+      "SAT": 28,
+      "UNSAT": 2
+    }
+  },
+  "disagreements": {
+    "dp160_vs_truth_resolved": 0,
+    "active_vs_truth_resolved": 0
+  },
+  "active_unknown_truth": [
+    {
+      "block_id": 2,
+      "n": 13,
+      "active_status": "UNKNOWN",
+      "truth_status": "SAT"
+    }
+  ],
+  "carrier_counterprobe": {
+    "validation_rows": 15,
+    "failures": 0,
+    "sidecar_sha256": "cf36bbcde0a40864386227c2bc74f1c8f613d53f9d7cfe481566ad42f4447ab1",
+    "negative_evidence": "sealed active UNKNOWN trace omitted blocked-next-variable; deterministic sidecar reconstructed the cap event without changing the active result",
+    "unknown_cap_event": {
+      "block_id": 2,
+      "n": 13,
+      "original_blocked_var": 12,
+      "permuted_blocked_var": 2,
+      "step_pair_pressure": 35,
+      "step_generated_resolvents": 24,
+      "executed_before_block": 57,
+      "crossing_at": 81
+    }
+  },
+  "full_local_verify_sha256": "ea8c2c702d052f0f3314dfd468bcbc103df74ac7532458686e80049153a1a391",
+  "local_verify_summary_sha256": "47d090cd2292b4206a605ff234632bc640a19ff3aaba2518dbcf6d761bf6ec05",
+  "admit_open": false,
+  "boundaries": [
+    "VERIFY != ADMIT",
+    "DP160_UNKNOWN != FALSE",
+    "ACTIVE_UNKNOWN != VERIFIED_SAT",
+    "TRACE_COMPLETENESS_REPAIR != SOLVER_RESULT_CHANGE",
+    "P ?= NP = OPEN"
+  ]
+}

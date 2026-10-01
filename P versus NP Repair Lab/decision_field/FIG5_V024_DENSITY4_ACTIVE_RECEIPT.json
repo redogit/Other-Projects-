@@ -1,0 +1,12 @@
+{
+  "schema":"fig5-v024-density4-active-receipt/v1",
+  "date":"2026-09-21",
+  "status":"GENERATE_SEALED_VERIFY_NOT_RUN",
+  "preregistration_commit":"8977eb374508188512fa50f337da3fae5914a2f4",
+  "manifest_receipt_commit":"d485fb0b72ebe8e613a1e992a600040baa4636ce",
+  "solver":{"version":"FIG5-DP-MIRROR/v0.20","sha256":"b6c6e5c360b2166e43e383c280d33f8f2c48b9a9a763212bc2ec467b62a628c5","cap":160},
+  "result":{"status_counts":{"SAT":25,"UNSAT":5},"unknown_rows":[],"generated_resolvents_range":[1,123],"dp_pair_pressure_range":[1,158]},
+  "full_local_generate_sha256":"1abf1d145be5460bcbc42d9fa171ce8c79b0f05e4afd424c8907fdd96bd58214",
+  "verify_run":false,
+  "boundaries":["GENERATE != VERIFY != ADMIT","DENSITY4_PROBE != RETROACTIVE_REINTERPRETATION","P ?= NP = OPEN"]
+}

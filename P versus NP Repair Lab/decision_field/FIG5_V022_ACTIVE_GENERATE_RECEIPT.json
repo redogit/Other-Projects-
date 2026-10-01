@@ -1,0 +1,27 @@
+{
+  "admit_run": false,
+  "boundaries": [
+    "GENERATE != VERIFY != ADMIT",
+    "ACTIVE_RESULT != VERIFIED_RESULT",
+    "P ?= NP = OPEN"
+  ],
+  "date": "2026-09-21",
+  "full_local_generate_sha256": "e00a955dfc5e503d60c11cd40dd37561bcc8b5ce51e2c86bf245a21f9f69994c",
+  "manifest_receipt_commit": "da1ec8990e279aaf20da9eb92d6cbb29d6f221fd",
+  "preregistration_commit": "0ca4f22c350d249c8a75183615dbdb4b952d4497",
+  "result": {
+    "dp_pair_pressure_range": [0,105],
+    "generated_resolvents_range": [0,76],
+    "planning_pairs_range": [0,1294],
+    "status_counts": {"SAT":27,"UNSAT":3},
+    "unknown_rows": []
+  },
+  "schema": "fig5-v022-active-generate-receipt/v1",
+  "solver": {
+    "cap": 160,
+    "sha256": "b6c6e5c360b2166e43e383c280d33f8f2c48b9a9a763212bc2ec467b62a628c5",
+    "version": "FIG5-DP-MIRROR/v0.20"
+  },
+  "status": "GENERATE_SEALED_VERIFY_NOT_RUN",
+  "verify_run": false
+}

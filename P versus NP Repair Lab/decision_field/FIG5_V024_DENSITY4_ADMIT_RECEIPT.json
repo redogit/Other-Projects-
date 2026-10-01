@@ -1,0 +1,9 @@
+{
+  "schema":"fig5-v024-density4-admit-receipt/v1",
+  "date":"2026-09-21",
+  "status":"ADMIT_SEALED_ANALYSIS_NOT_RUN",
+  "counts":{"total":30,"admitted":30,"not_admitted":0,"calibration_admitted":15,"validation_admitted":15,"by_n":{"8":5,"9":5,"10":5,"11":5,"12":5,"13":5}},
+  "full_local_admit_sha256":"162696da17b6038347bb4ba62df37482494df940392c142ea29cc7ef88570b9d",
+  "analysis_run":false,
+  "boundaries":["ADMIT != ANALYZE","DENSITY4_TRANSFER_RESULT_NOT_YET_KNOWN","P ?= NP = OPEN"]
+}

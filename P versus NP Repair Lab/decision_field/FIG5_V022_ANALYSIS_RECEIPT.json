@@ -1,0 +1,23 @@
+{
+  "schema":"fig5-v022-analysis-receipt/v1",
+  "date":"2026-09-21",
+  "status":"BOUNDED_STRUCTURAL_COLLAPSE",
+  "success":true,
+  "calibration":{
+    "row_count":15,
+    "eta_positive_P_rows":14,
+    "eta_hat":0.7596153846153846,
+    "eta_hat_exact":"79/104",
+    "a_hat":2.0,
+    "a_hat_exact":"2",
+    "b_hat":0.25,
+    "b_hat_exact":"1/4"
+  },
+  "validation":{
+    "11":{"rows":5,"median_E_chi":0.13133600206108698,"median_E_n":0.44802472252696024,"median_E_n2":0.2956502421009577,"margin_vs_n":0.31668872046587326,"margin_vs_n2":0.16431424003987072,"passes":true},
+    "12":{"rows":5,"median_E_chi":0.09637912699322992,"median_E_n":0.6539264674066638,"median_E_n2":0.3780661339200502,"margin_vs_n":0.5575473404134339,"margin_vs_n2":0.28168700692682025,"passes":true},
+    "13":{"rows":5,"median_E_chi":0.047671609130570225,"median_E_n":0.9236708391717778,"median_E_n2":0.45251047179821846,"margin_vs_n":0.8759992300412076,"margin_vs_n2":0.40483886266764824,"passes":true}
+  },
+  "full_local_analysis_sha256":"2012175a3e67949c9238d9c821e1b068e03008aaa02ff64ded7ea1256b884501",
+  "boundaries":["BOUNDED_STRUCTURAL_COLLAPSE != ASYMPTOTIC_LAW","FINITE_HELDOUT_RESULT != COMPLEXITY_CLASS_RESULT","FIG5_RESULT != P_VS_NP_RESULT","P ?= NP = OPEN"]
+}

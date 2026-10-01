@@ -1,0 +1,14 @@
+{
+  "schema":"fig5-v023-replication-analysis-receipt/v1",
+  "date":"2026-09-21",
+  "status":"REPLICATION_BOUNDED_STRUCTURAL_COLLAPSE",
+  "success":true,
+  "calibration":{"eta_hat":0.7080200501253133,"a_hat":2.4444444444444446,"b_hat":0.26,"eta_positive_rows":14},
+  "validation":{
+    "11":{"median_E_chi":0.07921237732043496,"median_E_n":0.3353332843340815,"median_E_n2":0.18355308404320114,"margin_vs_n":0.25612090701364654,"margin_vs_n2":0.10434070672276619,"passes":true},
+    "12":{"median_E_chi":0.1043458377309836,"median_E_n":0.3677247801253176,"median_E_n2":0.430222759233891,"margin_vs_n":0.263378942394334,"margin_vs_n2":0.32587692150290737,"passes":true},
+    "13":{"median_E_chi":0.1260407208953649,"median_E_n":0.3116969486556549,"median_E_n2":0.5121598467791273,"margin_vs_n":0.18565622776029,"margin_vs_n2":0.3861191258837624,"passes":true}
+  },
+  "full_local_analysis_sha256":"c9e08cd7add20162cf397c2e0dd011fbb7bc75f1dd8b6eac4c2f47de8c7c31f7",
+  "boundaries":["REPLICATION_SUCCESS != ASYMPTOTIC_LAW","FINITE_REPLICATION != COMPLEXITY_CLASS_RESULT","P_DP_UPSTREAM_OF_R != INDEPENDENT_CAUSAL_EXPLANATION","P ?= NP = OPEN"]
+}

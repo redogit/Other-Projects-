@@ -1,0 +1,26 @@
+{
+  "schema": "fig5-v026-seed-panel/v1",
+  "panel_id": "FIG-5-v0.26-width4-density4-fresh-cap4096",
+  "seeds": [
+    {
+      "block_id": 0,
+      "seed": "e457535a02a3a546e3517e9f26f082ee87fa010369d56a34b71d148eddfed34a"
+    },
+    {
+      "block_id": 1,
+      "seed": "d0628e9e533422df9e7a88019a0eed2e777added0b52f09290ec4c4564575d2c"
+    },
+    {
+      "block_id": 2,
+      "seed": "cd60293fe3709f3742e18a15ac49325eb728c376194177774285048b77790e3d"
+    },
+    {
+      "block_id": 3,
+      "seed": "0ebf0dfb43c0ccf7fb3ffb9989dce73e6588c297587ba268afb39089e98332fa"
+    },
+    {
+      "block_id": 4,
+      "seed": "f0905f7aa10956d0bc18bc8c513f2f5a68ec6afb7dbb9e11f58af2d60fe998b8"
+    }
+  ]
+}

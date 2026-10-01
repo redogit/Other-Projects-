@@ -1,0 +1,67 @@
+{
+  "schema": "fig5-v020-dp-mirror-prefreeze/v1",
+  "date": "2026-09-21",
+  "status": "FROZEN_BEFORE_OFFICIAL_EXECUTION",
+  "version": "FIG5-DP-MIRROR/v0.20",
+  "source_path": "P versus NP Repair Lab/decision_field/fig5_dp_mirror_v020.py",
+  "source_commit": "5e42c2fd9030f161f48c96a6d3bcef12f8357315",
+  "github_blob_sha": "ccd66a10f0f6b9e321d7f9cea3ea25dbcbfaf1a1",
+  "source_bytes": 15405,
+  "source_sha256": "b6c6e5c360b2166e43e383c280d33f8f2c48b9a9a763212bc2ec467b62a628c5",
+  "lineage": {
+    "status": "NEW_EXPLICIT_MIRROR_NOT_BYTE_IDENTITY",
+    "recovered_basis": [
+      "v0.7 fixed-point self-subsuming-resolution lineage",
+      "v0.8 exact one-step post-elimination preview lineage",
+      "v0.10 active cap 80 and separate validation cap 160",
+      "P_DP measured as d_plus*d_minus before executed resolution"
+    ],
+    "boundary": "MIRROR_V020 != V0_10_ORIGINAL_BYTES"
+  },
+  "semantics": {
+    "preprocessing": "order-independent simultaneous unit closure + subsumption + exhaustive SSR strengthening to fixed point",
+    "elimination": "exact Davis-Putnam non-tautological resolvents",
+    "ordering": "preview every active variable one step; choose lexicographically minimal (post_clause_count, post_literal_count, generated_non_tautological, variable)",
+    "generated_resolvent_counter": "executed non-tautological candidate resolvents before duplicate/subsumption normalization",
+    "planning_pairs": "all d_plus*d_minus parent pairs across all variable previews",
+    "active_cap": 80,
+    "cap_crossing": "UNKNOWN_NO_FALLBACK",
+    "validation_dp_cap": 160,
+    "independent_verifier": "separate ascending-variable DP160 implementation; brute force retained as truth counterprobe on bounded n<=13"
+  },
+  "prefreeze_tests": {
+    "exactness_random_cnf_2000": {
+      "status": "PASS",
+      "active_mismatches": 0,
+      "independent_dp_mismatches": 0
+    },
+    "raw_projection_assignment_checks": {
+      "status": "PASS",
+      "count": 6670
+    },
+    "widened_random_cnf_10000": {
+      "status": "PASS",
+      "active_mismatches": 0,
+      "independent_dp_mismatches": 0
+    },
+    "carrier_transport_5000": {
+      "status": "PASS",
+      "mismatches": 0
+    },
+    "negative_evidence": [
+      "initial random-CNF harness allowed width > n; harness repaired before solver evidence",
+      "initial projection test incorrectly demanded pointwise invariance after SAT-only preprocessing; raw DP projection test separated from SAT-preserving preprocessing",
+      "first sequential preprocessing implementation failed carrier transport; replaced before freeze by order-independent unit/SSR closure"
+    ]
+  },
+  "official_family_touched_by_dp": false,
+  "generate_open": false,
+  "verify_open": false,
+  "admit_open": false,
+  "boundaries": [
+    "MIRROR_V020 != V0_10_ORIGINAL_BYTES",
+    "PREFREEZE_TEST != FIG5_GENERATE",
+    "GENERATE != VERIFY != ADMIT",
+    "P ?= NP = OPEN"
+  ]
+}

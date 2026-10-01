@@ -1,0 +1,52 @@
+{
+  "schema": "fig5-admit-receipt/v0.20",
+  "date": "2026-09-21",
+  "status": "ADMIT_SEALED_BOUNDED_ANALYSIS_BLOCKED",
+  "rule": "admit iff active status is SAT/UNSAT, DP160 status is SAT/UNSAT, both equal brute-force truth, and provenance is frozen",
+  "counts": {
+    "total": 30,
+    "admitted": 10,
+    "not_admitted": 20,
+    "not_admitted_reasons": {
+      "ACTIVE_UNKNOWN": 1,
+      "DP160_UNKNOWN": 19
+    }
+  },
+  "admitted_distribution": {
+    "by_n": {
+      "8": 5,
+      "9": 4,
+      "10": 1,
+      "11": 0,
+      "12": 0,
+      "13": 0
+    },
+    "by_size_index": {
+      "0": 5,
+      "1": 4,
+      "2": 1,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "calibration_admitted": 10,
+    "validation_admitted": 0
+  },
+  "consequence": {
+    "preregistered_validation_comparison": "NOT_EXECUTABLE",
+    "reason": "all 15 locked validation rows are unadmitted",
+    "eta_fit_and_model_comparison": "NOT_PROMOTED",
+    "bounded_structural_collapse": "UNRESOLVED",
+    "chi_DP_status": "NOT_TESTED_ON_ADMITTED_VALIDATION_ROWS"
+  },
+  "full_local_admit_sha256": "e6182f19eaeedf8b8b446088ca0b748735d9d01c841d6dd0d69cf530065572ef",
+  "local_summary_sha256": "5c3c5290000e17a9223cdf28074b1a436daaf52489e1d1d38ec08eff4b7a16ad",
+  "boundaries": [
+    "ZERO_ADMITTED_VALIDATION_ROWS != CHI_DP_FAILURE",
+    "ZERO_ADMITTED_VALIDATION_ROWS != CHI_DP_SUCCESS",
+    "VERIFIER_CAP_EXHAUSTION != HARD_CORE",
+    "INCONCLUSIVE != FALSE",
+    "FIG5_RESULT != P_VS_NP_RESULT",
+    "P ?= NP = OPEN"
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "chronology": {
+    "hardening_commit": "80d7b5fe0d469ad6680e062401121309a862e046",
+    "sealed_probe_close_commit": "7d3a32ed2620e5d1a1b99dc9e6cf418029f270bd"
+  },
+  "closed_findings": [
+    "ADMIT rows are recomputed from sealed GENERATE and VERIFY inputs before analysis",
+    "official materialization requires the exact preregistration commit and full five-by-six panel",
+    "official GENERATE requires the frozen solver identity and cap 160",
+    "official VERIFY requires the frozen n=11..13 carrier scope",
+    "official MATERIALIZE, GENERATE, VERIFY, and ADMIT inputs are pinned by canonical receipt hash",
+    "all non-official configurations use explicit TEST-ONLY experiment and schema identities"
+  ],
+  "experiment_id": "FIG-5-v0.25-width4-density4",
+  "hardened_sources": {
+    "runner_sha256": "16a9f2f4e71ab08ed3bb7eca56a852018076000fba178c2a91688fd796246296"
+  },
+  "historical_frozen_sources": {
+    "active_solver_sha256": "b6c6e5c360b2166e43e383c280d33f8f2c48b9a9a763212bc2ec467b62a628c5",
+    "constructor_sha256": "3c5b549b5b35e320894090f5408756bacbdc5965f1cd611893dd22d232f7327a",
+    "runner_sha256_at_prefreeze": "6fa0bc14cc6f13094c84bb24cb02482baf925f7b133ee11e07f423ff35bf254a"
+  },
+  "interpretation": [
+    "VALIDATION_HARDENING != SCIENTIFIC_METHOD_CHANGE",
+    "VALIDATION_HARDENING != NEW_EXPERIMENT",
+    "BOUNDED_WIDTH4_RESULT != ASYMPTOTIC_RESULT",
+    "FIG5_RESULT != P_VS_NP_RESULT",
+    "P ?= NP = OPEN"
+  ],
+  "schema": "fig5-v025-width4-validation-hardening/v1",
+  "sealed_scientific_receipts": {
+    "admit_sha256": "309946e536c8b64ad22bc8607b017111496af6a91f8125cc7362c0731224d575",
+    "analysis_sha256": "f39fedcc4d71a01c1b5a4f1cce0ee7a5ccf7151fcf04b6e0e5046dc4c69ce3ab",
+    "fresh_six_stage_reproduction": "BYTE_IDENTICAL",
+    "generate_sha256": "e4594e7cc50652155878541e93dddb32627203e480e952a18efe245f633d7a2b",
+    "manifest_sha256": "075ae58e8119f35879f8e47c013bce7c1f33a377578ef66d1e0c5be118fc82d3",
+    "posthoc_sha256": "3014e2109358cca902f6744daf7a07c96bde41d4d66d66737331f24a692a9a46",
+    "verify_sha256": "8d254e14b375a1751a82b98eb9adec034848794acbdd00690143b26dfacc5f69"
+  },
+  "stage": "VALIDATION_HARDENING",
+  "status": "CLOSED_NO_SCIENTIFIC_OUTPUT_CHANGE",
+  "tamper_countertests": [
+    "alternate preregistration commit rejected",
+    "partial official panel rejected",
+    "altered official formula rejected",
+    "alternate official active cap rejected",
+    "altered official GENERATE receipt rejected",
+    "alternate official carrier scope rejected",
+    "altered official VERIFY receipt rejected",
+    "forged ADMIT flags rejected"
+  ],
+  "verification": {
+    "command": "python3 -m unittest test_fig5_width4_probe_v025.py test_fig5_width4_receipts_v025.py -v",
+    "errors": 0,
+    "failures": 0,
+    "tests_run": 24
+  }
+}

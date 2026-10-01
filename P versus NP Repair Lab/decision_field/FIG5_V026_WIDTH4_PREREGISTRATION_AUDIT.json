@@ -1,0 +1,114 @@
+{
+  "schema": "fig5-v026-preregistration-audit/v1",
+  "status": "PREREGISTRATION_VERIFIED_NO_FORMULAS",
+  "base_commit": "84004bed03113362f595f7be5b31a5f096d4125e",
+  "preregistration_sha256": "6967ca5efeaf01160cdf83e37cc935247ea3c57307a5d6d49315732bf6ebdb13",
+  "seed_panel_sha256": "98f5971aad488010c4a85d5f76d8e0e0dca0d8baa5c1bba0b586dba50201d900",
+  "integrity_checks": {
+    "status": "PASS",
+    "checks_passed": 48,
+    "checks": [
+      "lock:FIG5_V026_WIDTH4_PREREGISTRATION.json",
+      "lock:FIG5_V026_WIDTH4_SEED_PANEL.json",
+      "lock:FIG5_V026_WIDTH4_PROTOCOL.md",
+      "preserved:FIG5_V025_WIDTH4_ADMIT.json",
+      "preserved:FIG5_V025_WIDTH4_ANALYSIS.json",
+      "preserved:FIG5_V025_WIDTH4_CLOSE_RECEIPT.json",
+      "preserved:FIG5_V025_WIDTH4_GENERATE.json",
+      "preserved:FIG5_V025_WIDTH4_MANIFEST.json",
+      "preserved:FIG5_V025_WIDTH4_POSTHOC.json",
+      "preserved:FIG5_V025_WIDTH4_PREFREEZE_RECEIPT.json",
+      "preserved:FIG5_V025_WIDTH4_PREREGISTRATION.json",
+      "preserved:FIG5_V025_WIDTH4_VALIDATION_HARDENING_RECEIPT.json",
+      "preserved:FIG5_V025_WIDTH4_VERIFY.json",
+      "preserved:fig5_dp_mirror_v020.py",
+      "preserved:fig5_width4_family_v025.py",
+      "preserved:fig5_width4_probe_v025.py",
+      "preserved:test_fig5_width4_probe_v025.py",
+      "preserved:test_fig5_width4_receipts_v025.py",
+      "seed-panel identity",
+      "seed-panel commitment",
+      "canonical seed commitment",
+      "exact block identities",
+      "five valid distinct seeds",
+      "prior seed exclusion",
+      "frozen method:target_density",
+      "frozen method:clause_count_law",
+      "frozen method:n_star",
+      "frozen method:delta",
+      "frozen method:n_levels",
+      "frozen method:blocks",
+      "frozen method:constructor",
+      "frozen method:admission_verifier",
+      "frozen method:primary_quantity",
+      "frozen method:eta_hat",
+      "frozen method:a_hat",
+      "frozen method:b_hat",
+      "frozen method:calibration_n",
+      "frozen method:validation_n",
+      "frozen method:error",
+      "frozen method:aggregation",
+      "frozen method:success_rule",
+      "allowance arithmetic",
+      "panel budget accounting",
+      "no new formulas or results",
+      "claim ceiling:WIDTH4_INCONCLUSIVE != SURVIVAL_FRACTION_FAILURE",
+      "claim ceiling:FINITE_FOUR_PANEL_PROGRAM != ASYMPTOTIC_LAW",
+      "claim ceiling:P ?= NP = OPEN",
+      "all existing tracked files unchanged"
+    ]
+  },
+  "historical_constructor_check": {
+    "commit": "d0a639cc680ad3630d50200092583c368f058864",
+    "sha256": "3c5b549b5b35e320894090f5408756bacbdc5965f1cd611893dd22d232f7327a",
+    "result": "PASS"
+  },
+  "review": {
+    "relation-reviewer": {
+      "verdict": "approve",
+      "questions": "none"
+    },
+    "inference-reviewer": {
+      "verdict": "approve",
+      "questions": "none"
+    },
+    "construct-reviewer": {
+      "verdict": "approve",
+      "questions": "none"
+    },
+    "evidence-reviewer": {
+      "verdict": "approve",
+      "question": "Historical constructor commit object absent in shallow checkout.",
+      "resolution": "Fetched exact named historical commit and independently verified constructor SHA-256; no contract or seed change."
+    },
+    "scope": "Independent draft/provenance reviews; not independent experimental reruns."
+  },
+  "verification_notes": [
+    "48 preregistration integrity assertions passed plus historical constructor hash verification.",
+    "Initial standalone sha256sum command used repository root and failed to locate the lock file; repeated from decision_field and all three entries passed. No artifact changed.",
+    "Existing tracked repository bytes are unchanged; only new v0.26 files are added.",
+    "No constructor, active solver, truth verifier, materialization, or experiment regression run was invoked for this preregistration."
+  ],
+  "recheck": "From decision_field: sha256sum -c FIG5_V026_WIDTH4_PREREGISTRATION.sha256; then compare all integrity.preserved_file_sha256 entries in the preregistration with their exact file-byte SHA-256.",
+  "freshness": {
+    "official_seeds_materialized": true,
+    "official_formulas_materialized": false,
+    "generate_run": false,
+    "verify_run": false,
+    "admit_run": false,
+    "analysis_run": false,
+    "validation_observed": false
+  },
+  "execution_readiness": "Protocol frozen only; v0.26 adapter must be separately committed and hashed before MATERIALIZE. Existing v0.25 official runner remains unchanged.",
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.39"
+  },
+  "claim_ceiling": [
+    "PREREGISTRATION != EXECUTED_RESULT",
+    "SOFTWARE_INTEGRITY_CHECK != MATHEMATICAL_PROOF",
+    "WIDTH4_INCONCLUSIVE != SURVIVAL_FRACTION_FAILURE",
+    "FINITE_FOUR_PANEL_PROGRAM != ASYMPTOTIC_LAW",
+    "P ?= NP = OPEN"
+  ]
+}

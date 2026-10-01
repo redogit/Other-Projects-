@@ -42,17 +42,17 @@ LogicalResult RecordCostOp::verify() {
     Attribute value = named.getValue();
     if (auto integer = dyn_cast<IntegerAttr>(value)) {
       if (integer.getValue().isNegative())
-        return emitOpError("cost dimension '") << named.getName()
+        return emitOpError("cost dimension '") << named.getName().getValue()
                << "' must be nonnegative";
       continue;
     }
     if (auto real = dyn_cast<FloatAttr>(value)) {
       if (real.getValueAsDouble() < 0.0)
-        return emitOpError("cost dimension '") << named.getName()
+        return emitOpError("cost dimension '") << named.getName().getValue()
                << "' must be nonnegative";
       continue;
     }
-    return emitOpError("cost dimension '") << named.getName()
+    return emitOpError("cost dimension '") << named.getName().getValue()
            << "' must be an integer or floating-point attribute";
   }
   return success();

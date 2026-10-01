@@ -1,0 +1,48 @@
+{
+  "schema": "fig5-active-generate-receipt/v0.20",
+  "date": "2026-09-21",
+  "status": "GENERATE_SEALED_VERIFY_NOT_OPEN",
+  "input_manifest": {
+    "version": "v0.19",
+    "rows": 30,
+    "path": "P versus NP Repair Lab/decision_field/FIG5_V019_OFFICIAL_MANIFEST.json"
+  },
+  "solver": {
+    "version": "FIG5-DP-MIRROR/v0.20",
+    "sha256": "b6c6e5c360b2166e43e383c280d33f8f2c48b9a9a763212bc2ec467b62a628c5",
+    "cap": 80
+  },
+  "result": {
+    "status_counts": {
+      "SAT": 27,
+      "UNSAT": 2,
+      "UNKNOWN": 1
+    },
+    "generated_resolvents_min": 0,
+    "generated_resolvents_max": 80,
+    "dp_pair_pressure_min": 0,
+    "dp_pair_pressure_max": 102,
+    "planning_pairs_min": 0,
+    "planning_pairs_max": 1406,
+    "unknown_rows": [
+      {
+        "block_id": 2,
+        "n": 13,
+        "executed_generated_resolvents": 57,
+        "cap_crossing_at": 81
+      }
+    ]
+  },
+  "full_local_trace_sha256": "f6490df2a27c5ed0d6a344da55b690aee1013aec858fc46abf78a62010554d6f",
+  "sealed_local_receipt_sha256": "83efbf3baf0ef752f8cb2b1a665666216e09e5487eebcb0be7fb34375c95aaad",
+  "verify_open": false,
+  "verify_run": false,
+  "admit_open": false,
+  "boundaries": [
+    "GENERATE != VERIFY != ADMIT",
+    "ACTIVE_RESULT != VERIFIED_RESULT",
+    "ACTIVE_UNKNOWN != UNSAT",
+    "MIRROR_V020 != V0_10_ORIGINAL_BYTES",
+    "P ?= NP = OPEN"
+  ]
+}

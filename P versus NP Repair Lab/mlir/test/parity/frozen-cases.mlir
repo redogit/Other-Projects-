@@ -1,4 +1,4 @@
-// RUN: %pnp-opt %s | FileCheck %s
+// RUN: %pnp-opt "%s" | FileCheck "%s"
 
 module {
   %c0 = "pnp_core.source"() <{source_id = "compiler_0:k4", obligation = "sat", states_evaluated = 7 : i64, maximum_depth = 2 : i64}> : () -> !pnp_carrier.carrier<"cnf">
@@ -20,6 +20,22 @@ module {
   "pnp_core.return"(%o1) <{status = #pnp_core.status<"SAT">}> : (!pnp_carrier.carrier<"cnf">) -> ()
 }
 
-// CHECK-COUNT-6: pnp_core.return
-// CHECK: #pnp_core.status<"UNSAT">
-// CHECK: #pnp_core.status<"SAT">
+// CHECK-NOT: pnp_core.return
+// CHECK: source_id = "compiler_0:k4"
+// CHECK-NEXT: pnp_core.return {{.*}}status = #pnp_core.status<"UNSAT">
+// CHECK-NOT: pnp_core.return
+// CHECK: source_id = "compiler_1:k4"
+// CHECK-NEXT: pnp_core.return {{.*}}status = #pnp_core.status<"SAT">
+// CHECK-NOT: pnp_core.return
+// CHECK: source_id = "balanced_0:k4"
+// CHECK-NEXT: pnp_core.return {{.*}}status = #pnp_core.status<"SAT">
+// CHECK-NOT: pnp_core.return
+// CHECK: source_id = "balanced_4:k4"
+// CHECK-NEXT: pnp_core.return {{.*}}status = #pnp_core.status<"UNSAT">
+// CHECK-NOT: pnp_core.return
+// CHECK: source_id = "compiler_0:one_round"
+// CHECK-NEXT: pnp_core.return {{.*}}status = #pnp_core.status<"UNSAT">
+// CHECK-NOT: pnp_core.return
+// CHECK: source_id = "compiler_1:one_round"
+// CHECK-NEXT: pnp_core.return {{.*}}status = #pnp_core.status<"SAT">
+// CHECK-NOT: pnp_core.return

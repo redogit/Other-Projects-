@@ -1,0 +1,105 @@
+{
+  "schema": "fig5-clause-width-preregistration/v0.25",
+  "date": "2026-09-29",
+  "experiment_id": "FIG-5-v0.25-width4-density4",
+  "status": "PREREGISTERED_NOT_MATERIALIZED",
+  "purpose": "one-degree counterprobe: test whether the non-tautological survival-fraction prediction remains stable when clause width changes from 3 to 4 on the v0.24 density-4 baseline",
+  "predecessor_density4_close_commit": "8e24af67b75a7135f868afb0bed0d9b3e53067f2",
+  "prefreeze": {
+    "commit": "d0a639cc680ad3630d50200092583c368f058864",
+    "receipt_sha256": "a752f5c35254f0876714e9c7368675012bcd2b122efd21b17b7dfb30c08b787d"
+  },
+  "changed_scientific_degree": {
+    "field": "canonical clause width",
+    "predecessor": 3,
+    "probe": 4,
+    "reason": "width changes the tautological-resolvent mechanics attacked by the next-step obligation",
+    "only_change": "eligible clauses contain four distinct variable identities rather than three"
+  },
+  "frozen": {
+    "target_density": "4/1",
+    "clause_count_law": "m=4n",
+    "n_star": 10,
+    "delta": 1,
+    "n_levels": [8, 9, 10, 11, 12, 13],
+    "blocks": 5,
+    "constructor": {
+      "version": "FIG5-clause-priority-4cnf-density4/v0.25",
+      "source_sha256": "3c5b549b5b35e320894090f5408756bacbdc5965f1cd611893dd22d232f7327a",
+      "source_commit": "d0a639cc680ad3630d50200092583c368f058864",
+      "priority_namespace": "FIG5/CLAUSE-PRIORITY/4CNF/v0.25",
+      "priority_method": "SHA256(length-prefixed namespace, block seed, canonical clause bytes)",
+      "selection": "lowest 4n priorities; digest bytes then canonical clause bytes tie-break",
+      "identity_boundary": "new width-specific namespace and family version identify the changed object; ranking method is frozen"
+    },
+    "runner": {
+      "source_sha256": "6fa0bc14cc6f13094c84bb24cb02482baf925f7b133ee11e07f423ff35bf254a",
+      "source_commit": "d0a639cc680ad3630d50200092583c368f058864",
+      "parallel_execution": "up to five independent workers; result order is canonical and byte-identical to serial execution"
+    },
+    "active_solver": {
+      "version": "FIG5-DP-MIRROR/v0.20",
+      "source_sha256": "b6c6e5c360b2166e43e383c280d33f8f2c48b9a9a763212bc2ec467b62a628c5",
+      "cap": 160
+    },
+    "admission_verifier": "complete brute-force truth enumeration on n<=13",
+    "independent_dp160_role": "diagnostic only",
+    "primary_quantity": "chi_DP = P_DP / n",
+    "eta_hat": "median(R/P_DP) on all admitted calibration rows with P_DP>0",
+    "a_hat": "median(R/n) on all admitted calibration rows",
+    "b_hat": "median(R/n^2) on all admitted calibration rows",
+    "calibration_n": [8, 9, 10],
+    "validation_n": [11, 12, 13],
+    "error": "abs(log(1+R)-log(1+R_hat))",
+    "aggregation": "median error across the five validation blocks separately at each validation n",
+    "success_rule": "at each n in {11,12,13}, exactly five validation rows must be admitted and median E_chi < median E_n and median E_n2; all three n levels must pass",
+    "carrier_counterprobe": "reverse variable bijection + clause/literal order reversal + transported sealed active elimination sequence; compare exact executed-prefix counters and truth"
+  },
+  "seed_rule": {
+    "namespace": "FIG5/BLOCK-SEED/v0.25-WIDTH4-DENSITY4",
+    "derivation": "SHA256(length-prefixed ordered inputs)",
+    "ordered_inputs": [
+      "namespace",
+      "experiment_id",
+      "constructor_sha256",
+      "active_solver_sha256",
+      "active_cap",
+      "nstar_receipt_sha256",
+      "delta_witness_sha256",
+      "predecessor_close_commit",
+      "this_preregistration_commit",
+      "block_id"
+    ],
+    "nstar_receipt_sha256": "682bbcf6ed83e6d3f3264b7ca41257e60c64dc56b4c0fc331057808a845d440d",
+    "delta_witness_sha256": "2b1b2d04819f262ab5d8d8fd654a5c550a3978fa8bd8d75a9737322aacb5df09",
+    "collision_policy": "STOP_NO_RETRY_NO_RESEED"
+  },
+  "stage_firewall": [
+    "MATERIALIZE seals formula identities without solver execution",
+    "GENERATE reads only the manifest and seals active cap-160 outputs",
+    "VERIFY opens only after GENERATE is sealed",
+    "ADMIT opens only after VERIFY is sealed",
+    "ANALYZE opens only after ADMIT is sealed",
+    "POSTHOC cannot alter the preregistered result"
+  ],
+  "freshness": {
+    "official_seeds_materialized": false,
+    "official_formulas_materialized": false,
+    "generate_run": false,
+    "verify_run": false,
+    "admit_run": false,
+    "analysis_run": false,
+    "validation_observed": false
+  },
+  "boundaries": [
+    "WIDTH4_PROBE != RETROACTIVE_REINTERPRETATION",
+    "WIDTH_SPECIFIC_IDENTITY_CHANGE != SECOND_SCIENTIFIC_DEGREE",
+    "EFFICIENCY_CHANGE != COUNTER_OR_ORDER_CHANGE",
+    "P_DP_UPSTREAM_OF_R != INDEPENDENT_CAUSAL_EXPLANATION",
+    "BOUNDED_WIDTH_TRANSFER != ASYMPTOTIC_LAW",
+    "FINITE_FOUR_PANEL_RESULT != GENERAL_WIDTH_INVARIANCE",
+    "FIG5_RESULT != P_VS_NP_RESULT",
+    "GENERATE != VERIFY != ADMIT",
+    "P ?= NP = OPEN"
+  ]
+}
