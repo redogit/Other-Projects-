@@ -120,7 +120,7 @@ def omega_for(host: str, path: str, scheme: str = "http") -> dict:
             "HTTP11_CLOSE_PROFILE != GENERAL_HTTP",
             "SOFTWARE_VERIFICATION != SECURITY_CERTIFICATION",
         ),
-        resource_bounds={"maxCandidates": 1, "maxSteps": 1},
+        resource_bounds={"maxCandidates": 1, "maxSteps": 2},
         domain_remainder={
             "unsupported": [
                 "redirects",
@@ -135,7 +135,20 @@ def omega_for(host: str, path: str, scheme: str = "http") -> dict:
 
 def plan(host: str, path: str, scheme: str = "http") -> tuple[bytes, dict]:
     program = parse_rmapl(PROGRAM_PATH.read_text(encoding="utf-8"))
-    result = run_program(program, omega_for(host, path, scheme), native_registry(program))
+    result = run_program(
+        program,
+        omega_for(host, path, scheme),
+        native_registry(program),
+        stop_residual_kinds=(
+            "native-http-transport-pending",
+            "native-tls-transport-pending",
+        ),
+    )
+    if result["stopReason"] != "OUTER_CONTROLLER_BOUND":
+        raise RuntimeError(
+            f"RMAPL HTTP planner stopped at {result['stopReason']!r}, "
+            "expected OUTER_CONTROLLER_BOUND"
+        )
     if len(result["branches"]) != 1:
         raise RuntimeError(
             "RMAPL HTTP planner did not expose exactly one branch: "
