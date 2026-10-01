@@ -1,9 +1,10 @@
 # Bounded negative TLS evidence — PR #107
 
 Source: PR #107 at `73c9e807c9bc57db6bdf0c299a7f8eb7b5bcfe74`.
-This increment adds executable checks; a checked-in harness is not a passing
-Windows execution receipt. CI uploads `tls-negative-receipt.json` tagged with
-the exact verification commit, including partial failures.
+This increment adds executable checks and a retrieved Windows execution receipt.
+CI uploads `tls-negative-receipt.json` tagged with the exact verification commit,
+including partial failures. The archived successful receipt below is evidence
+for its recorded commit, not a claim about unexecuted future revisions.
 
 ## Controlled checks
 
@@ -79,6 +80,36 @@ exit 68: `TLS renegotiation is outside bounded profile`. The decrypted-response
 boundary step did not run. This remains a non-deterministic external smoke check,
 still gating as before, and is not negative certificate-policy evidence. This
 change does not relax the profile to conceal that failure.
+
+## Executed Windows evidence
+
+[Run 36795934036](https://github.com/redogit/Other-Projects-/actions/runs/36795934036),
+job `110159251951`, checked out exactly
+`7f1b41b316914ace2ecc4d67494e8345aa09ed29`. Both `/W4 /WX` native builds, credential
+self-test, all four controlled cases in the table, and fixture cleanup passed.
+The three negatives returned the exact expected SSL policy and SChannel errors,
+sent no application request and preserved the response sentinel. The positive
+control returned the exact local response. The Windows request/session suites
+passed 5/5 and 7/7 respectively. Local full-suite validation passed 239/239 tests,
+and the existing audit/frozen stress checks passed.
+
+The overall TLS job **failed** afterwards on the separate `example.com` smoke
+check with the same exit 68 renegotiation-profile residual. Do not report the
+overall job as green or count that external failure as deterministic evidence.
+
+The original `tls-negative-receipt.json` is preserved byte-for-byte as
+[`evidence/rmapl_tls_negative_7f1b41b.json`](../evidence/rmapl_tls_negative_7f1b41b.json).
+It was retrieved from
+[artifact 11133019218](https://github.com/redogit/Other-Projects-/actions/runs/36795934036/artifacts/11133019218).
+
+- Downloaded ZIP SHA-256:
+  `f40bb76e4f2ee19840050a16c50764d9bcaba058950b9fb067d50af3c0128587`
+- Extracted receipt SHA-256:
+  `196416e58577bfe477f7ef3162b24d5919cd4e320521a718b56627f5aed1c5bc`
+- Job log: all fixture certificates removed at `2026-10-01T00:24:29Z`.
+
+The archive commit changes only this report and the preserved receipt. The
+executable test inputs are those of the recorded verification commit.
 
 ## Claim ceilings
 

@@ -1,0 +1,92 @@
+{
+  "schema": "rmapl-controlled-tls-evidence/v1",
+  "commit": "7f1b41b316914ace2ecc4d67494e8345aa09ed29",
+  "cases": [
+    {
+      "case": "positive-control",
+      "policy_exit": 0,
+      "policy_stdout": "explicit-policy host=localhost expected=0x00000000 accepted=1 detail=\n",
+      "policy_stderr": "",
+      "exit": 0,
+      "stderr": "",
+      "peer": {
+        "connections": 1,
+        "prefixes": [
+          "160301017a"
+        ],
+        "requests": [
+          "474554202f7465737420485454502f312e310d0a486f73743a206c6f63616c686f73740d0a436f6e6e656374696f6e3a20636c6f73650d0a4163636570743a20746578742f68746d6c0d0a557365722d4167656e743a20524d41504c2d496e646570656e64656e742f300d0a0d0a"
+        ],
+        "errors": []
+      },
+      "output_sha256": "3aecbd691644ba00b392fad46f58e838d411476476f97f6001cb7606b13deeab",
+      "passed": true
+    },
+    {
+      "case": "hostname-mismatch",
+      "policy_exit": 0,
+      "policy_stdout": "explicit-policy host=127.0.0.1 expected=0x800b010f accepted=0 detail=TLS certificate policy rejected server: 0x800b010f\n",
+      "policy_stderr": "",
+      "exit": 68,
+      "stderr": "TLS handshake failed: 0x80090322\n",
+      "peer": {
+        "connections": 1,
+        "prefixes": [
+          "1603010168"
+        ],
+        "requests": [],
+        "errors": [
+          "[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1010)"
+        ]
+      },
+      "output_sha256": "5a9f3bb0d4ba4dbc3f14293c6ee211d30a9a70a0996c08ebc7b9b92f4bd71094",
+      "passed": true
+    },
+    {
+      "case": "untrusted-chain",
+      "policy_exit": 0,
+      "policy_stdout": "explicit-policy host=localhost expected=0x800b0109 accepted=0 detail=TLS certificate policy rejected server: 0x800b0109\n",
+      "policy_stderr": "",
+      "exit": 68,
+      "stderr": "TLS handshake failed: 0x80090325\n",
+      "peer": {
+        "connections": 1,
+        "prefixes": [
+          "160301017a"
+        ],
+        "requests": [],
+        "errors": [
+          "[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1010)"
+        ]
+      },
+      "output_sha256": "5a9f3bb0d4ba4dbc3f14293c6ee211d30a9a70a0996c08ebc7b9b92f4bd71094",
+      "passed": true
+    },
+    {
+      "case": "expired",
+      "policy_exit": 0,
+      "policy_stdout": "explicit-policy host=localhost expected=0x800b0101 accepted=0 detail=TLS certificate policy rejected server: 0x800b0101\n",
+      "policy_stderr": "",
+      "exit": 68,
+      "stderr": "TLS handshake failed: 0x80090328\n",
+      "peer": {
+        "connections": 1,
+        "prefixes": [
+          "160301017a"
+        ],
+        "requests": [],
+        "errors": [
+          "[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1010)"
+        ]
+      },
+      "output_sha256": "5a9f3bb0d4ba4dbc3f14293c6ee211d30a9a70a0996c08ebc7b9b92f4bd71094",
+      "passed": true
+    }
+  ],
+  "evidence_scope": "local Windows policy and loopback TLS 1.2 fixtures",
+  "claim_ceiling": [
+    "TLS_HANDSHAKE_SUCCESS != RESPONSE_ADMISSION",
+    "CERTIFICATE_POLICY_PASS != TRUSTED_PAGE_CONTENT",
+    "SOFTWARE_VERIFICATION != SECURITY_CERTIFICATION"
+  ]
+}
