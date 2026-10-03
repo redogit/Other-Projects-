@@ -58,22 +58,28 @@ target_link_libraries(browser_rmal_http_response_host PRIVATE rmal)
 add_executable(browser_rmal_url_host browser_rmal_url_host.c)
 target_link_libraries(browser_rmal_url_host PRIVATE rmal)
 
+add_executable(browser_rmal_input_host browser_rmal_input_host.c)
+target_link_libraries(browser_rmal_input_host PRIVATE rmal)
+
 if(CMAKE_C_COMPILER_ID MATCHES "Clang|GNU")
   target_compile_options(browser_rmal_host PRIVATE -Wall -Wextra -Wpedantic -Werror)
   target_compile_options(browser_rmal_http_plan_host PRIVATE -Wall -Wextra -Wpedantic -Werror)
   target_compile_options(browser_rmal_http_response_host PRIVATE -Wall -Wextra -Wpedantic -Werror)
   target_compile_options(browser_rmal_url_host PRIVATE -Wall -Wextra -Wpedantic -Werror)
+  target_compile_options(browser_rmal_input_host PRIVATE -Wall -Wextra -Wpedantic -Werror)
 elseif(MSVC)
   target_compile_options(browser_rmal_host PRIVATE /W4 /WX)
   target_compile_options(browser_rmal_http_plan_host PRIVATE /W4 /WX)
   target_compile_options(browser_rmal_http_response_host PRIVATE /W4 /WX)
   target_compile_options(browser_rmal_url_host PRIVATE /W4 /WX)
+  target_compile_options(browser_rmal_input_host PRIVATE /W4 /WX)
 endif()
 
 set(BROWSER_BOOTSTRAP "${CMAKE_CURRENT_SOURCE_DIR}/browser_bootstrap.rmal")
 set(BROWSER_HTTP_PLAN "${CMAKE_CURRENT_SOURCE_DIR}/browser_http_plan.rmal")
 set(BROWSER_HTTP_RESPONSE "${CMAKE_CURRENT_SOURCE_DIR}/browser_http_response.rmal")
 set(BROWSER_URL_RESOLVE "${CMAKE_CURRENT_SOURCE_DIR}/browser_url_resolve.rmal")
+set(BROWSER_INPUT_ACTIVATE "${CMAKE_CURRENT_SOURCE_DIR}/browser_input_activate.rmal")
 
 # Re-enable tests only for this integration after upstream has been added.
 enable_testing()
@@ -247,4 +253,54 @@ set_tests_properties(
   PROPERTIES
     PASS_REGULAR_EXPRESSION
       "RMAPL_RMAL_URL_RESOLVE_EQUIVALENCE PASS"
+)
+
+add_test(
+  NAME browser_rmal_input_check
+  COMMAND $<TARGET_FILE:rmalc> check "${BROWSER_INPUT_ACTIVATE}"
+)
+add_test(
+  NAME browser_rmal_input_compile
+  COMMAND $<TARGET_FILE:rmalc> compile "${BROWSER_INPUT_ACTIVATE}"
+)
+add_test(
+  NAME browser_rmal_input_native
+  COMMAND $<TARGET_FILE:browser_rmal_input_host> "${BROWSER_INPUT_ACTIVATE}"
+)
+set_tests_properties(
+  browser_rmal_input_native
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "RMAL_INPUT_RECEIPT fixtures=8 policy_in_rmal=true python_runtime_used=false"
+)
+
+add_test(
+  NAME browser_rmapl_input_lowering_check
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/lower_rmapl_input_activation.py"
+    --profile
+    "${CMAKE_CURRENT_SOURCE_DIR}/browser_input_activate.lowering.json"
+    --check
+)
+set_tests_properties(
+  browser_rmapl_input_lowering_check
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "RMAPL_RMAL_INPUT_ACTIVATION_LOWERING_CHECK PASS"
+)
+
+add_test(
+  NAME browser_rmapl_rmal_input_equivalence
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/verify_input_activation_equivalence.py"
+    $<TARGET_FILE:browser_rmal_input_host>
+    "${BROWSER_INPUT_ACTIVATE}"
+)
+set_tests_properties(
+  browser_rmapl_rmal_input_equivalence
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "RMAPL_RMAL_INPUT_ACTIVATION_EQUIVALENCE PASS"
 )
