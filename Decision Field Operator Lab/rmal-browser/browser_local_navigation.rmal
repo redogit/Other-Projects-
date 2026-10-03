@@ -1,0 +1,40 @@
+# GENERATED FILE — DO NOT EDIT BY HAND
+# Lowered from browser_local_navigate
+# Lowering family: rmapl-rmal-local-navigation-lowering/v1
+
+MODULE independent_browser.local_navigation_rmal;
+
+CONTEXT RMAPL_LOCAL_NAV_PORT status="GENERATED" authority="LOCAL" evidence_transfer="DENY"
+BOUNDARY RMAPL_LOCAL_NAV_PORT CLAIM_CEILING BOUNDED_GENERATED_PORT REASON "RMAL owns local navigation policy; native callbacks expose resource fields only"
+
+fn navigate_local() {
+    let target = BrowserNavTarget();
+    let n = BrowserPageCount();
+    let current_url = BrowserCurrentUrlCanonical();
+    let i = 0;
+    let page_id = "";
+    let source = "";
+    while i < n {
+        SET page_id = BrowserPageId(i);
+        if page_id == target {
+            SET source = BrowserPageSource(i);
+            let ack = BrowserLocalNavResult(true, target, source, current_url, true, true, true, true, "html-tokenization-pending", "local-navigation", "local-navigation");
+            REQUIRE ack == "local-navigation:ACK";
+            return "local-navigation";
+        }
+        SET i = i + 1;
+    }
+    let miss = BrowserLocalNavResult(false, target, "", current_url, false, false, false, false, "navigation-target-missing", "local-page-not-found", "navigation-target-missing");
+    REQUIRE miss == "navigation-target-missing:ACK";
+    return "navigation-target-missing";
+}
+
+REQUIRE BrowserLocalNavSelect("navigate_first") == "navigate_first:ACK";
+REQUIRE navigate_local() == "local-navigation";
+REQUIRE BrowserLocalNavSelect("navigate_third") == "navigate_third:ACK";
+REQUIRE navigate_local() == "local-navigation";
+REQUIRE BrowserLocalNavSelect("missing") == "missing:ACK";
+REQUIRE navigate_local() == "navigation-target-missing";
+
+print "RMAL_LOCAL_NAVIGATION_PASS";
+STOP;
