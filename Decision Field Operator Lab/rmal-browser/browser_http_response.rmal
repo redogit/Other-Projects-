@@ -1,0 +1,59 @@
+# GENERATED FILE — DO NOT EDIT BY HAND
+# Lowered from examples/independent_browser_http.rmapl::browser_http_response_admit
+# Lowering family: rmapl-rmal-http-response-lowering/v1
+
+MODULE independent_browser.http_response_rmal;
+
+CONTEXT RMAPL_HTTP_RESPONSE_PORT status="GENERATED" authority="LOCAL" evidence_transfer="DENY"
+BOUNDARY RMAPL_HTTP_RESPONSE_PORT CLAIM_CEILING BOUNDED_GENERATED_PORT REASON "RMAL owns admission policy; native callbacks expose byte mechanics only"
+
+fn invalid_result() {
+    let ack = BrowserResponseResult(false, 0, "", "http-response-invalid", "requires-http11-200-header-delimiter-utf8-body", "http-response-invalid");
+    REQUIRE ack == "http-response-invalid:ACK";
+    return "http-response-invalid";
+}
+
+fn admit_response() {
+    let n = BrowserResponseLength();
+    if n < 17 { return invalid_result(); }
+    if BrowserResponseByte(0) != 72 { return invalid_result(); }
+    if BrowserResponseByte(1) != 84 { return invalid_result(); }
+    if BrowserResponseByte(2) != 84 { return invalid_result(); }
+    if BrowserResponseByte(3) != 80 { return invalid_result(); }
+    if BrowserResponseByte(4) != 47 { return invalid_result(); }
+    if BrowserResponseByte(5) != 49 { return invalid_result(); }
+    if BrowserResponseByte(6) != 46 { return invalid_result(); }
+    if BrowserResponseByte(7) != 49 { return invalid_result(); }
+    if BrowserResponseByte(8) != 32 { return invalid_result(); }
+    if BrowserResponseByte(9) != 50 { return invalid_result(); }
+    if BrowserResponseByte(10) != 48 { return invalid_result(); }
+    if BrowserResponseByte(11) != 48 { return invalid_result(); }
+    if BrowserResponseByte(12) != 32 { return invalid_result(); }
+    let i = 13;
+    while i < n - 3 {
+        if BrowserResponseByte(i) == 13 && BrowserResponseByte(i + 1) == 10 && BrowserResponseByte(i + 2) == 13 && BrowserResponseByte(i + 3) == 10 {
+            let body_start = i + 4;
+            let body_len = n - body_start;
+            if body_len <= 0 { return invalid_result(); }
+            let html = BrowserResponseUtf8(body_start, body_len);
+            if html == "" { return invalid_result(); }
+            let ack = BrowserResponseResult(true, 200, html, "html-tokenization-pending", "http-response-admitted", "http-response-admitted");
+            REQUIRE ack == "http-response-admitted:ACK";
+            return "http-response-admitted";
+        }
+        SET i = i + 1;
+    }
+    return invalid_result();
+}
+
+REQUIRE BrowserResponseSelect("valid") == "valid:ACK";
+REQUIRE admit_response() == "http-response-admitted";
+REQUIRE BrowserResponseSelect("not_found") == "not_found:ACK";
+REQUIRE admit_response() == "http-response-invalid";
+REQUIRE BrowserResponseSelect("missing_delimiter") == "missing_delimiter:ACK";
+REQUIRE admit_response() == "http-response-invalid";
+REQUIRE BrowserResponseSelect("empty_body") == "empty_body:ACK";
+REQUIRE admit_response() == "http-response-invalid";
+
+print "RMAL_HTTP_RESPONSE_PASS";
+STOP;
