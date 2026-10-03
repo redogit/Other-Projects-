@@ -184,3 +184,49 @@ BOUNDED_LOWERING_FAMILY != ALL_RMAPL
 The next migration obligation is to expand the fail-closed lowering families,
 then implement the lowerer itself in RMAL so the final build-time Python
 dependency can be retired without discarding the RMAPL evidence lineage.
+
+
+## Generated HTTP response-admission family
+
+`browser_http_response.rmal` is generated from
+`independent_browser_http.rmapl::browser_http_response_admit`.
+
+RMAL owns the policy:
+
+- require the bounded `HTTP/1.1 200 ` status prefix;
+- scan for the first `CRLF CRLF` header/body delimiter;
+- require a non-empty body;
+- request bounded UTF-8 projection of that body;
+- choose admitted vs invalid residual/consequence;
+- declare the admitted state-transition contract:
+  append current URL to history, promote pending URL, clear navigation
+  transients, and clear render state before the next HTML-tokenization pass.
+
+The native host does **not** decide any of those. It exposes only the mechanical
+operations RMAL 3.1 currently lacks because its executable value domain has no
+byte-buffer kind:
+
+```text
+BrowserResponseSelect(test fixture)
+BrowserResponseLength()
+BrowserResponseByte(index)
+BrowserResponseUtf8(start, length)
+BrowserResponseResult(...)   # records RMAL's decision
+```
+
+The response migration is checked against four byte streams:
+
+- valid 200 + HTML body;
+- 404 response;
+- 200 response missing `CRLF CRLF`;
+- 200 response with an empty body.
+
+Differential verification compares RMAL against the current RMAPL operator for
+status, body bytes, residual kind/detail, consequence, history append, pending
+URL promotion, navigation clearing and render-state clearing.
+
+```text
+BYTE_MECHANICS_CALLBACKS != HTTP_POLICY
+BOUNDED_RESPONSE_ADMISSION != GENERAL_HTTP_PARSER
+PYTHON_DIFFERENTIAL_ORACLE != RMAL_RUNTIME_DEPENDENCY
+```
