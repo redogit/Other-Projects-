@@ -83,6 +83,7 @@ static const UrlFixture FIXTURES[] = {
         .residual_kind="url-invalid", .residual_detail="unsupported-or-malformed-url",
         .consequence="url-invalid"
     }
+};
 
 static const size_t FIXTURE_COUNT=sizeof(FIXTURES)/sizeof(FIXTURES[0]);
 
