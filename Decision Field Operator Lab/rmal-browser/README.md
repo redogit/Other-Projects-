@@ -230,3 +230,53 @@ BYTE_MECHANICS_CALLBACKS != HTTP_POLICY
 BOUNDED_RESPONSE_ADMISSION != GENERAL_HTTP_PARSER
 PYTHON_DIFFERENTIAL_ORACLE != RMAL_RUNTIME_DEPENDENCY
 ```
+
+
+## Generated URL-resolution family
+
+`browser_url_resolve.rmal` is generated from
+`independent_browser_url.rmapl::browser_url_resolve`.
+
+RMAL owns the bounded URL policy:
+
+- `rmapl://local/<page>` absolute local resolution;
+- relative local page IDs;
+- HTTP and HTTPS scheme recognition;
+- host extraction;
+- default network path `/`;
+- path/canonical URL construction;
+- local vs network routing;
+- malformed `:`, `/`, `?`, `#`, space handling according to the
+  existing bounded RMAPL contract;
+- pending-href normalization for local navigation;
+- residual and consequence selection.
+
+The native URL host exposes only input mechanics:
+
+```text
+BrowserUrlSelect(test fixture)
+BrowserUrlRaw()
+BrowserUrlLength()
+BrowserUrlByte(index)
+BrowserUrlChar(index)
+BrowserUrlResult(...)    # records RMAL's decision
+```
+
+Differential fixtures cover:
+
+- absolute local URL;
+- relative local page ID;
+- HTTPS path;
+- HTTP URL with default `/` path;
+- malformed query-bearing network URL;
+- empty local target;
+- empty href.
+
+The differential oracle requires field-for-field equality for pending URL,
+pending href, networkRequired, residual and consequence.
+
+```text
+BYTE_MECHANICS_CALLBACKS != URL_POLICY
+BOUNDED_URL_RESOLUTION != WHATWG_URL_CONFORMANCE
+PYTHON_DIFFERENTIAL_ORACLE != RMAL_RUNTIME_DEPENDENCY
+```
