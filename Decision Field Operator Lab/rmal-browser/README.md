@@ -90,3 +90,46 @@ Claim ceilings:
 - `NATIVE_RMAL_VM != SELF_HOSTED_RMAPL_COMPILER`
 - `HANDOFF_SEQUENCE_VERIFIED != BROWSER_SEMANTIC_EQUIVALENCE`
 - `PINNED_TOOLCHAIN != FORKED_TOOLCHAIN_AUTHORITY`
+
+
+## First semantic migration: HTTP request planning
+
+`browser_http_plan.rmal` ports the bounded semantics of
+`independent_browser_http.rmapl::browser_http_plan` onto native RMAL.
+
+The RMAL implementation owns:
+
+- HTTP -> port 80 / `native-http-transport-pending`;
+- HTTPS -> port 443 / `native-tls-transport-pending`;
+- exact HTTP/1.1 GET request construction;
+- the 262144-byte response bound;
+- unsupported-scheme refusal.
+
+`browser_rmal_http_plan_host` executes that logic under the native RMAL VM and
+emits a Python-free receipt.
+
+`verify_http_plan_equivalence.py` then uses the existing RMAPL planner only as
+a differential oracle and requires equal host, port, residual kind/detail,
+response bound and exact request bytes for HTTP and HTTPS fixtures.
+
+```text
+RMAPL planner ───────┐
+                     ├─ exact bounded equivalence check
+RMAL/RMALC planner ──┘
+
+RMAL runtime path: no Python
+Differential verifier: Python test oracle only
+```
+
+This advances the migration boundary:
+
+```text
+before: browser orchestration only in RMAL
+now:    browser orchestration + HTTP request-planning semantics in RMAL
+next:   lower additional RMAPL operator families, then automate lowering
+```
+
+Additional ceiling:
+
+- `BOUNDED_HTTP_PLAN_EQUIVALENCE != GENERAL_RMAPL_LOWERING`
+- `PYTHON_DIFFERENTIAL_ORACLE != RMAL_RUNTIME_DEPENDENCY`
