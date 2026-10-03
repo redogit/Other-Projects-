@@ -1,0 +1,33 @@
+{
+  "schema": "rmapl-rmal-http-plan-lowering/v1",
+  "source": "../examples/independent_browser_http.rmapl",
+  "operator": "browser_http_plan",
+  "output": "browser_http_plan.rmal",
+  "module": "independent_browser.http_plan_rmal",
+  "callback": "BrowserPlanResult",
+  "fixtures": [
+    {
+      "scheme": "http",
+      "host": "127.0.0.1",
+      "path": "/test",
+      "consequence": "http-request-planned"
+    },
+    {
+      "scheme": "https",
+      "host": "example.com",
+      "path": "/docs",
+      "consequence": "https-request-planned"
+    }
+  ],
+  "unsupported_fixture": {
+    "scheme": "ftp",
+    "host": "example.com",
+    "path": "/",
+    "consequence": "network-scheme-unsupported"
+  },
+  "claim_ceiling": [
+    "BOUNDED_LOWERING_FAMILY != GENERAL_RMAPL_LOWERING",
+    "GENERATED_RMAL != SEMANTIC_EQUIVALENCE_WITHOUT_DIFFERENTIAL_CHECKS",
+    "BUILD_TIME_PYTHON != RMAL_RUNTIME_DEPENDENCY"
+  ]
+}

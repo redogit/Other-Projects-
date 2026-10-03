@@ -105,6 +105,23 @@ set_tests_properties(
 )
 
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
+
+add_test(
+  NAME browser_rmapl_http_plan_lowering_check
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/lower_rmapl_http_plan.py"
+    --profile
+    "${CMAKE_CURRENT_SOURCE_DIR}/browser_http_plan.lowering.json"
+    --check
+)
+set_tests_properties(
+  browser_rmapl_http_plan_lowering_check
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "RMAPL_RMAL_HTTP_PLAN_LOWERING_CHECK PASS"
+)
+
 add_test(
   NAME browser_rmapl_rmal_http_plan_equivalence
   COMMAND
