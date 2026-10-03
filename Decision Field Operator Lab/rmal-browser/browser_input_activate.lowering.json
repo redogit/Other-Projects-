@@ -1,0 +1,22 @@
+{
+  "schema": "rmapl-rmal-input-activation-lowering/v1",
+  "source": "../examples/independent_browser_url.rmapl",
+  "operators": ["browser_pointer_activate", "browser_keyboard_activate"],
+  "output": "browser_input_activate.rmal",
+  "module": "independent_browser.input_activate_rmal",
+  "fixtures": [
+    "pointer_second",
+    "pointer_miss",
+    "tab_first",
+    "tab_wrap",
+    "tab_no_hits",
+    "enter_valid",
+    "enter_invalid",
+    "unsupported"
+  ],
+  "claim_ceiling": [
+    "HIT_MAP_ACCESS_CALLBACKS != INPUT_POLICY",
+    "BOUNDED_LINK_ACTIVATION != GENERAL_INPUT_SYSTEM",
+    "GENERATED_RMAL != GENERAL_RMAPL_LOWERING"
+  ]
+}
