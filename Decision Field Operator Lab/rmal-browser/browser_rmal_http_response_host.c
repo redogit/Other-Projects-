@@ -17,6 +17,10 @@ typedef struct ResponseFixture {
     const char *residual_kind;
     const char *residual_detail;
     const char *consequence;
+    bool append_history;
+    bool promote_pending;
+    bool clear_navigation;
+    bool clear_render;
 } ResponseFixture;
 
 typedef struct ResponseHost {
@@ -50,7 +54,8 @@ static const ResponseFixture FIXTURES[] = {
         "<h1>FETCHED</h1>",
         "html-tokenization-pending",
         "http-response-admitted",
-        "http-response-admitted"
+        "http-response-admitted",
+        true, true, true, true
     },
     {
         "not_found",
@@ -61,7 +66,8 @@ static const ResponseFixture FIXTURES[] = {
         "",
         "http-response-invalid",
         "requires-http11-200-header-delimiter-utf8-body",
-        "http-response-invalid"
+        "http-response-invalid",
+        false, false, false, false
     },
     {
         "missing_delimiter",
@@ -72,7 +78,8 @@ static const ResponseFixture FIXTURES[] = {
         "",
         "http-response-invalid",
         "requires-http11-200-header-delimiter-utf8-body",
-        "http-response-invalid"
+        "http-response-invalid",
+        false, false, false, false
     },
     {
         "empty_body",
@@ -83,7 +90,8 @@ static const ResponseFixture FIXTURES[] = {
         "",
         "http-response-invalid",
         "requires-http11-200-header-delimiter-utf8-body",
-        "http-response-invalid"
+        "http-response-invalid",
+        false, false, false, false
     }
 };
 
@@ -250,9 +258,13 @@ static RmalStatus response_result(
     RmalValue *result
 ) {
     ResponseHost *host = (ResponseHost *)context;
-    if (!host || !host->current || count != 6U ||
+    if (!host || !host->current || count != 10U ||
         arguments[0].kind != RMAL_VALUE_BOOL ||
-        arguments[1].kind != RMAL_VALUE_INT) {
+        arguments[1].kind != RMAL_VALUE_INT ||
+        arguments[6].kind != RMAL_VALUE_BOOL ||
+        arguments[7].kind != RMAL_VALUE_BOOL ||
+        arguments[8].kind != RMAL_VALUE_BOOL ||
+        arguments[9].kind != RMAL_VALUE_BOOL) {
         return error_status("BrowserResponseResult argument contract violated");
     }
     const ResponseFixture *expected = host->current;
@@ -261,19 +273,27 @@ static RmalStatus response_result(
         !value_string_equals(&arguments[2], expected->html) ||
         !value_string_equals(&arguments[3], expected->residual_kind) ||
         !value_string_equals(&arguments[4], expected->residual_detail) ||
-        !value_string_equals(&arguments[5], expected->consequence)) {
+        !value_string_equals(&arguments[5], expected->consequence) ||
+        arguments[6].as.boolean != expected->append_history ||
+        arguments[7].as.boolean != expected->promote_pending ||
+        arguments[8].as.boolean != expected->clear_navigation ||
+        arguments[9].as.boolean != expected->clear_render) {
         return error_status("RMAL response decision differs from fixture contract");
     }
 
     printf(
         "RMAL_HTTP_RESPONSE fixture=%s admitted=%s status=%" PRId64
-        " residual=%s detail=%s consequence=%s body_hex=",
+        " residual=%s detail=%s consequence=%s history=%s promote=%s clear_nav=%s clear_render=%s body_hex=",
         expected->name,
         arguments[0].as.boolean ? "true" : "false",
         arguments[1].as.integer,
         arguments[3].as.string,
         arguments[4].as.string,
-        arguments[5].as.string
+        arguments[5].as.string,
+        arguments[6].as.boolean ? "true" : "false",
+        arguments[7].as.boolean ? "true" : "false",
+        arguments[8].as.boolean ? "true" : "false",
+        arguments[9].as.boolean ? "true" : "false"
     );
     const unsigned char *p = (const unsigned char *)arguments[2].as.string;
     while (*p) { printf("%02x", (unsigned int)*p); ++p; }
@@ -354,7 +374,7 @@ int main(int argc, char **argv) {
         {"BrowserResponseLength", 0U, response_length},
         {"BrowserResponseByte", 1U, response_byte},
         {"BrowserResponseUtf8", 2U, response_utf8},
-        {"BrowserResponseResult", 6U, response_result},
+        {"BrowserResponseResult", 10U, response_result},
     };
     for (size_t i = 0; i < sizeof(bindings)/sizeof(bindings[0]); ++i) {
         status = rmal_vm_bind_native(vm, bindings[i].name, bindings[i].arity,
