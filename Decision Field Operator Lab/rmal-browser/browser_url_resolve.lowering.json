@@ -1,0 +1,21 @@
+{
+  "schema": "rmapl-rmal-url-resolve-lowering/v1",
+  "source": "../examples/independent_browser_url.rmapl",
+  "operator": "browser_url_resolve",
+  "output": "browser_url_resolve.rmal",
+  "module": "independent_browser.url_resolve_rmal",
+  "fixtures": [
+    "local_absolute",
+    "local_relative",
+    "https_path",
+    "http_root",
+    "invalid_query",
+    "invalid_empty_local",
+    "invalid_empty"
+  ],
+  "claim_ceiling": [
+    "BOUNDED_URL_RESOLUTION != WHATWG_URL_CONFORMANCE",
+    "BYTE_MECHANICS_CALLBACKS != URL_POLICY",
+    "GENERATED_RMAL != GENERAL_RMAPL_LOWERING"
+  ]
+}
