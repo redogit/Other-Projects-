@@ -93,8 +93,18 @@ static RmalStatus browser_handoff(
     return status_ok();
 }
 
+static FILE *open_binary_read(const char *path) {
+#if defined(_WIN32)
+    FILE *file = NULL;
+    if (fopen_s(&file, path, "rb") != 0) return NULL;
+    return file;
+#else
+    return fopen(path, "rb");
+#endif
+}
+
 static char *read_file(const char *path) {
-    FILE *file = fopen(path, "rb");
+    FILE *file = open_binary_read(path);
     if (!file) return NULL;
     if (fseek(file, 0, SEEK_END) != 0) {
         fclose(file);
