@@ -8,8 +8,17 @@ set(CMAKE_C_EXTENSIONS OFF)
 include(FetchContent)
 
 # Canonical authority remains redogit/DnD. Do not vendor or silently float.
-set(RMAL_AUTHORITY_REPOSITORY "https://github.com/redogit/DnD.git")
-set(RMAL_AUTHORITY_COMMIT "57786dd85cb13c4a8f657ae4a66ca6d4058854fa")
+# The JSON pin is the single source of toolchain identity for docs + build.
+file(READ "${CMAKE_CURRENT_SOURCE_DIR}/RMAL_TOOLCHAIN_PIN.json" RMAL_PIN_JSON)
+string(JSON RMAL_AUTHORITY_REPOSITORY GET "${RMAL_PIN_JSON}" authority_repository)
+string(JSON RMAL_AUTHORITY_COMMIT GET "${RMAL_PIN_JSON}" authority_commit)
+string(JSON RMAL_PIN_LANGUAGE_VERSION GET "${RMAL_PIN_JSON}" language_version)
+string(JSON RMAL_PIN_COMPILER_VERSION GET "${RMAL_PIN_JSON}" compiler_version)
+
+if(NOT RMAL_PIN_LANGUAGE_VERSION STREQUAL "3.1" OR
+   NOT RMAL_PIN_COMPILER_VERSION STREQUAL "3.1")
+  message(FATAL_ERROR "Browser bootstrap currently requires RMAL/RMALC 3.1")
+endif()
 
 # Do not import the upstream test matrix into this component build.
 set(BUILD_TESTING OFF CACHE BOOL "" FORCE)
