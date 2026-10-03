@@ -1,0 +1,18 @@
+{
+  "schema": "rmapl-rmal-http-response-lowering/v1",
+  "source": "../examples/independent_browser_http.rmapl",
+  "operator": "browser_http_response_admit",
+  "output": "browser_http_response.rmal",
+  "module": "independent_browser.http_response_rmal",
+  "fixtures": [
+    "valid",
+    "not_found",
+    "missing_delimiter",
+    "empty_body"
+  ],
+  "claim_ceiling": [
+    "BOUNDED_RESPONSE_ADMISSION != GENERAL_HTTP_PARSER",
+    "BYTE_MECHANICS_CALLBACKS != HTTP_POLICY",
+    "GENERATED_RMAL != GENERAL_RMAPL_LOWERING"
+  ]
+}

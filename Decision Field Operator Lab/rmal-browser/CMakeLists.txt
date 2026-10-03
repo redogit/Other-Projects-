@@ -52,16 +52,22 @@ target_link_libraries(browser_rmal_host PRIVATE rmal)
 add_executable(browser_rmal_http_plan_host browser_rmal_http_plan_host.c)
 target_link_libraries(browser_rmal_http_plan_host PRIVATE rmal)
 
+add_executable(browser_rmal_http_response_host browser_rmal_http_response_host.c)
+target_link_libraries(browser_rmal_http_response_host PRIVATE rmal)
+
 if(CMAKE_C_COMPILER_ID MATCHES "Clang|GNU")
   target_compile_options(browser_rmal_host PRIVATE -Wall -Wextra -Wpedantic -Werror)
   target_compile_options(browser_rmal_http_plan_host PRIVATE -Wall -Wextra -Wpedantic -Werror)
+  target_compile_options(browser_rmal_http_response_host PRIVATE -Wall -Wextra -Wpedantic -Werror)
 elseif(MSVC)
   target_compile_options(browser_rmal_host PRIVATE /W4 /WX)
   target_compile_options(browser_rmal_http_plan_host PRIVATE /W4 /WX)
+  target_compile_options(browser_rmal_http_response_host PRIVATE /W4 /WX)
 endif()
 
 set(BROWSER_BOOTSTRAP "${CMAKE_CURRENT_SOURCE_DIR}/browser_bootstrap.rmal")
 set(BROWSER_HTTP_PLAN "${CMAKE_CURRENT_SOURCE_DIR}/browser_http_plan.rmal")
+set(BROWSER_HTTP_RESPONSE "${CMAKE_CURRENT_SOURCE_DIR}/browser_http_response.rmal")
 
 # Re-enable tests only for this integration after upstream has been added.
 enable_testing()
@@ -135,4 +141,54 @@ set_tests_properties(
   PROPERTIES
     PASS_REGULAR_EXPRESSION
       "RMAPL_RMAL_HTTP_PLAN_EQUIVALENCE PASS"
+)
+
+add_test(
+  NAME browser_rmal_http_response_check
+  COMMAND $<TARGET_FILE:rmalc> check "${BROWSER_HTTP_RESPONSE}"
+)
+add_test(
+  NAME browser_rmal_http_response_compile
+  COMMAND $<TARGET_FILE:rmalc> compile "${BROWSER_HTTP_RESPONSE}"
+)
+add_test(
+  NAME browser_rmal_http_response_native
+  COMMAND $<TARGET_FILE:browser_rmal_http_response_host> "${BROWSER_HTTP_RESPONSE}"
+)
+set_tests_properties(
+  browser_rmal_http_response_native
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "RMAL_HTTP_RESPONSE_RECEIPT fixtures=4 policy_in_rmal=true python_runtime_used=false"
+)
+
+add_test(
+  NAME browser_rmapl_http_response_lowering_check
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/lower_rmapl_http_response.py"
+    --profile
+    "${CMAKE_CURRENT_SOURCE_DIR}/browser_http_response.lowering.json"
+    --check
+)
+set_tests_properties(
+  browser_rmapl_http_response_lowering_check
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "RMAPL_RMAL_HTTP_RESPONSE_LOWERING_CHECK PASS"
+)
+
+add_test(
+  NAME browser_rmapl_rmal_http_response_equivalence
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/verify_http_response_equivalence.py"
+    $<TARGET_FILE:browser_rmal_http_response_host>
+    "${BROWSER_HTTP_RESPONSE}"
+)
+set_tests_properties(
+  browser_rmapl_rmal_http_response_equivalence
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "RMAPL_RMAL_HTTP_RESPONSE_EQUIVALENCE PASS"
 )
