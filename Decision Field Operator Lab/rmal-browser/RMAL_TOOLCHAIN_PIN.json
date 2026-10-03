@@ -1,0 +1,17 @@
+{
+  "schema": "rmal-browser-toolchain-pin/v1",
+  "authority_repository": "https://github.com/redogit/DnD.git",
+  "authority_branch": "master",
+  "authority_commit": "57786dd85cb13c4a8f657ae4a66ca6d4058854fa",
+  "language": "RMAL",
+  "language_version": "3.1",
+  "compiler": "RMALC",
+  "compiler_version": "3.1",
+  "implementation": "ISO C23",
+  "integration_policy": "PIN_AND_LINK_DO_NOT_VENDOR",
+  "claim_ceiling": [
+    "PINNED_TOOLCHAIN != FORKED_AUTHORITY",
+    "RMAL_BOOTSTRAP != FULL_RMAPL_LOWERING",
+    "COMPILED != SEMANTICALLY_EQUIVALENT_WITHOUT_TESTS"
+  ]
+}
