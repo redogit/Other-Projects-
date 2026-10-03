@@ -75,8 +75,27 @@ def cleared_url(value: dict) -> bool:
     }
 
 
-def oracle_result(operator, raw: bytes) -> dict[str, object]:
+def dirty_base() -> dict:
     base = omega_for("example.com", "/docs", "https")
+    construction = deepcopy(base["construction"])
+    state = construction["state"]
+    state["navigation"]["history"] = ["rmapl://local/older"]
+    state["navigation"]["pendingHref"] = "https://example.com/docs"
+    state["navigation"]["currentPage"] = "stale-page"
+    state["html"]["tokens"] = [{"kind": "stale"}]
+    state["dom"]["nodes"] = [{"kind": "stale"}]
+    state["layout"]["boxes"] = [{"kind": "stale"}]
+    state["hitMap"] = [{"kind": "stale"}]
+    state["camera"]["pixels"] = [1]
+    state["camera"]["pgm"] = [1]
+    state["camera"]["verified"] = True
+    state["camera"]["admitted"] = True
+    state["camera"]["blackPixels"] = 1
+    return make_omega(**construction)
+
+
+def oracle_result(operator, raw: bytes) -> dict[str, object]:
+    base = dirty_base()
     before = deepcopy(base["state"])
     proposal = operator(inject_response(base, raw))
     omega = proposal["omega"]
@@ -86,7 +105,8 @@ def oracle_result(operator, raw: bytes) -> dict[str, object]:
     admitted = proposal["consequenceKey"] == "http-response-admitted"
     append_history = (
         state["navigation"]["history"]
-        == [before["navigation"]["currentUrl"]["canonical"]]
+        == before["navigation"]["history"]
+        + [before["navigation"]["currentUrl"]["canonical"]]
     )
     promote_pending = (
         state["navigation"]["currentUrl"]
