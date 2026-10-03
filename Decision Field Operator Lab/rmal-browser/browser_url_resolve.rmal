@@ -1,0 +1,140 @@
+# GENERATED FILE — DO NOT EDIT BY HAND
+# Lowered from examples/independent_browser_url.rmapl::browser_url_resolve
+# Lowering family: rmapl-rmal-url-resolve-lowering/v1
+
+MODULE independent_browser.url_resolve_rmal;
+
+CONTEXT RMAPL_URL_RESOLVE_PORT status="GENERATED" authority="LOCAL" evidence_transfer="DENY"
+BOUNDARY RMAPL_URL_RESOLVE_PORT CLAIM_CEILING BOUNDED_GENERATED_PORT REASON "RMAL owns URL policy; native callbacks expose input byte mechanics only"
+
+fn invalid_result(raw) {
+    let ack = BrowserUrlResult("", "", "", "", "", "", "", false, raw, "url-invalid", "unsupported-or-malformed-url", "url-invalid");
+    REQUIRE ack == "url-invalid:ACK";
+    return "url-invalid";
+}
+
+fn local_result(raw, page, canonical) {
+    let path = "/" + page;
+    let ack = BrowserUrlResult(raw, "rmapl", "local", path, canonical, "local", page, false, page, "local-navigation-pending", "url-resolved-local", "local-url-resolved");
+    REQUIRE ack == "local-url-resolved:ACK";
+    return "local-url-resolved";
+}
+
+fn network_result(raw, scheme, host, path) {
+    let canonical = scheme + "://" + host + path;
+    let ack = BrowserUrlResult(raw, scheme, host, path, canonical, "network", "", true, raw, "network-transport-pending", "url-resolved-network-unavailable", "network-url-resolved");
+    REQUIRE ack == "network-url-resolved:ACK";
+    return "network-url-resolved";
+}
+
+fn bad_local_byte(b) {
+    return b == 58 || b == 47 || b == 63 || b == 35 || b == 32;
+}
+
+fn bad_network_byte(b) {
+    return b == 63 || b == 35 || b == 32;
+}
+
+fn resolve_url() {
+    let raw = BrowserUrlRaw();
+    let n = BrowserUrlLength();
+    if n <= 0 { return invalid_result(raw); }
+    if n >= 14 && BrowserUrlByte(0) == 114 && BrowserUrlByte(1) == 109 && BrowserUrlByte(2) == 97 && BrowserUrlByte(3) == 112 && BrowserUrlByte(4) == 108 && BrowserUrlByte(5) == 58 && BrowserUrlByte(6) == 47 && BrowserUrlByte(7) == 47 && BrowserUrlByte(8) == 108 && BrowserUrlByte(9) == 111 && BrowserUrlByte(10) == 99 && BrowserUrlByte(11) == 97 && BrowserUrlByte(12) == 108 && BrowserUrlByte(13) == 47 {
+        let page = "";
+        let i = 14;
+        while i < n {
+            let b = BrowserUrlByte(i);
+            if bad_local_byte(b) { return invalid_result(raw); }
+            let ch = BrowserUrlChar(i);
+            if ch == "" { return invalid_result(raw); }
+            SET page = page + ch;
+            SET i = i + 1;
+        }
+        if page == "" { return invalid_result(raw); }
+        return local_result(raw, page, raw);
+    }
+    if n >= 8 && BrowserUrlByte(0) == 104 && BrowserUrlByte(1) == 116 && BrowserUrlByte(2) == 116 && BrowserUrlByte(3) == 112 && BrowserUrlByte(4) == 115 && BrowserUrlByte(5) == 58 && BrowserUrlByte(6) == 47 && BrowserUrlByte(7) == 47 {
+        let scheme = "https";
+        let i = 8;
+        let host = "";
+        while i < n && BrowserUrlByte(i) != 47 {
+            let b = BrowserUrlByte(i);
+            if bad_network_byte(b) { return invalid_result(raw); }
+            let ch = BrowserUrlChar(i);
+            if ch == "" { return invalid_result(raw); }
+            SET host = host + ch;
+            SET i = i + 1;
+        }
+        if host == "" { return invalid_result(raw); }
+        let path = "/";
+        if i < n {
+            SET path = "";
+            while i < n {
+                let b = BrowserUrlByte(i);
+                if bad_network_byte(b) { return invalid_result(raw); }
+                let ch = BrowserUrlChar(i);
+                if ch == "" { return invalid_result(raw); }
+                SET path = path + ch;
+                SET i = i + 1;
+            }
+        }
+        return network_result(raw, scheme, host, path);
+    }
+    if n >= 7 && BrowserUrlByte(0) == 104 && BrowserUrlByte(1) == 116 && BrowserUrlByte(2) == 116 && BrowserUrlByte(3) == 112 && BrowserUrlByte(4) == 58 && BrowserUrlByte(5) == 47 && BrowserUrlByte(6) == 47 {
+        let scheme = "http";
+        let i = 7;
+        let host = "";
+        while i < n && BrowserUrlByte(i) != 47 {
+            let b = BrowserUrlByte(i);
+            if bad_network_byte(b) { return invalid_result(raw); }
+            let ch = BrowserUrlChar(i);
+            if ch == "" { return invalid_result(raw); }
+            SET host = host + ch;
+            SET i = i + 1;
+        }
+        if host == "" { return invalid_result(raw); }
+        let path = "/";
+        if i < n {
+            SET path = "";
+            while i < n {
+                let b = BrowserUrlByte(i);
+                if bad_network_byte(b) { return invalid_result(raw); }
+                let ch = BrowserUrlChar(i);
+                if ch == "" { return invalid_result(raw); }
+                SET path = path + ch;
+                SET i = i + 1;
+            }
+        }
+        return network_result(raw, scheme, host, path);
+    }
+    let page = "";
+    let i = 0;
+    while i < n {
+        let b = BrowserUrlByte(i);
+        if bad_local_byte(b) { return invalid_result(raw); }
+        let ch = BrowserUrlChar(i);
+        if ch == "" { return invalid_result(raw); }
+        SET page = page + ch;
+        SET i = i + 1;
+    }
+    if page == "" { return invalid_result(raw); }
+    return local_result(raw, page, "rmapl://local/" + page);
+}
+
+REQUIRE BrowserUrlSelect("local_absolute") == "local_absolute:ACK";
+REQUIRE resolve_url() == "local-url-resolved";
+REQUIRE BrowserUrlSelect("local_relative") == "local_relative:ACK";
+REQUIRE resolve_url() == "local-url-resolved";
+REQUIRE BrowserUrlSelect("https_path") == "https_path:ACK";
+REQUIRE resolve_url() == "network-url-resolved";
+REQUIRE BrowserUrlSelect("http_root") == "http_root:ACK";
+REQUIRE resolve_url() == "network-url-resolved";
+REQUIRE BrowserUrlSelect("invalid_query") == "invalid_query:ACK";
+REQUIRE resolve_url() == "url-invalid";
+REQUIRE BrowserUrlSelect("invalid_empty_local") == "invalid_empty_local:ACK";
+REQUIRE resolve_url() == "url-invalid";
+REQUIRE BrowserUrlSelect("invalid_empty") == "invalid_empty:ACK";
+REQUIRE resolve_url() == "url-invalid";
+
+print "RMAL_URL_RESOLVE_PASS";
+STOP;
