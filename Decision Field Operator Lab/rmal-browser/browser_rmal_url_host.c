@@ -30,14 +30,60 @@ typedef struct UrlHost {
 } UrlHost;
 
 static const UrlFixture FIXTURES[] = {
-    {"local_absolute","rmapl://local/page2","rmapl://local/page2","rmapl","local","/page2","rmapl://local/page2","local","page2",false,"page2","local-navigation-pending","url-resolved-local","local-url-resolved"},
-    {"local_relative","page2","page2","rmapl","local","/page2","rmapl://local/page2","local","page2",false,"page2","local-navigation-pending","url-resolved-local","local-url-resolved"},
-    {"https_path","https://example.com/docs","https://example.com/docs","https","example.com","/docs","https://example.com/docs","network","",true,"https://example.com/docs","network-transport-pending","url-resolved-network-unavailable","network-url-resolved"},
-    {"http_root","http://example.com","http://example.com","http","example.com","/","http://example.com/","network","",true,"http://example.com","network-transport-pending","url-resolved-network-unavailable","network-url-resolved"},
-    {"invalid_query","https://example.com/a?b","","","","","","",false,"https://example.com/a?b","url-invalid","unsupported-or-malformed-url","url-invalid"},
-    {"invalid_empty_local","rmapl://local/","","","","","","",false,"rmapl://local/","url-invalid","unsupported-or-malformed-url","url-invalid"},
-    {"invalid_empty","","","","","","","","",false,"","url-invalid","unsupported-or-malformed-url","url-invalid"}
-};
+    {
+        .name="local_absolute", .input="rmapl://local/page2",
+        .raw="rmapl://local/page2", .scheme="rmapl", .authority="local",
+        .path="/page2", .canonical="rmapl://local/page2", .kind="local",
+        .page_id="page2", .network_required=false, .pending_href="page2",
+        .residual_kind="local-navigation-pending", .residual_detail="url-resolved-local",
+        .consequence="local-url-resolved"
+    },
+    {
+        .name="local_relative", .input="page2",
+        .raw="page2", .scheme="rmapl", .authority="local",
+        .path="/page2", .canonical="rmapl://local/page2", .kind="local",
+        .page_id="page2", .network_required=false, .pending_href="page2",
+        .residual_kind="local-navigation-pending", .residual_detail="url-resolved-local",
+        .consequence="local-url-resolved"
+    },
+    {
+        .name="https_path", .input="https://example.com/docs",
+        .raw="https://example.com/docs", .scheme="https", .authority="example.com",
+        .path="/docs", .canonical="https://example.com/docs", .kind="network",
+        .page_id="", .network_required=true, .pending_href="https://example.com/docs",
+        .residual_kind="network-transport-pending", .residual_detail="url-resolved-network-unavailable",
+        .consequence="network-url-resolved"
+    },
+    {
+        .name="http_root", .input="http://example.com",
+        .raw="http://example.com", .scheme="http", .authority="example.com",
+        .path="/", .canonical="http://example.com/", .kind="network",
+        .page_id="", .network_required=true, .pending_href="http://example.com",
+        .residual_kind="network-transport-pending", .residual_detail="url-resolved-network-unavailable",
+        .consequence="network-url-resolved"
+    },
+    {
+        .name="invalid_query", .input="https://example.com/a?b",
+        .raw="", .scheme="", .authority="", .path="", .canonical="", .kind="",
+        .page_id="", .network_required=false, .pending_href="https://example.com/a?b",
+        .residual_kind="url-invalid", .residual_detail="unsupported-or-malformed-url",
+        .consequence="url-invalid"
+    },
+    {
+        .name="invalid_empty_local", .input="rmapl://local/",
+        .raw="", .scheme="", .authority="", .path="", .canonical="", .kind="",
+        .page_id="", .network_required=false, .pending_href="rmapl://local/",
+        .residual_kind="url-invalid", .residual_detail="unsupported-or-malformed-url",
+        .consequence="url-invalid"
+    },
+    {
+        .name="invalid_empty", .input="",
+        .raw="", .scheme="", .authority="", .path="", .canonical="", .kind="",
+        .page_id="", .network_required=false, .pending_href="",
+        .residual_kind="url-invalid", .residual_detail="unsupported-or-malformed-url",
+        .consequence="url-invalid"
+    }
+
 static const size_t FIXTURE_COUNT=sizeof(FIXTURES)/sizeof(FIXTURES[0]);
 
 static RmalStatus ok_status(void){RmalStatus s={0};s.ok=true;return s;}
