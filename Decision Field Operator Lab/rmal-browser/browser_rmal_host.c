@@ -35,13 +35,6 @@ static const char *EXPECTED_HANDOFFS[] = {
 static const size_t EXPECTED_HANDOFF_COUNT =
     sizeof(EXPECTED_HANDOFFS) / sizeof(EXPECTED_HANDOFFS[0]);
 
-static char *copy_text(const char *text) {
-    size_t n = strlen(text) + 1U;
-    char *copy = (char *)malloc(n);
-    if (copy) memcpy(copy, text, n);
-    return copy;
-}
-
 static RmalStatus status_ok(void) {
     RmalStatus status = {0};
     status.ok = true;
