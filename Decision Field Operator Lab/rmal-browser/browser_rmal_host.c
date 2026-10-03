@@ -213,6 +213,10 @@ int main(int argc, char **argv) {
         printf("native_api=%d\n", RMAL_NATIVE_API_VERSION);
         printf("handoffs=%zu\n", host.index);
         printf("python_runtime_used=false\n");
+        printf(
+            "RMAL_BROWSER_RECEIPT handoffs=%zu python_runtime_used=false\n",
+            host.index
+        );
     }
 
     rmal_vm_free(vm);
