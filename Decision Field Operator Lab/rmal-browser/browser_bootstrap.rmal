@@ -1,0 +1,52 @@
+# Independent browser — RMAL/RMALC bootstrap orchestration
+#
+# This program moves the browser's outer orchestration onto the canonical
+# RMAL 3.1 VM. Native browser/OS capabilities remain explicit host callbacks.
+# It does not yet lower arbitrary RMAPL operator bodies.
+
+MODULE independent_browser.rmal_bootstrap;
+
+CONTEXT BrowserSelfHost status="BOOTSTRAP" authority="LOCAL" evidence_transfer="DENY"
+BOUNDARY BrowserSelfHost CLAIM_CEILING RMAL_BOOTSTRAP REASON "orchestration executes in RMALC/RMAL; full RMAPL lowering remains unresolved"
+
+fn handoff(name) {
+    let acknowledgement = BrowserHandoff(name);
+    REQUIRE acknowledgement == name + ":ACK";
+    return acknowledgement;
+}
+
+fn render_cycle() {
+    handoff("HTML_TOKENIZE");
+    handoff("DOM_BUILD");
+    handoff("LAYOUT");
+    handoff("HIT_MAP");
+    handoff("RASTER");
+    handoff("FRAME_VERIFY");
+    handoff("CAMERA_PACK");
+    handoff("FRAME_ADMIT");
+    return "PRESENTABLE";
+}
+
+STATE render_count = 0;
+STATE network_count = 0;
+
+let first = render_cycle();
+REQUIRE first == "PRESENTABLE";
+SET render_count = render_count + 1;
+
+handoff("URL_RESOLVE");
+handoff("HTTPS_PLAN");
+handoff("NATIVE_TLS");
+handoff("HTTP_RESPONSE_ADMIT");
+SET network_count = network_count + 1;
+
+let second = render_cycle();
+REQUIRE second == "PRESENTABLE";
+SET render_count = render_count + 1;
+
+handoff("PRESENT");
+
+REQUIRE render_count == 2;
+REQUIRE network_count == 1;
+print "RMAL_BROWSER_BOOTSTRAP_PASS";
+STOP;
