@@ -40,85 +40,85 @@ fn resolve_url() {
     let n = BrowserUrlLength();
     if n <= 0 { return invalid_result(raw); }
     if n >= 14 && BrowserUrlByte(0) == 114 && BrowserUrlByte(1) == 109 && BrowserUrlByte(2) == 97 && BrowserUrlByte(3) == 112 && BrowserUrlByte(4) == 108 && BrowserUrlByte(5) == 58 && BrowserUrlByte(6) == 47 && BrowserUrlByte(7) == 47 && BrowserUrlByte(8) == 108 && BrowserUrlByte(9) == 111 && BrowserUrlByte(10) == 99 && BrowserUrlByte(11) == 97 && BrowserUrlByte(12) == 108 && BrowserUrlByte(13) == 47 {
-        let page = "";
-        let i = 14;
-        while i < n {
-            let b = BrowserUrlByte(i);
-            if bad_local_byte(b) { return invalid_result(raw); }
-            let ch = BrowserUrlChar(i);
-            if ch == "" { return invalid_result(raw); }
-            SET page = page + ch;
-            SET i = i + 1;
+        let la_page = "";
+        let la_i = 14;
+        while la_i < n {
+            let la_b = BrowserUrlByte(la_i);
+            if bad_local_byte(la_b) { return invalid_result(raw); }
+            let la_ch = BrowserUrlChar(la_i);
+            if la_ch == "" { return invalid_result(raw); }
+            SET la_page = la_page + la_ch;
+            SET la_i = la_i + 1;
         }
-        if page == "" { return invalid_result(raw); }
-        return local_result(raw, page, raw);
+        if la_page == "" { return invalid_result(raw); }
+        return local_result(raw, la_page, raw);
     }
     if n >= 8 && BrowserUrlByte(0) == 104 && BrowserUrlByte(1) == 116 && BrowserUrlByte(2) == 116 && BrowserUrlByte(3) == 112 && BrowserUrlByte(4) == 115 && BrowserUrlByte(5) == 58 && BrowserUrlByte(6) == 47 && BrowserUrlByte(7) == 47 {
-        let scheme = "https";
-        let i = 8;
-        let host = "";
-        while i < n && BrowserUrlByte(i) != 47 {
-            let b = BrowserUrlByte(i);
-            if bad_network_byte(b) { return invalid_result(raw); }
-            let ch = BrowserUrlChar(i);
-            if ch == "" { return invalid_result(raw); }
-            SET host = host + ch;
-            SET i = i + 1;
+        let https_scheme = "https";
+        let https_i = 8;
+        let https_host = "";
+        while https_i < n && BrowserUrlByte(https_i) != 47 {
+            let https_host_b = BrowserUrlByte(https_i);
+            if bad_network_byte(https_host_b) { return invalid_result(raw); }
+            let https_host_ch = BrowserUrlChar(https_i);
+            if https_host_ch == "" { return invalid_result(raw); }
+            SET https_host = https_host + https_host_ch;
+            SET https_i = https_i + 1;
         }
-        if host == "" { return invalid_result(raw); }
-        let path = "/";
-        if i < n {
-            SET path = "";
-            while i < n {
-                let b = BrowserUrlByte(i);
-                if bad_network_byte(b) { return invalid_result(raw); }
-                let ch = BrowserUrlChar(i);
-                if ch == "" { return invalid_result(raw); }
-                SET path = path + ch;
-                SET i = i + 1;
+        if https_host == "" { return invalid_result(raw); }
+        let https_path = "/";
+        if https_i < n {
+            SET https_path = "";
+            while https_i < n {
+                let https_path_b = BrowserUrlByte(https_i);
+                if bad_network_byte(https_path_b) { return invalid_result(raw); }
+                let https_path_ch = BrowserUrlChar(https_i);
+                if https_path_ch == "" { return invalid_result(raw); }
+                SET https_path = https_path + https_path_ch;
+                SET https_i = https_i + 1;
             }
         }
-        return network_result(raw, scheme, host, path);
+        return network_result(raw, https_scheme, https_host, https_path);
     }
     if n >= 7 && BrowserUrlByte(0) == 104 && BrowserUrlByte(1) == 116 && BrowserUrlByte(2) == 116 && BrowserUrlByte(3) == 112 && BrowserUrlByte(4) == 58 && BrowserUrlByte(5) == 47 && BrowserUrlByte(6) == 47 {
-        let scheme = "http";
-        let i = 7;
-        let host = "";
-        while i < n && BrowserUrlByte(i) != 47 {
-            let b = BrowserUrlByte(i);
-            if bad_network_byte(b) { return invalid_result(raw); }
-            let ch = BrowserUrlChar(i);
-            if ch == "" { return invalid_result(raw); }
-            SET host = host + ch;
-            SET i = i + 1;
+        let http_scheme = "http";
+        let http_i = 7;
+        let http_host = "";
+        while http_i < n && BrowserUrlByte(http_i) != 47 {
+            let http_host_b = BrowserUrlByte(http_i);
+            if bad_network_byte(http_host_b) { return invalid_result(raw); }
+            let http_host_ch = BrowserUrlChar(http_i);
+            if http_host_ch == "" { return invalid_result(raw); }
+            SET http_host = http_host + http_host_ch;
+            SET http_i = http_i + 1;
         }
-        if host == "" { return invalid_result(raw); }
-        let path = "/";
-        if i < n {
-            SET path = "";
-            while i < n {
-                let b = BrowserUrlByte(i);
-                if bad_network_byte(b) { return invalid_result(raw); }
-                let ch = BrowserUrlChar(i);
-                if ch == "" { return invalid_result(raw); }
-                SET path = path + ch;
-                SET i = i + 1;
+        if http_host == "" { return invalid_result(raw); }
+        let http_path = "/";
+        if http_i < n {
+            SET http_path = "";
+            while http_i < n {
+                let http_path_b = BrowserUrlByte(http_i);
+                if bad_network_byte(http_path_b) { return invalid_result(raw); }
+                let http_path_ch = BrowserUrlChar(http_i);
+                if http_path_ch == "" { return invalid_result(raw); }
+                SET http_path = http_path + http_path_ch;
+                SET http_i = http_i + 1;
             }
         }
-        return network_result(raw, scheme, host, path);
+        return network_result(raw, http_scheme, http_host, http_path);
     }
-    let page = "";
-    let i = 0;
-    while i < n {
-        let b = BrowserUrlByte(i);
-        if bad_local_byte(b) { return invalid_result(raw); }
-        let ch = BrowserUrlChar(i);
-        if ch == "" { return invalid_result(raw); }
-        SET page = page + ch;
-        SET i = i + 1;
+    let rel_page = "";
+    let rel_i = 0;
+    while rel_i < n {
+        let rel_b = BrowserUrlByte(rel_i);
+        if bad_local_byte(rel_b) { return invalid_result(raw); }
+        let rel_ch = BrowserUrlChar(rel_i);
+        if rel_ch == "" { return invalid_result(raw); }
+        SET rel_page = rel_page + rel_ch;
+        SET rel_i = rel_i + 1;
     }
-    if page == "" { return invalid_result(raw); }
-    return local_result(raw, page, "rmapl://local/" + page);
+    if rel_page == "" { return invalid_result(raw); }
+    return local_result(raw, rel_page, "rmapl://local/" + rel_page);
 }
 
 REQUIRE BrowserUrlSelect("local_absolute") == "local_absolute:ACK";
