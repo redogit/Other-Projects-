@@ -72,3 +72,9 @@ add_test(
   NAME browser_rmal_native_host
   COMMAND $<TARGET_FILE:browser_rmal_host> "${BROWSER_BOOTSTRAP}"
 )
+set_tests_properties(
+  browser_rmal_native_host
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "RMAL_BROWSER_RECEIPT handoffs=21 python_runtime_used=false"
+)
