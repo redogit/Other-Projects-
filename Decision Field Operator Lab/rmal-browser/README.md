@@ -133,3 +133,54 @@ Additional ceiling:
 
 - `BOUNDED_HTTP_PLAN_EQUIVALENCE != GENERAL_RMAPL_LOWERING`
 - `PYTHON_DIFFERENTIAL_ORACLE != RMAL_RUNTIME_DEPENDENCY`
+
+
+## Automated lowering family: HTTP request planner
+
+The HTTP planner is no longer maintained twice by hand.
+
+Canonical semantic source:
+
+```text
+examples/independent_browser_http.rmapl
+  OPERATOR browser_http_plan
+```
+
+Lowering contract:
+
+```text
+browser_http_plan.lowering.json
+        +
+lower_rmapl_http_plan.py
+        ↓
+browser_http_plan.rmal
+        ↓
+RMALC 3.1
+        ↓
+native RMAL VM
+```
+
+`browser_http_plan.rmal` is a generated artifact. The lowerer consumes the
+immutable RMAPL parser IR and accepts only the admitted planner family. It fails
+closed if the operator introduces a new opcode, branch label, input path,
+output path, residual shape, request-construction chain, or return shape.
+
+CI requires all three layers simultaneously:
+
+1. committed generated RMAL == lowerer output from current RMAPL;
+2. generated RMAL parses/compiles/runs under pinned canonical RMALC;
+3. native RMAL output remains exactly equivalent to the current RMAPL planner
+   for the bounded HTTP/HTTPS fixtures.
+
+Python is currently used to perform this **build-time lowering and differential
+verification**. It is not used by the generated RMAL runtime path.
+
+```text
+BUILD_TIME_PYTHON != RUNTIME_PYTHON
+GENERATED_RMAL != PROVED_GENERAL_LOWERING
+BOUNDED_LOWERING_FAMILY != ALL_RMAPL
+```
+
+The next migration obligation is to expand the fail-closed lowering families,
+then implement the lowerer itself in RMAL so the final build-time Python
+dependency can be retired without discarding the RMAPL evidence lineage.
