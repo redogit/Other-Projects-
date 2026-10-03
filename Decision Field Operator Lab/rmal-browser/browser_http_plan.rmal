@@ -1,0 +1,63 @@
+# Independent browser — HTTP/HTTPS planner migrated to RMAL
+#
+# Semantic source being matched:
+#   examples/independent_browser_http.rmapl :: browser_http_plan
+#
+# This is a bounded semantic port, not yet an automated RMAPL lowerer.
+
+MODULE independent_browser.http_plan_rmal;
+
+CONTEXT RMAPL_HTTP_PLAN_PORT status="MIGRATION_CANDIDATE" authority="LOCAL" evidence_transfer="DENY"
+BOUNDARY RMAPL_HTTP_PLAN_PORT CLAIM_CEILING SEMANTIC_PORT_CANDIDATE REASON "exact bounded fixtures are differentially checked; arbitrary RMAPL lowering remains unresolved"
+
+fn emit_plan(scheme, host, path, port, transport_kind, transport_detail, consequence) {
+    let request = "GET " + path + " HTTP/1.1\r\nHost: " + host + "\r\nConnection: close\r\nAccept: text/html\r\nUser-Agent: RMAPL-Independent/0\r\n\r\n";
+
+    let acknowledgement = BrowserPlanResult(
+        scheme,
+        host,
+        port,
+        transport_kind,
+        transport_detail,
+        consequence,
+        request,
+        262144
+    );
+    REQUIRE acknowledgement == consequence + ":ACK";
+    return consequence;
+}
+
+fn plan_request(scheme, host, path) {
+    if scheme == "http" {
+        return emit_plan(
+            scheme,
+            host,
+            path,
+            80,
+            "native-http-transport-pending",
+            "rmapl-request-ready",
+            "http-request-planned"
+        );
+    } else {
+        if scheme == "https" {
+            return emit_plan(
+                scheme,
+                host,
+                path,
+                443,
+                "native-tls-transport-pending",
+                "rmapl-tls-request-ready",
+                "https-request-planned"
+            );
+        } else {
+            return "network-scheme-unsupported";
+        }
+    }
+}
+
+REQUIRE plan_request("http", "127.0.0.1", "/test") == "http-request-planned";
+REQUIRE plan_request("https", "example.com", "/docs") == "https-request-planned";
+REQUIRE plan_request("ftp", "example.com", "/") == "network-scheme-unsupported";
+
+print "RMAL_HTTP_PLAN_PASS";
+STOP;
