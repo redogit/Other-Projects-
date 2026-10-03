@@ -1,0 +1,85 @@
+# GENERATED FILE — DO NOT EDIT BY HAND
+# Lowered from browser_pointer_activate + browser_keyboard_activate
+# Lowering family: rmapl-rmal-input-activation-lowering/v1
+
+MODULE independent_browser.input_activate_rmal;
+
+CONTEXT RMAPL_INPUT_PORT status="GENERATED" authority="LOCAL" evidence_transfer="DENY"
+BOUNDARY RMAPL_INPUT_PORT CLAIM_CEILING BOUNDED_GENERATED_PORT REASON "RMAL owns input policy; native callbacks expose hit-map/input fields only"
+
+fn emit_result(pending, last_hit, focus, focused, has_residual, residual, detail, consequence) {
+    let ack = BrowserInputResult(pending, last_hit, focus, focused, has_residual, residual, detail, consequence);
+    REQUIRE ack == consequence + ":ACK";
+    return consequence;
+}
+
+fn pointer_activate() {
+    let px = BrowserPointerX();
+    let py = BrowserPointerY();
+    let n = BrowserHitCount();
+    let pending = BrowserInitialPendingHref();
+    let focus = BrowserInitialFocusIndex();
+    let focused = BrowserInitialFocusedHref();
+    let i = 0;
+    let x = 0;
+    let y = 0;
+    let w = 0;
+    let h = 0;
+    let href = "";
+    while i < n {
+        SET x = BrowserHitX(i);
+        SET y = BrowserHitY(i);
+        SET w = BrowserHitWidth(i);
+        SET h = BrowserHitHeight(i);
+        if px >= x && px < x + w && py >= y && py < y + h {
+            SET href = BrowserHitHref(i);
+            return emit_result(href, href, focus, focused, true, "url-resolution-pending", "pointer-hit", "pointer-hit");
+        }
+        SET i = i + 1;
+    }
+    return emit_result(pending, "", focus, focused, true, "pointer-no-target", "no-hit", "pointer-no-target");
+}
+
+fn keyboard_activate() {
+    let key = BrowserKey();
+    let n = BrowserHitCount();
+    let pending = BrowserInitialPendingHref();
+    let last_hit = BrowserInitialLastHit();
+    let focus = BrowserInitialFocusIndex();
+    let focused = BrowserInitialFocusedHref();
+    let href = "";
+    if key == "TAB" {
+        if n <= 0 { return emit_result(pending, last_hit, focus, focused, true, "keyboard-no-target", "no-focused-link", "keyboard-no-target"); }
+        SET focus = (focus + 1) % n;
+        SET href = BrowserHitHref(focus);
+        return emit_result(pending, href, focus, href, false, "", "", "keyboard-focus");
+    }
+    if key == "ENTER" {
+        if focus >= 0 && focus < n {
+            SET href = BrowserHitHref(focus);
+            return emit_result(href, href, -1, "", true, "url-resolution-pending", "keyboard-enter", "keyboard-enter");
+        }
+        return emit_result(pending, last_hit, focus, focused, true, "keyboard-no-target", "no-focused-link", "keyboard-no-target");
+    }
+    return emit_result(pending, last_hit, focus, focused, true, "keyboard-unsupported", "unsupported-key", "keyboard-unsupported");
+}
+
+REQUIRE BrowserInputSelect("pointer_second") == "pointer_second:ACK";
+REQUIRE pointer_activate() == "pointer-hit";
+REQUIRE BrowserInputSelect("pointer_miss") == "pointer_miss:ACK";
+REQUIRE pointer_activate() == "pointer-no-target";
+REQUIRE BrowserInputSelect("tab_first") == "tab_first:ACK";
+REQUIRE keyboard_activate() == "keyboard-focus";
+REQUIRE BrowserInputSelect("tab_wrap") == "tab_wrap:ACK";
+REQUIRE keyboard_activate() == "keyboard-focus";
+REQUIRE BrowserInputSelect("tab_no_hits") == "tab_no_hits:ACK";
+REQUIRE keyboard_activate() == "keyboard-no-target";
+REQUIRE BrowserInputSelect("enter_valid") == "enter_valid:ACK";
+REQUIRE keyboard_activate() == "keyboard-enter";
+REQUIRE BrowserInputSelect("enter_invalid") == "enter_invalid:ACK";
+REQUIRE keyboard_activate() == "keyboard-no-target";
+REQUIRE BrowserInputSelect("unsupported") == "unsupported:ACK";
+REQUIRE keyboard_activate() == "keyboard-unsupported";
+
+print "RMAL_INPUT_ACTIVATION_PASS";
+STOP;
