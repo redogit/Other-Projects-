@@ -8,7 +8,7 @@ CONTEXT RMAPL_HTTP_RESPONSE_PORT status="GENERATED" authority="LOCAL" evidence_t
 BOUNDARY RMAPL_HTTP_RESPONSE_PORT CLAIM_CEILING BOUNDED_GENERATED_PORT REASON "RMAL owns admission policy; native callbacks expose byte mechanics only"
 
 fn invalid_result() {
-    let ack = BrowserResponseResult(false, 0, "", "http-response-invalid", "requires-http11-200-header-delimiter-utf8-body", "http-response-invalid");
+    let ack = BrowserResponseResult(false, 0, "", "http-response-invalid", "requires-http11-200-header-delimiter-utf8-body", "http-response-invalid", false, false, false, false);
     REQUIRE ack == "http-response-invalid:ACK";
     return "http-response-invalid";
 }
@@ -37,7 +37,7 @@ fn admit_response() {
             if body_len <= 0 { return invalid_result(); }
             let html = BrowserResponseUtf8(body_start, body_len);
             if html == "" { return invalid_result(); }
-            let ack = BrowserResponseResult(true, 200, html, "html-tokenization-pending", "http-response-admitted", "http-response-admitted");
+            let ack = BrowserResponseResult(true, 200, html, "html-tokenization-pending", "http-response-admitted", "http-response-admitted", true, true, true, true);
             REQUIRE ack == "http-response-admitted:ACK";
             return "http-response-admitted";
         }
