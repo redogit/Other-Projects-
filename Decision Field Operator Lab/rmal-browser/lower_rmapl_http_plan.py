@@ -245,14 +245,14 @@ def lower_operator(operator: OperatorSpec) -> LoweredPlan:
         raise ValueError("unsupported RETURN consequence must be a literal string")
 
     # These branch edges are part of the admitted lowering family.
-    required_edges = {
+    required_edges = (
         Instruction("JUMP_IF_FALSE", ("$is_http", "check_https")),
         Instruction("JUMP", ("build_request",)),
         Instruction("JUMP_IF_FALSE", ("$is_https", "unsupported")),
-    }
-    missing = required_edges.difference(instructions)
+    )
+    missing = tuple(edge for edge in required_edges if edge not in instructions)
     if missing:
-        raise ValueError(f"planner branch edges changed: missing {sorted(map(str, missing))}")
+        raise ValueError(f"planner branch edges changed: missing {list(map(str, missing))}")
 
     return LoweredPlan(
         http_port=scalar(http_consts.get("port"), "http port", int),
