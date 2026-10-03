@@ -1,0 +1,219 @@
+#include "rmal/rmal.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct BrowserHost {
+    size_t index;
+} BrowserHost;
+
+static const char *EXPECTED_HANDOFFS[] = {
+    "HTML_TOKENIZE",
+    "DOM_BUILD",
+    "LAYOUT",
+    "HIT_MAP",
+    "RASTER",
+    "FRAME_VERIFY",
+    "CAMERA_PACK",
+    "FRAME_ADMIT",
+    "URL_RESOLVE",
+    "HTTPS_PLAN",
+    "NATIVE_TLS",
+    "HTTP_RESPONSE_ADMIT",
+    "HTML_TOKENIZE",
+    "DOM_BUILD",
+    "LAYOUT",
+    "HIT_MAP",
+    "RASTER",
+    "FRAME_VERIFY",
+    "CAMERA_PACK",
+    "FRAME_ADMIT",
+    "PRESENT"
+};
+
+static const size_t EXPECTED_HANDOFF_COUNT =
+    sizeof(EXPECTED_HANDOFFS) / sizeof(EXPECTED_HANDOFFS[0]);
+
+static char *copy_text(const char *text) {
+    size_t n = strlen(text) + 1U;
+    char *copy = (char *)malloc(n);
+    if (copy) memcpy(copy, text, n);
+    return copy;
+}
+
+static RmalStatus status_ok(void) {
+    RmalStatus status = {0};
+    status.ok = true;
+    return status;
+}
+
+static RmalStatus status_error(const char *message) {
+    RmalStatus status = {0};
+    status.ok = false;
+    snprintf(status.message, sizeof(status.message), "%s", message);
+    return status;
+}
+
+static RmalStatus browser_handoff(
+    void *context,
+    const RmalValue *arguments,
+    size_t count,
+    RmalValue *result
+) {
+    BrowserHost *host = (BrowserHost *)context;
+    if (!host || !arguments || !result) {
+        return status_error("BrowserHandoff received invalid host arguments");
+    }
+    if (count != 1U || arguments[0].kind != RMAL_VALUE_STRING ||
+        !arguments[0].as.string) {
+        return status_error("BrowserHandoff requires exactly one string");
+    }
+    if (host->index >= EXPECTED_HANDOFF_COUNT) {
+        return status_error("BrowserHandoff exceeded declared sequence");
+    }
+
+    const char *actual = arguments[0].as.string;
+    const char *expected = EXPECTED_HANDOFFS[host->index];
+    if (strcmp(actual, expected) != 0) {
+        RmalStatus status = {0};
+        status.ok = false;
+        snprintf(
+            status.message,
+            sizeof(status.message),
+            "handoff mismatch at %zu: expected %s got %s",
+            host->index,
+            expected,
+            actual
+        );
+        return status;
+    }
+
+    size_t ack_size = strlen(actual) + sizeof(":ACK");
+    char *ack = (char *)malloc(ack_size);
+    if (!ack) return status_error("BrowserHandoff acknowledgement allocation failed");
+    snprintf(ack, ack_size, "%s:ACK", actual);
+
+    result->kind = RMAL_VALUE_STRING;
+    result->as.string = ack;
+    host->index += 1U;
+    return status_ok();
+}
+
+static char *read_file(const char *path) {
+    FILE *file = fopen(path, "rb");
+    if (!file) return NULL;
+    if (fseek(file, 0, SEEK_END) != 0) {
+        fclose(file);
+        return NULL;
+    }
+    long end = ftell(file);
+    if (end < 0) {
+        fclose(file);
+        return NULL;
+    }
+    rewind(file);
+
+    size_t size = (size_t)end;
+    char *buffer = (char *)malloc(size + 1U);
+    if (!buffer) {
+        fclose(file);
+        return NULL;
+    }
+    size_t got = fread(buffer, 1U, size, file);
+    fclose(file);
+    if (got != size) {
+        free(buffer);
+        return NULL;
+    }
+    buffer[size] = '\0';
+    return buffer;
+}
+
+static int print_status(const char *stage, const RmalStatus *status) {
+    fprintf(
+        stderr,
+        "%s failed at %d:%d: %s\n",
+        stage,
+        status ? status->line : 0,
+        status ? status->column : 0,
+        status ? status->message : "unknown"
+    );
+    return 1;
+}
+
+int main(int argc, char **argv) {
+    if (argc != 2) {
+        fprintf(stderr, "usage: browser_rmal_host <browser_bootstrap.rmal>\n");
+        return 64;
+    }
+
+    char *source = read_file(argv[1]);
+    if (!source) {
+        fprintf(stderr, "cannot read RMAL bootstrap: %s\n", argv[1]);
+        return 65;
+    }
+
+    RmalStatus status = {0};
+    RmalProgram *program = rmal_parse_source(source, argv[1], &status);
+    free(source);
+    if (!program) return print_status("parse", &status);
+
+    RmalBytecode *bytecode = rmal_compile(program, &status);
+    if (!bytecode) {
+        rmal_program_free(program);
+        return print_status("compile", &status);
+    }
+
+    RmalVm *vm = rmal_vm_create();
+    if (!vm) {
+        rmal_bytecode_free(bytecode);
+        rmal_program_free(program);
+        fprintf(stderr, "cannot create RMAL VM\n");
+        return 66;
+    }
+
+    BrowserHost host = {0};
+    status = rmal_vm_bind_native(
+        vm,
+        "BrowserHandoff",
+        1U,
+        browser_handoff,
+        &host
+    );
+    if (!status.ok) {
+        rmal_vm_free(vm);
+        rmal_bytecode_free(bytecode);
+        rmal_program_free(program);
+        return print_status("bind", &status);
+    }
+
+    RmalValue result = {0};
+    status = rmal_vm_run(vm, bytecode, true, &result);
+    rmal_value_free(&result);
+
+    int rc = 0;
+    if (!status.ok) {
+        rc = print_status("run", &status);
+    } else if (host.index != EXPECTED_HANDOFF_COUNT) {
+        fprintf(
+            stderr,
+            "handoff sequence incomplete: %zu/%zu\n",
+            host.index,
+            EXPECTED_HANDOFF_COUNT
+        );
+        rc = 67;
+    } else {
+        printf("RMAL_BROWSER_HOST_PASS\n");
+        printf("rmal_version=%s\n", rmal_version());
+        printf("compiler=%s\n", rmal_compiler_name());
+        printf("native_api=%d\n", RMAL_NATIVE_API_VERSION);
+        printf("handoffs=%zu\n", host.index);
+        printf("python_runtime_used=false\n");
+    }
+
+    rmal_vm_free(vm);
+    rmal_bytecode_free(bytecode);
+    rmal_program_free(program);
+    return rc;
+}
