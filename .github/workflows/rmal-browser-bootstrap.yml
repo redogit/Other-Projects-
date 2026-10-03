@@ -1,0 +1,72 @@
+name: RMAPL Browser RMAL Bootstrap
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Decision Field Operator Lab/rmal-browser/**'
+      - '.github/workflows/rmal-browser-bootstrap.yml'
+  pull_request:
+    paths:
+      - 'Decision Field Operator Lab/rmal-browser/**'
+      - '.github/workflows/rmal-browser-bootstrap.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  VERIFY_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Fetch exact verification commit
+        shell: bash
+        run: |
+          git init "$GITHUB_WORKSPACE"
+          cd "$GITHUB_WORKSPACE"
+          git remote add origin "https://github.com/$GITHUB_REPOSITORY.git"
+          git fetch --depth=1 origin "$VERIFY_SHA"
+          git checkout --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "$VERIFY_SHA"
+
+      - name: Configure pinned RMAL/RMALC
+        shell: bash
+        run: cmake -S "Decision Field Operator Lab/rmal-browser" -B build/rmal-browser -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build native bootstrap
+        shell: bash
+        run: cmake --build build/rmal-browser --parallel 2
+
+      - name: Execute RMAL/RMALC browser bootstrap tests
+        shell: bash
+        run: ctest --test-dir build/rmal-browser --output-on-failure
+
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - name: Fetch exact verification commit
+        shell: pwsh
+        run: |
+          git init "$env:GITHUB_WORKSPACE"
+          Set-Location "$env:GITHUB_WORKSPACE"
+          git remote add origin "https://github.com/$env:GITHUB_REPOSITORY.git"
+          git fetch --depth=1 origin "$env:VERIFY_SHA"
+          git checkout --detach FETCH_HEAD
+          if ((git rev-parse HEAD).Trim() -ne "$env:VERIFY_SHA") { throw "exact-head mismatch" }
+
+      - name: Configure pinned RMAL/RMALC
+        shell: pwsh
+        run: cmake -S "Decision Field Operator Lab/rmal-browser" -B build/rmal-browser -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build native bootstrap
+        shell: pwsh
+        run: cmake --build build/rmal-browser --parallel 2
+
+      - name: Execute RMAL/RMALC browser bootstrap tests
+        shell: pwsh
+        run: ctest --test-dir build/rmal-browser --output-on-failure
