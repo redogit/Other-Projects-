@@ -280,3 +280,37 @@ BYTE_MECHANICS_CALLBACKS != URL_POLICY
 BOUNDED_URL_RESOLUTION != WHATWG_URL_CONFORMANCE
 PYTHON_DIFFERENTIAL_ORACLE != RMAL_RUNTIME_DEPENDENCY
 ```
+
+
+## Generated input-activation family
+
+`browser_input_activate.rmal` is generated from the paired RMAPL operators:
+
+- `browser_pointer_activate`
+- `browser_keyboard_activate`
+
+They migrate together because both consume the same hit-map/focus state.
+
+RMAL owns:
+
+- pointer rectangle hit-testing;
+- first matching link selection;
+- pointer miss behavior;
+- TAB focus advancement and wrapping;
+- TAB no-target behavior;
+- ENTER focused-link activation;
+- invalid focus handling;
+- unsupported keyboard handling;
+- pendingHref, lastHit, focusIndex and focusedHref mutations;
+- residual and consequence selection.
+
+The native host exposes only input/hit-map fields and records RMAL's result.
+
+Differential fixtures cover second-hit pointer activation, pointer miss, first TAB,
+TAB wrap, TAB with no links, valid ENTER, invalid ENTER and unsupported key.
+
+```text
+HIT_MAP_ACCESS_CALLBACKS != INPUT_POLICY
+BOUNDED_LINK_ACTIVATION != GENERAL_INPUT_SYSTEM
+PYTHON_DIFFERENTIAL_ORACLE != RMAL_RUNTIME_DEPENDENCY
+```
