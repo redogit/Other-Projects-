@@ -1,0 +1,13 @@
+{
+  "schema": "rmapl-rmal-local-navigation-lowering/v1",
+  "source": "../examples/independent_browser_url.rmapl",
+  "operator": "browser_local_navigate",
+  "output": "browser_local_navigation.rmal",
+  "module": "independent_browser.local_navigation_rmal",
+  "fixtures": ["navigate_first", "navigate_third", "missing"],
+  "claim_ceiling": [
+    "RESOURCE_TABLE_CALLBACKS != NAVIGATION_POLICY",
+    "BOUNDED_LOCAL_NAVIGATION != GENERAL_RESOURCE_LOADING",
+    "GENERATED_RMAL != GENERAL_RMAPL_LOWERING"
+  ]
+}
