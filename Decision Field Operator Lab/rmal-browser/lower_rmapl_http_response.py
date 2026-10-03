@@ -129,6 +129,10 @@ def lower(operator: OperatorSpec) -> ResponsePlan:
     require_instruction(ins, Instruction("SUB",("body_len","$n","$body_start")))
     require_instruction(ins, Instruction("GT",("body_ok","$body_len",0)))
     require_instruction(ins, Instruction("TEXT_UTF8",("html","$body")))
+    require_instruction(ins, Instruction("GET",("current","$candidate","construction.state.navigation.currentUrl.canonical")))
+    require_instruction(ins, Instruction("APPEND",("$candidate","construction.state.navigation.history","$current")))
+    require_instruction(ins, Instruction("GET",("pending","$candidate","construction.state.navigation.pendingUrl")))
+    require_instruction(ins, Instruction("SET",("$candidate","construction.state.navigation.currentUrl","$pending")))
 
     # Verify literal status prefix byte checks in order.
     pairs=[]
@@ -214,7 +218,7 @@ def render(plan: ResponsePlan, profile: dict[str,Any]) -> str:
         'BOUNDARY RMAPL_HTTP_RESPONSE_PORT CLAIM_CEILING BOUNDED_GENERATED_PORT REASON "RMAL owns admission policy; native callbacks expose byte mechanics only"',
         "",
         "fn invalid_result() {",
-        f"    let ack = BrowserResponseResult(false, 0, \"\", {q(plan.invalid_kind)}, {q(plan.invalid_detail)}, {q(plan.invalid_consequence)});",
+        f"    let ack = BrowserResponseResult(false, 0, \"\", {q(plan.invalid_kind)}, {q(plan.invalid_detail)}, {q(plan.invalid_consequence)}, false, false, false, false);",
         f"    REQUIRE ack == {q(plan.invalid_consequence + ':ACK')};",
         f"    return {q(plan.invalid_consequence)};",
         "}",
@@ -233,7 +237,7 @@ def render(plan: ResponsePlan, profile: dict[str,Any]) -> str:
         "            if body_len <= 0 { return invalid_result(); }",
         "            let html = BrowserResponseUtf8(body_start, body_len);",
         "            if html == \"\" { return invalid_result(); }",
-        f"            let ack = BrowserResponseResult(true, {plan.status}, html, {q(plan.admitted_kind)}, {q(plan.admitted_detail)}, {q(plan.admitted_consequence)});",
+        f"            let ack = BrowserResponseResult(true, {plan.status}, html, {q(plan.admitted_kind)}, {q(plan.admitted_detail)}, {q(plan.admitted_consequence)}, true, true, true, true);",
         f"            REQUIRE ack == {q(plan.admitted_consequence + ':ACK')};",
         f"            return {q(plan.admitted_consequence)};",
         "        }",
