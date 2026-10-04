@@ -361,12 +361,13 @@ python "Decision Field Operator Lab/tools/interact_fkdb.py" \
 Optional `--http-carrier` and `--tls-carrier` arguments pass through to the inherited
 live browser driver. The FKDB launcher performs manifest/page binding only.
 
-Current local pages:
+Current local progression:
 
-- `FKDB` — current common point;
-- `HISTORY` — source/failure-history entry;
-- `RECOVER` — reconstruction entry;
-- `LINEAGE` — Independent Browser -> FKDB direct-successor entry.
+```text
+FKDB -> HISTORY -> DECAY -> RECOVER -> RELATE -> FKDB
+```
+
+`LINEAGE` is an inspectable direct-successor side route that returns to FKDB.
 
 Current boundaries:
 
@@ -406,7 +407,9 @@ performs only bounded exact intent routing. Current recognized queries are:
 
 ```text
 HISTORY -> history
+DECAY   -> decay
 RECOVER -> recover
+RELATE  -> relate
 LINEAGE -> lineage
 FKDB    -> fkdb
 ```
