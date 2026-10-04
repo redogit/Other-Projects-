@@ -169,3 +169,15 @@ class LocalAdapterRegistry:
                 "bytes_read": bytes_read,
             },
         }
+
+
+
+def build_default_registry() -> LocalAdapterRegistry:
+    registry = LocalAdapterRegistry()
+
+    # Known adapters are registered in code but remain unavailable to the bridge
+    # unless local-tool-policy.json explicitly enables their tool_id.
+    from fkdb_adapter_mathbox import MathboxAdapter
+
+    registry.register(MathboxAdapter())
+    return registry
