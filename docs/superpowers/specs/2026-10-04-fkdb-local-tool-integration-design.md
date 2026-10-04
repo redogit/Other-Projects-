@@ -279,22 +279,92 @@ Peer-reviewed WebAssembly security work indicates that sandbox guarantees do not
 - Do not guarantee identical functionality across all fallbacks.
 - Do not make tool availability equivalent to knowledge validity.
 
-## 17. Recommended implementation progression
+## 17. Implementation decomposition
 
-    F10a capability graph
-    -> F10b Local Tool Bridge contract
-    -> F10c portable ToolCarrier bundle format
-    -> F10d Mathbox/Superpowers local-file adapters
-    -> F10e Zotero local/portable adapter
-    -> F10f Wolfram local-process adapter
-    -> F10g Supabase local-stack adapter
-    -> F10h generic portable-import adapters for SciSpace/Consensus/Exa/Linear/Railway
-    -> F10i TOOLS browser surface
-    -> F10j cross-carrier ingestion into FKDB index
+This document is the umbrella architecture. It is deliberately too broad for one
+implementation plan.
 
-Each step must remain independently usable without any later cloud integration.
+Implementation is split into independently reviewable plans:
 
-## 18. Claim ceiling
+### Plan A — F10 Core Local Tool Bridge
+
+Scope:
+
+    capability graph
+    + selected-execution receipt
+    + Local Tool Bridge interface
+    + ToolCarrier schema
+    + loopback-only network policy
+    + file/process capability allowlists
+    + portable bundle envelope
+    + TOOLS discovery/status shell
+
+No vendor-specific adapter is required for Plan A to be useful.
+
+### Plan B — Local workflow/computation adapters
+
+Scope:
+
+    Mathbox
+    + Superpowers
+    + Zotero local/portable
+    + Wolfram local-process
+
+### Plan C — Local infrastructure adapters
+
+Scope:
+
+    Supabase local stack
+    + Railway local configuration/artifact ingestion
+
+Hosted Supabase and live Railway cloud state remain optional.
+
+### Plan D — Portable research/project adapters
+
+Scope:
+
+    SciSpace
+    + Consensus
+    + Exa
+    + Linear
+
+These adapters operate first on portable artifacts and user-driven handoffs. Live remote
+synchronization is a separate optional future layer.
+
+### Plan E — Cross-carrier ingestion
+
+Scope:
+
+    ToolCarrier -> FKDB source index
+    + browser inspection
+    + contradiction surfacing
+    + recovery-path traversal
+    + no-authority-transfer gates
+
+Each plan must produce working software without requiring any later plan.
+
+## 18. Current evidence and unresolved probes
+
+Design evidence used in this review includes:
+
+- current WebAssembly Component Model and WASI 0.3 documentation;
+- Jco/componentize-js documentation for browser transpilation of components;
+- peer-reviewed WebAssembly runtime/security literature, including research identifying
+  host/WASI interactions as a separate trust boundary;
+- Supabase documentation for local development, RLS and Edge Function Wasm support;
+- an exact Wolfram enumeration of the existing 64-state coarse host selector.
+
+Environment-specific facts:
+
+- no existing FKDB Linear project was found;
+- no existing Supabase project was found;
+- no existing Railway project was found;
+- Zotero Desktop local availability was not probed from this remote environment;
+- local Wolfram Engine/wolframscript availability was not probed.
+
+Those local capabilities must be discovered at runtime rather than assumed.
+
+## 19. Claim ceiling
 
     LOCAL_INTEGRATION != TOOL_REIMPLEMENTATION
     PORTABLE_IMPORT != LIVE_SYNC
