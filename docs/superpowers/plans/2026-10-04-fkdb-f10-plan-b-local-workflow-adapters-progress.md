@@ -31,3 +31,7 @@ Task 3: complete — bounded Superpowers specs/plans/progress collection with de
 Task 4: RED verified at 20212ac — only fkdb_adapter_zotero failed because the module was absent; the prior 51-test baseline remained green.
 Task 4: Ruling: local API over-limit responses must return PARTIAL + ZOTERO_RESULT_LIMIT_REACHED rather than silently truncate — cost if wrong: callers must handle an explicit partial state, but no bibliographic records disappear without remainder.
 Task 4: complete — literal-loopback GET-only Zotero Desktop local API adapter with redirect denial, bounded URL-encoded search, preserved Zotero item/citation keys, no attachment/fulltext fetches, and raw portable BibTeX/RIS/CSL-JSON carriers; Linux and Windows dedicated matrices completed success with 52 tests.
+
+
+Task 5: RED verified at 69ffc5a — only fkdb_adapter_wolfram failed because the module was absent; the prior 52-test baseline remained green.
+Task 5: complete — bounded .wl/.m/.nb artifact collection, raw artifact SHA in source_version/provenance, base64 binary notebook carrier, executable discovery as DEGRADED LOCAL_PROCESS_PROBE only, and no RUN capability; Linux and Windows dedicated matrices completed success with 53 tests.
