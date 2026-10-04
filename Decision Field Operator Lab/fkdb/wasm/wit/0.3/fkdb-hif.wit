@@ -1,0 +1,68 @@
+package redogit:fkdb-hif@0.1.0;
+
+interface types {
+  enum query-status {
+    match,
+    no-match,
+    unresolved,
+  }
+
+  record provenance {
+    source-id: string,
+    carrier: string,
+    evidence-status: string,
+    authority-status: string,
+  }
+
+  record source-query {
+    id: string,
+    text: string,
+    budget: u64,
+  }
+
+  record candidate {
+    id: string,
+    title: string,
+    provenance: provenance,
+    recovery-path: string,
+    relations: list<string>,
+  }
+
+  record result-set {
+    status: query-status,
+    candidates: list<candidate>,
+    remainder: list<string>,
+    scan-cost: u64,
+  }
+
+  variant host-error {
+    unavailable(string),
+    denied(string),
+    invalid(string),
+    transport(string),
+  }
+}
+
+interface knowledge-host {
+  use types.{source-query, result-set, host-error};
+
+  query-sources: async func(input: source-query) -> result<result-set, host-error>;
+}
+
+interface byte-source {
+  use types.{host-error};
+
+  read: func(id: string) -> tuple<stream<u8>, future<result<_, host-error>>>;
+}
+
+interface browser {
+  use types.{source-query, result-set, host-error};
+
+  query: async func(input: source-query) -> result<result-set, host-error>;
+}
+
+world fkdb-browser {
+  import knowledge-host;
+  import byte-source;
+  export browser;
+}
