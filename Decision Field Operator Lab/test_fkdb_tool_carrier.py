@@ -188,7 +188,7 @@ class FkdbToolCarrierBehaviorTests(unittest.TestCase):
             path = root / "bundle.json"
             path.write_text(json.dumps(bundle), encoding="utf-8")
             json_size = path.stat().st_size
-            with self.assertRaisesRegex(ValueError, "bundle"):
+            with self.assertRaisesRegex(ValueError, "[Bb]undle"):
                 carrier_module.load_tool_bundle(
                     path, max_bundle_bytes=json_size + 127
                 )
