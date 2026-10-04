@@ -38,6 +38,13 @@ class FkdbWasmHifContractTests(unittest.TestCase):
             "FEATURE_DETECT_DONT_UA_SNIFF",
         )
 
+    def test_component_capabilities_distinguish_native_and_browser_transpiled(self):
+        capabilities = self.capabilities["capabilities"]
+        self.assertIn("componentNative03", capabilities)
+        self.assertIn("componentBrowserTranspiled03", capabilities)
+        self.assertNotIn("componentModel03", capabilities)
+        self.assertIn("WASM_COMPONENT_0_3", self.capabilities["tiers"])
+
     def test_no_user_agent_sniffing(self):
         lowered = self.host_js.lower()
         self.assertNotIn("useragent", lowered)
