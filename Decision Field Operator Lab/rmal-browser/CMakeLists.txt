@@ -513,3 +513,16 @@ set_tests_properties(
     PASS_REGULAR_EXPRESSION
       "OK"
 )
+
+add_test(
+  NAME fkdb_result_projection
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_result_projection.py"
+)
+set_tests_properties(
+  fkdb_result_projection
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)
