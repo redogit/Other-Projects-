@@ -16,6 +16,7 @@ import time
 from typing import Any
 from urllib.parse import unquote, urlsplit
 
+from fkdb_local_adapters import COLLECTION_SCHEMA, LocalAdapterRegistry
 from fkdb_tool_carrier import sha256_hex, validate_tool_carrier
 
 
@@ -127,6 +128,9 @@ class BridgePolicy:
         self.processes = tuple(value["processes"])
         self.max_import_bytes = value["max_import_bytes"]
         self.max_request_bytes = value["max_request_bytes"]
+        self.adapter_max_files = value["adapter_max_files"]
+        self.adapter_max_bytes = value["adapter_max_bytes"]
+        self.adapters = tuple(value["adapters"])
         self.environment_allowlist = tuple(value["environment_allowlist"])
 
     @classmethod
@@ -144,17 +148,26 @@ class BridgePolicy:
             raise ValueError("Plan A local tool policy must be LOOPBACK_ONLY")
 
         normalized = dict(value)
+        normalized.setdefault("adapter_max_files", 64)
+        normalized.setdefault("adapter_max_bytes", normalized.get("max_import_bytes", 1048576))
+        normalized.setdefault("adapters", [])
         for field_name in (
             "read_roots",
             "write_roots",
             "processes",
+            "adapters",
             "environment_allowlist",
         ):
             item = normalized.get(field_name)
             if not isinstance(item, list):
                 raise ValueError(f"{field_name} must be a list")
 
-        for field_name in ("max_import_bytes", "max_request_bytes"):
+        for field_name in (
+            "max_import_bytes",
+            "max_request_bytes",
+            "adapter_max_files",
+            "adapter_max_bytes",
+        ):
             item = normalized.get(field_name)
             if type(item) is not int or item <= 0:
                 raise ValueError(f"{field_name} must be a positive integer")
@@ -170,6 +183,20 @@ class BridgePolicy:
 
         for process in normalized["processes"]:
             cls._validate_process_entry(process)
+
+        seen_adapter_ids: set[str] = set()
+        for adapter in normalized["adapters"]:
+            if not isinstance(adapter, dict):
+                raise ValueError("adapter policy entry must be an object")
+            tool_id = adapter.get("tool_id")
+            enabled = adapter.get("enabled")
+            if not isinstance(tool_id, str) or not tool_id:
+                raise ValueError("adapter tool_id must be non-empty")
+            if type(enabled) is not bool:
+                raise ValueError("adapter enabled must be boolean")
+            if tool_id in seen_adapter_ids:
+                raise ValueError(f"duplicate adapter policy id: {tool_id}")
+            seen_adapter_ids.add(tool_id)
 
         return cls(normalized)
 
@@ -295,6 +322,12 @@ class BridgePolicy:
             )
 
         raise PermissionError("process executable is not allowlisted")
+
+    def adapter_enabled(self, tool_id: str) -> bool:
+        return any(
+            entry.get("tool_id") == tool_id and entry.get("enabled") is True
+            for entry in self.adapters
+        )
 
     def tool_descriptors(self) -> list[dict[str, Any]]:
         descriptors: list[dict[str, Any]] = []
@@ -452,9 +485,12 @@ class _BridgeHandler(BaseHTTPRequestHandler):
             value = receipt.public_dict()
             value["capabilities"] = [
                 "IMPORT_ARTIFACT",
+                "COLLECT_ARTIFACT",
                 "LOCALHOST_HTTP",
             ]
-            descriptors = self._bridge.fkdb_policy.tool_descriptors()  # type: ignore[attr-defined]
+            policy = self._bridge.fkdb_policy  # type: ignore[attr-defined]
+            registry = self._bridge.fkdb_adapter_registry  # type: ignore[attr-defined]
+            descriptors = policy.tool_descriptors() + registry.descriptors(policy)
             value["tool_count"] = len(descriptors)
             unresolved = sorted(
                 {
@@ -472,7 +508,12 @@ class _BridgeHandler(BaseHTTPRequestHandler):
                 200,
                 {
                     "schema": "fkdb/local-tool-list/v1",
-                    "tools": self._bridge.fkdb_policy.tool_descriptors(),  # type: ignore[attr-defined]
+                    "tools": (
+                        self._bridge.fkdb_policy.tool_descriptors()  # type: ignore[attr-defined]
+                        + self._bridge.fkdb_adapter_registry.descriptors(  # type: ignore[attr-defined]
+                            self._bridge.fkdb_policy  # type: ignore[attr-defined]
+                        )
+                    ),
                 },
             )
             return
@@ -517,6 +558,33 @@ class _BridgeHandler(BaseHTTPRequestHandler):
                         "remainder": [],
                     },
                 )
+                return
+
+            if self.path == "/fkdb-tool-bridge/v1/collect":
+                tool_id = body.get("tool_id")
+                root = body.get("root")
+                options = body.get("options", {})
+                if not isinstance(tool_id, str) or not tool_id:
+                    raise ValueError("tool_id must be a non-empty string")
+                if root is not None and (not isinstance(root, str) or not root):
+                    raise ValueError("root must be null or a non-empty string")
+                if not isinstance(options, dict):
+                    raise ValueError("options must be an object")
+
+                policy = self._bridge.fkdb_policy  # type: ignore[attr-defined]
+                if not policy.adapter_enabled(tool_id):
+                    self._deny(403, "local adapter is not enabled by policy")
+                    return
+
+                registry = self._bridge.fkdb_adapter_registry  # type: ignore[attr-defined]
+                result = registry.collect(
+                    tool_id,
+                    {"root": root, "options": options},
+                    policy,
+                )
+                if result.get("schema") != COLLECTION_SCHEMA:
+                    raise ValueError("adapter registry returned invalid collection schema")
+                self._send_json(200, result)
                 return
 
             if self.path == "/fkdb-tool-bridge/v1/run":
@@ -590,6 +658,7 @@ def run_bridge(
     port: int = 0,
     web_root: Path,
     policy: BridgePolicy | None = None,
+    adapter_registry: LocalAdapterRegistry | None = None,
 ) -> BridgeReceipt:
     if not _is_loopback_literal(bind):
         raise ValueError("bridge bind address must be a literal loopback address")
@@ -609,6 +678,9 @@ def run_bridge(
         )
         policy = BridgePolicy.load(policy_path)
 
+    if adapter_registry is None:
+        adapter_registry = LocalAdapterRegistry()
+
     server_cls = _BridgeHTTPServerV6 if ":" in bind else _BridgeHTTPServer
     server = server_cls((bind, port), _BridgeHandler)
     actual_port = int(server.server_address[1])
@@ -617,6 +689,7 @@ def run_bridge(
     token = secrets.token_urlsafe(32)
 
     server.fkdb_policy = policy  # type: ignore[attr-defined]
+    server.fkdb_adapter_registry = adapter_registry  # type: ignore[attr-defined]
     server.fkdb_web_root = root  # type: ignore[attr-defined]
     server.fkdb_origin = origin  # type: ignore[attr-defined]
     server.fkdb_token = token  # type: ignore[attr-defined]
