@@ -614,3 +614,17 @@ set_tests_properties(
     PASS_REGULAR_EXPRESSION
       "OK"
 )
+
+
+add_test(
+  NAME fkdb_adapter_superpowers
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_adapter_superpowers.py"
+)
+set_tests_properties(
+  fkdb_adapter_superpowers
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)
