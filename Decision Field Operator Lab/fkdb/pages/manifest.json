@@ -1,0 +1,90 @@
+{
+  "schema": "fkdb/page-manifest/v1",
+  "project": "FKDB",
+  "project_name": "Fighting Knowledge Decay Browser",
+  "start_page": "fkdb",
+  "lineage": {
+    "kind": "DIRECT_SUCCESSOR",
+    "predecessor": "Independent Browser",
+    "naming_date": "2026-10-04"
+  },
+  "query_progression": [
+    "NEED",
+    "HISTORY",
+    "DECAY",
+    "RECOVER",
+    "RELATE",
+    "RETURN"
+  ],
+  "claim_ceiling": [
+    "PAGE_MANIFEST != KNOWLEDGE",
+    "RELATION != EVIDENCE_TRANSFER",
+    "RECOVERED_PAGE != RECOVERED_MEANING",
+    "LOCAL_SURFACE != COMPLETE_KNOWLEDGE_RECOVERY"
+  ],
+  "pages": [
+    {
+      "id": "fkdb",
+      "file": "fkdb.html",
+      "title": "FKDB",
+      "role": "CURRENT_COMMON_POINT",
+      "purpose": "Entry point for the Fighting Knowledge Decay Browser progression.",
+      "relations": [
+        "history",
+        "recover",
+        "lineage"
+      ],
+      "provenance": [
+        "Decision Field Operator Lab/rmal-browser/FKDB_IDENTITY.md"
+      ],
+      "recovery_path": "Read manifest, then page source, then FKDB identity.",
+      "state": "ACTIVE"
+    },
+    {
+      "id": "history",
+      "file": "history.html",
+      "title": "HISTORY",
+      "role": "SOURCE_AND_FAILURE_HISTORY",
+      "purpose": "Preserve sources, failures, chronology and their route back to the current need.",
+      "relations": [
+        "fkdb"
+      ],
+      "provenance": [
+        "FKDB specification: history and failure retention"
+      ],
+      "recovery_path": "Return to FKDB current common point through the HOME relation.",
+      "state": "ACTIVE"
+    },
+    {
+      "id": "recover",
+      "file": "recover.html",
+      "title": "RECOVER",
+      "role": "RECONSTRUCTION",
+      "purpose": "Relate, rebuild and verify knowledge without replacing source identity.",
+      "relations": [
+        "fkdb"
+      ],
+      "provenance": [
+        "FKDB query kernel and Fighting Knowledge Decay specification"
+      ],
+      "recovery_path": "Return to FKDB after bounded reconstruction or unresolved remainder.",
+      "state": "ACTIVE"
+    },
+    {
+      "id": "lineage",
+      "file": "lineage.html",
+      "title": "LINEAGE",
+      "role": "DIRECT_SUCCESSOR_LINEAGE",
+      "purpose": "Preserve Independent Browser to FKDB successor identity without retroactive renaming.",
+      "relations": [
+        "fkdb"
+      ],
+      "provenance": [
+        "Independent Browser",
+        "FKDB_IDENTITY.md"
+      ],
+      "recovery_path": "Follow predecessor identity, successor identity and preserved browser evidence.",
+      "state": "ACTIVE"
+    }
+  ]
+}
