@@ -558,3 +558,17 @@ if(FKDB_NODE_EXECUTABLE)
 else()
   message(STATUS "Node.js not found: FKDB Web host behavioral test skipped; Python contract test remains active")
 endif()
+
+
+add_test(
+  NAME fkdb_tool_carrier
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_tool_carrier.py"
+)
+set_tests_properties(
+  fkdb_tool_carrier
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)
