@@ -224,7 +224,23 @@ class BridgePolicy:
             configured = Path(process["executable"]).resolve(strict=False)
             if executable_path != configured:
                 continue
-            if argv[0] not in process["allowed_subcommands"]:
+            raw_subcommand = argv[0]
+            allowed = False
+            for configured_subcommand in process["allowed_subcommands"]:
+                if raw_subcommand == configured_subcommand:
+                    allowed = True
+                    break
+                raw_path = Path(raw_subcommand)
+                configured_path = Path(configured_subcommand)
+                if raw_path.is_absolute() and configured_path.is_absolute():
+                    raw_identity = os.path.normcase(str(raw_path.resolve(strict=False)))
+                    configured_identity = os.path.normcase(
+                        str(configured_path.resolve(strict=False))
+                    )
+                    if raw_identity == configured_identity:
+                        allowed = True
+                        break
+            if not allowed:
                 raise PermissionError("process subcommand is not allowlisted")
 
             working_roots = tuple(Path(p).resolve() for p in process["working_roots"])
