@@ -51,16 +51,25 @@ def build_pages(data: dict) -> dict[str, str]:
         "fkdb.html": (
             f"<h1>FKDB</h1><p>{data['need']}</p>"
             '<a href="history">HISTORY</a>'
-            '<a href="recover">RECOVER</a>'
             '<a href="lineage">LINEAGE</a>'
         ),
         "history.html": (
             f"<h1>HISTORY</h1><p>{data['history']}</p>"
+            '<a href="decay">DECAY</a>'
+            '<a href="fkdb">HOME</a>'
+        ),
+        "decay.html": (
+            f"<h1>DECAY</h1><p>{data['decay']}</p>"
+            '<a href="recover">RECOVER</a>'
             '<a href="fkdb">HOME</a>'
         ),
         "recover.html": (
-            f"<h1>RECOVER</h1><p>{data['decay']}</p>"
-            f"<p>{data['recover']}</p>"
+            f"<h1>RECOVER</h1><p>{data['recover']}</p>"
+            '<a href="relate">RELATE</a>'
+            '<a href="fkdb">HOME</a>'
+        ),
+        "relate.html": (
+            f"<h1>RELATE</h1><p>{data['relate']}</p>"
             '<a href="fkdb">HOME</a>'
         ),
         "lineage.html": (
