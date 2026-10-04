@@ -86,6 +86,19 @@ def route_query(query_host: Path, query: str, manifest: dict) -> tuple[str, str,
     return status, route, cost
 
 
+def surface_text(value: str, remainder: list[str], remainder_tag: str) -> str:
+    text = value.upper().replace("_", " ")
+    text = "".join(ch for ch in text if ch == " " or ("A" <= ch <= "Z"))
+    text = " ".join(text.split())
+    if len(text) > 25:
+        text = text[:25].rstrip()
+        remainder.append(remainder_tag)
+    if not text:
+        text = "UNRESOLVED"
+        remainder.append(remainder_tag)
+    return text
+
+
 def bounded_result_text(result: dict) -> tuple[str, list[str]]:
     remainder = list(result.get("remainder", []))
     status = result.get("status")
@@ -99,29 +112,73 @@ def bounded_result_text(result: dict) -> tuple[str, list[str]]:
         text = "NO LOCAL MATCH"
     else:
         text = "UNRESOLVED QUERY"
-
-    text = "".join(ch for ch in text.upper() if ch == " " or ("A" <= ch <= "Z"))
-    if len(text) > 25:
-        text = text[:25].rstrip()
-        remainder.append("DISPLAY_TRUNCATED")
-    if not text:
-        text = "UNRESOLVED QUERY"
-    return text, remainder
+    return surface_text(text, remainder, "DISPLAY_TRUNCATED"), remainder
 
 
 def write_index_result(work_dir: Path, result: dict) -> Path:
     work_dir.mkdir(parents=True, exist_ok=True)
+    source_page = work_dir / "source.html"
+    recovery_page = work_dir / "recovery.html"
+    source_page.unlink(missing_ok=True)
+    recovery_page.unlink(missing_ok=True)
+
     display, remainder = bounded_result_text(result)
     result_copy = dict(result)
     result_copy["display_remainder"] = remainder
+
+    links = '<a href="fkdb">HOME</a>'
+    candidates = result.get("candidates", [])
+    if result.get("status") == "MATCH" and len(candidates) == 1:
+        candidate = candidates[0]
+        carrier = surface_text(
+            candidate["carrier"], remainder, "SOURCE_CARRIER_DISPLAY_TRUNCATED"
+        )
+        relation = surface_text(
+            candidate["provenance"]["relation"],
+            remainder,
+            "SOURCE_RELATION_DISPLAY_TRUNCATED",
+        )
+        recovery = surface_text(
+            candidate["recovery_display"],
+            remainder,
+            "RECOVERY_DISPLAY_TRUNCATED",
+        )
+
+        source_page.write_text(
+            f'<h1>SOURCE</h1><p>{carrier}</p><p>{relation}</p>'
+            '<a href="result">BACK</a><a href="fkdb">HOME</a>',
+            encoding="utf-8",
+        )
+        recovery_page.write_text(
+            f'<h1>RECOVERY</h1><p>{recovery}</p>'
+            '<a href="result">BACK</a><a href="fkdb">HOME</a>',
+            encoding="utf-8",
+        )
+        links = (
+            '<a href="source">SOURCE</a>'
+            '<a href="recovery">RECOVERY</a>'
+            '<a href="fkdb">HOME</a>'
+        )
+        result_copy["surface_projection"] = {
+            "source": {
+                "carrier": carrier,
+                "provenance_relation": relation,
+            },
+            "recovery": recovery,
+        }
+
     sidecar = work_dir / "index_result.json"
-    sidecar.write_text(json.dumps(result_copy, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    sidecar.write_text(
+        json.dumps(result_copy, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
     page = work_dir / "index_result.html"
     page.write_text(
-        f'<h1>RESULT</h1><p>{display}</p><a href="fkdb">HOME</a>',
+        f'<h1>RESULT</h1><p>{display}</p>{links}',
         encoding="utf-8",
     )
     return page
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -171,6 +228,12 @@ def main() -> int:
         command.extend(["--page", f"{page['id']}={PAGES / page['file']}"])
     if dynamic_page is not None:
         command.extend(["--page", f"result={dynamic_page}"])
+        source_page = args.work_dir / "source.html"
+        recovery_page = args.work_dir / "recovery.html"
+        if source_page.is_file():
+            command.extend(["--page", f"source={source_page}"])
+        if recovery_page.is_file():
+            command.extend(["--page", f"recovery={recovery_page}"])
     command.extend([
         "--start", start_page,
         "--presenter", str(args.presenter),
