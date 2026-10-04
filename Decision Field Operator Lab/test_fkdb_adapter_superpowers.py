@@ -105,7 +105,7 @@ class FkdbSuperpowersAdapterTests(unittest.TestCase):
             specs = root / "docs" / "superpowers" / "specs"
             specs.mkdir(parents=True)
             content = "# Approved design\nThis file says approved.\n"
-            (specs / "approved.md").write_text(content, encoding="utf-8")
+            (specs / "approved.md").write_bytes(content.encode("utf-8"))
             policy = self.make_policy(root)
             result = self.registry().collect(
                 "superpowers", {"root": str(root), "options": {}}, policy
