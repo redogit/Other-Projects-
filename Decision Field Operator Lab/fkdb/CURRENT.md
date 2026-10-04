@@ -108,18 +108,17 @@ Passing software tests establish only the bounded implemented behavior.
 
 ## Current remainder
 
-1. Free-text human query input.
-2. Live history/source index rather than bootstrap query-state fixture.
-3. Live cross-carrier candidate retrieval with provenance.
-4. Query result ranking that cannot promote evidence by resemblance.
-5. Explicit UNKNOWN / UNRESOLVED browser surfaces.
-6. Human-readable source/provenance/recovery inspection.
-7. Scrolling and larger-page layout.
-8. Native/RMAL migration of any remaining FKDB-specific outer-controller logic.
+1. Live history/source index rather than bootstrap query-state fixture.
+2. Live cross-carrier candidate retrieval with provenance.
+3. Query result ranking that cannot promote evidence by resemblance.
+4. Richer free-text interpretation beyond exact declared intents.
+5. Human-readable source/provenance/recovery inspection.
+6. Scrolling and larger-page layout.
+7. Native/RMAL migration of any remaining FKDB-specific outer-controller logic.
 
-## Next one-degree step
+## F6 — bounded live query input
 
-Build **F6 — bounded live query input**:
+Implemented bounded exact query routing:
 
 ```text
 human query
@@ -130,7 +129,10 @@ human query
 -> provenance + remainder
 ```
 
-Constraints:
+Current exact recognized intents: `HISTORY`, `RECOVER`, `LINEAGE`, `FKDB`.
+Empty input returns `NO_MATCH`; all other text returns `UNRESOLVED`.
+
+Constraints preserved:
 
 - query text remains source-authoritative;
 - routing cannot claim semantic truth;
@@ -139,8 +141,12 @@ Constraints:
 - routing cost is explicit;
 - every selected result retains the route that selected it.
 
+## Next one-degree step
+
+Build **F7 — live source/history index** so a query can retrieve bounded candidate records rather than only route to a declared surface. Candidate retrieval must retain source identity, provenance, cost, evidence status and explicit unresolved remainder.
+
 ## Claim ceiling
 
-FKDB is now a functioning bounded successor surface and query-policy prototype.
+FKDB is now a functioning bounded successor surface and exact live-query-routing prototype.
 It is not yet a complete knowledge-recovery browser, a semantic search engine, or
 evidence authority.
