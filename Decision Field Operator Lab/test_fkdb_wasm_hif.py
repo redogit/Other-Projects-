@@ -130,6 +130,13 @@ class FkdbWasmHifContractTests(unittest.TestCase):
         self.assertIn("detectCapabilities", self.html)
         self.assertIn("selectHostProfile", self.html)
 
+    def test_browser_tools_surface_does_not_prompt_remote_login(self):
+        lowered = self.html.lower()
+        self.assertNotIn("login", lowered)
+        self.assertNotIn("sign in", lowered)
+        self.assertIn("tool.capabilities", self.html)
+        self.assertIn("tool.unresolved_requirements", self.html)
+
     def test_capability_contract_preserves_fkdb_invariants(self):
         invariants = set(self.capabilities["invariants"])
         self.assertIn("FALLBACK != SILENT_SEMANTIC_WEAKENING", invariants)
