@@ -179,7 +179,9 @@ def build_default_registry() -> LocalAdapterRegistry:
     # unless local-tool-policy.json explicitly enables their tool_id.
     from fkdb_adapter_mathbox import MathboxAdapter
     from fkdb_adapter_superpowers import SuperpowersAdapter
+    from fkdb_adapter_zotero import ZoteroAdapter
 
     registry.register(MathboxAdapter())
     registry.register(SuperpowersAdapter())
+    registry.register(ZoteroAdapter())
     return registry
