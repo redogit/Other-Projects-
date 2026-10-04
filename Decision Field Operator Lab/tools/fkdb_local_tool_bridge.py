@@ -323,6 +323,10 @@ def _process_carrier(
         loss.append("STDOUT_TRUNCATED")
     if stderr_truncated:
         loss.append("STDERR_TRUNCATED")
+    if grant.network_policy == "LOOPBACK_ONLY":
+        remainder.append(
+            "PROCESS_NETWORK_POLICY_NOT_ENFORCED_BY_PORTABLE_STDLIB_BRIDGE"
+        )
     if grant.memory_limit:
         remainder.append("MEMORY_LIMIT_NOT_ENFORCED_BY_PORTABLE_STDLIB_BRIDGE")
 
