@@ -95,6 +95,15 @@ Retained failure:
 
 - F6-001 — page projection rejected an over-width display string; semantic intent was preserved while only the display projection was shortened.
 
+### F8 — in-browser source/provenance inspection
+
+- single bounded index match may expose a SOURCE page;
+- SOURCE shows bounded carrier + provenance-relation projections;
+- RECOVERY shows a bounded recovery synopsis;
+- the full candidate record, source refs, provenance and recovery path remain in the JSON sidecar;
+- multiple candidates produce no SOURCE or RECOVERY target;
+- display truncation is explicit remainder, never silent replacement.
+
 ## Current query progression
 
 ```text
@@ -147,11 +156,10 @@ Passing software tests establish only the bounded implemented behavior.
 
 1. Live external/history ingestion beyond the bounded local source index.
 2. Live cross-carrier candidate retrieval with provenance.
-3. Human-readable source/provenance/recovery inspection inside the browser.
-4. Richer free-text interpretation beyond exact token matching.
-5. Any result ordering must not promote evidence by resemblance.
-6. Scrolling and larger-page layout.
-7. Native/RMAL migration of remaining FKDB-specific outer-controller/index logic.
+3. Richer free-text interpretation beyond exact token matching.
+4. Any result ordering must not promote evidence by resemblance.
+5. Scrolling and larger-page layout.
+6. Native/RMAL migration of remaining FKDB-specific outer-controller/index logic.
 
 ## F6 — bounded live query input
 
@@ -180,10 +188,10 @@ Constraints preserved:
 
 ## Next one-degree step
 
-Build **F8 — in-browser source/provenance inspection**. A single bounded index match may expose a human-readable inspection page, but the full sidecar remains authoritative. Multiple candidates may not be silently ranked or collapsed.
+Build **F9 — bounded cross-carrier candidate ingestion**. Add one external/source carrier adapter that can contribute records into the same provenance-preserving index contract without transferring source evidence or authority.
 
 ## Claim ceiling
 
-FKDB is now a functioning bounded successor surface with exact live-query routing and a bounded provenance-preserving local source index.
+FKDB is now a functioning bounded successor surface with exact live-query routing, a bounded provenance-preserving local source index, and in-browser source/recovery inspection for unambiguous matches.
 It is not yet a complete knowledge-recovery browser, a semantic search engine, or
 evidence authority.
