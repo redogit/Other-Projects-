@@ -304,3 +304,59 @@ set_tests_properties(
     PASS_REGULAR_EXPRESSION
       "RMAPL_RMAL_INPUT_ACTIVATION_EQUIVALENCE PASS"
 )
+
+# FKDB direct-successor layer. Historical Independent Browser targets above remain unchanged.
+add_executable(fkdb_rmal_host fkdb_rmal_host.c)
+target_link_libraries(fkdb_rmal_host PRIVATE rmal)
+
+add_executable(fkdb_query_host fkdb_query_host.c)
+target_link_libraries(fkdb_query_host PRIVATE rmal)
+
+if(CMAKE_C_COMPILER_ID MATCHES "Clang|GNU")
+  target_compile_options(fkdb_rmal_host PRIVATE -Wall -Wextra -Wpedantic -Werror)
+  target_compile_options(fkdb_query_host PRIVATE -Wall -Wextra -Wpedantic -Werror)
+elseif(MSVC)
+  target_compile_options(fkdb_rmal_host PRIVATE /W4 /WX)
+  target_compile_options(fkdb_query_host PRIVATE /W4 /WX)
+endif()
+
+set(FKDB_BOOTSTRAP "${CMAKE_CURRENT_SOURCE_DIR}/fkdb_bootstrap.rmal")
+set(FKDB_QUERY "${CMAKE_CURRENT_SOURCE_DIR}/fkdb_query.rmal")
+
+add_test(
+  NAME fkdb_rmalc_check
+  COMMAND $<TARGET_FILE:rmalc> check "${FKDB_BOOTSTRAP}"
+)
+add_test(
+  NAME fkdb_rmalc_compile
+  COMMAND $<TARGET_FILE:rmalc> compile "${FKDB_BOOTSTRAP}"
+)
+add_test(
+  NAME fkdb_native_host
+  COMMAND $<TARGET_FILE:fkdb_rmal_host> "${FKDB_BOOTSTRAP}"
+)
+set_tests_properties(
+  fkdb_native_host
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "FKDB_BROWSER_RECEIPT handoffs=27 direct_successor=true python_runtime_used=false"
+)
+
+add_test(
+  NAME fkdb_query_rmalc_check
+  COMMAND $<TARGET_FILE:rmalc> check "${FKDB_QUERY}"
+)
+add_test(
+  NAME fkdb_query_rmalc_compile
+  COMMAND $<TARGET_FILE:rmalc> compile "${FKDB_QUERY}"
+)
+add_test(
+  NAME fkdb_query_native
+  COMMAND $<TARGET_FILE:fkdb_query_host> "${FKDB_QUERY}"
+)
+set_tests_properties(
+  fkdb_query_native
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "FKDB_QUERY_RECEIPT policy_in_rmal=true python_runtime_used=false"
+)
