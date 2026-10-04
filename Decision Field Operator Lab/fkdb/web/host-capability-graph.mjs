@@ -7,6 +7,7 @@ export const EXECUTION_PATHS = Object.freeze({
   JS_MODERN_FALLBACK: "JS_MODERN_FALLBACK",
   JS_LEGACY_FALLBACK: "JS_LEGACY_FALLBACK",
   NATIVE_RMAL_FALLBACK: "NATIVE_RMAL_FALLBACK",
+  LOCAL_TOOL_BRIDGE: "LOCAL_TOOL_BRIDGE",
   UNRESOLVED: "UNRESOLVED",
 });
 
@@ -216,9 +217,16 @@ function candidatesFor(capabilities, obligation) {
     case "LOCAL_TOOL_ACCESS":
       return [
         candidate(
+          EXECUTION_PATHS.LOCAL_TOOL_BRIDGE,
+          available(capabilities, "localToolBridge"),
+          available(capabilities, "localToolBridge")
+            ? "AVAILABLE"
+            : "LOCAL_TOOL_BRIDGE_UNAVAILABLE"
+        ),
+        candidate(
           EXECUTION_PATHS.UNRESOLVED,
           true,
-          "LOCAL_TOOL_BRIDGE_NOT_IMPLEMENTED"
+          "LOCAL_TOOL_BRIDGE_UNAVAILABLE"
         ),
       ];
     default:
