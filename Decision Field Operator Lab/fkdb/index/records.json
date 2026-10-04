@@ -68,7 +68,8 @@
         "IB-001",
         "FKDB-Q-001",
         "FKDB-P-001",
-        "FKDB-F6-001"
+        "FKDB-F6-001",
+        "FKDB-HIF-001"
       ],
       "terms": [
         "FKDB",
@@ -185,6 +186,53 @@
         "REPAIR"
       ],
       "recovery_display": "READ FAILURE REPAIR"
+    },
+    {
+      "id": "FKDB-HIF-001",
+      "title": "FKDB WEBASSEMBLY HOST FRAMEWORK",
+      "kind": "HOST_INTEROPERABILITY_FRAMEWORK",
+      "state": "ACTIVE",
+      "domain": "WEBASSEMBLY_WEB_PLATFORM",
+      "carrier": "WIT_ES_MODULE_JSON",
+      "source_refs": [
+        "Decision Field Operator Lab/fkdb/web/WASM_HIF.md",
+        "Decision Field Operator Lab/fkdb/web/capabilities.json",
+        "Decision Field Operator Lab/fkdb/web/fkdb-host.mjs",
+        "Decision Field Operator Lab/fkdb/wasm/wit/0.3/fkdb-hif.wit",
+        "Decision Field Operator Lab/fkdb/wasm/wit/0.2/fkdb-hif.wit"
+      ],
+      "provenance": {
+        "relation": "PART_OF",
+        "target": "FKDB-001",
+        "status": "SOURCE_BACKED_CURRENT_STANDARDS_NORMALIZED"
+      },
+      "evidence_status": "CONTRACT_AND_HOST_SELECTOR_TESTED_BOUNDED",
+      "recovery_path": "Read Wasm-HIF architecture, capability manifest, WIT 0.3/0.2 contracts, then rerun Python and Node host tests.",
+      "recovery_display": "READ WASM HOST CONTRACTS",
+      "relations": [
+        "FKDB-001"
+      ],
+      "terms": [
+        "WEBASSEMBLY",
+        "WASM",
+        "JSPI",
+        "WIT",
+        "WASI",
+        "COMPONENT",
+        "MODEL",
+        "FETCH",
+        "STREAMS",
+        "WORKER",
+        "OPFS",
+        "INDEXEDDB",
+        "XHR",
+        "WASMFS",
+        "FALLBACK",
+        "ASYNC",
+        "HTTP",
+        "HOST",
+        "INTEROP"
+      ]
     }
   ]
 }
