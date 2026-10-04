@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 
+import * as fkdbHost from "./fkdb/web/fkdb-host.mjs";
+
 import {
   HOST_TIERS,
   buildHostReceipt,
@@ -11,6 +13,49 @@ import {
   selectNetworkStrategy,
   selectStorageStrategy,
 } from "./fkdb/web/fkdb-host.mjs";
+
+assert.equal(
+  typeof fkdbHost.selectExecutionPath,
+  "function",
+  "selectExecutionPath must be exported by the Wasm-HIF host"
+);
+
+const graphNative = fkdbHost.selectExecutionPath(
+  caps({
+    wasmCore: true,
+    componentNative03: true,
+    componentBrowserTranspiled03: true,
+    jspi: true,
+  }),
+  "EXECUTE_COMPONENT"
+);
+assert.equal(graphNative.selected.kind, "COMPONENT_NATIVE_0_3");
+
+const graphBrowser = fkdbHost.selectExecutionPath(
+  caps({
+    wasmCore: true,
+    componentBrowserTranspiled03: true,
+    jspi: true,
+    fetch: true,
+  }),
+  "EXECUTE_COMPONENT_IN_BROWSER"
+);
+assert.equal(graphBrowser.selected.kind, "COMPONENT_BROWSER_TRANSPILED_0_3");
+assert.ok(graphBrowser.considered.includes("WASM_JSPI"));
+assert.ok(
+  graphBrowser.rejected.some((entry) => entry.kind === "COMPONENT_NATIVE_0_3")
+);
+
+const graphLegacyAmbiguous = fkdbHost.detectCapabilities({}, {
+  componentModel03: true,
+});
+assert.equal(graphLegacyAmbiguous.componentNative03, false);
+assert.equal(graphLegacyAmbiguous.componentBrowserTranspiled03, false);
+assert.ok(
+  graphLegacyAmbiguous.remainder.includes(
+    "LEGACY_COMPONENT_DECLARATION_AMBIGUOUS"
+  )
+);
 
 function caps(overrides = {}) {
   return {
@@ -27,6 +72,8 @@ function caps(overrides = {}) {
     abortController: false,
     textCodec: false,
     componentModel03: false,
+    componentNative03: false,
+    componentBrowserTranspiled03: false,
     wasiHttp03: false,
     wasiHttp02: false,
     wasiFilesystem03: false,
