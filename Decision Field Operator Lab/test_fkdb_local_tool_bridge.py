@@ -232,14 +232,50 @@ class FkdbLocalToolBridgeBehaviorTests(unittest.TestCase):
                 request.urlopen(bad)
             self.assertEqual(ctx.exception.code, 400)
 
-    def test_run_endpoint_executes_only_allowlisted_fixture_and_returns_receipt(self):
+    def test_process_descriptor_is_degraded_when_isolation_backends_are_unavailable(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            executable = Path(sys.executable).resolve()
+            script = root / "fixture.py"
+            script.write_text("print('SAFE')\n", encoding="utf-8")
+            policy = self.make_policy(
+                root,
+                processes=[
+                    {
+                        "tool_id": "python-fixture",
+                        "executable": str(executable),
+                        "allowed_subcommands": [str(script.resolve())],
+                        "working_roots": [str(root)],
+                        "read_roots": [str(root)],
+                        "write_roots": [],
+                        "network_policy": "LOOPBACK_ONLY",
+                        "time_limit": 5,
+                        "memory_limit": 1024,
+                        "environment_allowlist": [],
+                    }
+                ],
+            )
+            descriptor = policy.tool_descriptors()[0]
+            self.assertEqual(descriptor["state"], "DEGRADED")
+            self.assertIn(
+                "PROCESS_NETWORK_ISOLATION_BACKEND_UNAVAILABLE",
+                descriptor["unresolved_requirements"],
+            )
+            self.assertIn(
+                "PROCESS_MEMORY_LIMIT_BACKEND_UNAVAILABLE",
+                descriptor["unresolved_requirements"],
+            )
+
+    def test_run_endpoint_fails_closed_without_process_isolation_backend(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             (root / "index.html").write_text("<h1>FKDB</h1>", encoding="utf-8")
             executable = Path(sys.executable).resolve()
             script = root / "fixture.py"
+            marker = root / "executed.txt"
             script.write_text(
-                "import sys\nprint('ARG=' + sys.argv[1])\n",
+                "from pathlib import Path\n"
+                f"Path({str(marker)!r}).write_text('EXECUTED', encoding='utf-8')\n",
                 encoding="utf-8",
             )
             policy = self.make_policy(
@@ -251,7 +287,7 @@ class FkdbLocalToolBridgeBehaviorTests(unittest.TestCase):
                         "allowed_subcommands": [str(script.resolve())],
                         "working_roots": [str(root)],
                         "read_roots": [str(root)],
-                        "write_roots": [],
+                        "write_roots": [str(root)],
                         "network_policy": "LOOPBACK_ONLY",
                         "time_limit": 5,
                         "memory_limit": 0,
@@ -266,8 +302,8 @@ class FkdbLocalToolBridgeBehaviorTests(unittest.TestCase):
 
             payload = {
                 "executable": str(executable),
-                "argv": [str(script), "; echo PWNED"],
-                "obligation": "TEST_PROCESS_RECEIPT",
+                "argv": [str(script)],
+                "obligation": "TEST_PROCESS_FAIL_CLOSED",
             }
             req = request.Request(
                 receipt.origin + "/fkdb-tool-bridge/v1/run",
@@ -279,17 +315,13 @@ class FkdbLocalToolBridgeBehaviorTests(unittest.TestCase):
                     "X-FKDB-Bridge-Token": receipt.token,
                 },
             )
-            result = json.loads(request.urlopen(req).read())
-            carrier_result = result["carrier"]
-            self.assertEqual(carrier_result["tool_id"], "python-fixture")
-            self.assertEqual(carrier_result["locality"], "LOCAL_PROCESS")
-            self.assertEqual(carrier_result["payload"]["exit_code"], 0)
-            self.assertIn("ARG=; echo PWNED", carrier_result["payload"]["stdout"])
-            self.assertEqual(carrier_result["obligation"], "TEST_PROCESS_RECEIPT")
-            self.assertIn(
-                "PROCESS_NETWORK_POLICY_NOT_ENFORCED_BY_PORTABLE_STDLIB_BRIDGE",
-                carrier_result["remainder"],
-            )
+            with self.assertRaises(error.HTTPError) as ctx:
+                request.urlopen(req)
+            self.assertEqual(ctx.exception.code, 503)
+            body = json.loads(ctx.exception.read().decode("utf-8"))
+            self.assertEqual(body["status"], "DENIED")
+            self.assertIn("isolation", body["error"].lower())
+            self.assertFalse(marker.exists(), "process must not execute without isolation")
 
 
 class FkdbLocalToolBridgeRedContractTests(unittest.TestCase):
