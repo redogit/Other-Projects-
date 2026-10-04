@@ -7,11 +7,26 @@ interface types {
     unresolved,
   }
 
+  enum tool-locality {
+    embedded,
+    local-file,
+    local-process,
+    localhost,
+    portable-import,
+    user-handoff,
+    remote-optional,
+  }
+
   record provenance {
     source-id: string,
     carrier: string,
     evidence-status: string,
     authority-status: string,
+  }
+
+  record metadata-entry {
+    key: string,
+    value: string,
   }
 
   record source-query {
@@ -35,6 +50,50 @@ interface types {
     scan-cost: u64,
   }
 
+  record tool-descriptor {
+    tool-id: string,
+    locality: tool-locality,
+    state: string,
+    capabilities: list<string>,
+    last-local-receipt: option<string>,
+    unresolved-requirements: list<string>,
+  }
+
+  record tool-carrier {
+    carrier-id: string,
+    tool-id: string,
+    tool-version: string,
+    adapter-kind: string,
+    locality: tool-locality,
+    source-identity: string,
+    source-version: string,
+    retrieved-at: string,
+    payload-type: string,
+    payload: list<u8>,
+    content-hash: string,
+    provenance: list<metadata-entry>,
+    authority-scope: string,
+    evidence-status: string,
+    obligation: string,
+    relations: list<string>,
+    cost: u64,
+    loss: list<string>,
+    remainder: list<string>,
+    recovery-path: string,
+  }
+
+  record import-request {
+    bundle: list<u8>,
+    max-bytes: u64,
+  }
+
+  record local-run-request {
+    tool-id: string,
+    argv: list<string>,
+    obligation: string,
+    budget: u64,
+  }
+
   variant host-error {
     unavailable(string),
     denied(string),
@@ -55,6 +114,15 @@ interface byte-source {
   read: func(id: string) -> tuple<stream<u8>, future<result<_, host-error>>>;
 }
 
+interface local-tools {
+  use types.{tool-descriptor, tool-carrier, import-request, local-run-request, host-error};
+
+  list-tools: func() -> list<tool-descriptor>;
+  inspect: func(id: string) -> result<tool-descriptor, host-error>;
+  import-artifact: async func(request: import-request) -> result<tool-carrier, host-error>;
+  run-local: async func(request: local-run-request) -> result<tool-carrier, host-error>;
+}
+
 interface browser {
   use types.{source-query, result-set, host-error};
 
@@ -64,5 +132,6 @@ interface browser {
 world fkdb-browser {
   import knowledge-host;
   import byte-source;
+  import local-tools;
   export browser;
 }
