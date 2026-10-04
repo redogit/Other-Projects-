@@ -17,3 +17,7 @@ Plan B pre-flight:
 
 Task 1: RED verified at 4a3b555 — only fkdb_local_adapters failed because the registry module was absent; the prior 48-test Plan A baseline remained green.
 Task 1: complete — generic bounded LocalAdapterRegistry, policy-backed adapter caps/config, token-gated /collect endpoint, carrier validation, and empty-default production adapter policy; Linux and Windows dedicated matrices completed success with 49 tests.
+
+
+Task 2: RED verified at 5ddf183 — only fkdb_adapter_mathbox failed because the adapter module was absent; the prior 49-test baseline remained green.
+Task 2: complete — known-but-policy-disabled Mathbox adapter collects bounded raw .mathbox config/events, preserves lexical event order, records invalid JSON as explicit remainder, rejects symlink escape through bridge root resolution, and never promotes proof-recorded to proved; Linux and Windows dedicated matrices completed success with 50 tests.
