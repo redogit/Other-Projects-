@@ -88,6 +88,34 @@ class FkdbWasmHifContractTests(unittest.TestCase):
         self.assertNotIn("import-artifact: async func", self.wit02)
         self.assertNotIn("run-local: async func", self.wit02)
 
+    def test_wasi03_collection_contract_is_generic_native_async(self):
+        for required in (
+            "enum collection-status",
+            "record collect-request",
+            "record collection-result",
+            "collect-local: async func",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, self.wit03)
+
+    def test_wasi02_collection_contract_uses_explicit_operation(self):
+        for required in (
+            "enum collection-status",
+            "record collect-request",
+            "record collection-result",
+            "resource collection-operation",
+            "begin-collect: func",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, self.wit02)
+        self.assertNotIn("collect-local: async func", self.wit02)
+
+    def test_wit_collection_contract_has_no_vendor_names(self):
+        lowered = (self.wit03 + "\n" + self.wit02).lower()
+        for vendor in ("mathbox", "superpowers", "zotero", "wolfram"):
+            with self.subTest(vendor=vendor):
+                self.assertNotIn(vendor, lowered)
+
     def test_wasi02_contract_is_explicit_poll_compatibility(self):
         self.assertNotIn("async func", self.wit02)
         self.assertIn("resource query-operation", self.wit02)
