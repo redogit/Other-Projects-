@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>FKDB — Fighting Knowledge Decay Browser</title>
+</head>
+<body>
+  <main>
+    <h1>FKDB</h1>
+    <p>Fighting Knowledge Decay Browser</p>
+    <output id="host-profile">Detecting host capabilities…</output>
+    <noscript>JavaScript is unavailable. Use the native RMAL FKDB fallback.</noscript>
+  </main>
+  <script type="module">
+    import {
+      detectCapabilities,
+      selectHostProfile,
+    } from "./fkdb-host.mjs";
+
+    const capabilities = detectCapabilities(globalThis);
+    const profile = selectHostProfile(capabilities);
+    document.querySelector("#host-profile").textContent =
+      `${profile.tier} / ${profile.async} / ${profile.network} / ${profile.storage}`;
+  </script>
+</body>
+</html>
