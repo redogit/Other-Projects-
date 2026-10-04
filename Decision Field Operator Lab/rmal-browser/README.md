@@ -339,3 +339,40 @@ HIT_MAP_ACCESS_CALLBACKS != INPUT_POLICY
 BOUNDED_LINK_ACTIVATION != GENERAL_INPUT_SYSTEM
 PYTHON_DIFFERENTIAL_ORACLE != RMAL_RUNTIME_DEPENDENCY
 ```
+
+## FKDB local progression surface
+
+FKDB now has a bounded local browser surface under `Decision Field Operator Lab/fkdb/pages`.
+`manifest.json` is the typed registry for page identity, provenance, recovery path,
+declared relations, direct-successor lineage, and the current query progression:
+
+```text
+NEED -> HISTORY -> DECAY -> RECOVER -> RELATE -> RETURN
+```
+
+The live launcher intentionally reuses the Independent Browser driver rather than
+duplicating browser semantics:
+
+```sh
+python "Decision Field Operator Lab/tools/interact_fkdb.py" \
+  --presenter <path-to-win32-camera-presenter>
+```
+
+Optional `--http-carrier` and `--tls-carrier` arguments pass through to the inherited
+live browser driver. The FKDB launcher performs manifest/page binding only.
+
+Current local pages:
+
+- `FKDB` — current common point;
+- `HISTORY` — source/failure-history entry;
+- `RECOVER` — reconstruction entry;
+- `LINEAGE` — Independent Browser -> FKDB direct-successor entry.
+
+Current boundaries:
+
+```text
+FKDB_PAGE_MANIFEST != KNOWLEDGE
+LOCAL_FKDB_SURFACE != COMPLETE_KNOWLEDGE_RECOVERY
+LAUNCHER_BINDING != BROWSER_SEMANTICS
+RELATION != EVIDENCE_TRANSFER
+```
