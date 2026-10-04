@@ -1,0 +1,40 @@
+# FKDB — bounded live query router
+#
+# Exact source text enters through FkdbQueryText().
+# The router only recognizes declared page intents. Everything else is unresolved.
+
+MODULE fkdb.live_query;
+
+CONTEXT FKDB_LIVE_QUERY status="BOUNDED_LIVE_QUERY" authority="LOCAL" evidence_transfer="DENY"
+BOUNDARY FKDB_LIVE_QUERY CLAIM_CEILING BOUNDED_EXACT_ROUTER REASON "exact intent routing only; no semantic search, history retrieval, or truth inference"
+
+fn emit(raw, status, route, cost) {
+    let ack = FkdbQueryResult(raw, status, route, cost);
+    REQUIRE ack == status + ":ACK";
+    return status;
+}
+
+fn route_query(query) {
+    if query == "" {
+        return emit(query, "NO_MATCH", "fkdb", "1");
+    }
+    if query == "HISTORY" {
+        return emit(query, "MATCH", "history", "2");
+    }
+    if query == "RECOVER" {
+        return emit(query, "MATCH", "recover", "3");
+    }
+    if query == "LINEAGE" {
+        return emit(query, "MATCH", "lineage", "4");
+    }
+    if query == "FKDB" {
+        return emit(query, "MATCH", "fkdb", "5");
+    }
+    return emit(query, "UNRESOLVED", "fkdb", "5");
+}
+
+let source_expression = FkdbQueryText();
+route_query(source_expression);
+
+print "FKDB_LIVE_QUERY_PASS";
+STOP;
