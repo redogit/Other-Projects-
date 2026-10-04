@@ -183,6 +183,13 @@ assert.ok(
   graphBrowser.rejected.some((entry) => entry.kind === "COMPONENT_NATIVE_0_3")
 );
 
+const graphLocalTool = fkdbHost.selectExecutionPath(
+  caps({ localToolBridge: true }),
+  "LOCAL_TOOL_ACCESS"
+);
+assert.equal(graphLocalTool.selected.kind, "LOCAL_TOOL_BRIDGE");
+assert.ok(graphLocalTool.considered.includes("LOCAL_TOOL_BRIDGE"));
+
 const graphLegacyAmbiguous = fkdbHost.detectCapabilities({}, {
   componentModel03: true,
 });
@@ -215,6 +222,7 @@ function caps(overrides = {}) {
     wasiHttp02: false,
     wasiFilesystem03: false,
     emscriptenWasmFs: false,
+    localToolBridge: false,
     ...overrides,
   };
 }
