@@ -50,6 +50,15 @@ class FkdbManifestTests(unittest.TestCase):
             self.assertEqual(hrefs, page["relations"])
             self.assertTrue(set(hrefs).issubset(ids))
 
+    def test_tools_page_is_local_status_surface(self):
+        pages = {page["id"]: page for page in self.data["pages"]}
+        self.assertIn("tools", pages)
+        self.assertEqual(pages["tools"]["role"], "LOCAL_TOOL_STATUS")
+        self.assertIn("tools", pages["fkdb"]["relations"])
+        self.assertEqual(pages["tools"]["relations"], ["fkdb"])
+        self.assertTrue(pages["tools"]["provenance"])
+        self.assertTrue(pages["tools"]["recovery_path"])
+
     def test_claim_ceiling_blocks_silent_promotion(self):
         ceilings = set(self.data["claim_ceiling"])
         self.assertIn("PAGE_MANIFEST != KNOWLEDGE", ceilings)
