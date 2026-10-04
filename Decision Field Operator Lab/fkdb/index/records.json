@@ -43,7 +43,8 @@
         "NAVIGATION",
         "RENDER",
         "KEYBOARD"
-      ]
+      ],
+      "recovery_display": "READ PREDECESSOR SOURCES"
     },
     {
       "id": "FKDB-001",
@@ -78,7 +79,8 @@
         "SUCCESSOR",
         "RECOVERY",
         "QUERY"
-      ]
+      ],
+      "recovery_display": "READ CURRENT IDENTITY"
     },
     {
       "id": "FKDB-Q-001",
@@ -113,7 +115,8 @@
         "RECOVER",
         "RELATE",
         "LINEAGE"
-      ]
+      ],
+      "recovery_display": "RERUN ROUTER TESTS"
     },
     {
       "id": "FKDB-P-001",
@@ -148,7 +151,8 @@
         "RETURN",
         "KEYBOARD",
         "MANIFEST"
-      ]
+      ],
+      "recovery_display": "REBUILD WALK PROGRESSION"
     },
     {
       "id": "FKDB-F6-001",
@@ -179,7 +183,8 @@
         "SEMANTIC",
         "PROVENANCE",
         "REPAIR"
-      ]
+      ],
+      "recovery_display": "READ FAILURE REPAIR"
     }
   ]
 }
