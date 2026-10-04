@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+import re
 import subprocess
 import sys
 
@@ -10,7 +11,11 @@ HERE = Path(__file__).resolve().parent
 LAB = HERE.parent
 PAGES = LAB / "fkdb" / "pages"
 MANIFEST = PAGES / "manifest.json"
+LIVE_QUERY_RMAL = LAB / "rmal-browser" / "fkdb_live_query.rmal"
 PREDECESSOR = HERE / "interact_independent_browser.py"
+QUERY_RECEIPT = re.compile(
+    r"FKDB_LIVE_QUERY_RECEIPT status=(\S+) route=(\S+) cost=(\S+) source_preserved=true"
+)
 
 
 def load_manifest() -> dict:
@@ -54,6 +59,31 @@ def load_manifest() -> dict:
     return data
 
 
+def route_query(query_host: Path, query: str, manifest: dict) -> tuple[str, str, str]:
+    if not query_host.is_file():
+        raise FileNotFoundError(query_host)
+    completed = subprocess.run(
+        [str(query_host), str(LIVE_QUERY_RMAL), query],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if completed.returncode != 0:
+        raise RuntimeError(
+            f"FKDB live query host exited with {completed.returncode}: {completed.stderr.strip()}"
+        )
+    match = QUERY_RECEIPT.search(completed.stdout)
+    if match is None:
+        raise RuntimeError("FKDB live query host emitted no parseable receipt")
+    status, route, cost = match.groups()
+    page_ids = {page["id"] for page in manifest["pages"]}
+    if route not in page_ids:
+        raise RuntimeError(f"FKDB live query routed to unknown page: {route}")
+    if status not in {"MATCH", "NO_MATCH", "UNRESOLVED"}:
+        raise RuntimeError(f"FKDB live query returned invalid status: {status}")
+    return status, route, cost
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Launch FKDB through the Independent Browser live driver."
@@ -61,6 +91,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--presenter", type=Path, required=True)
     parser.add_argument("--http-carrier", type=Path)
     parser.add_argument("--tls-carrier", type=Path)
+    parser.add_argument("--query", default=None)
+    parser.add_argument("--query-host", type=Path)
     parser.add_argument("--work-dir", type=Path, default=Path(".fkdb"))
     parser.add_argument("--max-interactions", type=int, default=64)
     parser.add_argument("--max-transitions", type=int, default=64)
@@ -70,11 +102,29 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     manifest = load_manifest()
+    start_page = manifest["start_page"]
+    if args.query is not None:
+        if args.query_host is None:
+            raise ValueError("--query requires --query-host")
+        status, route, cost = route_query(args.query_host, args.query, manifest)
+        start_page = route if status == "MATCH" else manifest["start_page"]
+        print(
+            json.dumps(
+                {
+                    "fkdbQueryStatus": status,
+                    "fkdbQueryRoute": route,
+                    "fkdbQueryCost": cost,
+                    "sourcePreserved": True,
+                },
+                sort_keys=True,
+            )
+        )
+
     command = [sys.executable, str(PREDECESSOR)]
     for page in manifest["pages"]:
         command.extend(["--page", f"{page['id']}={PAGES / page['file']}"])
     command.extend([
-        "--start", manifest["start_page"],
+        "--start", start_page,
         "--presenter", str(args.presenter),
         "--work-dir", str(args.work_dir),
         "--max-interactions", str(args.max_interactions),
