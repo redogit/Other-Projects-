@@ -37,3 +37,5 @@ Task 2: complete (commits f7cfa91..79a6861, tests: RMAPL Browser RMAL Bootstrap 
 Task 3: Ruling: register the Local Tool Bridge security test in CTest during RED for the same remote-CI reason as Task 2; default production policy remains deny-by-default and no process grant is added — cost if wrong: another test entry lands before Task 6, without widening runtime authority.
 
 Task 3: complete (commits 4279a34..4bdeffc, tests: RMAPL Browser RMAL Bootstrap run 88 -> Linux SUCCESS, Windows SUCCESS; RED run 85 failed only because the bridge module/policy were absent; run 87 exposed Windows absolute-path spelling in process subcommand identity, repaired by canonical absolute-path comparison without relaxing raw command matching).
+
+Task 4: complete (commits 6bccae4..3df8491, tests: RMAPL Browser RMAL Bootstrap run 92 -> Linux SUCCESS, Windows SUCCESS; RED run 90 failed only the new local-tool WIT assertions; 0.3 native-async and 0.2 explicit-poll contracts now share the same logical tool types).
