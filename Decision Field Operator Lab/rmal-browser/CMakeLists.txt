@@ -600,3 +600,17 @@ set_tests_properties(
     PASS_REGULAR_EXPRESSION
       "OK"
 )
+
+
+add_test(
+  NAME fkdb_adapter_mathbox
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_adapter_mathbox.py"
+)
+set_tests_properties(
+  fkdb_adapter_mathbox
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)
