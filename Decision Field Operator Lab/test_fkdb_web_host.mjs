@@ -1,5 +1,124 @@
 import assert from "node:assert/strict";
 
+let localToolClient = null;
+try {
+  localToolClient = await import("./fkdb/web/local-tool-client.mjs");
+} catch (error) {
+  if (error?.code !== "ERR_MODULE_NOT_FOUND") throw error;
+}
+
+assert.ok(
+  localToolClient,
+  "local-tool-client.mjs must exist before browser-local tools can be discovered"
+);
+
+const bridgeCalls = [];
+const unavailableRoot = {
+  location: { origin: "http://127.0.0.1:8080", hostname: "127.0.0.1" },
+  async fetch(url, options) {
+    bridgeCalls.push([url, options]);
+    throw new Error("bridge absent");
+  },
+};
+const unavailableBridge = await localToolClient.discoverLocalToolBridge({
+  root: unavailableRoot,
+  token: null,
+});
+assert.equal(unavailableBridge.state, "UNAVAILABLE");
+assert.deepEqual(unavailableBridge.remainder, [
+  "LOCAL_TOOL_BRIDGE_UNAVAILABLE",
+]);
+assert.ok(bridgeCalls.every(([url]) => String(url).startsWith("/")));
+
+const malformedRoot = {
+  location: { origin: "http://127.0.0.1:8080", hostname: "127.0.0.1" },
+  async fetch() {
+    return {
+      ok: true,
+      async json() {
+        return { schema: "wrong/schema", state: "AVAILABLE" };
+      },
+    };
+  },
+};
+const malformedBridge = await localToolClient.discoverLocalToolBridge({
+  root: malformedRoot,
+  token: "test-token",
+});
+assert.equal(malformedBridge.state, "DEGRADED");
+
+const mutationCalls = [];
+const availableRoot = {
+  location: { origin: "http://127.0.0.1:8080", hostname: "127.0.0.1" },
+  async fetch(url, options = {}) {
+    mutationCalls.push([url, options]);
+    if (url === "/fkdb-tool-bridge/v1/status") {
+      return {
+        ok: true,
+        async json() {
+          return {
+            schema: "fkdb/local-tool-bridge-status/v1",
+            state: "AVAILABLE",
+            origin: "http://127.0.0.1:8080",
+            network_policy: "LOOPBACK_ONLY",
+          };
+        },
+      };
+    }
+    if (url === "/fkdb-tool-bridge/v1/tools") {
+      return {
+        ok: true,
+        async json() {
+          return {
+            schema: "fkdb/local-tool-list/v1",
+            tools: [
+              {
+                tool_id: "fixture",
+                locality: "LOCAL_PROCESS",
+                state: "AVAILABLE",
+                capabilities: ["LOCAL_PROCESS"],
+              },
+            ],
+          };
+        },
+      };
+    }
+    return {
+      ok: true,
+      async json() {
+        return { schema: "fixture/response", status: "ADMITTED" };
+      },
+    };
+  },
+};
+const availableBridge = await localToolClient.discoverLocalToolBridge({
+  root: availableRoot,
+  token: "test-token",
+});
+assert.equal(availableBridge.state, "AVAILABLE");
+const listedTools = await localToolClient.listLocalTools(availableBridge, {
+  root: availableRoot,
+});
+assert.equal(listedTools.length, 1);
+assert.equal(listedTools[0].tool_id, "fixture");
+
+await localToolClient.importToolCarrier(
+  availableBridge,
+  { schema: "fkdb/tool-carrier/v1" },
+  { root: availableRoot }
+);
+const importCall = mutationCalls.find(
+  ([url]) => url === "/fkdb-tool-bridge/v1/import"
+);
+assert.ok(importCall);
+assert.equal(
+  importCall[1].headers["X-FKDB-Bridge-Token"],
+  "test-token"
+);
+assert.ok(!String(importCall[0]).includes("test-token"));
+assert.ok(mutationCalls.every(([url]) => String(url).startsWith("/")));
+
+
 import * as fkdbHost from "./fkdb/web/fkdb-host.mjs";
 
 import {
