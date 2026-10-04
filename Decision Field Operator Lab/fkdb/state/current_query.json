@@ -11,7 +11,7 @@
   "history": "KEEP SOURCE FAILURE",
   "decay": "DECAY CHECK READY",
   "recover": "RELATE REBUILD VERIFY",
-  "relate": "PROVENANCE BEFORE PROMOTION",
+  "relate": "PROVENANCE BEFORE CLAIM",
   "return_state": "CURRENT COMMON POINT",
   "lineage_display": "BROWSER TO FKDB",
   "remainder": [
