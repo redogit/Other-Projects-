@@ -526,3 +526,35 @@ set_tests_properties(
     PASS_REGULAR_EXPRESSION
       "OK"
 )
+
+
+add_test(
+  NAME fkdb_wasm_hif_contract
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_wasm_hif.py"
+)
+set_tests_properties(
+  fkdb_wasm_hif_contract
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)
+
+find_program(FKDB_NODE_EXECUTABLE NAMES node nodejs)
+if(FKDB_NODE_EXECUTABLE)
+  add_test(
+    NAME fkdb_web_host_node
+    COMMAND
+      "${FKDB_NODE_EXECUTABLE}"
+      "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_web_host.mjs"
+  )
+  set_tests_properties(
+    fkdb_web_host_node
+    PROPERTIES
+      PASS_REGULAR_EXPRESSION
+        "FKDB_WASM_HIF_NODE PASS"
+  )
+else()
+  message(STATUS "Node.js not found: FKDB Web host behavioral test skipped; Python contract test remains active")
+endif()
