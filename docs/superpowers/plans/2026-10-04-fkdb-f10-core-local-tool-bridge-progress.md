@@ -25,3 +25,5 @@ Task self-consistency scan:
 - Task 4: clean.
 - Task 5: clean.
 - Task 6: clean.
+
+Task 1: Ruling: legacy Node fixture asserted `detected.componentModel03 === true`, which contradicts the approved Task 1 contract removing that canonical capability; replace the fixture with `componentNative03` and assert `componentBrowserTranspiled03 === false` — cost if wrong: one compatibility fixture change, while legacy callers remain covered by `selectHostProfile()` tests.
