@@ -373,3 +373,16 @@ set_tests_properties(
     PASS_REGULAR_EXPRESSION
       "OK"
 )
+
+add_test(
+  NAME fkdb_page_manifest
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_manifest.py"
+)
+set_tests_properties(
+  fkdb_page_manifest
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)
