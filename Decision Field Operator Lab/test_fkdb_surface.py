@@ -139,8 +139,9 @@ class FkdbLocalSurfaceTests(unittest.TestCase):
         )
         self.assertEqual(
             [hit["href"] for hit in current["state"]["hitMap"]],
-            ["history", "lineage"],
+            ["history", "tools", "lineage"],
         )
+
     def test_keyboard_opens_tools_surface_and_returns(self):
         home, _ = self.run_one(fkdb_omega())
         first_focus, _ = self.run_one(keyboard_input(home, "TAB"))
