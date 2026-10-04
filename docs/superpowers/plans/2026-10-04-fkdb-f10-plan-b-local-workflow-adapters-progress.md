@@ -39,3 +39,8 @@ Task 5: complete — bounded .wl/.m/.nb artifact collection, raw artifact SHA in
 
 Task 6: RED verified at 1d6a69c — only fkdb_wasm_hif_contract failed for absent generic collection types/operations; all adapter/runtime gates remained green.
 Task 6: complete — vendor-neutral collection-status/collect-request/collection-result WIT types, native async collect-local in 0.3, and explicit collection-operation/begin-collect polling in 0.2; WIT contains no Mathbox/Superpowers/Zotero/Wolfram names; Linux and Windows dedicated matrices completed success with 53 tests.
+
+
+Task 7: RED verified at ded4acd — only fkdb_wasm_hif_contract and fkdb_web_host_node failed for missing safe rich descriptor projection/rendering; all 51 adapter/runtime tests remained green.
+Task 7: complete — browser client sanitizes descriptors to tool_id/locality/state/capabilities/unresolved_requirements, drops arbitrary bridge fields, and index.html renders only the safe projection with no remote-login CTA; Linux and Windows dedicated matrices completed success with 53 tests.
+Task 8 self-review: no Critical issue found. Intentional remainder: browser collection mutations still require an out-of-band bridge token; Plan B only exposes read-only discovery/status in the browser. ToolCarrier collection results are not yet admitted into FKDB's source index (Plan E).
