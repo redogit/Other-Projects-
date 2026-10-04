@@ -38,6 +38,52 @@ function isLiteralLoopbackHostname(hostname) {
   return numbers.every((value) => value !== null) && numbers[0] === 127;
 }
 
+function stringList(value, field) {
+  if (
+    !Array.isArray(value) ||
+    !value.every((item) => typeof item === "string" && item.length > 0)
+  ) {
+    throw new Error(`invalid local tool descriptor ${field}`);
+  }
+  return Object.freeze([...value]);
+}
+
+function sanitizeToolDescriptor(value) {
+  if (!value || typeof value !== "object") {
+    throw new Error("invalid local tool descriptor");
+  }
+  for (const field of ["tool_id", "locality", "state"]) {
+    if (typeof value[field] !== "string" || value[field].length === 0) {
+      throw new Error(`invalid local tool descriptor ${field}`);
+    }
+  }
+  return Object.freeze({
+    tool_id: value.tool_id,
+    locality: value.locality,
+    state: value.state,
+    capabilities: stringList(value.capabilities ?? [], "capabilities"),
+    unresolved_requirements: stringList(
+      value.unresolved_requirements ?? [],
+      "unresolved_requirements"
+    ),
+  });
+}
+
+export function formatLocalToolDescriptor(value) {
+  const tool = sanitizeToolDescriptor(value);
+  const capabilities =
+    tool.capabilities.length > 0 ? tool.capabilities.join(", ") : "NONE";
+  const unresolved =
+    tool.unresolved_requirements.length > 0
+      ? tool.unresolved_requirements.join(", ")
+      : "NONE";
+  return (
+    `${tool.tool_id} — ${tool.locality} — ${tool.state}` +
+    ` — CAPABILITIES: ${capabilities}` +
+    ` — UNRESOLVED: ${unresolved}`
+  );
+}
+
 async function readJsonResponse(response) {
   if (!response?.ok) {
     throw new Error("local tool bridge request failed");
@@ -116,7 +162,7 @@ export async function listLocalTools(
   ) {
     throw new Error("invalid local tool list receipt");
   }
-  return value.tools;
+  return value.tools.map(sanitizeToolDescriptor);
 }
 
 function mutationHeaders(bridge) {
