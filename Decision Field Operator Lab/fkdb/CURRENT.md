@@ -71,6 +71,30 @@ Historical Independent Browser artifacts retain predecessor identity.
 - deterministic page projection
 - CI fails on stale committed pages
 
+### F6 — bounded live query input
+
+- exact source-preserving native RMAL query router;
+- MATCH / NO_MATCH / UNRESOLVED remain distinct;
+- exact declared routes: HISTORY / DECAY / RECOVER / RELATE / LINEAGE / FKDB;
+- bounded comparison cost reported in the native receipt;
+- unresolved queries do not become false or arbitrary matches.
+
+### F7 — bounded local source/history index
+
+- local typed source records with source refs, provenance, evidence status, recovery path, carrier and relations;
+- deterministic token matching only;
+- raw human query retained;
+- explicit scan cost;
+- multiple candidates remain multiple;
+- NO_MATCH is bounded to the local index;
+- unsupported query material remains UNRESOLVED;
+- unresolved live queries fall through to the index only after exact RMAL routing;
+- bounded RESULT page plus authoritative full-result sidecar JSON.
+
+Retained failure:
+
+- F6-001 — page projection rejected an over-width display string; semantic intent was preserved while only the display projection was shortened.
+
 ## Current query progression
 
 ```text
@@ -121,13 +145,13 @@ Passing software tests establish only the bounded implemented behavior.
 
 ## Current remainder
 
-1. Live history/source index rather than bootstrap query-state fixture.
+1. Live external/history ingestion beyond the bounded local source index.
 2. Live cross-carrier candidate retrieval with provenance.
-3. Query result ranking that cannot promote evidence by resemblance.
-4. Richer free-text interpretation beyond exact declared intents.
-5. Human-readable source/provenance/recovery inspection.
+3. Human-readable source/provenance/recovery inspection inside the browser.
+4. Richer free-text interpretation beyond exact token matching.
+5. Any result ordering must not promote evidence by resemblance.
 6. Scrolling and larger-page layout.
-7. Native/RMAL migration of any remaining FKDB-specific outer-controller logic.
+7. Native/RMAL migration of remaining FKDB-specific outer-controller/index logic.
 
 ## F6 — bounded live query input
 
@@ -156,10 +180,10 @@ Constraints preserved:
 
 ## Next one-degree step
 
-Build **F7 — live source/history index** so a query can retrieve bounded candidate records rather than only route to a declared surface. Candidate retrieval must retain source identity, provenance, cost, evidence status and explicit unresolved remainder.
+Build **F8 — in-browser source/provenance inspection**. A single bounded index match may expose a human-readable inspection page, but the full sidecar remains authoritative. Multiple candidates may not be silently ranked or collapsed.
 
 ## Claim ceiling
 
-FKDB is now a functioning bounded successor surface and exact live-query-routing prototype.
+FKDB is now a functioning bounded successor surface with exact live-query routing and a bounded provenance-preserving local source index.
 It is not yet a complete knowledge-recovery browser, a semantic search engine, or
 evidence authority.
