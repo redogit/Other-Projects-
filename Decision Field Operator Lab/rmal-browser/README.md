@@ -398,3 +398,35 @@ This is deliberately not yet free-text query execution:
 QUERY_STATE_PROJECTION != QUERY_EXECUTION
 DISPLAYED_STATUS != VERIFIED_TRUTH
 ```
+
+### FKDB bounded live query
+
+`fkdb_live_query.rmal` preserves the exact human query text supplied by the host and
+performs only bounded exact intent routing. Current recognized queries are:
+
+```text
+HISTORY -> history
+RECOVER -> recover
+LINEAGE -> lineage
+FKDB    -> fkdb
+```
+
+Empty input returns `NO_MATCH`; all other text returns `UNRESOLVED` and remains
+on the FKDB current-common-point page.
+
+A built native query host can be connected to the live launcher:
+
+```sh
+python "Decision Field Operator Lab/tools/interact_fkdb.py" \
+  --presenter <path-to-presenter> \
+  --query "HISTORY" \
+  --query-host <build-path-to-fkdb_live_query_host>
+```
+
+The native receipt reports route, bounded comparison cost and source preservation.
+
+```text
+EXACT_INTENT_ROUTING != SEMANTIC_SEARCH
+UNRESOLVED != NO_MATCH
+QUERY_ROUTE != EVIDENCE
+```
