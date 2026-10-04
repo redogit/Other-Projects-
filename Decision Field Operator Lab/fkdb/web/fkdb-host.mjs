@@ -49,6 +49,7 @@ export function detectCapabilities(root = globalThis, declared = {}) {
     wasiHttp02: declared.wasiHttp02 === true,
     wasiFilesystem03: declared.wasiFilesystem03 === true,
     emscriptenWasmFs: declared.emscriptenWasmFs === true,
+    localToolBridge: declared.localToolBridge === true,
     remainder:
       declared.componentModel03 === true
         ? Object.freeze(["LEGACY_COMPONENT_DECLARATION_AMBIGUOUS"])
