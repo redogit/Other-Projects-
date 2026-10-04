@@ -500,3 +500,16 @@ set_tests_properties(
   PROPERTIES PASS_REGULAR_EXPRESSION
     "FKDB_LIVE_QUERY_RECEIPT status=MATCH route=relate cost=5 source_preserved=true"
 )
+
+add_test(
+  NAME fkdb_source_index
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_index.py"
+)
+set_tests_properties(
+  fkdb_source_index
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)
