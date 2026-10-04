@@ -13,3 +13,7 @@ Plan B pre-flight:
 - Zotero will use literal-loopback read-only HTTP only;
 - ToolCarrier remains the admission boundary;
 - cross-carrier FKDB index promotion remains deferred to Plan E.
+
+
+Task 1: RED verified at 4a3b555 — only fkdb_local_adapters failed because the registry module was absent; the prior 48-test Plan A baseline remained green.
+Task 1: complete — generic bounded LocalAdapterRegistry, policy-backed adapter caps/config, token-gated /collect endpoint, carrier validation, and empty-default production adapter policy; Linux and Windows dedicated matrices completed success with 49 tests.
