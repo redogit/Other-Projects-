@@ -438,7 +438,7 @@ add_test(
 set_tests_properties(
   fkdb_live_query_recover
   PROPERTIES PASS_REGULAR_EXPRESSION
-    "FKDB_LIVE_QUERY_RECEIPT status=MATCH route=recover cost=3 source_preserved=true"
+    "FKDB_LIVE_QUERY_RECEIPT status=MATCH route=recover cost=4 source_preserved=true"
 )
 
 add_test(
@@ -448,7 +448,7 @@ add_test(
 set_tests_properties(
   fkdb_live_query_lineage
   PROPERTIES PASS_REGULAR_EXPRESSION
-    "FKDB_LIVE_QUERY_RECEIPT status=MATCH route=lineage cost=4 source_preserved=true"
+    "FKDB_LIVE_QUERY_RECEIPT status=MATCH route=lineage cost=6 source_preserved=true"
 )
 
 add_test(
@@ -458,7 +458,7 @@ add_test(
 set_tests_properties(
   fkdb_live_query_home
   PROPERTIES PASS_REGULAR_EXPRESSION
-    "FKDB_LIVE_QUERY_RECEIPT status=MATCH route=fkdb cost=5 source_preserved=true"
+    "FKDB_LIVE_QUERY_RECEIPT status=MATCH route=fkdb cost=7 source_preserved=true"
 )
 
 add_test(
@@ -478,5 +478,25 @@ add_test(
 set_tests_properties(
   fkdb_live_query_unresolved
   PROPERTIES PASS_REGULAR_EXPRESSION
-    "FKDB_LIVE_QUERY_RECEIPT status=UNRESOLVED route=fkdb cost=5 source_preserved=true"
+    "FKDB_LIVE_QUERY_RECEIPT status=UNRESOLVED route=fkdb cost=7 source_preserved=true"
+)
+
+add_test(
+  NAME fkdb_live_query_decay
+  COMMAND $<TARGET_FILE:fkdb_live_query_host> "${FKDB_LIVE_QUERY}" DECAY
+)
+set_tests_properties(
+  fkdb_live_query_decay
+  PROPERTIES PASS_REGULAR_EXPRESSION
+    "FKDB_LIVE_QUERY_RECEIPT status=MATCH route=decay cost=3 source_preserved=true"
+)
+
+add_test(
+  NAME fkdb_live_query_relate
+  COMMAND $<TARGET_FILE:fkdb_live_query_host> "${FKDB_LIVE_QUERY}" RELATE
+)
+set_tests_properties(
+  fkdb_live_query_relate
+  PROPERTIES PASS_REGULAR_EXPRESSION
+    "FKDB_LIVE_QUERY_RECEIPT status=MATCH route=relate cost=5 source_preserved=true"
 )
