@@ -95,6 +95,8 @@ const availableRoot = {
                 locality: "LOCAL_PROCESS",
                 state: "AVAILABLE",
                 capabilities: ["LOCAL_PROCESS"],
+                unresolved_requirements: [],
+                secret_path: "C:/private/secret",
               },
             ],
           };
@@ -119,6 +121,27 @@ const listedTools = await localToolClient.listLocalTools(availableBridge, {
 });
 assert.equal(listedTools.length, 1);
 assert.equal(listedTools[0].tool_id, "fixture");
+assert.deepEqual(listedTools[0].capabilities, ["LOCAL_PROCESS"]);
+assert.deepEqual(listedTools[0].unresolved_requirements, []);
+assert.equal(listedTools[0].secret_path, undefined);
+
+assert.equal(
+  typeof localToolClient.formatLocalToolDescriptor,
+  "function",
+  "browser must expose a bounded safe descriptor formatter"
+);
+const formattedTool = localToolClient.formatLocalToolDescriptor({
+  tool_id: "fixture",
+  locality: "LOCAL_PROCESS",
+  state: "DEGRADED",
+  capabilities: ["LOCAL_PROCESS_PROBE", "COLLECT_ARTIFACT"],
+  unresolved_requirements: ["PROCESS_ISOLATION_BACKEND_UNAVAILABLE"],
+  secret_path: "C:/private/secret",
+});
+assert.match(formattedTool, /fixture/);
+assert.match(formattedTool, /LOCAL_PROCESS_PROBE/);
+assert.match(formattedTool, /PROCESS_ISOLATION_BACKEND_UNAVAILABLE/);
+assert.ok(!formattedTool.includes("C:/private/secret"));
 
 await localToolClient.importToolCarrier(
   availableBridge,
