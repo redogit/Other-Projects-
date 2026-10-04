@@ -47,3 +47,15 @@ Task 5: complete (commits 2d28d43..6411033, tests: RMAPL Browser RMAL Bootstrap 
 Task 6: Ruling: no further CMake edit is needed because fkdb_tool_carrier and fkdb_local_tool_bridge were deliberately registered during Tasks 2/3 to make RED observable in remote CI; run 102 verifies the resulting final dedicated matrix on Linux and Windows — cost if wrong: Task 6 does not create a distinct CMake-only commit, but the final matrix still exercises the intended gates.
 
 Task 6 self-review: Ruling: add two post-plan RED probes before completion — (1) browser discovery must reject non-loopback page origins without issuing fetch, otherwise a remote same-origin endpoint could be mislabeled local; (2) portable stdlib process execution cannot enforce child-process egress, so every process ToolCarrier must carry PROCESS_NETWORK_POLICY_NOT_ENFORCED_BY_PORTABLE_STDLIB_BRIDGE while the default production process allowlist remains empty — cost if wrong: Plan A completion is delayed by one extra RED/GREEN cycle, but local-trust claims become narrower and explicit.
+
+
+Task 6: Ruling: CTest entries and F10 CURRENT/README documentation arrived with the concurrent Plan A implementation; no duplicate CMake/doc rewrite is needed — cost if wrong: task ownership provenance is less linear, but current branch state remains testable and reversible.
+Task 6: complete (latest head 57a3343 dedicated browser/RMAL matrix: Linux 48/48 pass; Windows completed success; ToolCarrier and Local Tool Bridge gates included).
+
+Final review: self-review (no subagent tool).
+
+Final review finding — Important: Local process grants declare LOOPBACK_ONLY and memory_limit, but the portable stdlib bridge executes the process without enforcing network isolation or memory limits and reports the gap only after execution. This violates fail-closed security semantics for a host boundary. Fix pass: deny process execution until an isolation backend can actually enforce declared bounds; expose DEGRADED/unresolved status rather than execute under a false policy.
+
+Final review finding — Important: ToolBundle attachment metadata validates digest syntax/path shape but does not verify the referenced attachment bytes, size, symlink-resolved containment, or digest. This makes content-addressed provenance vulnerable to stale/tampered sibling files. Fix pass: resolve within bundle root and verify file bytes/size/hash under the bundle bound.
+
+Final review finding — Important: the capability graph declares LOCAL_TOOL_ACCESS but currently returns UNRESOLVED even when the Local Tool Bridge is available. This leaves the graph disconnected from the subsystem it is supposed to select. Fix pass: add a runtime-probed localToolBridge capability and LOCAL_TOOL_BRIDGE execution path while preserving legacy host-profile projection.
