@@ -43,6 +43,7 @@ class FkdbWasmHifContractTests(unittest.TestCase):
         self.assertIn("componentNative03", capabilities)
         self.assertIn("componentBrowserTranspiled03", capabilities)
         self.assertNotIn("componentModel03", capabilities)
+        self.assertIn("localToolBridge", capabilities)
         self.assertIn("WASM_COMPONENT_0_3", self.capabilities["tiers"])
 
     def test_no_user_agent_sniffing(self):
