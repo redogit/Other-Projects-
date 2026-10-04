@@ -27,6 +27,7 @@
     import {
       discoverLocalToolBridge,
       listLocalTools,
+      formatLocalToolDescriptor,
     } from "./local-tool-client.mjs";
 
     const capabilities = detectCapabilities(globalThis);
@@ -47,8 +48,15 @@
         toolStatus.textContent = `AVAILABLE — ${tools.length} local tool${tools.length === 1 ? "" : "s"}`;
         for (const tool of tools) {
           const item = document.createElement("li");
-          item.textContent =
-            `${tool.tool_id} — ${tool.locality} — ${tool.state}`;
+          const capabilityText =
+            tool.capabilities.length > 0 ? tool.capabilities.join(", ") : "NONE";
+          const unresolvedText =
+            tool.unresolved_requirements.length > 0
+              ? tool.unresolved_requirements.join(", ")
+              : "NONE";
+          item.textContent = formatLocalToolDescriptor(tool);
+          item.dataset.capabilities = capabilityText;
+          item.dataset.unresolved = unresolvedText;
           toolList.append(item);
         }
       } catch {
