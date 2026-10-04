@@ -1,0 +1,70 @@
+{
+  "schema": "fkdb/wasm-hif-capabilities/v1",
+  "project": "FKDB",
+  "subsystem": "Wasm-HIF",
+  "policy": "FEATURE_DETECT_DONT_UA_SNIFF",
+  "tiers": [
+    "WASM_COMPONENT_0_3",
+    "WASM_JSPI",
+    "WASM_PROMISE_HANDOFF",
+    "WASM_LEGACY_WEB",
+    "JS_MODERN_FALLBACK",
+    "JS_LEGACY_FALLBACK",
+    "NATIVE_RMAL_FALLBACK"
+  ],
+  "capabilities": {
+    "wasmCore": "runtime",
+    "wasmStreaming": "runtime",
+    "jspi": "runtime",
+    "fetch": "runtime",
+    "streams": "runtime",
+    "worker": "runtime",
+    "sharedMemory": "runtime",
+    "opfs": "runtime",
+    "indexedDb": "runtime",
+    "xhr": "runtime",
+    "componentModel03": "declared_binding",
+    "wasiHttp03": "declared_binding",
+    "wasiHttp02": "declared_binding",
+    "emscriptenWasmFs": "build_time_adapter"
+  },
+  "priorities": {
+    "async": [
+      "JSPI",
+      "EXPLICIT_PROMISE_HANDOFF",
+      "CALLBACK_OR_OUTER_CONTROLLER"
+    ],
+    "typedInterface": [
+      "WIT_0_3",
+      "WIT_0_2_EXPLICIT_POLL",
+      "SERIALIZED_MESSAGE_CONTRACT"
+    ],
+    "componentHttp": [
+      "WASI_HTTP_0_3",
+      "WASI_HTTP_0_2",
+      "NATIVE_RMAL_HTTP_TLS"
+    ],
+    "browserNetwork": [
+      "FETCH_STREAMS",
+      "FETCH",
+      "XHR",
+      "NATIVE_RMAL_HTTP_TLS"
+    ],
+    "persistence": [
+      "WASI_FILESYSTEM_0_3",
+      "OPFS",
+      "INDEXED_DB",
+      "WASMFS_OR_IDBFS",
+      "MEMORY"
+    ]
+  },
+  "invariants": [
+    "FALLBACK != SILENT_SEMANTIC_WEAKENING",
+    "CANONICAL_ABI_TRANSLATION != EVIDENCE_TRANSFER",
+    "ASYNC_RESUME != SUCCESS",
+    "NETWORK_RESPONSE != ADMITTED_KNOWLEDGE",
+    "PERSISTED_BYTES != RECONSTRUCTIBLE_MEANING",
+    "UNKNOWN != FALSE",
+    "UNRESOLVED != NEGATIVE"
+  ]
+}
