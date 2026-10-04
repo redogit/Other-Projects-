@@ -27,3 +27,5 @@ Task self-consistency scan:
 - Task 6: clean.
 
 Task 1: Ruling: legacy Node fixture asserted `detected.componentModel03 === true`, which contradicts the approved Task 1 contract removing that canonical capability; replace the fixture with `componentNative03` and assert `componentBrowserTranspiled03 === false` — cost if wrong: one compatibility fixture change, while legacy callers remain covered by `selectHostProfile()` tests.
+
+Task 1: complete (commits 75d5375..80ffcfd, tests: RMAPL Browser RMAL Bootstrap run 79 -> Linux SUCCESS, Windows SUCCESS; RED run 76 failed only the new capability assertions before implementation; compatibility defects were repaired under the recorded ruling).
