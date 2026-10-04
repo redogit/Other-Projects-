@@ -59,3 +59,10 @@ Final review finding — Important: Local process grants declare LOOPBACK_ONLY a
 Final review finding — Important: ToolBundle attachment metadata validates digest syntax/path shape but does not verify the referenced attachment bytes, size, symlink-resolved containment, or digest. This makes content-addressed provenance vulnerable to stale/tampered sibling files. Fix pass: resolve within bundle root and verify file bytes/size/hash under the bundle bound.
 
 Final review finding — Important: the capability graph declares LOCAL_TOOL_ACCESS but currently returns UNRESOLVED even when the Local Tool Bridge is available. This leaves the graph disconnected from the subsystem it is supposed to select. Fix pass: add a runtime-probed localToolBridge capability and LOCAL_TOOL_BRIDGE execution path while preserving legacy host-profile projection.
+
+
+Final: fixed process isolation false guarantee — test_process_descriptor_is_degraded_when_isolation_backends_are_unavailable and test_run_endpoint_fails_closed_without_process_isolation_backend RED→GREEN; current portable bridge denies run before subprocess while isolation is unavailable; dedicated suite 48/48 Linux and Windows.
+Final: fixed ToolBundle attachment integrity — test_bundle_verifies_attachment_bytes_and_hash, test_bundle_attachment_cannot_escape_root_via_symlink, and test_bundle_limit_counts_attachment_bytes RED→GREEN; dedicated suite 48/48 Linux and Windows.
+Final: fixed LOCAL_TOOL_ACCESS graph disconnection — localToolBridge manifest test and graphLocalTool Node assertion RED→GREEN; dedicated suite 48/48 Linux and Windows.
+Final: Ruling: the first attachment-bound GREEN run failed only because the regression regex used lowercase "bundle" against the established "ToolBundle" error prefix; changed the test to "[Bb]undle" without changing production behavior — cost if wrong: the test accepts either capitalization while still requiring the bounded-error concept.
+Final: documentation corrected after verification so CURRENT/README no longer imply that the portable stdlib bridge executes granted local processes without an isolation backend.
