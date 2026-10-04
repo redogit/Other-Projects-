@@ -111,6 +111,88 @@ class FkdbToolCarrierBehaviorTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 carrier_module.load_tool_bundle(path, max_bundle_bytes=4)
 
+    def test_bundle_verifies_attachment_bytes_and_hash(self):
+        carrier = valid_carrier()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            attachment = root / "artifact.bin"
+            attachment.write_bytes(b"ATTACHMENT")
+            digest = hashlib.sha256(b"ATTACHMENT").hexdigest()
+            bundle = {
+                "schema": "fkdb/tool-bundle/v1",
+                "manifest": {"bundle_id": "attachment-bundle"},
+                "carriers": [carrier],
+                "attachments": [
+                    {
+                        "sha256": digest,
+                        "size": len(b"ATTACHMENT"),
+                        "path": "artifact.bin",
+                    }
+                ],
+            }
+            path = root / "bundle.json"
+            path.write_text(json.dumps(bundle), encoding="utf-8")
+            loaded = carrier_module.load_tool_bundle(path, max_bundle_bytes=100000)
+            self.assertEqual(loaded["attachments"][0]["sha256"], digest)
+
+            attachment.write_bytes(b"TAMPERMENT")
+            with self.assertRaisesRegex(ValueError, "attachment sha256"):
+                carrier_module.load_tool_bundle(path, max_bundle_bytes=100000)
+
+    def test_bundle_attachment_cannot_escape_root_via_symlink(self):
+        if not hasattr(Path, "symlink_to"):
+            self.skipTest("symlink unavailable")
+        with tempfile.TemporaryDirectory() as tmp, tempfile.TemporaryDirectory() as outside:
+            root = Path(tmp)
+            outside_file = Path(outside) / "outside.bin"
+            outside_file.write_bytes(b"OUTSIDE")
+            link = root / "artifact.bin"
+            try:
+                link.symlink_to(outside_file)
+            except (OSError, NotImplementedError):
+                self.skipTest("symlink creation unavailable")
+            bundle = {
+                "schema": "fkdb/tool-bundle/v1",
+                "manifest": {"bundle_id": "symlink-bundle"},
+                "carriers": [],
+                "attachments": [
+                    {
+                        "sha256": hashlib.sha256(b"OUTSIDE").hexdigest(),
+                        "size": len(b"OUTSIDE"),
+                        "path": "artifact.bin",
+                    }
+                ],
+            }
+            path = root / "bundle.json"
+            path.write_text(json.dumps(bundle), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "bundle root"):
+                carrier_module.load_tool_bundle(path, max_bundle_bytes=100000)
+
+    def test_bundle_limit_counts_attachment_bytes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            attachment = root / "artifact.bin"
+            attachment.write_bytes(b"A" * 128)
+            bundle = {
+                "schema": "fkdb/tool-bundle/v1",
+                "manifest": {"bundle_id": "bounded-bundle"},
+                "carriers": [],
+                "attachments": [
+                    {
+                        "sha256": hashlib.sha256(b"A" * 128).hexdigest(),
+                        "size": 128,
+                        "path": "artifact.bin",
+                    }
+                ],
+            }
+            path = root / "bundle.json"
+            path.write_text(json.dumps(bundle), encoding="utf-8")
+            json_size = path.stat().st_size
+            with self.assertRaisesRegex(ValueError, "bundle"):
+                carrier_module.load_tool_bundle(
+                    path, max_bundle_bytes=json_size + 127
+                )
+
     def test_wrong_bundle_schema_is_rejected(self):
         bundle = {
             "schema": "fkdb/tool-bundle/v999",
