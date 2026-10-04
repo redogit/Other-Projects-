@@ -474,3 +474,70 @@ CANONICAL_ABI_TRANSLATION != EVIDENCE_TRANSFER
 ASYNC_RESUME != SUCCESS
 NETWORK_RESPONSE != ADMITTED_KNOWLEDGE
 ```
+
+## FKDB F10 core Local Tool Bridge
+
+FKDB's local tool substrate is now implemented above Wasm-HIF without requiring any
+vendor cloud API.
+
+```text
+FKDB
+-> obligation-driven capability graph
+-> Local Tool Bridge
+-> ToolCarrier
+-> local files / allowlisted local processes / localhost / portable artifacts
+```
+
+The capability graph distinguishes native Component Model 0.3 hosts from browser-
+transpiled Component execution while preserving the older host-profile projection for
+existing callers.
+
+The portable ToolCarrier boundary requires source identity, version, provenance,
+authority scope, evidence status, obligation, cost, loss, remainder and recovery path.
+ToolBundle imports are bounded and reject duplicate carrier IDs, hash mismatches and
+traversing attachment paths.
+
+The stdlib-only Local Tool Bridge:
+
+- binds literal loopback only;
+- serves FKDB and bridge endpoints same-origin;
+- requires exact Origin plus `X-FKDB-Bridge-Token` for import/run mutations;
+- suppresses request logging so the token is not copied into logs;
+- rejects path/symlink escape outside allowed roots;
+- denies all local processes unless explicitly granted;
+- executes granted processes with an argv vector and `shell=False`;
+- validates ToolCarrier before admission;
+- returns local process execution as ToolCarrier rather than claim verification.
+
+Default policy grants no file roots or processes.
+
+Browser discovery is read-only by default. `local-tool-client.mjs` uses only relative
+same-origin bridge paths. If the bridge is absent the browser reports
+`LOCAL_TOOL_BRIDGE_UNAVAILABLE`; it does not prompt for a remote login.
+
+The bounded Independent Browser surface now exposes:
+
+```text
+FKDB -> TOOLS -> FKDB
+```
+
+alongside the existing knowledge-decay progression.
+
+Wasm-HIF now defines the generic `local-tools` interface in both tracks:
+
+- WASI 0.3: native async `import-artifact` / `run-local`;
+- 0.2 compatibility: explicit `tool-operation` polling.
+
+Current claim ceilings:
+
+```text
+LOCAL_TOOL_BRIDGE != UNIVERSAL_SHELL
+LOCAL_PROCESS_SUCCESS != CLAIM_VERIFIED
+LOCALHOST != AUTOMATICALLY_TRUSTED
+TOOL_RESULT != TRUTH
+IMPORT != EVIDENCE_PROMOTION
+LOCAL_TOOL_BRIDGE_UNAVAILABLE != FKDB_UNAVAILABLE
+```
+
+Vendor adapters and remote synchronization are deliberately outside this verified
+boundary.
