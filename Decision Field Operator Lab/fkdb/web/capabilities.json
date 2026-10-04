@@ -26,7 +26,8 @@
     "componentModel03": "declared_binding",
     "wasiHttp03": "declared_binding",
     "wasiHttp02": "declared_binding",
-    "emscriptenWasmFs": "build_time_adapter"
+    "emscriptenWasmFs": "build_time_adapter",
+    "wasiFilesystem03": "declared_binding"
   },
   "priorities": {
     "async": [
