@@ -7,6 +7,12 @@ interface types {
     unresolved,
   }
 
+  enum collection-status {
+    collected,
+    partial,
+    unavailable,
+  }
+
   enum tool-locality {
     embedded,
     local-file,
@@ -94,6 +100,22 @@ interface types {
     budget: u64,
   }
 
+  record collect-request {
+    tool-id: string,
+    root: option<string>,
+    options: list<metadata-entry>,
+    budget: u64,
+  }
+
+  record collection-result {
+    tool-id: string,
+    status: collection-status,
+    carriers: list<tool-carrier>,
+    remainder: list<string>,
+    files-scanned: u64,
+    bytes-read: u64,
+  }
+
   variant host-error {
     unavailable(string),
     denied(string),
@@ -115,12 +137,13 @@ interface byte-source {
 }
 
 interface local-tools {
-  use types.{tool-descriptor, tool-carrier, import-request, local-run-request, host-error};
+  use types.{tool-descriptor, tool-carrier, import-request, local-run-request, collect-request, collection-result, host-error};
 
   list-tools: func() -> list<tool-descriptor>;
   inspect: func(id: string) -> result<tool-descriptor, host-error>;
   import-artifact: async func(request: import-request) -> result<tool-carrier, host-error>;
   run-local: async func(request: local-run-request) -> result<tool-carrier, host-error>;
+  collect-local: async func(request: collect-request) -> result<collection-result, host-error>;
 }
 
 interface browser {
