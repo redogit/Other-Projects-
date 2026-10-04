@@ -1,3 +1,28 @@
+# FKDB — Fighting Knowledge Decay Browser
+
+FKDB is the **direct successor** of the Independent Browser. It received its first
+canonical project name on 2026-10-04. Historical Independent Browser/RMAPL/RMAL
+artifacts below retain their original names and remain predecessor evidence.
+
+Current successor surfaces:
+
+- `FKDB_IDENTITY.md` — identity, lineage, inherited substrate and claim ceiling;
+- `fkdb_query.rmal` — bounded native RMAL knowledge-decay/cross-carrier query policy;
+- `fkdb_bootstrap.rmal` — FKDB orchestration layered around inherited browser stages;
+- `fkdb_rmal_host.c` / `fkdb_query_host.c` — native RMAL execution receipts.
+
+Successor relation:
+
+```text
+Independent Browser
+    ↓ direct successor
+FKDB — Fighting Knowledge Decay Browser
+```
+
+The generated Independent Browser operator ports are intentionally not renamed:
+`DIRECT_SUCCESSOR != RETROACTIVE_RENAME`.
+
+---
 # Independent Browser — RMAL / RMALC bootstrap
 
 This directory is the first migration rung away from the Python-hosted RMAPL
