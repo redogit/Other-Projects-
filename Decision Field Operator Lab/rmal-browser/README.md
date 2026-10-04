@@ -433,3 +433,44 @@ EXACT_INTENT_ROUTING != SEMANTIC_SEARCH
 UNRESOLVED != NO_MATCH
 QUERY_ROUTE != EVIDENCE
 ```
+
+## FKDB WebAssembly / modern Web first-class host
+
+FKDB Wasm-HIF makes WebAssembly and modern Web APIs first-class execution carriers while
+retaining the Independent Browser / native RMAL path as an explicit fallback.
+
+Primary host selection is capability based, not user-agent based:
+
+```text
+WASM_COMPONENT_0_3
+-> WASM_JSPI
+-> WASM_PROMISE_HANDOFF
+-> WASM_LEGACY_WEB
+-> JS_MODERN_FALLBACK
+-> JS_LEGACY_FALLBACK
+-> NATIVE_RMAL_FALLBACK
+```
+
+Primary typed interface: WIT/WASI 0.3 native async (`async func`, `stream<T>`,
+`future<T>`). A separate 0.2-era WIT compatibility package uses explicit operation
+resources/polling instead of pretending native async exists.
+
+Browser I/O prefers Fetch/Streams and OPFS/IndexedDB. JSPI is feature-detected; without
+JSPI, async Wasm work must pass through the explicit FKDB continuation/outer-controller
+boundary. Legacy XHR, Emscripten filesystem adapters, and the native RMAL HTTP/TLS carrier
+remain declared fallbacks.
+
+See:
+
+- `../fkdb/web/WASM_HIF.md`
+- `../fkdb/web/capabilities.json`
+- `../fkdb/web/fkdb-host.mjs`
+- `../fkdb/wasm/wit/0.3/fkdb-hif.wit`
+- `../fkdb/wasm/wit/0.2/fkdb-hif.wit`
+
+```text
+FALLBACK != SILENT_SEMANTIC_WEAKENING
+CANONICAL_ABI_TRANSLATION != EVIDENCE_TRANSFER
+ASYNC_RESUME != SUCCESS
+NETWORK_RESPONSE != ADMITTED_KNOWLEDGE
+```
