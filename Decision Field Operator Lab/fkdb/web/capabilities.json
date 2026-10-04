@@ -28,7 +28,8 @@
     "wasiHttp03": "declared_binding",
     "wasiHttp02": "declared_binding",
     "emscriptenWasmFs": "build_time_adapter",
-    "wasiFilesystem03": "declared_binding"
+    "wasiFilesystem03": "declared_binding",
+    "localToolBridge": "runtime_probe"
   },
   "priorities": {
     "async": [
