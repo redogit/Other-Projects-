@@ -286,6 +286,10 @@ class FkdbLocalToolBridgeBehaviorTests(unittest.TestCase):
             self.assertEqual(carrier_result["payload"]["exit_code"], 0)
             self.assertIn("ARG=; echo PWNED", carrier_result["payload"]["stdout"])
             self.assertEqual(carrier_result["obligation"], "TEST_PROCESS_RECEIPT")
+            self.assertIn(
+                "PROCESS_NETWORK_POLICY_NOT_ENFORCED_BY_PORTABLE_STDLIB_BRIDGE",
+                carrier_result["remainder"],
+            )
 
 
 class FkdbLocalToolBridgeRedContractTests(unittest.TestCase):
