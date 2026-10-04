@@ -7,6 +7,12 @@ interface types {
     unresolved,
   }
 
+  enum collection-status {
+    collected,
+    partial,
+    unavailable,
+  }
+
   enum operation-state {
     pending,
     ready,
@@ -99,6 +105,22 @@ interface types {
     budget: u64,
   }
 
+  record collect-request {
+    tool-id: string,
+    root: option<string>,
+    options: list<metadata-entry>,
+    budget: u64,
+  }
+
+  record collection-result {
+    tool-id: string,
+    status: collection-status,
+    carriers: list<tool-carrier>,
+    remainder: list<string>,
+    files-scanned: u64,
+    bytes-read: u64,
+  }
+
   variant host-error {
     unavailable(string),
     denied(string),
@@ -120,6 +142,11 @@ interface types {
     poll: func() -> operation-state;
     finish: func() -> result<tool-carrier, host-error>;
   }
+
+  resource collection-operation {
+    poll: func() -> operation-state;
+    finish: func() -> result<collection-result, host-error>;
+  }
 }
 
 interface knowledge-host {
@@ -135,12 +162,13 @@ interface byte-source {
 }
 
 interface local-tools {
-  use types.{tool-descriptor, import-request, local-run-request, tool-operation, host-error};
+  use types.{tool-descriptor, import-request, local-run-request, collect-request, tool-operation, collection-operation, host-error};
 
   list-tools: func() -> list<tool-descriptor>;
   inspect: func(id: string) -> result<tool-descriptor, host-error>;
   begin-import: func(request: import-request) -> tool-operation;
   begin-run: func(request: local-run-request) -> tool-operation;
+  begin-collect: func(request: collect-request) -> collection-operation;
 }
 
 world fkdb-browser-compat {
