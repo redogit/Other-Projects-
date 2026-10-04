@@ -18,7 +18,7 @@ def load_page(page_id: str) -> str:
 
 
 def fkdb_omega():
-    page_ids = ("fkdb", "history", "decay", "recover", "relate", "lineage")
+    page_ids = ("fkdb", "history", "decay", "recover", "relate", "tools", "lineage")
     pages = [{"id": page_id, "source": load_page(page_id)} for page_id in page_ids]
     home = pages[0]["source"]
     return make_omega(
@@ -121,7 +121,7 @@ class FkdbLocalSurfaceTests(unittest.TestCase):
         self.assertEqual(home["state"]["navigation"]["currentPage"], "fkdb")
         self.assertEqual(
             [hit["href"] for hit in home["state"]["hitMap"]],
-            ["history", "lineage"],
+            ["history", "tools", "lineage"],
         )
         self.assertTrue(home["state"]["camera"]["verified"])
         self.assertTrue(home["state"]["camera"]["admitted"])
@@ -141,6 +141,20 @@ class FkdbLocalSurfaceTests(unittest.TestCase):
             [hit["href"] for hit in current["state"]["hitMap"]],
             ["history", "lineage"],
         )
+    def test_keyboard_opens_tools_surface_and_returns(self):
+        home, _ = self.run_one(fkdb_omega())
+        first_focus, _ = self.run_one(keyboard_input(home, "TAB"))
+        self.assertEqual(first_focus["state"]["navigation"]["focusedHref"], "history")
+        second_focus, _ = self.run_one(keyboard_input(first_focus, "TAB"))
+        self.assertEqual(second_focus["state"]["navigation"]["focusedHref"], "tools")
+        tools, _ = self.run_one(keyboard_input(second_focus, "ENTER"))
+        self.assertEqual(tools["state"]["navigation"]["currentPage"], "tools")
+        self.assertEqual(
+            [hit["href"] for hit in tools["state"]["hitMap"]],
+            ["fkdb"],
+        )
+        returned = self.activate_first_link(tools, "fkdb")
+        self.assertEqual(returned["state"]["navigation"]["currentPage"], "fkdb")
 
 
 if __name__ == "__main__":
