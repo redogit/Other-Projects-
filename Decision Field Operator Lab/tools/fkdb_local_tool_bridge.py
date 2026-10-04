@@ -16,7 +16,11 @@ import time
 from typing import Any
 from urllib.parse import unquote, urlsplit
 
-from fkdb_local_adapters import COLLECTION_SCHEMA, LocalAdapterRegistry
+from fkdb_local_adapters import (
+    COLLECTION_SCHEMA,
+    LocalAdapterRegistry,
+    build_default_registry,
+)
 from fkdb_tool_carrier import sha256_hex, validate_tool_carrier
 
 
@@ -679,7 +683,7 @@ def run_bridge(
         policy = BridgePolicy.load(policy_path)
 
     if adapter_registry is None:
-        adapter_registry = LocalAdapterRegistry()
+        adapter_registry = build_default_registry()
 
     server_cls = _BridgeHTTPServerV6 if ":" in bind else _BridgeHTTPServer
     server = server_cls((bind, port), _BridgeHandler)
