@@ -31,6 +31,7 @@
       "purpose": "Entry and return point for the Fighting Knowledge Decay Browser progression.",
       "relations": [
         "history",
+        "tools",
         "lineage"
       ],
       "provenance": [
@@ -100,6 +101,21 @@
         "FKDB cross-carrier invariants"
       ],
       "recovery_path": "Return to the FKDB current common point with result and remainder.",
+      "state": "ACTIVE"
+    },
+    {
+      "id": "tools",
+      "file": "tools.html",
+      "title": "TOOLS",
+      "role": "LOCAL_TOOL_STATUS",
+      "purpose": "Inspect local tool bridge availability without requiring remote services.",
+      "relations": [
+        "fkdb"
+      ],
+      "provenance": [
+        "docs/superpowers/specs/2026-10-04-fkdb-local-tool-integration-design.md"
+      ],
+      "recovery_path": "Return HOME; start the local bridge or import portable artifacts when local adapters are unavailable.",
       "state": "ACTIVE"
     },
     {
