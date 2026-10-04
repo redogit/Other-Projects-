@@ -56,6 +56,37 @@ class FkdbWasmHifContractTests(unittest.TestCase):
         self.assertIn("future<result<_, host-error>>", self.wit03)
         self.assertIn("world fkdb-browser", self.wit03)
 
+    def test_wasi03_local_tools_are_native_async(self):
+        for required in (
+            "enum tool-locality",
+            "record tool-descriptor",
+            "record tool-carrier",
+            "record import-request",
+            "record local-run-request",
+            "interface local-tools",
+            "import-artifact: async func",
+            "run-local: async func",
+            "import local-tools;",
+        ):
+            self.assertIn(required, self.wit03)
+
+    def test_wasi02_local_tools_use_explicit_operation_resources(self):
+        for required in (
+            "enum tool-locality",
+            "record tool-descriptor",
+            "record tool-carrier",
+            "record import-request",
+            "record local-run-request",
+            "resource tool-operation",
+            "interface local-tools",
+            "begin-import: func",
+            "begin-run: func",
+            "import local-tools;",
+        ):
+            self.assertIn(required, self.wit02)
+        self.assertNotIn("import-artifact: async func", self.wit02)
+        self.assertNotIn("run-local: async func", self.wit02)
+
     def test_wasi02_contract_is_explicit_poll_compatibility(self):
         self.assertNotIn("async func", self.wit02)
         self.assertIn("resource query-operation", self.wit02)
