@@ -30,6 +30,24 @@ assert.deepEqual(unavailableBridge.remainder, [
 ]);
 assert.ok(bridgeCalls.every(([url]) => String(url).startsWith("/")));
 
+let remoteProbeCount = 0;
+const remoteRoot = {
+  location: { origin: "https://fkdb.example", hostname: "fkdb.example" },
+  async fetch() {
+    remoteProbeCount += 1;
+    throw new Error("remote origins must not be probed as local bridges");
+  },
+};
+const remoteBridge = await localToolClient.discoverLocalToolBridge({
+  root: remoteRoot,
+  token: null,
+});
+assert.equal(remoteBridge.state, "UNAVAILABLE");
+assert.deepEqual(remoteBridge.remainder, [
+  "LOCAL_TOOL_BRIDGE_NOT_LOOPBACK",
+]);
+assert.equal(remoteProbeCount, 0);
+
 const malformedRoot = {
   location: { origin: "http://127.0.0.1:8080", hostname: "127.0.0.1" },
   async fetch() {
