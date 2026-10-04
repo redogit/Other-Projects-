@@ -167,14 +167,22 @@ Implemented:
 
 - obligation-driven host capability graph with explicit execution receipts;
 - distinct `componentNative03` and `componentBrowserTranspiled03` capabilities;
+- runtime-probed `localToolBridge` capability; `LOCAL_TOOL_ACCESS` selects
+  `LOCAL_TOOL_BRIDGE` only when that capability is present;
 - compatibility projection preserving existing `selectHostProfile()` callers;
 - portable `ToolCarrier` and `ToolBundle` interchange contracts with bounded,
   deterministic validation and SHA-256 payload identity;
+- ToolBundle attachments are resolved inside the bundle root and verified against their
+  declared size and SHA-256 bytes; symlink escape and aggregate bundle-size overflow fail
+  closed;
 - loopback-only Local Tool Bridge serving FKDB and local-tool endpoints same-origin;
 - per-launch capability token for mutating/run operations;
 - exact-origin enforcement, no wildcard CORS, no token in URLs/public receipts;
-- deny-by-default process execution with explicit executable/subcommand/root grants and
-  `shell=False`;
+- deny-by-default local-process grants with exact executable/subcommand/root validation
+  and `shell=False` semantics reserved for an isolation-capable backend;
+- the portable stdlib bridge marks granted local processes `DEGRADED` and returns
+  HTTP 503 before execution while required process network isolation is unavailable
+  (and while any requested nonzero memory limit cannot be enforced);
 - path traversal and symlink-escape rejection;
 - native-async WASI 0.3 `local-tools` WIT contract plus 0.2 explicit-poll compatibility;
 - modern browser local-tool client using relative same-origin requests only;
@@ -196,7 +204,8 @@ The browser remains valid when the Local Tool Bridge is absent:
 LOCAL_TOOL_BRIDGE_UNAVAILABLE != FKDB_UNAVAILABLE
 ```
 
-Verified by the dedicated browser/RMAL matrix on Linux and Windows after Task 5.
+Verified by the dedicated browser/RMAL matrix on Linux and Windows after the Plan A
+security fix pass: 48/48 tests passed on both platforms.
 
 ## Current query progression
 
@@ -255,10 +264,13 @@ Passing software tests establish only the bounded implemented behavior.
 3. Actual Component Model/WASI toolchain compilation of the WIT packages remains
    unproven.
 4. The default Local Tool Bridge process allowlist is intentionally empty.
-5. Richer free-text interpretation beyond exact token matching remains open.
-6. Any result ordering must not promote evidence by resemblance.
-7. Scrolling and larger-page layout remain open.
-8. Native/RMAL migration of remaining FKDB-specific outer-controller/index logic remains
+5. The portable stdlib Local Tool Bridge has no process network-isolation backend;
+   therefore local process execution remains fail-closed. A nonzero process memory limit
+   likewise requires an enforcement backend before execution can be admitted.
+6. Richer free-text interpretation beyond exact token matching remains open.
+7. Any result ordering must not promote evidence by resemblance.
+8. Scrolling and larger-page layout remain open.
+9. Native/RMAL migration of remaining FKDB-specific outer-controller/index logic remains
    open.
 
 ## F6 — bounded live query input
@@ -289,9 +301,10 @@ Constraints preserved:
 ## Next one-degree step
 
 Build **F10 Plan B — local workflow/computation adapters** on top of the verified bridge:
-Mathbox and Superpowers local-file carriers first, followed by Zotero local/portable and
-Wolfram local-process adapters. Each adapter must emit ToolCarrier and remain independently
-usable without remote APIs.
+Mathbox and Superpowers local-file carriers first, followed by Zotero local/portable.
+Wolfram local-process execution must remain unavailable until a process-isolation backend
+can enforce the declared policy. Each adapter must emit ToolCarrier and remain
+independently usable without remote APIs.
 
 ## Claim ceiling
 
