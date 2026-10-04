@@ -35,3 +35,7 @@ Task 4: complete — literal-loopback GET-only Zotero Desktop local API adapter 
 
 Task 5: RED verified at 69ffc5a — only fkdb_adapter_wolfram failed because the module was absent; the prior 52-test baseline remained green.
 Task 5: complete — bounded .wl/.m/.nb artifact collection, raw artifact SHA in source_version/provenance, base64 binary notebook carrier, executable discovery as DEGRADED LOCAL_PROCESS_PROBE only, and no RUN capability; Linux and Windows dedicated matrices completed success with 53 tests.
+
+
+Task 6: RED verified at 1d6a69c — only fkdb_wasm_hif_contract failed for absent generic collection types/operations; all adapter/runtime gates remained green.
+Task 6: complete — vendor-neutral collection-status/collect-request/collection-result WIT types, native async collect-local in 0.3, and explicit collection-operation/begin-collect polling in 0.2; WIT contains no Mathbox/Superpowers/Zotero/Wolfram names; Linux and Windows dedicated matrices completed success with 53 tests.
