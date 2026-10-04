@@ -386,3 +386,17 @@ set_tests_properties(
     PASS_REGULAR_EXPRESSION
       "OK"
 )
+
+add_test(
+  NAME fkdb_page_build_check
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../tools/build_fkdb_pages.py"
+    --check
+)
+set_tests_properties(
+  fkdb_page_build_check
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "FKDB_PAGE_BUILD_CHECK PASS"
+)
