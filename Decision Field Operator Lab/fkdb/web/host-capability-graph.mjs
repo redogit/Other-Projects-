@@ -267,31 +267,28 @@ export function selectExecutionPath(capabilities, obligation) {
 }
 
 export function projectLegacyHostProfile(receipt, capabilities) {
-  const selected = receipt.selected.kind;
   let tier;
-  switch (selected) {
-    case EXECUTION_PATHS.COMPONENT_NATIVE_0_3:
-    case EXECUTION_PATHS.COMPONENT_BROWSER_TRANSPILED_0_3:
-      tier = "WASM_COMPONENT_0_3";
-      break;
-    case EXECUTION_PATHS.WASM_JSPI:
-      tier = "WASM_JSPI";
-      break;
-    case EXECUTION_PATHS.WASM_PROMISE_HANDOFF:
-      tier = "WASM_PROMISE_HANDOFF";
-      break;
-    case EXECUTION_PATHS.WASM_LEGACY_WEB:
-      tier = "WASM_LEGACY_WEB";
-      break;
-    case EXECUTION_PATHS.JS_MODERN_FALLBACK:
-      tier = "JS_MODERN_FALLBACK";
-      break;
-    case EXECUTION_PATHS.JS_LEGACY_FALLBACK:
-      tier = "JS_LEGACY_FALLBACK";
-      break;
-    default:
-      tier = "NATIVE_RMAL_FALLBACK";
-      break;
+  if (
+    capabilities.componentNative03 ||
+    capabilities.componentBrowserTranspiled03 ||
+    capabilities.componentModel03
+  ) {
+    tier = "WASM_COMPONENT_0_3";
+  } else if (capabilities.wasmCore && capabilities.jspi) {
+    tier = "WASM_JSPI";
+  } else if (capabilities.wasmCore && capabilities.fetch) {
+    tier = "WASM_PROMISE_HANDOFF";
+  } else if (
+    capabilities.wasmCore &&
+    (capabilities.xhr || capabilities.emscriptenWasmFs)
+  ) {
+    tier = "WASM_LEGACY_WEB";
+  } else if (capabilities.fetch) {
+    tier = "JS_MODERN_FALLBACK";
+  } else if (capabilities.xhr || capabilities.indexedDb) {
+    tier = "JS_LEGACY_FALLBACK";
+  } else {
+    tier = "NATIVE_RMAL_FALLBACK";
   }
 
   return Object.freeze({
@@ -300,12 +297,14 @@ export function projectLegacyHostProfile(receipt, capabilities) {
       ? "JSPI"
       : capabilities.fetch ||
           capabilities.componentNative03 ||
-          capabilities.componentBrowserTranspiled03
+          capabilities.componentBrowserTranspiled03 ||
+          capabilities.componentModel03
         ? "EXPLICIT_PROMISE_HANDOFF"
         : "CALLBACK_OR_OUTER_CONTROLLER",
     network: null,
     storage: null,
     worker: capabilities.worker ? "WORKER" : "MAIN_THREAD_COOPERATIVE",
     sharedMemory: capabilities.sharedMemory ? "AVAILABLE" : "UNAVAILABLE",
+    executionReceipt: receipt,
   });
 }
