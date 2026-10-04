@@ -159,6 +159,14 @@ def canonical_carrier_bytes(carrier: dict[str, Any]) -> bytes:
     return _canonical_json_bytes(carrier)
 
 
+def _within_bundle_root(candidate: Path, root: Path) -> bool:
+    try:
+        candidate.relative_to(root)
+        return True
+    except ValueError:
+        return False
+
+
 def _validate_attachment(value: Any) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise ValueError("ToolBundle attachment must be an object")
@@ -229,11 +237,51 @@ def load_tool_bundle(
         raise ValueError("ToolBundle attachments must be a list")
     validated_attachments: list[dict[str, Any]] = []
     seen_hashes: set[str] = set()
+    bundle_root = path.parent.resolve()
+    total_bundle_bytes = size
+
     for attachment in attachments:
         validated = _validate_attachment(attachment)
         digest = validated["sha256"]
         if digest in seen_hashes:
             raise ValueError(f"duplicate ToolBundle attachment digest: {digest}")
+
+        relative = Path(validated["path"])
+        try:
+            candidate = (bundle_root / relative).resolve(strict=True)
+        except FileNotFoundError as exc:
+            raise ValueError(
+                f"ToolBundle attachment file is missing: {validated['path']}"
+            ) from exc
+
+        if not _within_bundle_root(candidate, bundle_root):
+            raise ValueError("ToolBundle attachment escapes bundle root")
+        if not candidate.is_file():
+            raise ValueError("ToolBundle attachment must reference a regular file")
+
+        declared_size = validated["size"]
+        actual_size = candidate.stat().st_size
+        if actual_size != declared_size:
+            raise ValueError(
+                "ToolBundle attachment size does not match referenced bytes"
+            )
+        if total_bundle_bytes + actual_size > max_bundle_bytes:
+            raise ValueError(
+                "ToolBundle exceeds bound when attachment bytes are included"
+            )
+
+        with candidate.open("rb") as handle:
+            raw_attachment = handle.read(actual_size + 1)
+        if len(raw_attachment) != actual_size:
+            raise ValueError(
+                "ToolBundle attachment size changed while validating bytes"
+            )
+        if sha256_hex(raw_attachment) != digest:
+            raise ValueError(
+                "ToolBundle attachment sha256 does not match referenced bytes"
+            )
+
+        total_bundle_bytes += actual_size
         seen_hashes.add(digest)
         validated_attachments.append(validated)
 
