@@ -376,3 +376,25 @@ LOCAL_FKDB_SURFACE != COMPLETE_KNOWLEDGE_RECOVERY
 LAUNCHER_BINDING != BROWSER_SEMANTICS
 RELATION != EVIDENCE_TRANSFER
 ```
+
+### FKDB query-state projection
+
+`Decision Field Operator Lab/fkdb/state/current_query.json` is the current bounded
+query-state carrier. `tools/build_fkdb_pages.py` deterministically projects its
+human-visible fields into the local FKDB pages. CI requires the committed pages to
+match that projection exactly.
+
+```text
+current_query.json
+    -> bounded projection
+FKDB local pages
+    -> inherited Independent Browser renderer
+human-visible surface
+```
+
+This is deliberately not yet free-text query execution:
+
+```text
+QUERY_STATE_PROJECTION != QUERY_EXECUTION
+DISPLAYED_STATUS != VERIFIED_TRUTH
+```
