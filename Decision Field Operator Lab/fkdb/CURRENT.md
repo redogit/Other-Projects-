@@ -158,6 +158,46 @@ explicit Promise/outer-controller handoff and does not fake synchronous Wasm sem
 The Wasm-HIF framework is indexed as `FKDB-HIF-001`, so FKDB can recover it from a
 human query such as `WebAssembly`.
 
+### F10 Plan A — Core Local Tool Bridge
+
+The approved local-first tool architecture now has a verified shared substrate before any
+vendor-specific adapter is admitted.
+
+Implemented:
+
+- obligation-driven host capability graph with explicit execution receipts;
+- distinct `componentNative03` and `componentBrowserTranspiled03` capabilities;
+- compatibility projection preserving existing `selectHostProfile()` callers;
+- portable `ToolCarrier` and `ToolBundle` interchange contracts with bounded,
+  deterministic validation and SHA-256 payload identity;
+- loopback-only Local Tool Bridge serving FKDB and local-tool endpoints same-origin;
+- per-launch capability token for mutating/run operations;
+- exact-origin enforcement, no wildcard CORS, no token in URLs/public receipts;
+- deny-by-default process execution with explicit executable/subcommand/root grants and
+  `shell=False`;
+- path traversal and symlink-escape rejection;
+- native-async WASI 0.3 `local-tools` WIT contract plus 0.2 explicit-poll compatibility;
+- modern browser local-tool client using relative same-origin requests only;
+- bounded `TOOLS` page in the inherited Independent Browser surface.
+
+Default production policy remains:
+
+```text
+NETWORK_POLICY = LOOPBACK_ONLY
+read_roots = []
+write_roots = []
+processes = []
+environment_allowlist = []
+```
+
+The browser remains valid when the Local Tool Bridge is absent:
+
+```text
+LOCAL_TOOL_BRIDGE_UNAVAILABLE != FKDB_UNAVAILABLE
+```
+
+Verified by the dedicated browser/RMAL matrix on Linux and Windows after Task 5.
+
 ## Current query progression
 
 ```text
@@ -180,7 +220,7 @@ FKDB
 -> FKDB
 ```
 
-`LINEAGE` is an inspectable side route that returns to FKDB.
+`TOOLS` and `LINEAGE` are inspectable side routes that return to FKDB.
 
 ## Current invariants
 
@@ -208,13 +248,18 @@ Passing software tests establish only the bounded implemented behavior.
 
 ## Current remainder
 
-1. Live external/history ingestion beyond the bounded local source index.
-2. Live cross-carrier candidate retrieval through the new Wasm-HIF carrier contract.
-3. Actual Component Model/WASI toolchain compilation of the WIT packages.
-4. Richer free-text interpretation beyond exact token matching.
-5. Any result ordering must not promote evidence by resemblance.
-6. Scrolling and larger-page layout.
-7. Native/RMAL migration of remaining FKDB-specific outer-controller/index logic.
+1. Vendor adapters remain intentionally absent: Mathbox/Superpowers, Zotero, Wolfram,
+   local Supabase, and portable SciSpace/Consensus/Exa/Linear/Railway ingestion are later
+   plans.
+2. No remote synchronization is required or implemented.
+3. Actual Component Model/WASI toolchain compilation of the WIT packages remains
+   unproven.
+4. The default Local Tool Bridge process allowlist is intentionally empty.
+5. Richer free-text interpretation beyond exact token matching remains open.
+6. Any result ordering must not promote evidence by resemblance.
+7. Scrolling and larger-page layout remain open.
+8. Native/RMAL migration of remaining FKDB-specific outer-controller/index logic remains
+   open.
 
 ## F6 — bounded live query input
 
@@ -243,13 +288,13 @@ Constraints preserved:
 
 ## Next one-degree step
 
-Build **F10 — bounded cross-carrier candidate ingestion through Wasm-HIF**. Add one
-external/source carrier that can contribute records through the typed host contract while
-preserving source identity, provenance, evidence status, cost, authority status and
-unresolved remainder. Prefer WIT/WASI 0.3; adapt downward without weakening semantics.
+Build **F10 Plan B — local workflow/computation adapters** on top of the verified bridge:
+Mathbox and Superpowers local-file carriers first, followed by Zotero local/portable and
+Wolfram local-process adapters. Each adapter must emit ToolCarrier and remain independently
+usable without remote APIs.
 
 ## Claim ceiling
 
-FKDB is now a functioning bounded successor surface with exact live-query routing, a bounded provenance-preserving local source index, in-browser source/recovery inspection for unambiguous matches, and a tested modern-first WebAssembly/Web host interoperability layer.
+FKDB is now a functioning bounded successor surface with exact live-query routing, a bounded provenance-preserving local source index, in-browser source/recovery inspection for unambiguous matches, a tested modern-first WebAssembly/Web host interoperability layer, and a verified local-first ToolCarrier/Local Tool Bridge substrate.
 It is not yet a complete knowledge-recovery browser, a semantic search engine, or
 evidence authority.
