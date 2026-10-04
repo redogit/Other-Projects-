@@ -12,11 +12,26 @@ interface types {
     ready,
   }
 
+  enum tool-locality {
+    embedded,
+    local-file,
+    local-process,
+    localhost,
+    portable-import,
+    user-handoff,
+    remote-optional,
+  }
+
   record provenance {
     source-id: string,
     carrier: string,
     evidence-status: string,
     authority-status: string,
+  }
+
+  record metadata-entry {
+    key: string,
+    value: string,
   }
 
   record source-query {
@@ -40,6 +55,50 @@ interface types {
     scan-cost: u64,
   }
 
+  record tool-descriptor {
+    tool-id: string,
+    locality: tool-locality,
+    state: string,
+    capabilities: list<string>,
+    last-local-receipt: option<string>,
+    unresolved-requirements: list<string>,
+  }
+
+  record tool-carrier {
+    carrier-id: string,
+    tool-id: string,
+    tool-version: string,
+    adapter-kind: string,
+    locality: tool-locality,
+    source-identity: string,
+    source-version: string,
+    retrieved-at: string,
+    payload-type: string,
+    payload: list<u8>,
+    content-hash: string,
+    provenance: list<metadata-entry>,
+    authority-scope: string,
+    evidence-status: string,
+    obligation: string,
+    relations: list<string>,
+    cost: u64,
+    loss: list<string>,
+    remainder: list<string>,
+    recovery-path: string,
+  }
+
+  record import-request {
+    bundle: list<u8>,
+    max-bytes: u64,
+  }
+
+  record local-run-request {
+    tool-id: string,
+    argv: list<string>,
+    obligation: string,
+    budget: u64,
+  }
+
   variant host-error {
     unavailable(string),
     denied(string),
@@ -56,6 +115,11 @@ interface types {
     read: func(max: u32) -> result<list<u8>, host-error>;
     done: func() -> bool;
   }
+
+  resource tool-operation {
+    poll: func() -> operation-state;
+    finish: func() -> result<tool-carrier, host-error>;
+  }
 }
 
 interface knowledge-host {
@@ -70,7 +134,17 @@ interface byte-source {
   open: func(id: string) -> result<byte-reader, host-error>;
 }
 
+interface local-tools {
+  use types.{tool-descriptor, import-request, local-run-request, tool-operation, host-error};
+
+  list-tools: func() -> list<tool-descriptor>;
+  inspect: func(id: string) -> result<tool-descriptor, host-error>;
+  begin-import: func(request: import-request) -> tool-operation;
+  begin-run: func(request: local-run-request) -> tool-operation;
+}
+
 world fkdb-browser-compat {
   import knowledge-host;
   import byte-source;
+  import local-tools;
 }
