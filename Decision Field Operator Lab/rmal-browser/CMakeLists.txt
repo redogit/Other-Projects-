@@ -400,3 +400,83 @@ set_tests_properties(
     PASS_REGULAR_EXPRESSION
       "FKDB_PAGE_BUILD_CHECK PASS"
 )
+
+add_executable(fkdb_live_query_host fkdb_live_query_host.c)
+target_link_libraries(fkdb_live_query_host PRIVATE rmal)
+
+if(CMAKE_C_COMPILER_ID MATCHES "Clang|GNU")
+  target_compile_options(fkdb_live_query_host PRIVATE -Wall -Wextra -Wpedantic -Werror)
+elseif(MSVC)
+  target_compile_options(fkdb_live_query_host PRIVATE /W4 /WX)
+endif()
+
+set(FKDB_LIVE_QUERY "${CMAKE_CURRENT_SOURCE_DIR}/fkdb_live_query.rmal")
+
+add_test(
+  NAME fkdb_live_query_check
+  COMMAND $<TARGET_FILE:rmalc> check "${FKDB_LIVE_QUERY}"
+)
+add_test(
+  NAME fkdb_live_query_compile
+  COMMAND $<TARGET_FILE:rmalc> compile "${FKDB_LIVE_QUERY}"
+)
+
+add_test(
+  NAME fkdb_live_query_history
+  COMMAND $<TARGET_FILE:fkdb_live_query_host> "${FKDB_LIVE_QUERY}" HISTORY
+)
+set_tests_properties(
+  fkdb_live_query_history
+  PROPERTIES PASS_REGULAR_EXPRESSION
+    "FKDB_LIVE_QUERY_RECEIPT status=MATCH route=history cost=2 source_preserved=true"
+)
+
+add_test(
+  NAME fkdb_live_query_recover
+  COMMAND $<TARGET_FILE:fkdb_live_query_host> "${FKDB_LIVE_QUERY}" RECOVER
+)
+set_tests_properties(
+  fkdb_live_query_recover
+  PROPERTIES PASS_REGULAR_EXPRESSION
+    "FKDB_LIVE_QUERY_RECEIPT status=MATCH route=recover cost=3 source_preserved=true"
+)
+
+add_test(
+  NAME fkdb_live_query_lineage
+  COMMAND $<TARGET_FILE:fkdb_live_query_host> "${FKDB_LIVE_QUERY}" LINEAGE
+)
+set_tests_properties(
+  fkdb_live_query_lineage
+  PROPERTIES PASS_REGULAR_EXPRESSION
+    "FKDB_LIVE_QUERY_RECEIPT status=MATCH route=lineage cost=4 source_preserved=true"
+)
+
+add_test(
+  NAME fkdb_live_query_home
+  COMMAND $<TARGET_FILE:fkdb_live_query_host> "${FKDB_LIVE_QUERY}" FKDB
+)
+set_tests_properties(
+  fkdb_live_query_home
+  PROPERTIES PASS_REGULAR_EXPRESSION
+    "FKDB_LIVE_QUERY_RECEIPT status=MATCH route=fkdb cost=5 source_preserved=true"
+)
+
+add_test(
+  NAME fkdb_live_query_empty
+  COMMAND $<TARGET_FILE:fkdb_live_query_host> "${FKDB_LIVE_QUERY}"
+)
+set_tests_properties(
+  fkdb_live_query_empty
+  PROPERTIES PASS_REGULAR_EXPRESSION
+    "FKDB_LIVE_QUERY_RECEIPT status=NO_MATCH route=fkdb cost=1 source_preserved=true"
+)
+
+add_test(
+  NAME fkdb_live_query_unresolved
+  COMMAND $<TARGET_FILE:fkdb_live_query_host> "${FKDB_LIVE_QUERY}" "WHAT IS THIS"
+)
+set_tests_properties(
+  fkdb_live_query_unresolved
+  PROPERTIES PASS_REGULAR_EXPRESSION
+    "FKDB_LIVE_QUERY_RECEIPT status=UNRESOLVED route=fkdb cost=5 source_preserved=true"
+)
