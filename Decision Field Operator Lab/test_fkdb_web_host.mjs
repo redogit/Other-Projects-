@@ -184,7 +184,7 @@ const fakeRoot = {
 };
 
 const detected = detectCapabilities(fakeRoot, {
-  componentModel03: true,
+  componentNative03: true,
   wasiHttp03: true,
 });
 assert.equal(detected.wasmCore, true);
@@ -194,7 +194,8 @@ assert.equal(detected.streams, true);
 assert.equal(detected.worker, true);
 assert.equal(detected.sharedMemory, true);
 assert.equal(detected.opfs, true);
-assert.equal(detected.componentModel03, true);
+assert.equal(detected.componentNative03, true);
+assert.equal(detected.componentBrowserTranspiled03, false);
 assert.equal(detected.wasiHttp03, true);
 
 const boundary = createWasmAsyncBoundary(fakeRoot.WebAssembly);
