@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://redogit.github.io/fkdb/schemas/tool-bundle-v1.json",
+  "title": "FKDB ToolBundle v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "manifest",
+    "carriers",
+    "attachments"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fkdb/tool-bundle/v1"
+    },
+    "manifest": {
+      "type": "object",
+      "required": [
+        "bundle_id"
+      ],
+      "properties": {
+        "bundle_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "carriers": {
+      "type": "array",
+      "items": {
+        "$ref": "tool-carrier.schema.json"
+      }
+    },
+    "attachments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sha256",
+          "size",
+          "path"
+        ],
+        "properties": {
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}
