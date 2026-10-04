@@ -1,3 +1,10 @@
+import {
+  projectLegacyHostProfile,
+  selectExecutionPath as selectExecutionPathFromGraph,
+} from "./host-capability-graph.mjs";
+
+export { EXECUTION_OBLIGATIONS, EXECUTION_PATHS } from "./host-capability-graph.mjs";
+
 export const HOST_TIERS = Object.freeze({
   WASM_COMPONENT_0_3: "WASM_COMPONENT_0_3",
   WASM_JSPI: "WASM_JSPI",
@@ -35,24 +42,40 @@ export function detectCapabilities(root = globalThis, declared = {}) {
     textCodec:
       typeof root.TextEncoder === "function" &&
       typeof root.TextDecoder === "function",
-    componentModel03: declared.componentModel03 === true,
+    componentNative03: declared.componentNative03 === true,
+    componentBrowserTranspiled03:
+      declared.componentBrowserTranspiled03 === true,
     wasiHttp03: declared.wasiHttp03 === true,
     wasiHttp02: declared.wasiHttp02 === true,
     wasiFilesystem03: declared.wasiFilesystem03 === true,
     emscriptenWasmFs: declared.emscriptenWasmFs === true,
+    remainder:
+      declared.componentModel03 === true
+        ? Object.freeze(["LEGACY_COMPONENT_DECLARATION_AMBIGUOUS"])
+        : Object.freeze([]),
   });
 }
 
 export function selectAsyncStrategy(capabilities) {
   if (capabilities.jspi) return "JSPI";
-  if (capabilities.fetch || capabilities.componentModel03) {
+  if (
+    capabilities.fetch ||
+    capabilities.componentNative03 ||
+    capabilities.componentBrowserTranspiled03 ||
+    capabilities.componentModel03
+  ) {
     return "EXPLICIT_PROMISE_HANDOFF";
   }
   return "CALLBACK_OR_OUTER_CONTROLLER";
 }
 
 export function selectNetworkStrategy(capabilities) {
-  if (capabilities.componentModel03 && capabilities.wasiHttp03) {
+  if (
+    (capabilities.componentNative03 ||
+      capabilities.componentBrowserTranspiled03 ||
+      capabilities.componentModel03) &&
+    capabilities.wasiHttp03
+  ) {
     return "WASI_HTTP_0_3";
   }
   if (capabilities.fetch && capabilities.streams) return "FETCH_STREAMS";
@@ -65,7 +88,12 @@ export function selectNetworkStrategy(capabilities) {
 }
 
 export function selectStorageStrategy(capabilities) {
-  if (capabilities.componentModel03 && capabilities.wasiFilesystem03) {
+  if (
+    (capabilities.componentNative03 ||
+      capabilities.componentBrowserTranspiled03 ||
+      capabilities.componentModel03) &&
+    capabilities.wasiFilesystem03
+  ) {
     return "WASI_FILESYSTEM_0_3";
   }
   if (capabilities.opfs) return "OPFS";
@@ -74,34 +102,28 @@ export function selectStorageStrategy(capabilities) {
   return "MEMORY";
 }
 
-export function selectHostProfile(capabilities) {
-  let tier;
-  if (capabilities.wasmCore && capabilities.componentModel03) {
-    tier = HOST_TIERS.WASM_COMPONENT_0_3;
-  } else if (capabilities.wasmCore && capabilities.jspi) {
-    tier = HOST_TIERS.WASM_JSPI;
-  } else if (capabilities.wasmCore && capabilities.fetch) {
-    tier = HOST_TIERS.WASM_PROMISE_HANDOFF;
-  } else if (
-    capabilities.wasmCore &&
-    (capabilities.xhr || capabilities.emscriptenWasmFs)
-  ) {
-    tier = HOST_TIERS.WASM_LEGACY_WEB;
-  } else if (capabilities.fetch) {
-    tier = HOST_TIERS.JS_MODERN_FALLBACK;
-  } else if (capabilities.xhr || capabilities.indexedDb) {
-    tier = HOST_TIERS.JS_LEGACY_FALLBACK;
-  } else {
-    tier = HOST_TIERS.NATIVE_RMAL_FALLBACK;
-  }
+export function selectExecutionPath(capabilities, obligation) {
+  return selectExecutionPathFromGraph(capabilities, obligation);
+}
 
+export function selectHostProfile(capabilities) {
+  const compatibilityCapabilities =
+    capabilities.componentModel03 === true &&
+    !capabilities.componentNative03 &&
+    !capabilities.componentBrowserTranspiled03
+      ? { ...capabilities, componentNative03: true }
+      : capabilities;
+
+  const receipt = selectExecutionPathFromGraph(
+    compatibilityCapabilities,
+    "NETWORK_BYTES"
+  );
+  const projected = projectLegacyHostProfile(receipt, compatibilityCapabilities);
   return Object.freeze({
-    tier,
+    ...projected,
     async: selectAsyncStrategy(capabilities),
     network: selectNetworkStrategy(capabilities),
     storage: selectStorageStrategy(capabilities),
-    worker: capabilities.worker ? "WORKER" : "MAIN_THREAD_COOPERATIVE",
-    sharedMemory: capabilities.sharedMemory ? "AVAILABLE" : "UNAVAILABLE",
   });
 }
 
