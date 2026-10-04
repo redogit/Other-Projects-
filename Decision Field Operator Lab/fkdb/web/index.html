@@ -10,6 +10,13 @@
     <h1>FKDB</h1>
     <p>Fighting Knowledge Decay Browser</p>
     <output id="host-profile">Detecting host capabilities…</output>
+
+    <section aria-labelledby="tools-title">
+      <h2 id="tools-title">Local tools</h2>
+      <output id="tool-status">Checking local tool bridge…</output>
+      <ul id="tool-list"></ul>
+    </section>
+
     <noscript>JavaScript is unavailable. Use the native RMAL FKDB fallback.</noscript>
   </main>
   <script type="module">
@@ -17,11 +24,37 @@
       detectCapabilities,
       selectHostProfile,
     } from "./fkdb-host.mjs";
+    import {
+      discoverLocalToolBridge,
+      listLocalTools,
+    } from "./local-tool-client.mjs";
 
     const capabilities = detectCapabilities(globalThis);
     const profile = selectHostProfile(capabilities);
     document.querySelector("#host-profile").textContent =
       `${profile.tier} / ${profile.async} / ${profile.network} / ${profile.storage}`;
+
+    const toolStatus = document.querySelector("#tool-status");
+    const toolList = document.querySelector("#tool-list");
+    const bridge = await discoverLocalToolBridge({ root: globalThis });
+
+    if (bridge.state !== "AVAILABLE") {
+      toolStatus.textContent =
+        `${bridge.state} — ${bridge.remainder.join(", ")}`;
+    } else {
+      try {
+        const tools = await listLocalTools(bridge, { root: globalThis });
+        toolStatus.textContent = `AVAILABLE — ${tools.length} local tool${tools.length === 1 ? "" : "s"}`;
+        for (const tool of tools) {
+          const item = document.createElement("li");
+          item.textContent =
+            `${tool.tool_id} — ${tool.locality} — ${tool.state}`;
+          toolList.append(item);
+        }
+      } catch {
+        toolStatus.textContent = "DEGRADED — LOCAL_TOOL_LIST_INVALID";
+      }
+    }
   </script>
 </body>
 </html>
