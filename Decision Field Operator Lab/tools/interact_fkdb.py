@@ -7,6 +7,8 @@ import re
 import subprocess
 import sys
 
+from fkdb_index import search_index
+
 HERE = Path(__file__).resolve().parent
 LAB = HERE.parent
 PAGES = LAB / "fkdb" / "pages"
@@ -84,6 +86,43 @@ def route_query(query_host: Path, query: str, manifest: dict) -> tuple[str, str,
     return status, route, cost
 
 
+def bounded_result_text(result: dict) -> tuple[str, list[str]]:
+    remainder = list(result.get("remainder", []))
+    status = result.get("status")
+    if status == "MATCH":
+        candidates = result.get("candidates", [])
+        if len(candidates) == 1:
+            text = candidates[0]["title"]
+        else:
+            text = "MULTIPLE CANDIDATES"
+    elif status == "NO_MATCH":
+        text = "NO LOCAL MATCH"
+    else:
+        text = "UNRESOLVED QUERY"
+
+    text = "".join(ch for ch in text.upper() if ch == " " or ("A" <= ch <= "Z"))
+    if len(text) > 25:
+        text = text[:25].rstrip()
+        remainder.append("DISPLAY_TRUNCATED")
+    if not text:
+        text = "UNRESOLVED QUERY"
+    return text, remainder
+
+
+def write_index_result(work_dir: Path, result: dict) -> Path:
+    work_dir.mkdir(parents=True, exist_ok=True)
+    display, remainder = bounded_result_text(result)
+    result_copy = dict(result)
+    result_copy["display_remainder"] = remainder
+    sidecar = work_dir / "index_result.json"
+    sidecar.write_text(json.dumps(result_copy, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    page = work_dir / "index_result.html"
+    page.write_text(
+        f'<h1>RESULT</h1><p>{display}</p><a href="fkdb">HOME</a>',
+        encoding="utf-8",
+    )
+    return page
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Launch FKDB through the Independent Browser live driver."
@@ -103,26 +142,35 @@ def main() -> int:
     args = parse_args()
     manifest = load_manifest()
     start_page = manifest["start_page"]
+    dynamic_page = None
     if args.query is not None:
         if args.query_host is None:
             raise ValueError("--query requires --query-host")
         status, route, cost = route_query(args.query_host, args.query, manifest)
         start_page = route if status == "MATCH" else manifest["start_page"]
-        print(
-            json.dumps(
-                {
-                    "fkdbQueryStatus": status,
-                    "fkdbQueryRoute": route,
-                    "fkdbQueryCost": cost,
-                    "sourcePreserved": True,
-                },
-                sort_keys=True,
-            )
-        )
+        query_report = {
+            "fkdbQueryStatus": status,
+            "fkdbQueryRoute": route,
+            "fkdbQueryCost": cost,
+            "sourcePreserved": True,
+        }
+
+        if status == "UNRESOLVED":
+            index_result = search_index(args.query)
+            dynamic_page = write_index_result(args.work_dir, index_result)
+            start_page = "result"
+            query_report["fkdbIndexStatus"] = index_result["status"]
+            query_report["fkdbIndexCandidates"] = index_result["candidate_count"]
+            query_report["fkdbIndexCost"] = index_result["scan_cost"]["comparison_units"]
+            query_report["fkdbIndexRemainder"] = index_result["remainder"]
+
+        print(json.dumps(query_report, sort_keys=True))
 
     command = [sys.executable, str(PREDECESSOR)]
     for page in manifest["pages"]:
         command.extend(["--page", f"{page['id']}={PAGES / page['file']}"])
+    if dynamic_page is not None:
+        command.extend(["--page", f"result={dynamic_page}"])
     command.extend([
         "--start", start_page,
         "--presenter", str(args.presenter),
