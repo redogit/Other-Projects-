@@ -23,6 +23,15 @@ class FkdbIndexTests(unittest.TestCase):
         self.assertEqual([c["id"] for c in result["candidates"]], ["IB-001"])
         self.assertEqual(result["candidates"][0]["provenance"]["relation"], "DIRECT_PREDECESSOR_OF")
 
+    def test_webassembly_recovers_hif_framework(self):
+        result = search_index("WebAssembly", self.data)
+        self.assertEqual(result["status"], "MATCH")
+        self.assertEqual([c["id"] for c in result["candidates"]], ["FKDB-HIF-001"])
+        self.assertEqual(
+            result["candidates"][0]["evidence_status"],
+            "CONTRACT_AND_HOST_SELECTOR_TESTED_BOUNDED",
+        )
+
     def test_failure_is_retrievable_not_discarded(self):
         result = search_index("display failure", self.data)
         self.assertEqual(result["status"], "MATCH")
