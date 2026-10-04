@@ -1,7 +1,7 @@
 # FKDB — bounded live query router
 #
 # Exact source text enters through FkdbQueryText().
-# The router only recognizes declared page intents. Everything else is unresolved.
+# The router only recognizes declared FKDB page intents. Everything else is unresolved.
 
 MODULE fkdb.live_query;
 
@@ -21,16 +21,22 @@ fn route_query(query) {
     if query == "HISTORY" {
         return emit(query, "MATCH", "history", "2");
     }
+    if query == "DECAY" {
+        return emit(query, "MATCH", "decay", "3");
+    }
     if query == "RECOVER" {
-        return emit(query, "MATCH", "recover", "3");
+        return emit(query, "MATCH", "recover", "4");
+    }
+    if query == "RELATE" {
+        return emit(query, "MATCH", "relate", "5");
     }
     if query == "LINEAGE" {
-        return emit(query, "MATCH", "lineage", "4");
+        return emit(query, "MATCH", "lineage", "6");
     }
     if query == "FKDB" {
-        return emit(query, "MATCH", "fkdb", "5");
+        return emit(query, "MATCH", "fkdb", "7");
     }
-    return emit(query, "UNRESOLVED", "fkdb", "5");
+    return emit(query, "UNRESOLVED", "fkdb", "7");
 }
 
 let source_expression = FkdbQueryText();
