@@ -490,12 +490,15 @@ FKDB
 
 The capability graph distinguishes native Component Model 0.3 hosts from browser-
 transpiled Component execution while preserving the older host-profile projection for
-existing callers.
+existing callers. `LOCAL_TOOL_ACCESS` now selects a runtime-probed
+`LOCAL_TOOL_BRIDGE` path only when that capability is actually present.
 
 The portable ToolCarrier boundary requires source identity, version, provenance,
 authority scope, evidence status, obligation, cost, loss, remainder and recovery path.
-ToolBundle imports are bounded and reject duplicate carrier IDs, hash mismatches and
-traversing attachment paths.
+ToolBundle imports are bounded and reject duplicate carrier IDs and payload hash
+mismatches. Attachment metadata is checked against the referenced bytes: the resolved
+file must remain inside the bundle root, match declared size and SHA-256, and fit inside
+the aggregate bundle-byte bound.
 
 The stdlib-only Local Tool Bridge:
 
@@ -505,9 +508,16 @@ The stdlib-only Local Tool Bridge:
 - suppresses request logging so the token is not copied into logs;
 - rejects path/symlink escape outside allowed roots;
 - denies all local processes unless explicitly granted;
-- executes granted processes with an argv vector and `shell=False`;
-- validates ToolCarrier before admission;
-- returns local process execution as ToolCarrier rather than claim verification.
+- validates granted executable/subcommand/root identity without shell interpolation;
+- fails closed before process execution while the portable bridge cannot enforce
+  `LOOPBACK_ONLY` for the child process, or when a requested nonzero memory limit lacks
+  an enforcement backend;
+- reports such process adapters as `DEGRADED` with explicit unresolved requirements;
+- validates ToolCarrier before admission.
+  
+An isolation-capable future backend may execute the already-validated argv with
+`shell=False` and return an execution ToolCarrier, but the current portable stdlib
+bridge does not pretend that allowlisting alone is isolation.
 
 Default policy grants no file roots or processes.
 
@@ -532,6 +542,8 @@ Current claim ceilings:
 
 ```text
 LOCAL_TOOL_BRIDGE != UNIVERSAL_SHELL
+PROCESS_ALLOWLIST != PROCESS_ISOLATION
+DECLARED_LOOPBACK_ONLY != ENFORCED_PROCESS_NETWORK_NAMESPACE
 LOCAL_PROCESS_SUCCESS != CLAIM_VERIFIED
 LOCALHOST != AUTOMATICALLY_TRUSTED
 TOOL_RESULT != TRUTH
