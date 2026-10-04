@@ -26,3 +26,8 @@ Task 2: complete — known-but-policy-disabled Mathbox adapter collects bounded 
 Task 3: RED verified at 602d75d — only fkdb_adapter_superpowers failed because the module was absent; the prior 50-test baseline remained green.
 Task 3: first GREEN was Linux-success but Windows exposed a test-fixture newline translation mismatch; production correctly preserved CRLF source bytes. Ruling: make the fixture byte-exact instead of normalizing source data — cost if wrong: test fixture becomes stricter while production raw-byte semantics remain unchanged.
 Task 3: complete — bounded Superpowers specs/plans/progress collection with deterministic ordering, raw Markdown preservation, workflow-only authority/evidence ceilings, symlink confinement and explicit file/byte limits; Linux and Windows dedicated matrices completed success with 51 tests.
+
+
+Task 4: RED verified at 20212ac — only fkdb_adapter_zotero failed because the module was absent; the prior 51-test baseline remained green.
+Task 4: Ruling: local API over-limit responses must return PARTIAL + ZOTERO_RESULT_LIMIT_REACHED rather than silently truncate — cost if wrong: callers must handle an explicit partial state, but no bibliographic records disappear without remainder.
+Task 4: complete — literal-loopback GET-only Zotero Desktop local API adapter with redirect denial, bounded URL-encoded search, preserved Zotero item/citation keys, no attachment/fulltext fetches, and raw portable BibTeX/RIS/CSL-JSON carriers; Linux and Windows dedicated matrices completed success with 52 tests.
