@@ -6,5 +6,8 @@
   "processes": [],
   "max_import_bytes": 1048576,
   "max_request_bytes": 1048576,
-  "environment_allowlist": []
+  "environment_allowlist": [],
+  "adapter_max_files": 64,
+  "adapter_max_bytes": 1048576,
+  "adapters": []
 }
