@@ -25,6 +25,19 @@ function isRelativeBridgePath(value) {
   return typeof value === "string" && value.startsWith("/") && !value.startsWith("//");
 }
 
+function isLiteralLoopbackHostname(hostname) {
+  if (hostname === "::1" || hostname === "[::1]") return true;
+  if (typeof hostname !== "string") return false;
+  const parts = hostname.split(".");
+  if (parts.length !== 4) return false;
+  const numbers = parts.map((part) => {
+    if (!/^[0-9]+$/.test(part)) return null;
+    const value = Number(part);
+    return Number.isInteger(value) && value >= 0 && value <= 255 ? value : null;
+  });
+  return numbers.every((value) => value !== null) && numbers[0] === 127;
+}
+
 async function readJsonResponse(response) {
   if (!response?.ok) {
     throw new Error("local tool bridge request failed");
@@ -38,6 +51,11 @@ export async function discoverLocalToolBridge({
 } = {}) {
   if (typeof root?.fetch !== "function") {
     return unavailable("LOCAL_TOOL_BRIDGE_UNAVAILABLE", token);
+  }
+
+  const hostname = root?.location?.hostname;
+  if (!isLiteralLoopbackHostname(hostname)) {
+    return unavailable("LOCAL_TOOL_BRIDGE_NOT_LOOPBACK", token);
   }
 
   try {
