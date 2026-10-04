@@ -39,3 +39,5 @@ Task 3: Ruling: register the Local Tool Bridge security test in CTest during RED
 Task 3: complete (commits 4279a34..4bdeffc, tests: RMAPL Browser RMAL Bootstrap run 88 -> Linux SUCCESS, Windows SUCCESS; RED run 85 failed only because the bridge module/policy were absent; run 87 exposed Windows absolute-path spelling in process subcommand identity, repaired by canonical absolute-path comparison without relaxing raw command matching).
 
 Task 4: complete (commits 6bccae4..3df8491, tests: RMAPL Browser RMAL Bootstrap run 92 -> Linux SUCCESS, Windows SUCCESS; RED run 90 failed only the new local-tool WIT assertions; 0.3 native-async and 0.2 explicit-poll contracts now share the same logical tool types).
+
+Task 5: Ruling: the pre-existing returned-home assertion still expected ["history","lineage"] after the approved TOOLS relation was added; update that fixture to ["history","tools","lineage"] while preserving the progression-history assertions — cost if wrong: one navigation expectation could mask an unintended extra home relation, but manifest/link-parity and dedicated TOOLS tests independently constrain the exact set.
