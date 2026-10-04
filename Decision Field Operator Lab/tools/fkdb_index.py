@@ -45,7 +45,7 @@ def load_index(path: Path = INDEX_PATH) -> dict:
         if rid in ids:
             raise ValueError(f"duplicate FKDB source record id: {rid}")
         ids.add(rid)
-        for field in ("title", "kind", "state", "domain", "carrier", "evidence_status", "recovery_path"):
+        for field in ("title", "kind", "state", "domain", "carrier", "evidence_status", "recovery_path", "recovery_display"):
             if not record.get(field):
                 raise ValueError(f"FKDB source record {rid} requires {field}")
         if not record.get("source_refs"):
@@ -108,6 +108,7 @@ def search_index(query: str, data: dict | None = None) -> dict:
                 "provenance": record["provenance"],
                 "evidence_status": record["evidence_status"],
                 "recovery_path": record["recovery_path"],
+                "recovery_display": record["recovery_display"],
                 "relations": record.get("relations", []),
                 "matched_tokens": tokens,
             }
