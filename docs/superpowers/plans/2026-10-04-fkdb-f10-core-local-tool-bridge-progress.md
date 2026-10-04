@@ -35,3 +35,5 @@ Task 2: Ruling: register the ToolCarrier test in CTest during RED instead of wai
 Task 2: complete (commits f7cfa91..79a6861, tests: RMAPL Browser RMAL Bootstrap run 82 -> Linux SUCCESS, Windows SUCCESS; RED run 81 failed only fkdb_tool_carrier because module/schemas were absent, then 47/47 matrix passed after implementation).
 
 Task 3: Ruling: register the Local Tool Bridge security test in CTest during RED for the same remote-CI reason as Task 2; default production policy remains deny-by-default and no process grant is added — cost if wrong: another test entry lands before Task 6, without widening runtime authority.
+
+Task 3: complete (commits 4279a34..4bdeffc, tests: RMAPL Browser RMAL Bootstrap run 88 -> Linux SUCCESS, Windows SUCCESS; RED run 85 failed only because the bridge module/policy were absent; run 87 exposed Windows absolute-path spelling in process subcommand identity, repaired by canonical absolute-path comparison without relaxing raw command matching).
