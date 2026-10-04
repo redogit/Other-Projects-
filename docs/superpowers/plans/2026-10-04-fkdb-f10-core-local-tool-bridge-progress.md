@@ -29,3 +29,5 @@ Task self-consistency scan:
 Task 1: Ruling: legacy Node fixture asserted `detected.componentModel03 === true`, which contradicts the approved Task 1 contract removing that canonical capability; replace the fixture with `componentNative03` and assert `componentBrowserTranspiled03 === false` — cost if wrong: one compatibility fixture change, while legacy callers remain covered by `selectHostProfile()` tests.
 
 Task 1: complete (commits 75d5375..80ffcfd, tests: RMAPL Browser RMAL Bootstrap run 79 -> Linux SUCCESS, Windows SUCCESS; RED run 76 failed only the new capability assertions before implementation; compatibility defects were repaired under the recorded ruling).
+
+Task 2: Ruling: register the ToolCarrier test in CTest during RED instead of waiting for Task 6 — remote GitHub CI is the available execution environment, so early registration is required to observe the mandated failing test; Task 6 retains final matrix/documentation ownership — cost if wrong: one CMake test entry lands earlier than planned, with no runtime behavior change.
