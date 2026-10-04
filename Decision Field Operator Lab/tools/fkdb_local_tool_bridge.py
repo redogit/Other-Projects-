@@ -24,6 +24,12 @@ STATUS_SCHEMA = "fkdb/local-tool-bridge-status/v1"
 IMPORT_SCHEMA = "fkdb/local-tool-bridge-import/v1"
 RUN_SCHEMA = "fkdb/local-tool-bridge-run/v1"
 
+# The portable stdlib bridge cannot enforce per-process network namespaces or
+# portable memory ceilings on every supported OS. Security policy therefore
+# fails closed until a platform-specific isolation backend is supplied.
+PROCESS_NETWORK_ISOLATION_BACKEND_AVAILABLE = False
+PROCESS_MEMORY_LIMIT_BACKEND_AVAILABLE = False
+
 
 def _utc_now() -> str:
     return (
@@ -56,6 +62,20 @@ def _within(candidate: Path, root: Path) -> bool:
         return True
     except ValueError:
         return False
+
+
+def _process_isolation_requirements(
+    network_policy: str, memory_limit: int
+) -> tuple[str, ...]:
+    unresolved: list[str] = []
+    if (
+        network_policy == "LOOPBACK_ONLY"
+        and not PROCESS_NETWORK_ISOLATION_BACKEND_AVAILABLE
+    ):
+        unresolved.append("PROCESS_NETWORK_ISOLATION_BACKEND_UNAVAILABLE")
+    if memory_limit > 0 and not PROCESS_MEMORY_LIMIT_BACKEND_AVAILABLE:
+        unresolved.append("PROCESS_MEMORY_LIMIT_BACKEND_UNAVAILABLE")
+    return tuple(unresolved)
 
 
 @dataclass(frozen=True)
@@ -277,16 +297,24 @@ class BridgePolicy:
         raise PermissionError("process executable is not allowlisted")
 
     def tool_descriptors(self) -> list[dict[str, Any]]:
-        return [
-            {
-                "tool_id": process["tool_id"],
-                "locality": "LOCAL_PROCESS",
-                "state": "AVAILABLE",
-                "capabilities": ["LOCAL_PROCESS"],
-                "network_policy": process["network_policy"],
-            }
-            for process in self.processes
-        ]
+        descriptors: list[dict[str, Any]] = []
+        for process in self.processes:
+            unresolved = list(
+                _process_isolation_requirements(
+                    process["network_policy"], process["memory_limit"]
+                )
+            )
+            descriptors.append(
+                {
+                    "tool_id": process["tool_id"],
+                    "locality": "LOCAL_PROCESS",
+                    "state": "DEGRADED" if unresolved else "AVAILABLE",
+                    "capabilities": ["LOCAL_PROCESS"],
+                    "network_policy": process["network_policy"],
+                    "unresolved_requirements": unresolved,
+                }
+            )
+        return descriptors
 
 
 def _bounded_text(text: str, limit: int) -> tuple[str, bool]:
@@ -323,12 +351,6 @@ def _process_carrier(
         loss.append("STDOUT_TRUNCATED")
     if stderr_truncated:
         loss.append("STDERR_TRUNCATED")
-    if grant.network_policy == "LOOPBACK_ONLY":
-        remainder.append(
-            "PROCESS_NETWORK_POLICY_NOT_ENFORCED_BY_PORTABLE_STDLIB_BRIDGE"
-        )
-    if grant.memory_limit:
-        remainder.append("MEMORY_LIMIT_NOT_ENFORCED_BY_PORTABLE_STDLIB_BRIDGE")
 
     value = {
         "schema": "fkdb/tool-carrier/v1",
@@ -430,12 +452,18 @@ class _BridgeHandler(BaseHTTPRequestHandler):
             value = receipt.public_dict()
             value["capabilities"] = [
                 "IMPORT_ARTIFACT",
-                "LOCAL_PROCESS",
                 "LOCALHOST_HTTP",
             ]
-            value["tool_count"] = len(
-                self._bridge.fkdb_policy.tool_descriptors()  # type: ignore[attr-defined]
+            descriptors = self._bridge.fkdb_policy.tool_descriptors()  # type: ignore[attr-defined]
+            value["tool_count"] = len(descriptors)
+            unresolved = sorted(
+                {
+                    item
+                    for descriptor in descriptors
+                    for item in descriptor.get("unresolved_requirements", [])
+                }
             )
+            value["remainder"] = unresolved
             self._send_json(200, value)
             return
 
@@ -503,6 +531,16 @@ class _BridgeHandler(BaseHTTPRequestHandler):
                     raise ValueError("obligation must be a non-empty string")
                 policy = self._bridge.fkdb_policy  # type: ignore[attr-defined]
                 grant = policy.validate_process(Path(executable), argv)
+                isolation_remainder = _process_isolation_requirements(
+                    grant.network_policy, grant.memory_limit
+                )
+                if isolation_remainder:
+                    self._deny(
+                        503,
+                        "local process isolation backend unavailable: "
+                        + ", ".join(isolation_remainder),
+                    )
+                    return
                 env = {
                     name: os.environ[name]
                     for name in grant.environment_allowlist
