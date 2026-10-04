@@ -21,3 +21,8 @@ Task 1: complete — generic bounded LocalAdapterRegistry, policy-backed adapter
 
 Task 2: RED verified at 5ddf183 — only fkdb_adapter_mathbox failed because the adapter module was absent; the prior 49-test baseline remained green.
 Task 2: complete — known-but-policy-disabled Mathbox adapter collects bounded raw .mathbox config/events, preserves lexical event order, records invalid JSON as explicit remainder, rejects symlink escape through bridge root resolution, and never promotes proof-recorded to proved; Linux and Windows dedicated matrices completed success with 50 tests.
+
+
+Task 3: RED verified at 602d75d — only fkdb_adapter_superpowers failed because the module was absent; the prior 50-test baseline remained green.
+Task 3: first GREEN was Linux-success but Windows exposed a test-fixture newline translation mismatch; production correctly preserved CRLF source bytes. Ruling: make the fixture byte-exact instead of normalizing source data — cost if wrong: test fixture becomes stricter while production raw-byte semantics remain unchanged.
+Task 3: complete — bounded Superpowers specs/plans/progress collection with deterministic ordering, raw Markdown preservation, workflow-only authority/evidence ceilings, symlink confinement and explicit file/byte limits; Linux and Windows dedicated matrices completed success with 51 tests.
