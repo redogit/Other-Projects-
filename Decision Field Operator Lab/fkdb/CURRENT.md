@@ -104,6 +104,60 @@ Retained failure:
 - multiple candidates produce no SOURCE or RECOVERY target;
 - display truncation is explicit remainder, never silent replacement.
 
+### F9 — WebAssembly Host Interoperability Framework
+
+User-directed priority change: WebAssembly and modern Web technologies are now
+first-class FKDB host capabilities, with explicit fallback paths for older systems.
+
+Primary artifacts:
+
+- `web/WASM_HIF.md` — architecture and standards normalization;
+- `web/capabilities.json` — feature-detected capability/fallback contract;
+- `web/fkdb-host.mjs` — executable host selector, JSPI boundary, Fetch/XHR and storage adapters;
+- `web/index.html` — progressive modern-Web entry surface;
+- `wasm/wit/0.3/fkdb-hif.wit` — primary native-async WIT contract;
+- `wasm/wit/0.2/fkdb-hif.wit` — explicit-poll compatibility contract.
+
+Modern-first execution ladder:
+
+```text
+WASM_COMPONENT_0_3
+-> WASM_JSPI
+-> WASM_PROMISE_HANDOFF
+-> WASM_LEGACY_WEB
+-> JS_MODERN_FALLBACK
+-> JS_LEGACY_FALLBACK
+-> NATIVE_RMAL_FALLBACK
+```
+
+Network ladder:
+
+```text
+WASI_HTTP_0_3
+-> FETCH_STREAMS
+-> FETCH
+-> WASI_HTTP_0_2
+-> XHR
+-> NATIVE_RMAL_HTTP_TLS
+```
+
+Persistence ladder:
+
+```text
+WASI_FILESYSTEM_0_3
+-> OPFS
+-> INDEXED_DB
+-> WASMFS_OR_IDBFS
+-> MEMORY
+```
+
+JSPI is used only when runtime feature detection confirms
+`WebAssembly.Suspending` and `WebAssembly.promising`. When absent, FKDB uses an
+explicit Promise/outer-controller handoff and does not fake synchronous Wasm semantics.
+
+The Wasm-HIF framework is indexed as `FKDB-HIF-001`, so FKDB can recover it from a
+human query such as `WebAssembly`.
+
 ## Current query progression
 
 ```text
@@ -155,11 +209,12 @@ Passing software tests establish only the bounded implemented behavior.
 ## Current remainder
 
 1. Live external/history ingestion beyond the bounded local source index.
-2. Live cross-carrier candidate retrieval with provenance.
-3. Richer free-text interpretation beyond exact token matching.
-4. Any result ordering must not promote evidence by resemblance.
-5. Scrolling and larger-page layout.
-6. Native/RMAL migration of remaining FKDB-specific outer-controller/index logic.
+2. Live cross-carrier candidate retrieval through the new Wasm-HIF carrier contract.
+3. Actual Component Model/WASI toolchain compilation of the WIT packages.
+4. Richer free-text interpretation beyond exact token matching.
+5. Any result ordering must not promote evidence by resemblance.
+6. Scrolling and larger-page layout.
+7. Native/RMAL migration of remaining FKDB-specific outer-controller/index logic.
 
 ## F6 — bounded live query input
 
@@ -188,10 +243,13 @@ Constraints preserved:
 
 ## Next one-degree step
 
-Build **F9 — bounded cross-carrier candidate ingestion**. Add one external/source carrier adapter that can contribute records into the same provenance-preserving index contract without transferring source evidence or authority.
+Build **F10 — bounded cross-carrier candidate ingestion through Wasm-HIF**. Add one
+external/source carrier that can contribute records through the typed host contract while
+preserving source identity, provenance, evidence status, cost, authority status and
+unresolved remainder. Prefer WIT/WASI 0.3; adapt downward without weakening semantics.
 
 ## Claim ceiling
 
-FKDB is now a functioning bounded successor surface with exact live-query routing, a bounded provenance-preserving local source index, and in-browser source/recovery inspection for unambiguous matches.
+FKDB is now a functioning bounded successor surface with exact live-query routing, a bounded provenance-preserving local source index, in-browser source/recovery inspection for unambiguous matches, and a tested modern-first WebAssembly/Web host interoperability layer.
 It is not yet a complete knowledge-recovery browser, a semantic search engine, or
 evidence authority.
