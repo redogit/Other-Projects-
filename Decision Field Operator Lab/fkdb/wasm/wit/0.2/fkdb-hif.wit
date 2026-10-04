@@ -1,0 +1,76 @@
+package redogit:fkdb-hif-compat@0.1.0;
+
+interface types {
+  enum query-status {
+    match,
+    no-match,
+    unresolved,
+  }
+
+  enum operation-state {
+    pending,
+    ready,
+  }
+
+  record provenance {
+    source-id: string,
+    carrier: string,
+    evidence-status: string,
+    authority-status: string,
+  }
+
+  record source-query {
+    id: string,
+    text: string,
+    budget: u64,
+  }
+
+  record candidate {
+    id: string,
+    title: string,
+    provenance: provenance,
+    recovery-path: string,
+    relations: list<string>,
+  }
+
+  record result-set {
+    status: query-status,
+    candidates: list<candidate>,
+    remainder: list<string>,
+    scan-cost: u64,
+  }
+
+  variant host-error {
+    unavailable(string),
+    denied(string),
+    invalid(string),
+    transport(string),
+  }
+
+  resource query-operation {
+    poll: func() -> operation-state;
+    finish: func() -> result<result-set, host-error>;
+  }
+
+  resource byte-reader {
+    read: func(max: u32) -> result<list<u8>, host-error>;
+    done: func() -> bool;
+  }
+}
+
+interface knowledge-host {
+  use types.{source-query, query-operation};
+
+  begin-query: func(input: source-query) -> query-operation;
+}
+
+interface byte-source {
+  use types.{byte-reader, host-error};
+
+  open: func(id: string) -> result<byte-reader, host-error>;
+}
+
+world fkdb-browser-compat {
+  import knowledge-host;
+  import byte-source;
+}
