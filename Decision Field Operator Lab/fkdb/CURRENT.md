@@ -82,6 +82,19 @@ NEED
 -> RETURN
 ```
 
+Visible progression:
+
+```text
+FKDB
+-> HISTORY
+-> DECAY
+-> RECOVER
+-> RELATE
+-> FKDB
+```
+
+`LINEAGE` is an inspectable side route that returns to FKDB.
+
 ## Current invariants
 
 ```text
@@ -129,7 +142,7 @@ human query
 -> provenance + remainder
 ```
 
-Current exact recognized intents: `HISTORY`, `RECOVER`, `LINEAGE`, `FKDB`.
+Current exact recognized intents: `HISTORY`, `DECAY`, `RECOVER`, `RELATE`, `LINEAGE`, `FKDB`.
 Empty input returns `NO_MATCH`; all other text returns `UNRESOLVED`.
 
 Constraints preserved:
