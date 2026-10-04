@@ -360,3 +360,16 @@ set_tests_properties(
     PASS_REGULAR_EXPRESSION
       "FKDB_QUERY_RECEIPT policy_in_rmal=true python_runtime_used=false"
 )
+
+add_test(
+  NAME fkdb_local_surface
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_surface.py"
+)
+set_tests_properties(
+  fkdb_local_surface
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)
