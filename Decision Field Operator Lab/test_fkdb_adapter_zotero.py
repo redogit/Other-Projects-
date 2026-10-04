@@ -167,8 +167,9 @@ class FkdbZoteroAdapterTests(unittest.TestCase):
             },
             policy,
         )
-        self.assertEqual(result["status"], "COLLECTED")
+        self.assertEqual(result["status"], "PARTIAL")
         self.assertEqual(len(result["carriers"]), 1)
+        self.assertIn("ZOTERO_RESULT_LIMIT_REACHED", result["remainder"])
         carrier = result["carriers"][0]
         self.assertEqual(carrier["source_identity"], "zotero:item:ITEMAAA1")
         self.assertEqual(carrier["provenance"]["zotero_item_key"], "ITEMAAA1")
