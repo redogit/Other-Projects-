@@ -586,3 +586,17 @@ set_tests_properties(
     PASS_REGULAR_EXPRESSION
       "OK"
 )
+
+
+add_test(
+  NAME fkdb_local_adapters
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_local_adapters.py"
+)
+set_tests_properties(
+  fkdb_local_adapters
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)
