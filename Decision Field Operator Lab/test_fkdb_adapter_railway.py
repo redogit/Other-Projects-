@@ -133,7 +133,7 @@ class FkdbRailwayAdapterTests(unittest.TestCase):
             logs = root / "artifacts"
             logs.mkdir()
             raw = "deploy snapshot line 1\nline 2\n"
-            (logs / "deploy.log").write_text(raw, encoding="utf-8")
+            (logs / "deploy.log").write_bytes(raw.encode("utf-8"))
             result = self.registry().collect(
                 "railway",
                 {
