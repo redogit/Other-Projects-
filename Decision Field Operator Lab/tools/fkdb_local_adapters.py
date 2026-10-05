@@ -181,9 +181,11 @@ def build_default_registry() -> LocalAdapterRegistry:
     from fkdb_adapter_superpowers import SuperpowersAdapter
     from fkdb_adapter_zotero import ZoteroAdapter
     from fkdb_adapter_wolfram import WolframAdapter
+    from fkdb_adapter_supabase import SupabaseAdapter
 
     registry.register(MathboxAdapter())
     registry.register(SuperpowersAdapter())
     registry.register(ZoteroAdapter())
     registry.register(WolframAdapter())
+    registry.register(SupabaseAdapter())
     return registry
