@@ -190,6 +190,16 @@ class FkdbLocalAdapterBehaviorTests(unittest.TestCase):
                     policy,
                 )
 
+    def test_default_registry_knows_plan_c_adapters_but_policy_enables_none(self):
+        registry = adapters.build_default_registry()
+        tool_ids = set(registry.known_tool_ids())
+        self.assertIn("supabase", tool_ids)
+        self.assertIn("railway", tool_ids)
+
+        policy_path = HERE / "fkdb" / "tools" / "local-tool-policy.json"
+        value = json.loads(policy_path.read_text(encoding="utf-8"))
+        self.assertEqual(value["adapters"], [])
+
     def test_default_production_policy_enables_no_adapters(self):
         policy_path = HERE / "fkdb" / "tools" / "local-tool-policy.json"
         value = json.loads(policy_path.read_text(encoding="utf-8"))
