@@ -44,3 +44,12 @@ Task 6: complete — vendor-neutral collection-status/collect-request/collection
 Task 7: RED verified at ded4acd — only fkdb_wasm_hif_contract and fkdb_web_host_node failed for missing safe rich descriptor projection/rendering; all 51 adapter/runtime tests remained green.
 Task 7: complete — browser client sanitizes descriptors to tool_id/locality/state/capabilities/unresolved_requirements, drops arbitrary bridge fields, and index.html renders only the safe projection with no remote-login CTA; Linux and Windows dedicated matrices completed success with 53 tests.
 Task 8 self-review: no Critical issue found. Intentional remainder: browser collection mutations still require an out-of-band bridge token; Plan B only exposes read-only discovery/status in the browser. ToolCarrier collection results are not yet admitted into FKDB's source index (Plan E).
+
+
+Task 8: verification complete at head c570a881686373badb4f4313679c06a1af366b3f.
+- Dedicated RMAPL Browser RMAL Bootstrap: Linux 53/53 PASS; Windows 53/53 PASS.
+- Plan B gates passed: fkdb_local_adapters, fkdb_adapter_mathbox, fkdb_adapter_superpowers, fkdb_adapter_zotero, fkdb_adapter_wolfram, fkdb_wasm_hif_contract, and fkdb_web_host_node.
+- Broad Decision Field audit: SUCCESS across exact bounded tests, operator-field evidence, GSFL projection, GSFL bidirectional macros, contextual multicarrier reasoning, S1 Carrier-Surface bridge, RMAPL Omega conditional repair, scale-4 adversarial stress, and frozen stress evidence.
+- No Critical issue found in self-review.
+- Intentional remainder preserved: no Wolfram execution; no Zotero writes/fulltext/attachment-file reads; no cloud sync; no SciSpace/Consensus/Exa/Linear/Supabase/Railway adapters yet; collected ToolCarriers are not yet promoted into the FKDB cross-carrier source index.
+Task 8: complete — Plan B implementation boundary is verified and ready to be promoted in FKDB CURRENT/README/PR state.
