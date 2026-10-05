@@ -553,3 +553,54 @@ LOCAL_TOOL_BRIDGE_UNAVAILABLE != FKDB_UNAVAILABLE
 
 Vendor adapters and remote synchronization are deliberately outside this verified
 boundary.
+
+## FKDB F10 Plan B local workflow adapters
+
+FKDB now has four policy-gated, cloud-optional local/portable adapter families above the
+Local Tool Bridge:
+
+```text
+Mathbox     -> local .mathbox config/events -> ToolCarrier
+Superpowers -> local specs/plans/progress   -> ToolCarrier
+Zotero      -> read-only 127.0.0.1:23119 or portable BibTeX/RIS/CSL-JSON -> ToolCarrier
+Wolfram     -> local .wl/.m/.nb artifacts + executable probe only -> ToolCarrier/status
+```
+
+The adapter registry is known in code but the production adapter policy remains opt-in.
+Collection is bounded by configured file/byte limits and is available through the
+token-gated `/fkdb-tool-bridge/v1/collect` endpoint. Every returned artifact passes the
+ToolCarrier validator before admission.
+
+Zotero Plan B is deliberately read-only: no connector writes, no fulltext retrieval, no
+attachment file/view URLs, no cloud API requirement.
+
+Wolfram Plan B deliberately does not execute `wolframscript`. Discovery reports a
+degraded process capability until FKDB has a backend that can enforce the declared
+process-isolation policy.
+
+Wasm-HIF exposes collection generically rather than naming vendors:
+
+- WASI 0.3: native async local collection;
+- 0.2 compatibility: explicit collection-operation polling.
+
+The modern browser TOOLS status surface renders only the safe descriptor projection and
+does not expose arbitrary adapter fields, local paths, tokens, secrets, or remote-login
+prompts.
+
+Verification at `c570a881686373badb4f4313679c06a1af366b3f`:
+
+```text
+Linux   53/53 PASS
+Windows 53/53 PASS
+Decision Field broad audit PASS
+```
+
+Claim ceilings:
+
+```text
+ADAPTER_COLLECTION != CLAIM_VERIFICATION
+PORTABLE_IMPORT != LIVE_SYNC
+ZOTERO_LOCAL_API != ZOTERO_CLOUD
+WOLFRAM_EXECUTABLE_DISCOVERY != EXECUTION_AUTHORITY
+COLLECTED_TOOLCARRIER != FKDB_SOURCE_INDEX_ADMISSION
+```
