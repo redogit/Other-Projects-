@@ -207,6 +207,79 @@ LOCAL_TOOL_BRIDGE_UNAVAILABLE != FKDB_UNAVAILABLE
 Verified by the dedicated browser/RMAL matrix on Linux and Windows after the Plan A
 security fix pass: 48/48 tests passed on both platforms.
 
+### F10 Plan B — Local workflow/computation adapters
+
+Plan B is implemented and verified as a read-only/local-artifact adapter layer above the
+Plan A Local Tool Bridge. It adds no new process execution authority.
+
+Implemented:
+
+- generic bounded `LocalAdapterRegistry` plus token-gated
+  `POST /fkdb-tool-bridge/v1/collect`;
+- default production adapter policy remains empty/opt-in;
+- per-adapter max-file and max-byte bounds with explicit PARTIAL remainder;
+- all returned adapter artifacts are validated as ToolCarrier before admission;
+
+**Mathbox**
+- read-only `.mathbox/config.json` and numbered `.mathbox/events/*.json` collection;
+- deterministic lexical event ordering;
+- invalid JSON and collection limits remain explicit remainder;
+- authority/evidence boundary:
+  `MATHBOX_RECORDED_STATE_ONLY` /
+  `MECHANICAL_LEDGER_RECORD_NOT_PROOF_AUDIT`.
+
+**Superpowers**
+- bounded local `docs/superpowers/specs/*.md`,
+  `docs/superpowers/plans/*.md`, and progress-ledger collection;
+- raw Markdown bytes and hashes are preserved;
+- workflow records remain
+  `WORKFLOW_ARTIFACT_ONLY` /
+  `WORKFLOW_STATE_NOT_CLAIM_VERIFICATION`.
+
+**Zotero**
+- read-only Zotero Desktop local API adapter at literal loopback only;
+- bounded GET search with URL encoding and redirect denial;
+- no API key, no connector writes, no attachment/fulltext/file-view retrieval;
+- preserves Zotero item identity separately from citation/BibTeX keys;
+- portable raw BibTeX, RIS, and CSL-JSON artifact collection;
+- result-limit truncation returns PARTIAL + explicit remainder rather than silent loss.
+
+**Wolfram**
+- bounded read-only `.wl`, `.m`, and `.nb` artifact collection;
+- binary notebook bytes are preserved/hash-identified;
+- `wolframscript` discovery is probe-only;
+- a discovered executable is reported DEGRADED because process isolation is unavailable;
+- Plan B does not execute Wolfram locally.
+
+**Wasm-HIF / browser**
+- vendor-neutral `collect-request` / `collection-result` contract;
+- WASI 0.3: native async `collect-local`;
+- 0.2 compatibility: explicit collection-operation polling;
+- WIT contains no vendor-specific Mathbox/Superpowers/Zotero/Wolfram names;
+- browser TOOLS status renders only the safe descriptor projection:
+  tool ID, locality, state, capabilities, unresolved requirements;
+- arbitrary adapter fields, local paths, secrets and remote-login prompts are not exposed.
+
+Verified at implementation head `c570a881686373badb4f4313679c06a1af366b3f`:
+
+```text
+Linux   53 / 53 PASS
+Windows 53 / 53 PASS
+Broad Decision Field audit PASS
+```
+
+Plan B boundaries:
+
+```text
+ADAPTER_COLLECTION != CLAIM_VERIFICATION
+MATHBOX_RECORDED_STATE != MATHEMATICAL_PROOF
+SUPERPOWERS_WORKFLOW_STATE != EVIDENCE_PROMOTION
+ZOTERO_LOCAL_API != ZOTERO_CLOUD
+PORTABLE_ZOTERO_IMPORT != LIVE_SYNC
+WOLFRAM_EXECUTABLE_DISCOVERY != EXECUTION_AUTHORITY
+COLLECTED_TOOLCARRIER != FKDB_SOURCE_INDEX_ADMISSION
+```
+
 ## Current query progression
 
 ```text
@@ -257,21 +330,21 @@ Passing software tests establish only the bounded implemented behavior.
 
 ## Current remainder
 
-1. Vendor adapters remain intentionally absent: Mathbox/Superpowers, Zotero, Wolfram,
-   local Supabase, and portable SciSpace/Consensus/Exa/Linear/Railway ingestion are later
-   plans.
-2. No remote synchronization is required or implemented.
-3. Actual Component Model/WASI toolchain compilation of the WIT packages remains
-   unproven.
-4. The default Local Tool Bridge process allowlist is intentionally empty.
-5. The portable stdlib Local Tool Bridge has no process network-isolation backend;
-   therefore local process execution remains fail-closed. A nonzero process memory limit
-   likewise requires an enforcement backend before execution can be admitted.
-6. Richer free-text interpretation beyond exact token matching remains open.
-7. Any result ordering must not promote evidence by resemblance.
-8. Scrolling and larger-page layout remain open.
-9. Native/RMAL migration of remaining FKDB-specific outer-controller/index logic remains
-   open.
+1. Mathbox, Superpowers, Zotero and Wolfram Plan B adapters are implemented, but collected
+   ToolCarriers are not yet promoted into FKDB's source index; that remains the cross-carrier
+   ingestion stage.
+2. Local Supabase and Railway infrastructure adapters are not yet implemented.
+3. Portable SciSpace, Consensus, Exa and Linear adapters are not yet implemented.
+4. No remote synchronization is required or implemented.
+5. Zotero writes, fulltext, attachment-file URL reads and connector mutations remain outside
+   the verified boundary.
+6. Wolfram local execution remains fail-closed until a process-isolation backend can enforce
+   the declared policy.
+7. Actual Component Model/WASI toolchain compilation of the WIT packages remains unproven.
+8. Richer free-text interpretation beyond exact token matching remains open.
+9. Any result ordering must not promote evidence by resemblance.
+10. Scrolling and larger-page layout remain open.
+11. Native/RMAL migration of remaining FKDB-specific outer-controller/index logic remains open.
 
 ## F6 — bounded live query input
 
@@ -300,14 +373,22 @@ Constraints preserved:
 
 ## Next one-degree step
 
-Build **F10 Plan B — local workflow/computation adapters** on top of the verified bridge:
-Mathbox and Superpowers local-file carriers first, followed by Zotero local/portable.
-Wolfram local-process execution must remain unavailable until a process-isolation backend
-can enforce the declared policy. Each adapter must emit ToolCarrier and remain
-independently usable without remote APIs.
+Build **F10 Plan C — local infrastructure adapters**:
+
+- Supabase local CLI/localhost stack as optional LOCAL_DATABASE / LOCALHOST infrastructure;
+- Railway checked-in configuration and portable build/deploy/log artifact ingestion;
+- hosted Supabase and live Railway cloud state remain REMOTE_OPTIONAL, never FKDB
+  requirements.
+
+After Plan C, proceed to Plan D portable SciSpace/Consensus/Exa/Linear adapters and then
+Plan E ToolCarrier -> FKDB cross-carrier source-index admission.
 
 ## Claim ceiling
 
-FKDB is now a functioning bounded successor surface with exact live-query routing, a bounded provenance-preserving local source index, in-browser source/recovery inspection for unambiguous matches, a tested modern-first WebAssembly/Web host interoperability layer, and a verified local-first ToolCarrier/Local Tool Bridge substrate.
+FKDB is now a functioning bounded successor surface with exact live-query routing, a
+bounded provenance-preserving local source index, in-browser source/recovery inspection
+for unambiguous matches, a tested modern-first WebAssembly/Web host interoperability
+layer, a verified local-first ToolCarrier/Local Tool Bridge substrate, and verified
+read-only/local-artifact adapters for Mathbox, Superpowers, Zotero and Wolfram.
 It is not yet a complete knowledge-recovery browser, a semantic search engine, or
 evidence authority.
