@@ -1,0 +1,78 @@
+# FKDB — bounded knowledge-decay query kernel
+#
+# Direct successor policy above the Independent Browser substrate.
+# This file tests bounded query semantics only.
+
+MODULE fkdb.knowledge_decay_query;
+
+CONTEXT FKDB_QUERY status="SUCCESSOR_KERNEL" authority="LOCAL" evidence_transfer="DENY"
+BOUNDARY FKDB_QUERY CLAIM_CEILING BOUNDED_QUERY_KERNEL REASON "bounded policy fixtures only; complete knowledge recovery remains unresolved"
+
+fn decay_status(meaning_ok, relations_ok, provenance_ok, recovery_ok, human_reconnectable) {
+    if meaning_ok == false {
+        return "KNOWLEDGE_DECAY";
+    }
+    if relations_ok == false {
+        return "KNOWLEDGE_DECAY";
+    }
+    if provenance_ok == false {
+        return "KNOWLEDGE_DECAY";
+    }
+    if recovery_ok == false {
+        return "KNOWLEDGE_DECAY";
+    }
+    if human_reconnectable == false {
+        return "KNOWLEDGE_DECAY";
+    }
+    return "CONNECTED";
+}
+
+fn transfer_status(obligation_ok, provenance_ok, cost_recorded, evidence_transfer_requested) {
+    if obligation_ok == false {
+        return "REJECT";
+    }
+    if provenance_ok == false {
+        return "REJECT";
+    }
+    if cost_recorded == false {
+        return "REJECT";
+    }
+    if evidence_transfer_requested == true {
+        return "REJECT";
+    }
+    return "ADMIT";
+}
+
+fn continuation_status(cost_not_solving, cost_continuing, limits_ok, goal_satisfied) {
+    if goal_satisfied == true {
+        return "STOP";
+    }
+    if limits_ok == false {
+        return "STOP";
+    }
+    if cost_not_solving > cost_continuing {
+        return "CONTINUE";
+    }
+    return "STOP";
+}
+
+REQUIRE decay_status(true, true, true, true, true) == "CONNECTED";
+REQUIRE decay_status(false, true, true, true, true) == "KNOWLEDGE_DECAY";
+REQUIRE decay_status(true, false, true, true, true) == "KNOWLEDGE_DECAY";
+REQUIRE decay_status(true, true, false, true, true) == "KNOWLEDGE_DECAY";
+REQUIRE decay_status(true, true, true, false, true) == "KNOWLEDGE_DECAY";
+REQUIRE decay_status(true, true, true, true, false) == "KNOWLEDGE_DECAY";
+
+REQUIRE transfer_status(true, true, true, false) == "ADMIT";
+REQUIRE transfer_status(false, true, true, false) == "REJECT";
+REQUIRE transfer_status(true, false, true, false) == "REJECT";
+REQUIRE transfer_status(true, true, false, false) == "REJECT";
+REQUIRE transfer_status(true, true, true, true) == "REJECT";
+
+REQUIRE continuation_status(100, 20, true, false) == "CONTINUE";
+REQUIRE continuation_status(20, 100, true, false) == "STOP";
+REQUIRE continuation_status(100, 20, false, false) == "STOP";
+REQUIRE continuation_status(100, 20, true, true) == "STOP";
+
+print "FKDB_QUERY_KERNEL_PASS";
+STOP;

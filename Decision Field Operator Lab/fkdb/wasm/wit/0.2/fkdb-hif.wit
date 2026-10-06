@@ -1,0 +1,178 @@
+package redogit:fkdb-hif-compat@0.1.0;
+
+interface types {
+  enum query-status {
+    match,
+    no-match,
+    unresolved,
+  }
+
+  enum collection-status {
+    collected,
+    partial,
+    unavailable,
+  }
+
+  enum operation-state {
+    pending,
+    ready,
+  }
+
+  enum tool-locality {
+    embedded,
+    local-file,
+    local-process,
+    localhost,
+    portable-import,
+    user-handoff,
+    remote-optional,
+  }
+
+  record provenance {
+    source-id: string,
+    carrier: string,
+    evidence-status: string,
+    authority-status: string,
+  }
+
+  record metadata-entry {
+    key: string,
+    value: string,
+  }
+
+  record source-query {
+    id: string,
+    text: string,
+    budget: u64,
+  }
+
+  record candidate {
+    id: string,
+    title: string,
+    provenance: provenance,
+    recovery-path: string,
+    relations: list<string>,
+  }
+
+  record result-set {
+    status: query-status,
+    candidates: list<candidate>,
+    remainder: list<string>,
+    scan-cost: u64,
+  }
+
+  record tool-descriptor {
+    tool-id: string,
+    locality: tool-locality,
+    state: string,
+    capabilities: list<string>,
+    last-local-receipt: option<string>,
+    unresolved-requirements: list<string>,
+  }
+
+  record tool-carrier {
+    carrier-id: string,
+    tool-id: string,
+    tool-version: string,
+    adapter-kind: string,
+    locality: tool-locality,
+    source-identity: string,
+    source-version: string,
+    retrieved-at: string,
+    payload-type: string,
+    payload: list<u8>,
+    content-hash: string,
+    provenance: list<metadata-entry>,
+    authority-scope: string,
+    evidence-status: string,
+    obligation: string,
+    relations: list<string>,
+    cost: u64,
+    loss: list<string>,
+    remainder: list<string>,
+    recovery-path: string,
+  }
+
+  record import-request {
+    bundle: list<u8>,
+    max-bytes: u64,
+  }
+
+  record local-run-request {
+    tool-id: string,
+    argv: list<string>,
+    obligation: string,
+    budget: u64,
+  }
+
+  record collect-request {
+    tool-id: string,
+    root: option<string>,
+    options: list<metadata-entry>,
+    budget: u64,
+  }
+
+  record collection-result {
+    tool-id: string,
+    status: collection-status,
+    carriers: list<tool-carrier>,
+    remainder: list<string>,
+    files-scanned: u64,
+    bytes-read: u64,
+  }
+
+  variant host-error {
+    unavailable(string),
+    denied(string),
+    invalid(string),
+    transport(string),
+  }
+
+  resource query-operation {
+    poll: func() -> operation-state;
+    finish: func() -> result<result-set, host-error>;
+  }
+
+  resource byte-reader {
+    read: func(max: u32) -> result<list<u8>, host-error>;
+    done: func() -> bool;
+  }
+
+  resource tool-operation {
+    poll: func() -> operation-state;
+    finish: func() -> result<tool-carrier, host-error>;
+  }
+
+  resource collection-operation {
+    poll: func() -> operation-state;
+    finish: func() -> result<collection-result, host-error>;
+  }
+}
+
+interface knowledge-host {
+  use types.{source-query, query-operation};
+
+  begin-query: func(input: source-query) -> query-operation;
+}
+
+interface byte-source {
+  use types.{byte-reader, host-error};
+
+  open: func(id: string) -> result<byte-reader, host-error>;
+}
+
+interface local-tools {
+  use types.{tool-descriptor, import-request, local-run-request, collect-request, tool-operation, collection-operation, host-error};
+
+  list-tools: func() -> list<tool-descriptor>;
+  inspect: func(id: string) -> result<tool-descriptor, host-error>;
+  begin-import: func(request: import-request) -> tool-operation;
+  begin-run: func(request: local-run-request) -> tool-operation;
+  begin-collect: func(request: collect-request) -> collection-operation;
+}
+
+world fkdb-browser-compat {
+  import knowledge-host;
+  import byte-source;
+  import local-tools;
+}

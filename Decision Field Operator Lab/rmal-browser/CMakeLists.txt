@@ -304,3 +304,383 @@ set_tests_properties(
     PASS_REGULAR_EXPRESSION
       "RMAPL_RMAL_INPUT_ACTIVATION_EQUIVALENCE PASS"
 )
+
+# FKDB direct-successor layer. Historical Independent Browser targets above remain unchanged.
+add_executable(fkdb_rmal_host fkdb_rmal_host.c)
+target_link_libraries(fkdb_rmal_host PRIVATE rmal)
+
+add_executable(fkdb_query_host fkdb_query_host.c)
+target_link_libraries(fkdb_query_host PRIVATE rmal)
+
+if(CMAKE_C_COMPILER_ID MATCHES "Clang|GNU")
+  target_compile_options(fkdb_rmal_host PRIVATE -Wall -Wextra -Wpedantic -Werror)
+  target_compile_options(fkdb_query_host PRIVATE -Wall -Wextra -Wpedantic -Werror)
+elseif(MSVC)
+  target_compile_options(fkdb_rmal_host PRIVATE /W4 /WX)
+  target_compile_options(fkdb_query_host PRIVATE /W4 /WX)
+endif()
+
+set(FKDB_BOOTSTRAP "${CMAKE_CURRENT_SOURCE_DIR}/fkdb_bootstrap.rmal")
+set(FKDB_QUERY "${CMAKE_CURRENT_SOURCE_DIR}/fkdb_query.rmal")
+
+add_test(
+  NAME fkdb_rmalc_check
+  COMMAND $<TARGET_FILE:rmalc> check "${FKDB_BOOTSTRAP}"
+)
+add_test(
+  NAME fkdb_rmalc_compile
+  COMMAND $<TARGET_FILE:rmalc> compile "${FKDB_BOOTSTRAP}"
+)
+add_test(
+  NAME fkdb_native_host
+  COMMAND $<TARGET_FILE:fkdb_rmal_host> "${FKDB_BOOTSTRAP}"
+)
+set_tests_properties(
+  fkdb_native_host
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "FKDB_BROWSER_RECEIPT handoffs=27 direct_successor=true python_runtime_used=false"
+)
+
+add_test(
+  NAME fkdb_query_rmalc_check
+  COMMAND $<TARGET_FILE:rmalc> check "${FKDB_QUERY}"
+)
+add_test(
+  NAME fkdb_query_rmalc_compile
+  COMMAND $<TARGET_FILE:rmalc> compile "${FKDB_QUERY}"
+)
+add_test(
+  NAME fkdb_query_native
+  COMMAND $<TARGET_FILE:fkdb_query_host> "${FKDB_QUERY}"
+)
+set_tests_properties(
+  fkdb_query_native
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "FKDB_QUERY_RECEIPT policy_in_rmal=true python_runtime_used=false"
+)
+
+add_test(
+  NAME fkdb_local_surface
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_surface.py"
+)
+set_tests_properties(
+  fkdb_local_surface
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)
+
+add_test(
+  NAME fkdb_page_manifest
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_manifest.py"
+)
+set_tests_properties(
+  fkdb_page_manifest
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)
+
+add_test(
+  NAME fkdb_page_build_check
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../tools/build_fkdb_pages.py"
+    --check
+)
+set_tests_properties(
+  fkdb_page_build_check
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "FKDB_PAGE_BUILD_CHECK PASS"
+)
+
+add_executable(fkdb_live_query_host fkdb_live_query_host.c)
+target_link_libraries(fkdb_live_query_host PRIVATE rmal)
+
+if(CMAKE_C_COMPILER_ID MATCHES "Clang|GNU")
+  target_compile_options(fkdb_live_query_host PRIVATE -Wall -Wextra -Wpedantic -Werror)
+elseif(MSVC)
+  target_compile_options(fkdb_live_query_host PRIVATE /W4 /WX)
+endif()
+
+set(FKDB_LIVE_QUERY "${CMAKE_CURRENT_SOURCE_DIR}/fkdb_live_query.rmal")
+
+add_test(
+  NAME fkdb_live_query_check
+  COMMAND $<TARGET_FILE:rmalc> check "${FKDB_LIVE_QUERY}"
+)
+add_test(
+  NAME fkdb_live_query_compile
+  COMMAND $<TARGET_FILE:rmalc> compile "${FKDB_LIVE_QUERY}"
+)
+
+add_test(
+  NAME fkdb_live_query_history
+  COMMAND $<TARGET_FILE:fkdb_live_query_host> "${FKDB_LIVE_QUERY}" HISTORY
+)
+set_tests_properties(
+  fkdb_live_query_history
+  PROPERTIES PASS_REGULAR_EXPRESSION
+    "FKDB_LIVE_QUERY_RECEIPT status=MATCH route=history cost=2 source_preserved=true"
+)
+
+add_test(
+  NAME fkdb_live_query_recover
+  COMMAND $<TARGET_FILE:fkdb_live_query_host> "${FKDB_LIVE_QUERY}" RECOVER
+)
+set_tests_properties(
+  fkdb_live_query_recover
+  PROPERTIES PASS_REGULAR_EXPRESSION
+    "FKDB_LIVE_QUERY_RECEIPT status=MATCH route=recover cost=4 source_preserved=true"
+)
+
+add_test(
+  NAME fkdb_live_query_lineage
+  COMMAND $<TARGET_FILE:fkdb_live_query_host> "${FKDB_LIVE_QUERY}" LINEAGE
+)
+set_tests_properties(
+  fkdb_live_query_lineage
+  PROPERTIES PASS_REGULAR_EXPRESSION
+    "FKDB_LIVE_QUERY_RECEIPT status=MATCH route=lineage cost=6 source_preserved=true"
+)
+
+add_test(
+  NAME fkdb_live_query_home
+  COMMAND $<TARGET_FILE:fkdb_live_query_host> "${FKDB_LIVE_QUERY}" FKDB
+)
+set_tests_properties(
+  fkdb_live_query_home
+  PROPERTIES PASS_REGULAR_EXPRESSION
+    "FKDB_LIVE_QUERY_RECEIPT status=MATCH route=fkdb cost=7 source_preserved=true"
+)
+
+add_test(
+  NAME fkdb_live_query_empty
+  COMMAND $<TARGET_FILE:fkdb_live_query_host> "${FKDB_LIVE_QUERY}"
+)
+set_tests_properties(
+  fkdb_live_query_empty
+  PROPERTIES PASS_REGULAR_EXPRESSION
+    "FKDB_LIVE_QUERY_RECEIPT status=NO_MATCH route=fkdb cost=1 source_preserved=true"
+)
+
+add_test(
+  NAME fkdb_live_query_unresolved
+  COMMAND $<TARGET_FILE:fkdb_live_query_host> "${FKDB_LIVE_QUERY}" "WHAT IS THIS"
+)
+set_tests_properties(
+  fkdb_live_query_unresolved
+  PROPERTIES PASS_REGULAR_EXPRESSION
+    "FKDB_LIVE_QUERY_RECEIPT status=UNRESOLVED route=fkdb cost=7 source_preserved=true"
+)
+
+add_test(
+  NAME fkdb_live_query_decay
+  COMMAND $<TARGET_FILE:fkdb_live_query_host> "${FKDB_LIVE_QUERY}" DECAY
+)
+set_tests_properties(
+  fkdb_live_query_decay
+  PROPERTIES PASS_REGULAR_EXPRESSION
+    "FKDB_LIVE_QUERY_RECEIPT status=MATCH route=decay cost=3 source_preserved=true"
+)
+
+add_test(
+  NAME fkdb_live_query_relate
+  COMMAND $<TARGET_FILE:fkdb_live_query_host> "${FKDB_LIVE_QUERY}" RELATE
+)
+set_tests_properties(
+  fkdb_live_query_relate
+  PROPERTIES PASS_REGULAR_EXPRESSION
+    "FKDB_LIVE_QUERY_RECEIPT status=MATCH route=relate cost=5 source_preserved=true"
+)
+
+add_test(
+  NAME fkdb_source_index
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_index.py"
+)
+set_tests_properties(
+  fkdb_source_index
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)
+
+add_test(
+  NAME fkdb_result_projection
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_result_projection.py"
+)
+set_tests_properties(
+  fkdb_result_projection
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)
+
+
+add_test(
+  NAME fkdb_wasm_hif_contract
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_wasm_hif.py"
+)
+set_tests_properties(
+  fkdb_wasm_hif_contract
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)
+
+find_program(FKDB_NODE_EXECUTABLE NAMES node nodejs)
+if(FKDB_NODE_EXECUTABLE)
+  add_test(
+    NAME fkdb_web_host_node
+    COMMAND
+      "${FKDB_NODE_EXECUTABLE}"
+      "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_web_host.mjs"
+  )
+  set_tests_properties(
+    fkdb_web_host_node
+    PROPERTIES
+      PASS_REGULAR_EXPRESSION
+        "FKDB_WASM_HIF_NODE PASS"
+  )
+else()
+  message(STATUS "Node.js not found: FKDB Web host behavioral test skipped; Python contract test remains active")
+endif()
+
+
+add_test(
+  NAME fkdb_tool_carrier
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_tool_carrier.py"
+)
+set_tests_properties(
+  fkdb_tool_carrier
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)
+
+
+add_test(
+  NAME fkdb_local_tool_bridge
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_local_tool_bridge.py"
+)
+set_tests_properties(
+  fkdb_local_tool_bridge
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)
+
+
+add_test(
+  NAME fkdb_local_adapters
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_local_adapters.py"
+)
+set_tests_properties(
+  fkdb_local_adapters
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)
+
+
+add_test(
+  NAME fkdb_adapter_mathbox
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_adapter_mathbox.py"
+)
+set_tests_properties(
+  fkdb_adapter_mathbox
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)
+
+
+add_test(
+  NAME fkdb_adapter_superpowers
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_adapter_superpowers.py"
+)
+set_tests_properties(
+  fkdb_adapter_superpowers
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)
+
+
+add_test(
+  NAME fkdb_adapter_zotero
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_adapter_zotero.py"
+)
+set_tests_properties(
+  fkdb_adapter_zotero
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)
+
+
+add_test(
+  NAME fkdb_adapter_wolfram
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_adapter_wolfram.py"
+)
+set_tests_properties(
+  fkdb_adapter_wolfram
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)
+
+
+add_test(
+  NAME fkdb_adapter_supabase
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_adapter_supabase.py"
+)
+set_tests_properties(
+  fkdb_adapter_supabase
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)
+
+
+add_test(
+  NAME fkdb_adapter_railway
+  COMMAND
+    "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_adapter_railway.py"
+)
+set_tests_properties(
+  fkdb_adapter_railway
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OK"
+)

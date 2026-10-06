@@ -1,0 +1,254 @@
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+import re
+import subprocess
+import sys
+
+from fkdb_index import search_index
+
+HERE = Path(__file__).resolve().parent
+LAB = HERE.parent
+PAGES = LAB / "fkdb" / "pages"
+MANIFEST = PAGES / "manifest.json"
+LIVE_QUERY_RMAL = LAB / "rmal-browser" / "fkdb_live_query.rmal"
+PREDECESSOR = HERE / "interact_independent_browser.py"
+QUERY_RECEIPT = re.compile(
+    r"FKDB_LIVE_QUERY_RECEIPT status=(\S+) route=(\S+) cost=(\S+) source_preserved=true"
+)
+
+
+def load_manifest() -> dict:
+    data = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    if data.get("schema") != "fkdb/page-manifest/v1":
+        raise ValueError("unsupported FKDB page manifest schema")
+    if data.get("project") != "FKDB":
+        raise ValueError("manifest project identity is not FKDB")
+    lineage = data.get("lineage", {})
+    if lineage.get("kind") != "DIRECT_SUCCESSOR" or lineage.get("predecessor") != "Independent Browser":
+        raise ValueError("FKDB direct-successor lineage is missing")
+
+    pages = data.get("pages")
+    if not isinstance(pages, list) or not pages:
+        raise ValueError("FKDB manifest requires pages")
+    ids = set()
+    for page in pages:
+        page_id = page.get("id")
+        filename = page.get("file")
+        if not isinstance(page_id, str) or not page_id:
+            raise ValueError("FKDB page requires non-empty id")
+        if page_id in ids:
+            raise ValueError(f"duplicate FKDB page id: {page_id}")
+        ids.add(page_id)
+        if not isinstance(filename, str) or not filename:
+            raise ValueError(f"FKDB page {page_id} requires file")
+        if not (PAGES / filename).is_file():
+            raise FileNotFoundError(PAGES / filename)
+        if not page.get("provenance"):
+            raise ValueError(f"FKDB page {page_id} requires provenance")
+        if not page.get("recovery_path"):
+            raise ValueError(f"FKDB page {page_id} requires recovery_path")
+
+    start = data.get("start_page")
+    if start not in ids:
+        raise ValueError("FKDB start_page is not registered")
+    for page in pages:
+        for target in page.get("relations", []):
+            if target not in ids:
+                raise ValueError(f"FKDB page relation targets unknown page: {target}")
+    return data
+
+
+def route_query(query_host: Path, query: str, manifest: dict) -> tuple[str, str, str]:
+    if not query_host.is_file():
+        raise FileNotFoundError(query_host)
+    completed = subprocess.run(
+        [str(query_host), str(LIVE_QUERY_RMAL), query],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if completed.returncode != 0:
+        raise RuntimeError(
+            f"FKDB live query host exited with {completed.returncode}: {completed.stderr.strip()}"
+        )
+    match = QUERY_RECEIPT.search(completed.stdout)
+    if match is None:
+        raise RuntimeError("FKDB live query host emitted no parseable receipt")
+    status, route, cost = match.groups()
+    page_ids = {page["id"] for page in manifest["pages"]}
+    if route not in page_ids:
+        raise RuntimeError(f"FKDB live query routed to unknown page: {route}")
+    if status not in {"MATCH", "NO_MATCH", "UNRESOLVED"}:
+        raise RuntimeError(f"FKDB live query returned invalid status: {status}")
+    return status, route, cost
+
+
+def surface_text(value: str, remainder: list[str], remainder_tag: str) -> str:
+    text = value.upper().replace("_", " ")
+    text = "".join(ch for ch in text if ch == " " or ("A" <= ch <= "Z"))
+    text = " ".join(text.split())
+    if len(text) > 25:
+        text = text[:25].rstrip()
+        remainder.append(remainder_tag)
+    if not text:
+        text = "UNRESOLVED"
+        remainder.append(remainder_tag)
+    return text
+
+
+def bounded_result_text(result: dict) -> tuple[str, list[str]]:
+    remainder = list(result.get("remainder", []))
+    status = result.get("status")
+    if status == "MATCH":
+        candidates = result.get("candidates", [])
+        if len(candidates) == 1:
+            text = candidates[0]["title"]
+        else:
+            text = "MULTIPLE CANDIDATES"
+    elif status == "NO_MATCH":
+        text = "NO LOCAL MATCH"
+    else:
+        text = "UNRESOLVED QUERY"
+    return surface_text(text, remainder, "DISPLAY_TRUNCATED"), remainder
+
+
+def write_index_result(work_dir: Path, result: dict) -> Path:
+    work_dir.mkdir(parents=True, exist_ok=True)
+    source_page = work_dir / "source.html"
+    recovery_page = work_dir / "recovery.html"
+    source_page.unlink(missing_ok=True)
+    recovery_page.unlink(missing_ok=True)
+
+    display, remainder = bounded_result_text(result)
+    result_copy = dict(result)
+    result_copy["display_remainder"] = remainder
+
+    links = '<a href="fkdb">HOME</a>'
+    candidates = result.get("candidates", [])
+    if result.get("status") == "MATCH" and len(candidates) == 1:
+        candidate = candidates[0]
+        carrier = surface_text(
+            candidate["carrier"], remainder, "SOURCE_CARRIER_DISPLAY_TRUNCATED"
+        )
+        relation = surface_text(
+            candidate["provenance"]["relation"],
+            remainder,
+            "SOURCE_RELATION_DISPLAY_TRUNCATED",
+        )
+        recovery = surface_text(
+            candidate["recovery_display"],
+            remainder,
+            "RECOVERY_DISPLAY_TRUNCATED",
+        )
+
+        source_page.write_text(
+            f'<h1>SOURCE</h1><p>{carrier}</p><p>{relation}</p>'
+            '<a href="result">BACK</a><a href="fkdb">HOME</a>',
+            encoding="utf-8",
+        )
+        recovery_page.write_text(
+            f'<h1>RECOVERY</h1><p>{recovery}</p>'
+            '<a href="result">BACK</a><a href="fkdb">HOME</a>',
+            encoding="utf-8",
+        )
+        links = (
+            '<a href="source">SOURCE</a>'
+            '<a href="recovery">RECOVERY</a>'
+            '<a href="fkdb">HOME</a>'
+        )
+        result_copy["surface_projection"] = {
+            "source": {
+                "carrier": carrier,
+                "provenance_relation": relation,
+            },
+            "recovery": recovery,
+        }
+
+    sidecar = work_dir / "index_result.json"
+    sidecar.write_text(
+        json.dumps(result_copy, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    page = work_dir / "index_result.html"
+    page.write_text(
+        f'<h1>RESULT</h1><p>{display}</p>{links}',
+        encoding="utf-8",
+    )
+    return page
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Launch FKDB through the Independent Browser live driver."
+    )
+    parser.add_argument("--presenter", type=Path, required=True)
+    parser.add_argument("--http-carrier", type=Path)
+    parser.add_argument("--tls-carrier", type=Path)
+    parser.add_argument("--query", default=None)
+    parser.add_argument("--query-host", type=Path)
+    parser.add_argument("--work-dir", type=Path, default=Path(".fkdb"))
+    parser.add_argument("--max-interactions", type=int, default=64)
+    parser.add_argument("--max-transitions", type=int, default=64)
+    return parser.parse_args()
+
+
+def main() -> int:
+    args = parse_args()
+    manifest = load_manifest()
+    start_page = manifest["start_page"]
+    dynamic_page = None
+    if args.query is not None:
+        if args.query_host is None:
+            raise ValueError("--query requires --query-host")
+        status, route, cost = route_query(args.query_host, args.query, manifest)
+        start_page = route if status == "MATCH" else manifest["start_page"]
+        query_report = {
+            "fkdbQueryStatus": status,
+            "fkdbQueryRoute": route,
+            "fkdbQueryCost": cost,
+            "sourcePreserved": True,
+        }
+
+        if status == "UNRESOLVED":
+            index_result = search_index(args.query)
+            dynamic_page = write_index_result(args.work_dir, index_result)
+            start_page = "result"
+            query_report["fkdbIndexStatus"] = index_result["status"]
+            query_report["fkdbIndexCandidates"] = index_result["candidate_count"]
+            query_report["fkdbIndexCost"] = index_result["scan_cost"]["comparison_units"]
+            query_report["fkdbIndexRemainder"] = index_result["remainder"]
+
+        print(json.dumps(query_report, sort_keys=True))
+
+    command = [sys.executable, str(PREDECESSOR)]
+    for page in manifest["pages"]:
+        command.extend(["--page", f"{page['id']}={PAGES / page['file']}"])
+    if dynamic_page is not None:
+        command.extend(["--page", f"result={dynamic_page}"])
+        source_page = args.work_dir / "source.html"
+        recovery_page = args.work_dir / "recovery.html"
+        if source_page.is_file():
+            command.extend(["--page", f"source={source_page}"])
+        if recovery_page.is_file():
+            command.extend(["--page", f"recovery={recovery_page}"])
+    command.extend([
+        "--start", start_page,
+        "--presenter", str(args.presenter),
+        "--work-dir", str(args.work_dir),
+        "--max-interactions", str(args.max_interactions),
+        "--max-transitions", str(args.max_transitions),
+    ])
+    if args.http_carrier is not None:
+        command.extend(["--http-carrier", str(args.http_carrier)])
+    if args.tls_carrier is not None:
+        command.extend(["--tls-carrier", str(args.tls_carrier)])
+
+    completed = subprocess.run(command, check=False)
+    return completed.returncode
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

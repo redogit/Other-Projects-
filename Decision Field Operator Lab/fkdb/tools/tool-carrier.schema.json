@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://redogit.github.io/fkdb/schemas/tool-carrier-v1.json",
+  "title": "FKDB ToolCarrier v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "carrier_id",
+    "tool_id",
+    "tool_version",
+    "adapter_kind",
+    "locality",
+    "source_identity",
+    "source_version",
+    "retrieved_at",
+    "payload_type",
+    "payload",
+    "content_hash",
+    "provenance",
+    "authority_scope",
+    "evidence_status",
+    "obligation",
+    "relations",
+    "cost",
+    "loss",
+    "remainder",
+    "recovery_path"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fkdb/tool-carrier/v1"
+    },
+    "carrier_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tool_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tool_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "adapter_kind": {
+      "type": "string",
+      "minLength": 1
+    },
+    "locality": {
+      "enum": [
+        "EMBEDDED",
+        "LOCAL_FILE",
+        "LOCAL_PROCESS",
+        "LOCALHOST",
+        "PORTABLE_IMPORT",
+        "USER_HANDOFF",
+        "REMOTE_OPTIONAL"
+      ]
+    },
+    "source_identity": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "retrieved_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "payload_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "payload": {},
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "provenance": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "authority_scope": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "obligation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "cost": {
+      "type": "object"
+    },
+    "loss": {
+      "type": "array"
+    },
+    "remainder": {
+      "type": "array"
+    },
+    "recovery_path": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

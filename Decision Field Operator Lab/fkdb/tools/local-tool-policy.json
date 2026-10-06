@@ -1,0 +1,13 @@
+{
+  "schema": "fkdb/local-tool-policy/v1",
+  "network_policy": "LOOPBACK_ONLY",
+  "read_roots": [],
+  "write_roots": [],
+  "processes": [],
+  "max_import_bytes": 1048576,
+  "max_request_bytes": 1048576,
+  "environment_allowlist": [],
+  "adapter_max_files": 64,
+  "adapter_max_bytes": 1048576,
+  "adapters": []
+}

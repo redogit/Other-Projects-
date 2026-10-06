@@ -1,0 +1,238 @@
+{
+  "schema": "fkdb/source-index/v1",
+  "project": "FKDB",
+  "scope": "LOCAL_BOUNDED_PROJECT_LINEAGE",
+  "normalization": "ASCII_ALNUM_UPPERCASE_TOKENS",
+  "claim_ceiling": [
+    "INDEX_MATCH != TRUTH",
+    "INDEX_MATCH != EVIDENCE_PROMOTION",
+    "LOCAL_INDEX != GLOBAL_HISTORY",
+    "TOKEN_MATCH != SEMANTIC_EQUIVALENCE"
+  ],
+  "records": [
+    {
+      "id": "IB-001",
+      "title": "INDEPENDENT BROWSER",
+      "kind": "PREDECESSOR_PROJECT",
+      "state": "PRESERVED",
+      "domain": "BROWSER",
+      "carrier": "GITHUB_SOURCE",
+      "source_refs": [
+        "Decision Field Operator Lab/rmal-browser/README.md",
+        "Decision Field Operator Lab/examples/independent_browser_navigation.rmapl",
+        "Decision Field Operator Lab/tools/interact_independent_browser.py"
+      ],
+      "provenance": {
+        "relation": "DIRECT_PREDECESSOR_OF",
+        "target": "FKDB",
+        "status": "SOURCE_BACKED"
+      },
+      "evidence_status": "IMPLEMENTED_AND_TESTED_BOUNDED",
+      "recovery_path": "Read predecessor README, generated RMAL/RMAPL lineage, then FKDB_IDENTITY.md.",
+      "relations": [
+        "FKDB-001"
+      ],
+      "terms": [
+        "INDEPENDENT",
+        "BROWSER",
+        "RMAPL",
+        "RMAL",
+        "URL",
+        "HTTP",
+        "HTTPS",
+        "NAVIGATION",
+        "RENDER",
+        "KEYBOARD"
+      ],
+      "recovery_display": "READ PREDECESSOR SOURCES"
+    },
+    {
+      "id": "FKDB-001",
+      "title": "FKDB",
+      "kind": "SUCCESSOR_PROJECT",
+      "state": "ACTIVE",
+      "domain": "KNOWLEDGE_RECOVERY_BROWSER",
+      "carrier": "GITHUB_SOURCE",
+      "source_refs": [
+        "Decision Field Operator Lab/rmal-browser/FKDB_IDENTITY.md",
+        "Decision Field Operator Lab/fkdb/CURRENT.md"
+      ],
+      "provenance": {
+        "relation": "DIRECT_SUCCESSOR_OF",
+        "target": "IB-001",
+        "status": "USER_DECLARED_AND_IMPLEMENTED"
+      },
+      "evidence_status": "IMPLEMENTED_BOUNDED_SUCCESSOR",
+      "recovery_path": "Read FKDB CURRENT, identity, query state, page manifest and retained failures.",
+      "relations": [
+        "IB-001",
+        "FKDB-Q-001",
+        "FKDB-P-001",
+        "FKDB-F6-001",
+        "FKDB-HIF-001"
+      ],
+      "terms": [
+        "FKDB",
+        "FIGHTING",
+        "KNOWLEDGE",
+        "DECAY",
+        "BROWSER",
+        "SUCCESSOR",
+        "RECOVERY",
+        "QUERY"
+      ],
+      "recovery_display": "READ CURRENT IDENTITY"
+    },
+    {
+      "id": "FKDB-Q-001",
+      "title": "FKDB LIVE QUERY ROUTER",
+      "kind": "QUERY_POLICY",
+      "state": "ACTIVE",
+      "domain": "QUERY",
+      "carrier": "RMAL",
+      "source_refs": [
+        "Decision Field Operator Lab/rmal-browser/fkdb_live_query.rmal",
+        "Decision Field Operator Lab/rmal-browser/fkdb_live_query_host.c"
+      ],
+      "provenance": {
+        "relation": "PART_OF",
+        "target": "FKDB-001",
+        "status": "SOURCE_BACKED"
+      },
+      "evidence_status": "BOUNDED_EXACT_ROUTING_TESTED",
+      "recovery_path": "Re-run RMALC and native query routing tests; compare receipts.",
+      "relations": [
+        "FKDB-001",
+        "FKDB-P-001"
+      ],
+      "terms": [
+        "QUERY",
+        "ROUTER",
+        "MATCH",
+        "NO",
+        "UNRESOLVED",
+        "HISTORY",
+        "DECAY",
+        "RECOVER",
+        "RELATE",
+        "LINEAGE"
+      ],
+      "recovery_display": "RERUN ROUTER TESTS"
+    },
+    {
+      "id": "FKDB-P-001",
+      "title": "FKDB PAGE PROGRESSION",
+      "kind": "HUMAN_SURFACE",
+      "state": "ACTIVE",
+      "domain": "BROWSER_UI",
+      "carrier": "HTML_RMAPL",
+      "source_refs": [
+        "Decision Field Operator Lab/fkdb/pages/manifest.json",
+        "Decision Field Operator Lab/tools/build_fkdb_pages.py",
+        "Decision Field Operator Lab/test_fkdb_surface.py"
+      ],
+      "provenance": {
+        "relation": "PART_OF",
+        "target": "FKDB-001",
+        "status": "SOURCE_BACKED"
+      },
+      "evidence_status": "GENERATED_AND_NAVIGATION_TESTED",
+      "recovery_path": "Rebuild pages from current_query.json, validate manifest, walk keyboard progression.",
+      "relations": [
+        "FKDB-001",
+        "FKDB-Q-001"
+      ],
+      "terms": [
+        "PAGE",
+        "PROGRESSION",
+        "HISTORY",
+        "DECAY",
+        "RECOVER",
+        "RELATE",
+        "RETURN",
+        "KEYBOARD",
+        "MANIFEST"
+      ],
+      "recovery_display": "REBUILD WALK PROGRESSION"
+    },
+    {
+      "id": "FKDB-F6-001",
+      "title": "FKDB DISPLAY BOUND FAILURE",
+      "kind": "FAILURE",
+      "state": "RETAINED",
+      "domain": "HUMAN_SURFACE",
+      "carrier": "MARKDOWN",
+      "source_refs": [
+        "Decision Field Operator Lab/fkdb/failures/F6-001-query-state-display-bound.md"
+      ],
+      "provenance": {
+        "relation": "FAILURE_OF",
+        "target": "FKDB-P-001",
+        "status": "CI_OBSERVED"
+      },
+      "evidence_status": "OBSERVED_REPAIRED_RETAINED",
+      "recovery_path": "Read failure record, original display constraint, repair and prevention rule.",
+      "relations": [
+        "FKDB-P-001"
+      ],
+      "terms": [
+        "FAILURE",
+        "DISPLAY",
+        "BOUND",
+        "CARRIER",
+        "FIT",
+        "SEMANTIC",
+        "PROVENANCE",
+        "REPAIR"
+      ],
+      "recovery_display": "READ FAILURE REPAIR"
+    },
+    {
+      "id": "FKDB-HIF-001",
+      "title": "FKDB WEBASSEMBLY HOST FRAMEWORK",
+      "kind": "HOST_INTEROPERABILITY_FRAMEWORK",
+      "state": "ACTIVE",
+      "domain": "WEBASSEMBLY_WEB_PLATFORM",
+      "carrier": "WIT_ES_MODULE_JSON",
+      "source_refs": [
+        "Decision Field Operator Lab/fkdb/web/WASM_HIF.md",
+        "Decision Field Operator Lab/fkdb/web/capabilities.json",
+        "Decision Field Operator Lab/fkdb/web/fkdb-host.mjs",
+        "Decision Field Operator Lab/fkdb/wasm/wit/0.3/fkdb-hif.wit",
+        "Decision Field Operator Lab/fkdb/wasm/wit/0.2/fkdb-hif.wit"
+      ],
+      "provenance": {
+        "relation": "PART_OF",
+        "target": "FKDB-001",
+        "status": "SOURCE_BACKED_CURRENT_STANDARDS_NORMALIZED"
+      },
+      "evidence_status": "CONTRACT_AND_HOST_SELECTOR_TESTED_BOUNDED",
+      "recovery_path": "Read Wasm-HIF architecture, capability manifest, WIT 0.3/0.2 contracts, then rerun Python and Node host tests.",
+      "recovery_display": "READ WASM HOST CONTRACTS",
+      "relations": [
+        "FKDB-001"
+      ],
+      "terms": [
+        "WEBASSEMBLY",
+        "WASM",
+        "JSPI",
+        "WIT",
+        "WASI",
+        "COMPONENT",
+        "MODEL",
+        "FETCH",
+        "STREAMS",
+        "WORKER",
+        "OPFS",
+        "INDEXEDDB",
+        "XHR",
+        "WASMFS",
+        "FALLBACK",
+        "ASYNC",
+        "HTTP",
+        "HOST",
+        "INTEROP"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+# FKDB — Fighting Knowledge Decay Browser successor bootstrap
+#
+# Directly descends from the Independent Browser bootstrap.
+# Historical Independent Browser generated operators remain unchanged.
+
+MODULE fkdb.browser_bootstrap;
+
+CONTEXT FKDB status="DIRECT_SUCCESSOR" predecessor="Independent Browser" authority="LOCAL" evidence_transfer="DENY"
+BOUNDARY FKDB CLAIM_CEILING BOUNDED_SUCCESSOR_BOOTSTRAP REASON "FKDB query orchestration is bounded; inherited browser semantics retain their own evidence boundaries"
+
+fn handoff(name) {
+    let acknowledgement = BrowserHandoff(name);
+    REQUIRE acknowledgement == name + ":ACK";
+    return acknowledgement;
+}
+
+fn render_cycle() {
+    handoff("HTML_TOKENIZE");
+    handoff("DOM_BUILD");
+    handoff("LAYOUT");
+    handoff("HIT_MAP");
+    handoff("RASTER");
+    handoff("FRAME_VERIFY");
+    handoff("CAMERA_PACK");
+    handoff("FRAME_ADMIT");
+    return "PRESENTABLE";
+}
+
+fn knowledge_query_outbound() {
+    handoff("FKDB_QUERY_NEED");
+    handoff("FKDB_QUERY_HISTORY");
+    handoff("FKDB_QUERY_DECAY");
+    handoff("FKDB_QUERY_RECOVER");
+    handoff("FKDB_QUERY_RELATE");
+    return "QUERY_READY";
+}
+
+STATE render_count = 0;
+STATE network_count = 0;
+STATE query_count = 0;
+
+let first = render_cycle();
+REQUIRE first == "PRESENTABLE";
+SET render_count = render_count + 1;
+
+let query = knowledge_query_outbound();
+REQUIRE query == "QUERY_READY";
+SET query_count = query_count + 1;
+
+handoff("URL_RESOLVE");
+handoff("HTTPS_PLAN");
+handoff("NATIVE_TLS");
+handoff("HTTP_RESPONSE_ADMIT");
+SET network_count = network_count + 1;
+
+let second = render_cycle();
+REQUIRE second == "PRESENTABLE";
+SET render_count = render_count + 1;
+
+handoff("FKDB_QUERY_RETURN");
+handoff("PRESENT");
+
+REQUIRE render_count == 2;
+REQUIRE network_count == 1;
+REQUIRE query_count == 1;
+
+print "FKDB_BOOTSTRAP_PASS";
+STOP;

@@ -1,0 +1,28 @@
+{
+  "schema": "fkdb/query-state/v1",
+  "query_id": "FKDB-BOOTSTRAP-001",
+  "project": "FKDB",
+  "lineage": {
+    "predecessor": "Independent Browser",
+    "successor": "FKDB",
+    "kind": "DIRECT_SUCCESSOR"
+  },
+  "need": "FIGHT KNOWLEDGE DECAY",
+  "history": "KEEP SOURCE FAILURE",
+  "decay": "DECAY CHECK READY",
+  "recover": "RELATE REBUILD VERIFY",
+  "relate": "PROVENANCE BEFORE CLAIM",
+  "return_state": "CURRENT COMMON POINT",
+  "lineage_display": "BROWSER TO FKDB",
+  "remainder": [
+    "FREE TEXT QUERY",
+    "LIVE HISTORY INDEX",
+    "LIVE CROSS CARRIER SEARCH",
+    "SCROLLING"
+  ],
+  "claim_ceiling": [
+    "QUERY_STATE_PROJECTION != QUERY_EXECUTION",
+    "DISPLAYED_STATUS != VERIFIED_TRUTH",
+    "RELATION != EVIDENCE_TRANSFER"
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "schema": "fkdb/page-manifest/v1",
+  "project": "FKDB",
+  "project_name": "Fighting Knowledge Decay Browser",
+  "start_page": "fkdb",
+  "lineage": {
+    "kind": "DIRECT_SUCCESSOR",
+    "predecessor": "Independent Browser",
+    "naming_date": "2026-10-04"
+  },
+  "query_progression": [
+    "NEED",
+    "HISTORY",
+    "DECAY",
+    "RECOVER",
+    "RELATE",
+    "RETURN"
+  ],
+  "claim_ceiling": [
+    "PAGE_MANIFEST != KNOWLEDGE",
+    "RELATION != EVIDENCE_TRANSFER",
+    "RECOVERED_PAGE != RECOVERED_MEANING",
+    "LOCAL_SURFACE != COMPLETE_KNOWLEDGE_RECOVERY"
+  ],
+  "pages": [
+    {
+      "id": "fkdb",
+      "file": "fkdb.html",
+      "title": "FKDB",
+      "role": "CURRENT_COMMON_POINT_AND_NEED",
+      "purpose": "Entry and return point for the Fighting Knowledge Decay Browser progression.",
+      "relations": [
+        "history",
+        "tools",
+        "lineage"
+      ],
+      "provenance": [
+        "Decision Field Operator Lab/rmal-browser/FKDB_IDENTITY.md"
+      ],
+      "recovery_path": "Begin with HISTORY or inspect LINEAGE; every progression route returns here.",
+      "state": "ACTIVE"
+    },
+    {
+      "id": "history",
+      "file": "history.html",
+      "title": "HISTORY",
+      "role": "SOURCE_AND_FAILURE_HISTORY",
+      "purpose": "Preserve sources, failures, chronology and their route back to the current need.",
+      "relations": [
+        "decay",
+        "fkdb"
+      ],
+      "provenance": [
+        "FKDB specification: history and failure retention"
+      ],
+      "recovery_path": "Inspect DECAY next or return HOME.",
+      "state": "ACTIVE"
+    },
+    {
+      "id": "decay",
+      "file": "decay.html",
+      "title": "DECAY",
+      "role": "DISCONNECTION_AND_DECAY_CHECK",
+      "purpose": "Expose what consequential meaning, relation, provenance or recovery route became unreachable.",
+      "relations": [
+        "recover",
+        "fkdb"
+      ],
+      "provenance": [
+        "FKDB query state and Fighting Knowledge Decay specification"
+      ],
+      "recovery_path": "Proceed to RECOVER or return HOME.",
+      "state": "ACTIVE"
+    },
+    {
+      "id": "recover",
+      "file": "recover.html",
+      "title": "RECOVER",
+      "role": "RECONSTRUCTION",
+      "purpose": "Relate, rebuild and verify knowledge without replacing source identity.",
+      "relations": [
+        "relate",
+        "fkdb"
+      ],
+      "provenance": [
+        "FKDB query kernel and Fighting Knowledge Decay specification"
+      ],
+      "recovery_path": "Proceed to RELATE after bounded reconstruction or return HOME.",
+      "state": "ACTIVE"
+    },
+    {
+      "id": "relate",
+      "file": "relate.html",
+      "title": "RELATE",
+      "role": "CROSS_RELATION_AND_CARRIER_GATE",
+      "purpose": "Reconnect recovered knowledge while preserving provenance and preventing authority transfer.",
+      "relations": [
+        "fkdb"
+      ],
+      "provenance": [
+        "FKDB cross-carrier invariants"
+      ],
+      "recovery_path": "Return to the FKDB current common point with result and remainder.",
+      "state": "ACTIVE"
+    },
+    {
+      "id": "tools",
+      "file": "tools.html",
+      "title": "TOOLS",
+      "role": "LOCAL_TOOL_STATUS",
+      "purpose": "Inspect local tool bridge availability without requiring remote services.",
+      "relations": [
+        "fkdb"
+      ],
+      "provenance": [
+        "docs/superpowers/specs/2026-10-04-fkdb-local-tool-integration-design.md"
+      ],
+      "recovery_path": "Return HOME; start the local bridge or import portable artifacts when local adapters are unavailable.",
+      "state": "ACTIVE"
+    },
+    {
+      "id": "lineage",
+      "file": "lineage.html",
+      "title": "LINEAGE",
+      "role": "DIRECT_SUCCESSOR_LINEAGE",
+      "purpose": "Preserve Independent Browser to FKDB successor identity without retroactive renaming.",
+      "relations": [
+        "fkdb"
+      ],
+      "provenance": [
+        "Independent Browser",
+        "FKDB_IDENTITY.md"
+      ],
+      "recovery_path": "Return HOME after lineage inspection.",
+      "state": "ACTIVE"
+    }
+  ]
+}
