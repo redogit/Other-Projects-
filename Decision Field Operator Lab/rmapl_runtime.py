@@ -241,6 +241,8 @@ def _changed_paths(original: Mapping[str, Any], candidate: Mapping[str, Any], pa
     for path in paths:
         left = _get_path(original, path)
         right = _get_path(candidate, path)
+        if left is _MISSING and right is _MISSING:
+            continue
         if left is _MISSING or right is _MISSING or canonical_json(left) != canonical_json(right):
             changed.append(path)
     return tuple(sorted(changed))
