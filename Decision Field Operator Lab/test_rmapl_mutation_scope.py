@@ -96,6 +96,26 @@ class MutationScopeTests(unittest.TestCase):
         self.assertTrue(branch["admitted"])
         self.assertEqual(branch["inspection"]["mutated"], [])
 
+    def test_absent_protected_paths_are_unchanged_only_when_absent_on_both_sides(self):
+        branch = execute(
+            lambda c: None,
+            (),
+            preserves=("history",),
+            forbids=("history_rewrite", "unknown_to_false"),
+        )["branches"][0]
+        self.assertTrue(branch["admitted"])
+        self.assertEqual(branch["classification"], "EXACT_REPAIR")
+        self.assertEqual(branch["inspection"]["mutated"], [])
+
+        added = execute(
+            lambda c: c["state"].update(extra=1),
+            ("state",),
+            forbids=("state.extra",),
+        )["branches"][0]
+        self.assertFalse(added["admitted"])
+        self.assertEqual(added["classification"], "MUTATION")
+        self.assertIn("state.extra", added["inspection"]["mutated"])
+
     def test_declared_scalar_change_allows_recomputed_envelope_fields(self):
         branch = execute(lambda c: c["state"].update(x=1))["branches"][0]
         self.assertTrue(branch["admitted"])
