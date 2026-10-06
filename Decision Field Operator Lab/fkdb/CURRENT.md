@@ -4,7 +4,8 @@
 **Project ID:** FKDB  
 **Named:** 2026-10-04  
 **Lineage:** DIRECT_SUCCESSOR of Independent Browser  
-**Working PR:** #116  
+**Merged lineage:** PR #116 at `f3573799185df44b03a1eb1e333bb0721a0805a1`  
+**Reconciled implementation base:** `main` at `4a05785e4376c558ed7ad761f89db9dd241bca7b`  
 **Status:** BUILDING / BOUNDED VERIFIED INCREMENTS
 
 ## Current purpose
@@ -31,7 +32,7 @@ The predecessor currently supplies bounded, tested:
 
 Historical Independent Browser artifacts retain predecessor identity.
 
-## FKDB increments currently on PR #116
+## FKDB increments merged through PR #116
 
 ### F0 — identity and direct lineage
 
@@ -280,6 +281,62 @@ WOLFRAM_EXECUTABLE_DISCOVERY != EXECUTION_AUTHORITY
 COLLECTED_TOOLCARRIER != FKDB_SOURCE_INDEX_ADMISSION
 ```
 
+### F10 Plan C — local infrastructure adapters (implemented; closeout blocked)
+
+Both adapters and their dedicated tests are present in merged `main`; do not
+reimplement them. This reconciliation changes records only, not adapter behavior.
+
+- Supabase collects local configuration, migrations, seed SQL and Edge Function
+  TS/JSON artifacts. Carriers retain `SUPABASE_LOCAL_PROJECT_ARTIFACT_ONLY`,
+  `CONFIG_OR_MIGRATION_NOT_APPLIED_STATE` and `runtime_state_observed = false`.
+- Railway collects checked-in IaC/legacy/build configuration and explicitly requested
+  portable snapshots. Carriers retain `RAILWAY_REPOSITORY_ARTIFACT_ONLY`,
+  `DEPLOYMENT_ARTIFACT_NOT_LIVE_DEPLOYMENT_STATE` and `live_state_observed = false`.
+- Production `adapters`, read/write roots, process grants and environment allowlist
+  remain empty. Adapter opt-in is enforced at the token/origin-gated HTTP collection
+  boundary; the internal registry's `collect()` is not an authorization boundary.
+- Supplemental Linux probes confirmed deterministic raw-byte/hash preservation,
+  read-only fixture behavior, requested-root symlink/traversal rejection, static-file
+  file/byte limits with explicit PARTIAL remainder, and invalid-UTF-8 remainder.
+  These do not establish bounded directory enumeration or race-hard file reads.
+
+Reconciliation evidence, 2026-10-06 UTC (2026-10-05 America/New_York):
+
+| Gate | Exact implementation revision | Observed result |
+| --- | --- | --- |
+| Dedicated Linux rerun | `f3573799185df44b03a1eb1e333bb0721a0805a1` | 55/55 CTest targets PASS |
+| Dedicated Windows rerun | `f3573799185df44b03a1eb1e333bb0721a0805a1` | 55/55 CTest targets PASS |
+| Broad Decision Field audit rerun | `4a05785e4376c558ed7ad761f89db9dd241bca7b` | PASS |
+| Supplemental adapter/registry/ToolCarrier probes | Exact source blobs from `4a05785...` | 8 test methods pass; 2 fail (4 failed assertions/subtests) |
+
+Both dedicated matrices include Supabase, Railway and the retained Plan B targets.
+They ran at the PR #116 merge, not at the newer `main` head. PR #117 changed
+`rmapl_runtime.py` and `test_rmapl_mutation_scope.py`; the Plan C source/test blobs
+are unchanged, but that does not substitute for a fresh exact-head native matrix.
+The supplemental probes use a local read-policy fixture, not the full HTTP bridge.
+
+**Retained blocking failures:**
+
+- `PLAN-C-SECRET-001`: Railway admits explicitly requested `.env.json`,
+  `service_role.json` and `secrets.txt` as validated ToolCarriers with their raw
+  synthetic payloads. Snapshot extension/root checks do not exclude secret-like names.
+- `PLAN-C-SECRET-002`: Supabase admits
+  `supabase/functions/secrets/credentials.json`; its basename-only filter does not
+  exclude this credential-like path. Recognized secret basenames were excluded in
+  separate probes, so that narrower behavior remains verified.
+- `PLAN-C-MATRIX-001`: no dedicated Linux/Windows run at `4a05785...` was executed
+  in this reconciliation. Available rerun actions retained their original commit.
+
+No real credentials were used. Neither adapter queries a database, invokes a vendor
+CLI, contacts hosted services, or observes live deployment/applied state. Railway's
+IaC/deprecation labels are repository-encoded metadata, not independent verification
+of vendor policy. ToolCarrier validation is not secret detection or source-index admission.
+
+The historical Supabase 54/54 receipt is preserved, but it does not establish a
+complete secret-exclusion guarantee. **Plan C is not closed; Plan D is not advanced.**
+Exact job links, source hashes, probe scope and a runnable failure witness are retained
+in the [Plan C progress ledger](../../docs/superpowers/plans/2026-10-05-fkdb-f10-plan-c-local-infrastructure-adapters-progress.md).
+
 ## Current query progression
 
 ```text
@@ -330,10 +387,10 @@ Passing software tests establish only the bounded implemented behavior.
 
 ## Current remainder
 
-1. Mathbox, Superpowers, Zotero and Wolfram Plan B adapters are implemented, but collected
-   ToolCarriers are not yet promoted into FKDB's source index; that remains the cross-carrier
-   ingestion stage.
-2. Local Supabase and Railway infrastructure adapters are not yet implemented.
+1. Plan B and Plan C adapters are implemented, but collected ToolCarriers are not yet
+   promoted into FKDB's source index; that remains the cross-carrier ingestion stage.
+2. Supabase and Railway Plan C closeout is blocked by `PLAN-C-SECRET-001`,
+   `PLAN-C-SECRET-002` and `PLAN-C-MATRIX-001`; implementation absence is not the remainder.
 3. Portable SciSpace, Consensus, Exa and Linear adapters are not yet implemented.
 4. No remote synchronization is required or implemented.
 5. Zotero writes, fulltext, attachment-file URL reads and connector mutations remain outside
@@ -373,15 +430,18 @@ Constraints preserved:
 
 ## Next one-degree step
 
-Build **F10 Plan C — local infrastructure adapters**:
+Close the **existing F10 Plan C safety and exact-head verification gaps**, not a new
+adapter implementation:
 
-- Supabase local CLI/localhost stack as optional LOCAL_DATABASE / LOCALHOST infrastructure;
-- Railway checked-in configuration and portable build/deploy/log artifact ingestion;
-- hosted Supabase and live Railway cloud state remain REMOTE_OPTIONAL, never FKDB
-  requirements.
+- retain the secret-path counterexamples and repair exclusions before payload reads;
+- rerun the dedicated Linux/Windows matrices and broad audit on the same final
+  implementation head, including Plan B and the new negative regressions;
+- keep hosted Supabase, live Railway state, runtime/database queries and cloud sync
+  outside the claim boundary.
 
-After Plan C, proceed to Plan D portable SciSpace/Consensus/Exa/Linear adapters and then
-Plan E ToolCarrier -> FKDB cross-carrier source-index admission.
+Only after the complete Plan C gate is green, advance to **Plan D — portable
+SciSpace/Consensus/Exa/Linear adapters**, then Plan E ToolCarrier -> FKDB source-index
+admission. This reconciliation does not authorize or perform those implementations.
 
 ## Claim ceiling
 
@@ -390,5 +450,7 @@ bounded provenance-preserving local source index, in-browser source/recovery ins
 for unambiguous matches, a tested modern-first WebAssembly/Web host interoperability
 layer, a verified local-first ToolCarrier/Local Tool Bridge substrate, and verified
 read-only/local-artifact adapters for Mathbox, Superpowers, Zotero and Wolfram.
+Supabase and Railway artifact adapters are also implemented, but their full Plan C
+closeout and general secret-exclusion claims remain blocked as recorded above.
 It is not yet a complete knowledge-recovery browser, a semantic search engine, or
 evidence authority.
