@@ -372,11 +372,9 @@ Passing software tests establish only the bounded implemented behavior.
 
 ## Current remainder
 
-1. Mathbox, Superpowers, Zotero and Wolfram Plan B adapters are implemented, but collected
-   ToolCarriers are not yet promoted into FKDB's source index; that remains the cross-carrier
-   ingestion stage.
+1. ToolCarrier cross-carrier admission and collision-safe external source-index overlay are implemented.
 2. Supabase and Railway Plan C adapters are implemented; no live database/deployment state is queried.
-3. Portable SciSpace, Consensus, Exa and Linear adapters are not yet implemented.
+3. Portable SciSpace, Consensus, Exa and Linear Plan D adapters are implemented as offline provider envelopes.
 4. No remote synchronization is required or implemented.
 5. Zotero writes, fulltext, attachment-file URL reads and connector mutations remain outside
    the verified boundary.
@@ -415,19 +413,21 @@ Constraints preserved:
 
 ## Next one-degree step
 
-Build **F10 Plan D — portable research/project adapters** for SciSpace, Consensus, Exa
-and Linear. These adapters ingest durable exported/user-provided artifacts first; remote
-synchronization remains optional and separate.
+Return to the **human-level intellect design questions** using the completed FKDB local
+carrier substrate as the working recovery/query surface.
 
-After Plan D, proceed to **Plan E — ToolCarrier -> FKDB cross-carrier source-index
-admission**, contradiction surfacing and recovery-path traversal.
+Future engineering remains bounded remainder rather than a prerequisite for the questions:
+actual Component Model toolchain compilation, richer free-text interpretation, optional
+remote synchronization, process isolation backends, scrolling/larger-page layout, and
+further native/RMAL migration.
 
 ## Claim ceiling
 
 FKDB is now a functioning bounded successor surface with exact live-query routing, a
 bounded provenance-preserving local source index, in-browser source/recovery inspection
 for unambiguous matches, a tested modern-first WebAssembly/Web host interoperability
-layer, a verified local-first ToolCarrier/Local Tool Bridge substrate, and verified read-only/local-artifact adapters for Mathbox, Superpowers, Zotero, Wolfram,
-Supabase and Railway.
+layer, a verified local-first ToolCarrier/Local Tool Bridge substrate, and verified local/portable adapters for Mathbox, Superpowers, Zotero, Wolfram, Supabase,
+Railway, SciSpace, Consensus, Exa and Linear, plus bounded cross-carrier source-index
+admission.
 It is not yet a complete knowledge-recovery browser, a semantic search engine, or
 evidence authority.
