@@ -60,6 +60,29 @@ def load_index(path: Path = INDEX_PATH) -> dict:
     return data
 
 
+def overlay_external_records(data: dict, external_records: list[dict]) -> dict:
+    if not isinstance(external_records, list):
+        raise ValueError("external_records must be a list")
+    merged = json.loads(json.dumps(data))
+    existing = {record["id"] for record in merged["records"]}
+    for record in external_records:
+        if not isinstance(record, dict):
+            raise ValueError("external index record must be an object")
+        rid = record.get("id")
+        if not isinstance(rid, str) or not rid.startswith("EXT-"):
+            raise ValueError("external index record id must use EXT- namespace")
+        if rid in existing:
+            raise ValueError(f"external index record collision: {rid}")
+        for field in ("title", "kind", "state", "domain", "carrier", "source_refs",
+                      "provenance", "evidence_status", "recovery_path",
+                      "recovery_display", "relations", "terms"):
+            if field not in record:
+                raise ValueError(f"external index record {rid} requires {field}")
+        merged["records"].append(record)
+        existing.add(rid)
+    return merged
+
+
 def search_index(query: str, data: dict | None = None) -> dict:
     if data is None:
         data = load_index()
