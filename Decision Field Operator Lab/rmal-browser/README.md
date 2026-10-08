@@ -604,3 +604,29 @@ ZOTERO_LOCAL_API != ZOTERO_CLOUD
 WOLFRAM_EXECUTABLE_DISCOVERY != EXECUTION_AUTHORITY
 COLLECTED_TOOLCARRIER != FKDB_SOURCE_INDEX_ADMISSION
 ```
+
+## FKDB F10 Plan C local infrastructure adapters
+
+FKDB now includes cloud-optional, read-only infrastructure artifact adapters:
+
+```text
+Supabase -> local project config/migrations/seed/functions -> ToolCarrier
+Railway  -> current .railway/railway.ts + legacy/build/portable snapshots -> ToolCarrier
+```
+
+Neither adapter invokes a CLI, connects to a database, queries hosted deployment state,
+or requires a cloud account. Supabase migration/config artifacts do not establish applied
+database state. Railway repository/deploy artifacts do not establish live deployment
+success.
+
+Railway legacy `railway.json` / `railway.toml` remain recoverable with explicit
+deprecation and 2026-12-01 cutoff metadata; current authority prefers
+`.railway/railway.ts`.
+
+Verification at `461a1aab4487a33ada2eee6102cc87eb02840f15`:
+
+```text
+Linux   55/55 PASS
+Windows 55/55 PASS
+Decision Field broad audit PASS
+```
