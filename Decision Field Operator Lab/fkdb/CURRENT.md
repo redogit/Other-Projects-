@@ -280,7 +280,49 @@ WOLFRAM_EXECUTABLE_DISCOVERY != EXECUTION_AUTHORITY
 COLLECTED_TOOLCARRIER != FKDB_SOURCE_INDEX_ADMISSION
 ```
 
-## Current query progression
+### F10 Plan C — Local infrastructure adapters
+
+Plan C is implemented and verified as a read-only infrastructure-artifact layer. It adds
+no hosted-service dependency, database connection, CLI execution, or live deployment query.
+
+**Supabase**
+- bounded local `supabase/config.toml`, migrations, seed and Edge Function TS/JSON artifacts;
+- secret-like filenames are excluded;
+- runtime/applied database state is explicitly not claimed;
+- authority/evidence boundary:
+  `SUPABASE_LOCAL_PROJECT_ARTIFACT_ONLY` /
+  `CONFIG_OR_MIGRATION_NOT_APPLIED_STATE`.
+
+**Railway**
+- current repository authority prefers `.railway/railway.ts` Infrastructure as Code;
+- legacy `railway.json` and `railway.toml` remain recoverable historical carriers with
+  explicit deprecation/cutoff metadata;
+- Dockerfile, nixpacks.toml, Procfile and bounded portable deployment/log snapshots may be
+  collected as repository artifacts;
+- no live Railway deployment state is queried;
+- authority/evidence boundary:
+  `RAILWAY_REPOSITORY_ARTIFACT_ONLY` /
+  `DEPLOYMENT_ARTIFACT_NOT_LIVE_DEPLOYMENT_STATE`.
+
+Verified at pre-merge head `461a1aab4487a33ada2eee6102cc87eb02840f15`:
+
+```text
+Linux   55 / 55 PASS
+Windows 55 / 55 PASS
+Broad Decision Field audit PASS
+```
+
+Plan C boundaries:
+
+```text
+LOCAL_PROJECT_ARTIFACT != LIVE_INFRASTRUCTURE_STATE
+SUPABASE_MIGRATION != APPLIED_DATABASE_STATE
+RAILWAY_CONFIG != DEPLOYMENT_SUCCESS
+LEGACY_RAILWAY_CONFIG != CURRENT_RAILWAY_AUTHORITY
+REMOTE_OPTIONAL != REQUIRED_DEPENDENCY
+```
+
+
 
 ```text
 NEED
@@ -333,7 +375,7 @@ Passing software tests establish only the bounded implemented behavior.
 1. Mathbox, Superpowers, Zotero and Wolfram Plan B adapters are implemented, but collected
    ToolCarriers are not yet promoted into FKDB's source index; that remains the cross-carrier
    ingestion stage.
-2. Local Supabase and Railway infrastructure adapters are not yet implemented.
+2. Supabase and Railway Plan C adapters are implemented; no live database/deployment state is queried.
 3. Portable SciSpace, Consensus, Exa and Linear adapters are not yet implemented.
 4. No remote synchronization is required or implemented.
 5. Zotero writes, fulltext, attachment-file URL reads and connector mutations remain outside
@@ -373,22 +415,19 @@ Constraints preserved:
 
 ## Next one-degree step
 
-Build **F10 Plan C — local infrastructure adapters**:
+Build **F10 Plan D — portable research/project adapters** for SciSpace, Consensus, Exa
+and Linear. These adapters ingest durable exported/user-provided artifacts first; remote
+synchronization remains optional and separate.
 
-- Supabase local CLI/localhost stack as optional LOCAL_DATABASE / LOCALHOST infrastructure;
-- Railway checked-in configuration and portable build/deploy/log artifact ingestion;
-- hosted Supabase and live Railway cloud state remain REMOTE_OPTIONAL, never FKDB
-  requirements.
-
-After Plan C, proceed to Plan D portable SciSpace/Consensus/Exa/Linear adapters and then
-Plan E ToolCarrier -> FKDB cross-carrier source-index admission.
+After Plan D, proceed to **Plan E — ToolCarrier -> FKDB cross-carrier source-index
+admission**, contradiction surfacing and recovery-path traversal.
 
 ## Claim ceiling
 
 FKDB is now a functioning bounded successor surface with exact live-query routing, a
 bounded provenance-preserving local source index, in-browser source/recovery inspection
 for unambiguous matches, a tested modern-first WebAssembly/Web host interoperability
-layer, a verified local-first ToolCarrier/Local Tool Bridge substrate, and verified
-read-only/local-artifact adapters for Mathbox, Superpowers, Zotero and Wolfram.
+layer, a verified local-first ToolCarrier/Local Tool Bridge substrate, and verified read-only/local-artifact adapters for Mathbox, Superpowers, Zotero, Wolfram,
+Supabase and Railway.
 It is not yet a complete knowledge-recovery browser, a semantic search engine, or
 evidence authority.
