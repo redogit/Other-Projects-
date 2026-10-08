@@ -691,3 +691,10 @@ add_test(
   COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_adapter_portable_provider.py"
 )
 set_tests_properties(fkdb_adapter_portable_provider PROPERTIES PASS_REGULAR_EXPRESSION "OK")
+
+
+add_test(
+  NAME fkdb_cross_carrier
+  COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_cross_carrier.py"
+)
+set_tests_properties(fkdb_cross_carrier PROPERTIES PASS_REGULAR_EXPRESSION "OK")
