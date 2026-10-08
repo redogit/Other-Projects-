@@ -11,6 +11,7 @@ TOOLS=HERE/"tools"
 sys.path.insert(0,str(TOOLS))
 
 from fkdb_cross_carrier import admit_tool_carriers, build_external_index_records
+from fkdb_index import load_index, overlay_external_records, search_index
 
 
 def carrier(cid,tool,source,payload,authority,subject=None,claim=None):
@@ -64,6 +65,30 @@ class CrossCarrierTests(unittest.TestCase):
         b=carrier("b","scispace","b",{},"RESEARCH_DISCOVERY_ONLY",claim="no")
         result=admit_tool_carriers([a,b])
         self.assertEqual(result["contradictions"],[])
+
+    def test_external_overlay_is_queryable_without_mutating_canonical_index(self):
+        c=carrier("linear-1","linear","linear.json#ISS-1",{"title":"Fix Browser Rail","labels":["fkdb"]},"PROJECT_WORKFLOW_ONLY")
+        external=build_external_index_records(admit_tool_carriers([c])["records"])
+        canonical=load_index()
+        canonical_count=len(canonical["records"])
+        overlaid=overlay_external_records(canonical,external)
+        self.assertEqual(len(canonical["records"]),canonical_count)
+        self.assertEqual(len(overlaid["records"]),canonical_count+1)
+        result=search_index("Browser Rail",overlaid)
+        self.assertEqual(result["status"],"MATCH")
+        self.assertEqual([x["id"] for x in result["candidates"]],["EXT-linear-1"])
+        self.assertEqual(
+            result["candidates"][0]["evidence_status"],
+            "PORTABLE_PROVIDER_RECORD_UNVERIFIED",
+        )
+
+    def test_external_record_collision_is_rejected(self):
+        c=carrier("dup","exa","exa.json#1",{"title":"X"},"SEARCH_DISCOVERY_ONLY")
+        external=build_external_index_records(admit_tool_carriers([c])["records"])
+        canonical=load_index()
+        overlaid=overlay_external_records(canonical,external)
+        with self.assertRaisesRegex(ValueError,"collision"):
+            overlay_external_records(overlaid,external)
 
     def test_external_records_are_separate_from_static_index_and_queryable_terms_are_bounded(self):
         c=carrier("c1","linear","linear.json#ISS-1",{"title":"Fix browser","labels":["fkdb"]},"PROJECT_WORKFLOW_ONLY")
