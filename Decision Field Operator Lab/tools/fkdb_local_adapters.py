@@ -183,6 +183,7 @@ def build_default_registry() -> LocalAdapterRegistry:
     from fkdb_adapter_wolfram import WolframAdapter
     from fkdb_adapter_supabase import SupabaseAdapter
     from fkdb_adapter_railway import RailwayAdapter
+    from fkdb_adapter_portable_provider import PortableProviderAdapter
 
     registry.register(MathboxAdapter())
     registry.register(SuperpowersAdapter())
@@ -190,4 +191,8 @@ def build_default_registry() -> LocalAdapterRegistry:
     registry.register(WolframAdapter())
     registry.register(SupabaseAdapter())
     registry.register(RailwayAdapter())
+    registry.register(PortableProviderAdapter("scispace", "RESEARCH_DISCOVERY_ONLY"))
+    registry.register(PortableProviderAdapter("consensus", "RESEARCH_SYNTHESIS_ONLY"))
+    registry.register(PortableProviderAdapter("exa", "SEARCH_DISCOVERY_ONLY"))
+    registry.register(PortableProviderAdapter("linear", "PROJECT_WORKFLOW_ONLY"))
     return registry
