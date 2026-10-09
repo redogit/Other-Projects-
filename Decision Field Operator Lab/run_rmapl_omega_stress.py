@@ -28,6 +28,10 @@ from rmapl_runtime import run_program
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
+sys.path.insert(0, str(ROOT / "tools"))
+
+from hodge_dependency import resolve_artifact
+
 EVIDENCE_PATH = HERE / "evidence" / "RMAPL_OMEGA_STRESS_RESULTS.json"
 
 STRESS_SCHEMA = "rmapl-omega-stress/v0"
@@ -599,7 +603,7 @@ def _load_json(path: Path) -> dict[str, Any]:
 
 def _run_adapter_family(count: int, seed: int, tracker: _Tracker, checks: dict[str, bool]) -> None:
     rng = random.Random(seed ^ 0xADA7)
-    hodge_native = _load_json(ROOT / "Hodge Span Lab" / "evidence" / "issue43_bridge_calibration_result.json")
+    hodge_native = _load_json(resolve_artifact("issue43_bridge_calibration"))
     gsfl_native = _load_json(ROOT / "Generalized Semantic Fitting Language" / "evidence" / "RESULTS.json")
 
     for index in range(count):
