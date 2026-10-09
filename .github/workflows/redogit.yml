@@ -6,6 +6,9 @@ on:
     paths:
       - 'redogit.json'
       - 'tools/verify.py'
+      - 'tools/hodge_dependency.py'
+      - 'tools/tests/**'
+      - 'dependencies/**'
       - 'PROJECT_ROUTING.md'
       - 'Human Expression Archive/**'
       - 'S1024 Compression Lab/**'
@@ -17,6 +20,9 @@ on:
     paths:
       - 'redogit.json'
       - 'tools/verify.py'
+      - 'tools/hodge_dependency.py'
+      - 'tools/tests/**'
+      - 'dependencies/**'
       - 'PROJECT_ROUTING.md'
       - 'Human Expression Archive/**'
       - 'S1024 Compression Lab/**'
@@ -55,6 +61,9 @@ jobs:
 
       - name: Verify contract, lineage boundaries, archive, and S1024
         run: python3 tools/verify.py
+
+      - name: Verify canonical dependency boundary without network access
+        run: python3 -m unittest discover -s tools/tests -v
 
       - name: Verify Knowledge Garden compiler, recovery, aspects, and deployment entry
         shell: bash

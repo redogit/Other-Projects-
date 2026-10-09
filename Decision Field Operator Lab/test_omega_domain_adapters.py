@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+import sys
 import unittest
 
 from omega_adapters import (
@@ -10,7 +11,10 @@ from omega_adapters import (
     project_suggestion_record,
 )
 
-ROOT = Path(__file__).parent.parent
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "tools"))
+
+from hodge_dependency import resolve_artifact
 
 
 def read_json(path):
@@ -123,7 +127,7 @@ class OmegaDomainAdapterTests(unittest.TestCase):
             project_suggestion_record({**native, "authority": "experience-authority"})
 
     def test_hodge_frozen_bridge_preserves_candidate_authority_and_full_chronology(self):
-        native = read_json("Hodge Span Lab/evidence/issue43_bridge_calibration_result.json")
+        native = json.loads(resolve_artifact("issue43_bridge_calibration").read_text(encoding="utf-8"))
         omega = project_hodge_bridge(native)
         self.assertEqual(omega["nativeType"], "hodge-deformation-bridge-result/v0")
         self.assertEqual(omega["path"], native["source"]["actions"])
@@ -134,7 +138,7 @@ class OmegaDomainAdapterTests(unittest.TestCase):
         self.assertEqual(omega["evidence"][0]["kind"], "candidate-test-only")
 
     def test_hodge_stronger_unknown_authority_fails_closed(self):
-        native = read_json("Hodge Span Lab/evidence/issue43_bridge_calibration_result.json")
+        native = json.loads(resolve_artifact("issue43_bridge_calibration").read_text(encoding="utf-8"))
         with self.assertRaisesRegex(ValueError, "candidate-test-only"):
             project_hodge_bridge({**native, "authority": "proof"})
 

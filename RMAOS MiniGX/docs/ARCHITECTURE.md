@@ -22,7 +22,9 @@ The Android runtime verifies schema/digest/cardinality/execution order/endpoints
 
 ## Single-source shader carrier
 
-Root `shaders/` are authoritative. Gradle syncs them into generated APK assets; committed duplicate Android shader copies are forbidden. CI byte-compares packaged assets back to root source.
+The W114 circuit and fragment shader are authoritative in the canonical Hodge repository. The root dependency lock pins their commit and SHA-256 checksums. Explicit `python3 tools/hodge_dependency.py fetch` from the repository root provisions a verified checkout; consumers do not fetch implicitly or fall back to deleted local copies.
+
+The generic fullscreen vertex shader remains under MiniGX `shaders/`. Gradle tracks the lock, resolver, compiler, asset generator, both canonical inputs and vertex shader, then generates the Java contract, IR and APK shader assets. The generator removes stale owned assets. CI byte-compares packaged shaders and the entire IR, including canonical raw-source provenance, and rejects duplicate or unexpected MiniGX assets. Committed duplicate Android shader copies are forbidden.
 
 ## Scientific boundary
 

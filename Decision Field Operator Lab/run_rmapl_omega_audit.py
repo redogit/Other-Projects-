@@ -29,6 +29,10 @@ from rmapl_runtime import (
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
+sys.path.insert(0, str(ROOT / "tools"))
+
+from hodge_dependency import resolve_artifact
+
 EVIDENCE_PATH = HERE / "evidence" / "RMAPL_OMEGA_RESULTS.json"
 
 CLAIM_CEILING = [
@@ -276,7 +280,7 @@ RUN
 
 def _check_hodge_ceiling():
     native = json.loads(
-        (ROOT / "Hodge Span Lab" / "evidence" / "issue43_bridge_calibration_result.json")
+        resolve_artifact("issue43_bridge_calibration")
         .read_text(encoding="utf-8")
     )
     omega = project_hodge_bridge(native)
