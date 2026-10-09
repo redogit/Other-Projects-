@@ -1,4 +1,9 @@
-# W114 Perturbation Lab — Android
-Local Android build of the W114 candidate-stability game. No INTERNET permission. State remains local unless explicitly exported. JSON import/export, clipboard transfer, haptics, and resizable/foldable display support remain enabled.
+# W114 Perturbation Lab relocated
 
-Boundaries: APK_BUILD_PASS != DEVICE_RUNTIME_PASS; ROBUST_GAME_CANDIDATE != ALGEBRAIC_CYCLE; SOFTWARE_VERIFICATION != MATHEMATICAL_PROOF.
+The active W114 Android perturbation surface now lives in the dedicated Hodge repository:
+
+https://github.com/redogit/hodge/tree/main/experiments/w114-perturbation/android
+
+The W114-specific RMAL circuit and shader moved with it. Generic RMAOS MiniGX infrastructure remains in this repository as a shared dependency.
+
+Historical versions remain available through Git history.
