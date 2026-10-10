@@ -1,0 +1,35 @@
+{
+  "schema": "hodge-dependency/v1",
+  "repository": "redogit/hodge",
+  "revision": "365ce68da4f1d8dee3fd3cc7344b5e085dec364f",
+  "validated_head": "ac0eac30105c6241b3dbb3f8fdb86d85824f86b9",
+  "validated_tree": "7ed95a18946999e2b805a2b63dcdabc00aee76ed",
+  "source_repository": "redogit/Other-Projects-",
+  "source_revision": "4a05785e4376c558ed7ad761f89db9dd241bca7b",
+  "policy": "Canonical upstream artifacts are consumed read-only. The ignored checkout is a disposable dependency, not a competing authoritative copy. A hash witnesses byte equality, not mathematical validity.",
+  "artifacts": {
+    "issue43_bridge_calibration": {
+      "path": "research/span-lab/evidence/issue43_bridge_calibration_result.json",
+      "source_path": "Hodge Span Lab/evidence/issue43_bridge_calibration_result.json",
+      "git_blob": "f837d5d7ffea1d5912f249432c0a220ed4d45680",
+      "sha256": "196cf88cce20a55ebb236df14fbcfd5c9ef9d887c015201b222b5771bf56302f"
+    },
+    "w114_circuit": {
+      "path": "experiments/w114-perturbation/rmaos/circuits/w114_perturbation.rmal",
+      "source_path": "RMAOS MiniGX/circuits/w114_perturbation.rmal",
+      "git_blob": "f73de2f53acf70e33967a336e75015ab8601b4aa",
+      "sha256": "2f234c3840ec6c30bb3b4ef096efbc560d5ab6d9b525154c2db44c20662eb363"
+    },
+    "w114_shader": {
+      "path": "experiments/w114-perturbation/rmaos/shaders/w114_field.frag",
+      "source_path": "RMAOS MiniGX/shaders/w114_field.frag",
+      "git_blob": "d29f50529d0db69ebeceb2cdf4005a30196ec13a",
+      "sha256": "adedff0ee052ff00b5f977c864dd1d9a2a398b775b1e52200069a64986d0c34c"
+    }
+  },
+  "boundaries": [
+    "SOFTWARE_VERIFICATION != MATHEMATICAL_PROOF",
+    "METHOD_TRANSFER != EVIDENCE_TRANSFER",
+    "BYTE_IDENTITY != SEMANTIC_TRUTH"
+  ]
+}

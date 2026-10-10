@@ -80,9 +80,11 @@ See [publication evidence](evidence/PUBLICATION_CHECKS.json) for fresh checks an
 ## Blank Page and Hodge research aids
 
 - [Blank Page Lab](Blank%20Page%20Lab/README.md) — inspect exact marks, observer/context distinctions and the unresolved historical route to `OLU_Surface` and `OLU_Context`; preserves recollection separately from documented sequence.
-- [Hodge Span Lab](Hodge%20Span%20Lab/README.md) — exact rational ranks and checkable separating covectors for supplied cycle/target vectors. A linear-algebra aid, not a geometric proof or an automatic Hodge-class detector.
+- [Hodge Span Lab](https://github.com/redogit/hodge/tree/main/research/span-lab) — canonical Hodge research in `redogit/hodge`; exact rational ranks and checkable separating covectors for supplied cycle/target vectors. A linear-algebra aid, not a geometric proof or an automatic Hodge-class detector.
 
-Both are local Python standard-library tools with examples and bounded tests. These are subprojects, not new repositories. No deployment, private archive publication or promotion of an open conjecture is implied.
+Blank Page Lab remains local. Shared Decision Field and MiniGX consumers use the
+[pinned canonical Hodge dependency](dependencies/README.md). No deployment,
+private archive publication or promotion of an open conjecture is implied.
 
 ## Explore connected work
 

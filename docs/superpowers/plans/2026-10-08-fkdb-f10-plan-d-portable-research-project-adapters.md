@@ -6,7 +6,8 @@ without requiring their remote APIs.
 ## Design
 
 Use one generic `PortableProviderAdapter` configured by provider policy rather than four
-independent parsers. Input is a user-selected JSON/JSONL artifact under an allowed root.
+independent parsers. The implemented input is one user-selected JSON envelope under
+an allowed root; JSONL is not implemented.
 
 Provider policies:
 
@@ -24,9 +25,11 @@ exported_at
 records[]
 ```
 
-Each record must preserve provider source identity and raw JSON payload. Optional common
-fields (query, title, authors, doi_or_url, source_url, external_id, parent_id, labels)
-are copied only when present; absence remains absence.
+Each record preserves provider source identity and JSON field values. Its carrier payload
+is deterministic canonical JSON (sorted keys and compact separators), hashed as emitted;
+original export-file formatting is not preserved. Optional common fields (query, title,
+authors, doi_or_url, source_url, external_id, parent_id, labels) remain in the record when
+present; absent fields are not inferred.
 
 ## Security / evidence rules
 
@@ -44,7 +47,10 @@ are copied only when present; absence remains absence.
 ## Verification
 
 Add one generic adapter module and tests covering all four provider policies, malformed
-envelopes, record limits, raw-payload preservation and authority separation. Register
+envelopes, record limits, JSON-value preservation and authority separation. Register
 four known adapter IDs in code while production policy remains opt-in.
 
-After Plan D, Plan E admits validated ToolCarriers into the FKDB source index.
+Plan D and the Plan E callable admission/index-overlay helpers are implemented on
+PR #119. Historical exact-head receipts at `2a7180c...` and the pending repaired/integrated
+head gate are recorded in the [Plan D/E progress ledger](2026-10-08-fkdb-f10-plan-d-e-portable-admission-progress.md).
+No automatic browser/HTTP collection-to-index workflow is claimed.

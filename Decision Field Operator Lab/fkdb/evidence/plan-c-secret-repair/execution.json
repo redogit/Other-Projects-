@@ -1,0 +1,26 @@
+{
+  "schema": "fkdb/plan-c-secret-repair-execution/v1",
+  "baseline_pr119_head": "2a7180c7e26117e2834603ac0be82fda186ec016",
+  "integrated_main": "51b30bd28239b29eab68bf64c472d68923827166",
+  "retained_pr118_head": "661a66738a21e94ad7ae57de6ed27ef4bc05d10c",
+  "synthetic_data_only": true,
+  "red_green_log_sha256": {
+    "fkdb-ads-stream-red.txt": "8eec1697bb4a56c5ed2e9efd7df29e4f3dbf6498055cc07185ae80128e309a02",
+    "fkdb-http-import-green.txt": "415337d64689e58fb09995c2b659ba2567bd90d7620c9371fd5449701462a99e",
+    "fkdb-http-import-red.txt": "14ae2571ff49d08fa529186842c23dfd10f5ffa1e60553e7861a1b2bd3655d3d",
+    "fkdb-plan-c-repair-source-sha256.txt": "7dd583bb5f68e303fd72cb91c4116a8fa4db9a32ae02a1b144ef317dd7c7d37b",
+    "fkdb-plan-c-secrets-green.txt": "3b4992d39188019b6903f16253ae52fba8f9e5eddf56d55284d7db74f831fbb1",
+    "fkdb-plan-c-secrets-prefix-red.txt": "aa65c4b75e2ae49331d8fe642d5e5de2815d2670e22974933a7ab28b4afd9720",
+    "fkdb-plan-c-secrets-red.txt": "97b6c855852780073ac7a90acd43778e06e2b165478f3506043d746a8f6002b8",
+    "fkdb-provider-origin-red.txt": "6b255459fbdeab202718d8cae9fdf0826ff693880fc9beb5466ba1ff4d667886",
+    "fkdb-python-discovery-green.txt": "6b432b9a575b19b722ddef4be41560d8a01d0ad103e7dc09fbee1b7af26185f0",
+    "fkdb-relabelled-import-red.txt": "6c013a932401fc2d893ae883cbf3bb75f9410e189c902135588c70bd0354f486"
+  },
+  "local_native_build": {
+    "compiler": "GCC 13.3.0",
+    "result": "FAILED_UPSTREAM_REQUIRES_FINAL_ISO_C23",
+    "native_ctest_attempt": "16 targets not run because native binaries were unavailable; Python FKDB targets passed",
+    "scope": "supplemental environment attempt; not the Linux/Windows acceptance matrix"
+  },
+  "acceptance": "PENDING_EXACT_REVISED_HEAD_LINUX_WINDOWS_AND_BROAD_CI"
+}

@@ -5,10 +5,16 @@ on:
     branches: [main]
     paths:
       - 'Decision Field Operator Lab/rmal-browser/**'
+      - 'Decision Field Operator Lab/tools/fkdb_*.py'
+      - 'Decision Field Operator Lab/test_fkdb_*.py'
+      - 'Decision Field Operator Lab/fkdb/**'
       - '.github/workflows/rmal-browser-bootstrap.yml'
   pull_request:
     paths:
       - 'Decision Field Operator Lab/rmal-browser/**'
+      - 'Decision Field Operator Lab/tools/fkdb_*.py'
+      - 'Decision Field Operator Lab/test_fkdb_*.py'
+      - 'Decision Field Operator Lab/fkdb/**'
       - '.github/workflows/rmal-browser-bootstrap.yml'
   workflow_dispatch:
 

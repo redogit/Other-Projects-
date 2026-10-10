@@ -8,7 +8,9 @@ on:
       - '.github/workflows/operator-field-check.yml'
       - 'BIDIRECTIONAL_HANDOFF_ADAPTER_2026-09-20.json'
       - 'evidence/RMAL_BIDIRECTIONAL_HANDOFF_RESPONSE_2026-09-20.json'
-      - 'Hodge Span Lab/evidence/issue43_bridge_calibration_result.json'
+      - 'dependencies/hodge.lock.json'
+      - 'tools/hodge_dependency.py'
+      - 'tools/tests/**'
       - 'Generalized Semantic Fitting Language/evidence/RESULTS.json'
   pull_request:
     paths:
@@ -16,7 +18,9 @@ on:
       - '.github/workflows/operator-field-check.yml'
       - 'BIDIRECTIONAL_HANDOFF_ADAPTER_2026-09-20.json'
       - 'evidence/RMAL_BIDIRECTIONAL_HANDOFF_RESPONSE_2026-09-20.json'
-      - 'Hodge Span Lab/evidence/issue43_bridge_calibration_result.json'
+      - 'dependencies/hodge.lock.json'
+      - 'tools/hodge_dependency.py'
+      - 'tools/tests/**'
       - 'Generalized Semantic Fitting Language/evidence/RESULTS.json'
   workflow_dispatch:
 
@@ -46,6 +50,14 @@ jobs:
           git fetch --depth=1 origin "$VERIFY_SHA"
           git checkout --detach FETCH_HEAD
           test "$(git rev-parse HEAD)" = "$VERIFY_SHA"
+
+      - name: Fetch and verify pinned canonical Hodge dependency
+        run: |
+          python3 tools/hodge_dependency.py fetch
+          python3 tools/hodge_dependency.py verify
+
+      - name: Test Hodge dependency verification
+        run: python3 -m unittest discover -s tools/tests -v
 
       - name: Run exact bounded tests
         run: python3 -m unittest discover -s "Decision Field Operator Lab" -p "test_*.py" -v

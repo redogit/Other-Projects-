@@ -1,0 +1,71 @@
+source_head: 9493a762d947c4d259f3a468acb252fb21ea8389
+command: python3 -m unittest -v test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id
+cwd: /workspace/scratch/95447ff1684b/other-projects/Decision Field Operator Lab
+exit_code: 1
+
+test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id (test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id) ... 
+  test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id (test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id) (provider='supabase', boundary='validator') ... FAIL
+  test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id (test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id) (provider='supabase', boundary='projection') ... FAIL
+  test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id (test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id) (provider='supabase', boundary='overlay') ... FAIL
+  test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id (test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id) (provider='railway', boundary='validator') ... FAIL
+  test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id (test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id) (provider='railway', boundary='projection') ... FAIL
+  test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id (test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id) (provider='railway', boundary='overlay') ... FAIL
+
+======================================================================
+FAIL: test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id (test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id) (provider='supabase', boundary='validator')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/95447ff1684b/other-projects/Decision Field Operator Lab/test_fkdb_infrastructure_secrets.py", line 341, in test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id
+    with self.assertRaisesRegex(ValueError, "secret-sensitive"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id (test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id) (provider='supabase', boundary='projection')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/95447ff1684b/other-projects/Decision Field Operator Lab/test_fkdb_infrastructure_secrets.py", line 341, in test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id
+    with self.assertRaisesRegex(ValueError, "secret-sensitive"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id (test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id) (provider='supabase', boundary='overlay')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/95447ff1684b/other-projects/Decision Field Operator Lab/test_fkdb_infrastructure_secrets.py", line 341, in test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id
+    with self.assertRaisesRegex(ValueError, "secret-sensitive"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id (test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id) (provider='railway', boundary='validator')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/95447ff1684b/other-projects/Decision Field Operator Lab/test_fkdb_infrastructure_secrets.py", line 341, in test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id
+    with self.assertRaisesRegex(ValueError, "secret-sensitive"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id (test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id) (provider='railway', boundary='projection')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/95447ff1684b/other-projects/Decision Field Operator Lab/test_fkdb_infrastructure_secrets.py", line 341, in test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id
+    with self.assertRaisesRegex(ValueError, "secret-sensitive"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id (test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id) (provider='railway', boundary='overlay')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/95447ff1684b/other-projects/Decision Field Operator Lab/test_fkdb_infrastructure_secrets.py", line 341, in test_declared_provider_origin_cannot_be_hidden_by_a_changed_tool_id
+    with self.assertRaisesRegex(ValueError, "secret-sensitive"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=6)

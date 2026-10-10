@@ -5,6 +5,8 @@ import json
 from pathlib import Path
 import re
 
+from fkdb_secret_paths import reject_secret_sensitive_infrastructure_sources
+
 
 HERE = Path(__file__).resolve().parent
 LAB = HERE.parent
@@ -78,6 +80,7 @@ def overlay_external_records(data: dict, external_records: list[dict]) -> dict:
                       "recovery_display", "relations", "terms"):
             if field not in record:
                 raise ValueError(f"external index record {rid} requires {field}")
+        reject_secret_sensitive_infrastructure_sources(record, include_source_refs=True)
         merged["records"].append(record)
         existing.add(rid)
     return merged

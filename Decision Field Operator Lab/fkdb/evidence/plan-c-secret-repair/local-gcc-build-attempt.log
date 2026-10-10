@@ -1,0 +1,60 @@
+[1/21] Building C object _deps/rmal_authority-build/CMakeFiles/rmal.dir/src/word_dna.c.o
+FAILED: [code=1] _deps/rmal_authority-build/CMakeFiles/rmal.dir/src/word_dna.c.o 
+/usr/bin/gcc  -I/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/include -O3 -DNDEBUG -std=c2x -Wall -Wextra -Wpedantic -Werror -MD -MT _deps/rmal_authority-build/CMakeFiles/rmal.dir/src/word_dna.c.o -MF _deps/rmal_authority-build/CMakeFiles/rmal.dir/src/word_dna.c.o.d -o _deps/rmal_authority-build/CMakeFiles/rmal.dir/src/word_dna.c.o -c /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/word_dna.c
+In file included from /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/include/rmal/word_dna.h:4,
+                 from /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/word_dna.c:1:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/include/rmal/rmal.h:5:2: error: #error RMALC 3.1 requires ISO C23 or newer
+    5 | #error RMALC 3.1 requires ISO C23 or newer
+      |  ^~~~~
+[2/21] Building C object _deps/rmal_authority-build/CMakeFiles/rmal.dir/src/rmal.c.o
+FAILED: [code=1] _deps/rmal_authority-build/CMakeFiles/rmal.dir/src/rmal.c.o 
+/usr/bin/gcc  -I/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/include -O3 -DNDEBUG -std=c2x -Wall -Wextra -Wpedantic -Werror -MD -MT _deps/rmal_authority-build/CMakeFiles/rmal.dir/src/rmal.c.o -MF _deps/rmal_authority-build/CMakeFiles/rmal.dir/src/rmal.c.o.d -o _deps/rmal_authority-build/CMakeFiles/rmal.dir/src/rmal.c.o -c /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/rmal.c
+In file included from /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/c23/part01.inc:1,
+                 from /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/rmal.c:1:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/include/rmal/rmal.h:5:2: error: #error RMALC 3.1 requires ISO C23 or newer
+    5 | #error RMALC 3.1 requires ISO C23 or newer
+      |  ^~~~~
+In file included from /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/rmal.c:3:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/c23/part03.inc: In function ‘is_directive_name’:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/c23/part03.inc:89:5: error: this ‘for’ clause does not guard... [-Werror=misleading-indentation]
+   89 |     for(size_t i=0;i<sizeof names/sizeof names[0];i++)if(strcmp(s,names[i])==0)return true;return false;
+      |     ^~~
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/c23/part03.inc:89:92: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   89 |     for(size_t i=0;i<sizeof names/sizeof names[0];i++)if(strcmp(s,names[i])==0)return true;return false;
+      |                                                                                            ^~~~~~
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/c23/part03.inc: In function ‘directive_payload’:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/c23/part03.inc:96:9: error: this ‘if’ clause does not guard... [-Werror=misleading-indentation]
+   96 |         if(len)buf[len++]=' ';memcpy(buf+len,s,n);len+=n;buf[len]='\0';p->i++;
+      |         ^~
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/c23/part03.inc:96:31: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   96 |         if(len)buf[len++]=' ';memcpy(buf+len,s,n);len+=n;buf[len]='\0';p->i++;
+      |                               ^~~~~~
+In file included from /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/rmal.c:4:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/c23/part04.inc: In function ‘rmal_compile’:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/c23/part04.inc:54:5: error: this ‘for’ clause does not guard... [-Werror=misleading-indentation]
+   54 |     for(size_t i=0;i<p->count;i++)if(p->stmts[i]->kind!=ST_FUNCTION)if(!emit_stmt(b,p->stmts[i],&b->main_code,st))goto fail;if(!ins_push(&b->main_code,(Ins){OP_HALT,0,0,0,0}))goto oom;set_status(st,true,0,0,"ok");return b;
+      |     ^~~
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/c23/part04.inc:54:125: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   54 |     for(size_t i=0;i<p->count;i++)if(p->stmts[i]->kind!=ST_FUNCTION)if(!emit_stmt(b,p->stmts[i],&b->main_code,st))goto fail;if(!ins_push(&b->main_code,(Ins){OP_HALT,0,0,0,0}))goto oom;set_status(st,true,0,0,"ok");return b;
+      |                                                                                                                             ^~
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/c23/part04.inc: In function ‘exec_code’:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/c23/part04.inc:115:17: error: this ‘for’ clause does not guard... [-Werror=misleading-indentation]
+  115 |                 for(size_t i=0;i<argc;i++)rmal_value_free(&args[i]);free(args);
+      |                 ^~~
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/c23/part04.inc:115:69: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+  115 |                 for(size_t i=0;i<argc;i++)rmal_value_free(&args[i]);free(args);
+      |                                                                     ^~~~
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/c23/part04.inc:118:17: error: this ‘for’ clause does not guard... [-Werror=misleading-indentation]
+  118 |                 for(size_t i=0;i<argc;i++)rmal_value_free(&args[i]);free(args);
+      |                 ^~~
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/c23/part04.inc:118:69: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+  118 |                 for(size_t i=0;i<argc;i++)rmal_value_free(&args[i]);free(args);
+      |                                                                     ^~~~
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/c23/part04.inc:121:17: error: this ‘for’ clause does not guard... [-Werror=misleading-indentation]
+  121 |                 for(size_t i=0;i<argc;i++)rmal_value_free(&args[i]);free(args);
+      |                 ^~~
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-src/src/c23/part04.inc:121:69: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+  121 |                 for(size_t i=0;i<argc;i++)rmal_value_free(&args[i]);free(args);
+      |                                                                     ^~~~
+cc1: all warnings being treated as errors
+ninja: build stopped: subcommand failed.

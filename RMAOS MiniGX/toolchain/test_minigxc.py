@@ -3,7 +3,8 @@ import random,tempfile,unittest,sys
 ROOT=Path(__file__).parent
 sys.path.insert(0,str(ROOT))
 import minigxc
-SOURCE=ROOT.parent/"circuits"/"w114_perturbation.rmal"
+from hodge_assets import canonical_source
+SOURCE=canonical_source()
 
 class MiniGXCompilerTests(unittest.TestCase):
     def test_canonical_compile_is_deterministic(self):

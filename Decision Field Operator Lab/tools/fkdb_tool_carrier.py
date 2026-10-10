@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from fkdb_secret_paths import reject_secret_sensitive_infrastructure_sources
 
 TOOL_CARRIER_SCHEMA = "fkdb/tool-carrier/v1"
 TOOL_BUNDLE_SCHEMA = "fkdb/tool-bundle/v1"
@@ -137,6 +138,8 @@ def validate_tool_carrier(
         raise ValueError("ToolCarrier cost must be an object")
     for field in ("relations", "loss", "remainder"):
         _require_list(value, field)
+
+    reject_secret_sensitive_infrastructure_sources(value)
 
     payload = _payload_bytes(value.get("payload"))
     if len(payload) > max_payload_bytes:

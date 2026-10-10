@@ -551,8 +551,8 @@ IMPORT != EVIDENCE_PROMOTION
 LOCAL_TOOL_BRIDGE_UNAVAILABLE != FKDB_UNAVAILABLE
 ```
 
-Vendor adapters and remote synchronization are deliberately outside this verified
-boundary.
+Vendor adapters and remote synchronization are outside the Plan A boundary described
+here. Later sections record the separately implemented adapter increments.
 
 ## FKDB F10 Plan B local workflow adapters
 
@@ -630,3 +630,42 @@ Linux   55/55 PASS
 Windows 55/55 PASS
 Decision Field broad audit PASS
 ```
+
+
+The 55/55 receipt above is historical and does not establish complete secret exclusion.
+PR #118 retained `PLAN-C-SECRET-001` (Railway explicit secret-like snapshots),
+`PLAN-C-SECRET-002` (Supabase secret-like directories) and `PLAN-C-MATRIX-001`
+(the exact newer-head matrix gap). PR #119 carries the scoped repairs and retains
+those witnesses in the [Plan C progress ledger](../../docs/superpowers/plans/2026-10-05-fkdb-f10-plan-c-local-infrastructure-adapters-progress.md).
+Secret-path exclusion is a filename/path policy, not a guarantee that arbitrary
+configuration, migration or log payloads contain no credentials. Static payload limits
+do not establish bounded directory enumeration or race-hard reads.
+
+## FKDB F10 Plan D/E portable providers and index admission
+
+SciSpace, Consensus, Exa and Linear portable JSON envelope adapters are implemented
+with provider identity, explicit authority scopes and unverified record status.
+Carrier JSON preserves record values through canonical serialization; original export
+formatting is not retained. Production enablement remains empty/opt-in.
+
+ToolCarrier admission and `EXT-` index overlay helpers preserve source identity,
+provenance and evidence status, reject duplicate/colliding IDs and leave canonical
+static records intact. Explicit same-subject/different-claim contradictions remain
+unresolved. No automatic browser/HTTP collection-to-index route or evidence promotion
+is claimed. The tested admission payload ceiling is per carrier, and the default
+index term ceiling is 32 per record.
+
+Historical exact-head receipts at `2a7180c7e26117e2834603ac0be82fda186ec016`:
+
+| Gate | Receipt |
+| --- | --- |
+| Dedicated Linux | [57/57 CTest targets](https://github.com/redogit/Other-Projects-/actions/runs/37764369121/job/113268261453) |
+| Dedicated Windows | [57/57 CTest targets](https://github.com/redogit/Other-Projects-/actions/runs/37764369121/job/113268261909) |
+| Broad Decision Field audit | [356 unittest tests and all evidence/stress steps PASS](https://github.com/redogit/Other-Projects-/actions/runs/37764369185/job/113268466797) |
+
+These receipts verify the prior rollout head. They do not verify the secret-path repairs
+or integration with `main` at `51b30bd28239b29eab68bf64c472d68923827166`.
+Final repaired-head Linux/Windows and broad audit receipts remain pending; the current
+broad gate also fetches/verifies the pinned Hodge dependency and runs its tests.
+See [CURRENT](../fkdb/CURRENT.md) and the
+[Plan D/E progress ledger](../../docs/superpowers/plans/2026-10-08-fkdb-f10-plan-d-e-portable-admission-progress.md).

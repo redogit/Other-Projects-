@@ -685,6 +685,18 @@ set_tests_properties(
       "OK"
 )
 
+add_test(
+  NAME fkdb_infrastructure_secrets
+  COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_infrastructure_secrets.py"
+)
+set_tests_properties(fkdb_infrastructure_secrets PROPERTIES PASS_REGULAR_EXPRESSION "OK")
+
+add_test(
+  NAME fkdb_infrastructure_secret_import
+  COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/../test_fkdb_infrastructure_secret_import.py"
+)
+set_tests_properties(fkdb_infrastructure_secret_import PROPERTIES PASS_REGULAR_EXPRESSION "OK")
+
 
 add_test(
   NAME fkdb_adapter_portable_provider

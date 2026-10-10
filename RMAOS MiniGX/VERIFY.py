@@ -1,16 +1,20 @@
 from pathlib import Path
 import json,subprocess,sys,tempfile
-ROOT=Path(__file__).parent
+ROOT=Path(__file__).resolve().parent
+sys.path.insert(0,str(ROOT/'toolchain'))
+from hodge_assets import canonical_source,canonical_shader
+SOURCE=canonical_source();SHADER=canonical_shader()
 with tempfile.TemporaryDirectory() as td:
     td=Path(td);out=td/'graph.json';java=td/'MiniGXGraph.java'
-    subprocess.run([sys.executable,str(ROOT/'toolchain/minigxc.py'),str(ROOT/'circuits/w114_perturbation.rmal'),'--out',str(out),'--java',str(java)],check=True,stdout=subprocess.DEVNULL)
+    subprocess.run([sys.executable,str(ROOT/'toolchain/minigxc.py'),str(SOURCE),'--out',str(out),'--java',str(java)],check=True,stdout=subprocess.DEVNULL)
     ir=json.loads(out.read_text());graph=java.read_text()
-manifest=(ROOT/'android/rmaos-minigx/app/src/main/AndroidManifest.xml').read_text();renderer=(ROOT/'android/rmaos-minigx/app/src/main/java/org/rmaos/mingx/MiniGXRenderer.java').read_text();circuit=(ROOT/'android/rmaos-minigx/app/src/main/java/org/rmaos/mingx/MiniGXCircuit.java').read_text();frag=(ROOT/'shaders/w114_field.frag').read_text();vert=(ROOT/'shaders/fullscreen.vert').read_text();game=(ROOT/'android/rmaos-minigx/app/src/main/java/org/rmaos/mingx/MiniGXGameState.java').read_text();gradle=(ROOT/'android/rmaos-minigx/app/build.gradle').read_text()
+manifest=(ROOT/'android/rmaos-minigx/app/src/main/AndroidManifest.xml').read_text();renderer=(ROOT/'android/rmaos-minigx/app/src/main/java/org/rmaos/mingx/MiniGXRenderer.java').read_text();circuit=(ROOT/'android/rmaos-minigx/app/src/main/java/org/rmaos/mingx/MiniGXCircuit.java').read_text();frag=SHADER.read_text();vert=(ROOT/'shaders/fullscreen.vert').read_text();game=(ROOT/'android/rmaos-minigx/app/src/main/java/org/rmaos/mingx/MiniGXGameState.java').read_text();gradle=(ROOT/'android/rmaos-minigx/app/build.gradle').read_text()
 assert ir['schema']=='rmaos/minigx-ir/v1' and len(ir['nodes'])==13 and len(ir['edges'])==17 and ir['provenance']['source_sha256'].startswith('sha256:')
 assert ir['digest'] in graph and 'package org.rmaos.mingx.generated;' in graph
 assert 'android.permission.INTERNET' not in manifest and 'android.permission.VIBRATE' in manifest and 'WebView' not in renderer
-assert "applicationId 'org.rmaos.mingx'" in gradle and 'generateMiniGX' in gradle and 'syncMiniGXShaders' in gradle
+assert "applicationId 'org.rmaos.mingx'" in gradle and 'generateMiniGX' in gradle and 'hodge_assets.py' in gradle
 assert not (ROOT/'android/rmaos-minigx/app/src/main/assets/shaders').exists()
+assert not (ROOT/'circuits/w114_perturbation.rmal').exists() and not (ROOT/'shaders/w114_field.frag').exists()
 for token in ['OBSERVER_CHANNELS','TRANSFORM_SET','W114_FIELD','COGNATE_LINKS','TRACE_TAP','ROBUST_SCORE']:assert any(n['op']==token for n in ir['nodes'])
 for token in ['circuit.param("W114_FIELD","vertex_shader")','circuit.param("W114_FIELD","shader")','circuit.intParam("OBSERVER_CHANNELS","count")','circuit.floatParam("FRAME_FEEDBACK","decay")','circuit.floatParam("BLOOM_TONEMAP","bloom")']:assert token in renderer
 for token in ['RUNTIME_OPS','No MiniGX runtime backend for op','execution order incomplete','validateBackendContract','Unsupported MiniGX value','MiniGX integer out of range','MiniGX float out of range','Unsafe MiniGX shader path']:assert token in circuit
@@ -19,7 +23,7 @@ assert '#version 310 es' in vert
 
 import re
 active_text="\n".join([
-    (ROOT/'circuits/w114_perturbation.rmal').read_text(),
+    SOURCE.read_text(),
     renderer,
     circuit,
     frag,

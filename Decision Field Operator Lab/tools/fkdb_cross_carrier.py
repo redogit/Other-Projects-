@@ -4,6 +4,7 @@ import json
 import re
 from typing import Any
 
+from fkdb_secret_paths import reject_secret_sensitive_infrastructure_sources
 from fkdb_tool_carrier import validate_tool_carrier
 
 
@@ -78,6 +79,7 @@ def build_external_index_records(records: list[dict[str,Any]], *, max_terms: int
     if type(max_terms) is not int or max_terms<1: raise ValueError("max_terms must be positive")
     output=[]
     for rec in records:
+        reject_secret_sensitive_infrastructure_sources(rec)
         payload=rec["payload"]
         try: parsed=json.loads(payload) if rec["payload_type"]=="application/json" else payload
         except json.JSONDecodeError: parsed=payload

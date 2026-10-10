@@ -1,0 +1,70 @@
+source_head: 9493a762d947c4d259f3a468acb252fb21ea8389
+command: python3 -m unittest -v test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import test_fkdb_infrastructure_secret_import.InfrastructureSecretHttpImportTests.test_relabelled_retained_sources_are_denied_over_http
+cwd: /workspace/scratch/95447ff1684b/other-projects/Decision Field Operator Lab
+exit_code: 1
+
+test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import (test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import) ... 
+  test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import (test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import) (tool_id='supabase', boundary='validator') ... FAIL
+  test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import (test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import) (tool_id='supabase', boundary='bundle') ... FAIL
+  test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import (test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import) (tool_id='railway', boundary='validator') ... FAIL
+  test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import (test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import) (tool_id='railway', boundary='bundle') ... FAIL
+test_relabelled_retained_sources_are_denied_over_http (test_fkdb_infrastructure_secret_import.InfrastructureSecretHttpImportTests.test_relabelled_retained_sources_are_denied_over_http) ... 
+  test_relabelled_retained_sources_are_denied_over_http (test_fkdb_infrastructure_secret_import.InfrastructureSecretHttpImportTests.test_relabelled_retained_sources_are_denied_over_http) (tool_id='supabase') ... FAIL
+  test_relabelled_retained_sources_are_denied_over_http (test_fkdb_infrastructure_secret_import.InfrastructureSecretHttpImportTests.test_relabelled_retained_sources_are_denied_over_http) (tool_id='railway') ... FAIL
+
+======================================================================
+FAIL: test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import (test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import) (tool_id='supabase', boundary='validator')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/95447ff1684b/other-projects/Decision Field Operator Lab/test_fkdb_infrastructure_secrets.py", line 340, in test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import
+    with self.assertRaisesRegex(ValueError, "secret-sensitive"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import (test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import) (tool_id='supabase', boundary='bundle')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/95447ff1684b/other-projects/Decision Field Operator Lab/test_fkdb_infrastructure_secrets.py", line 348, in test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import
+    with self.assertRaisesRegex(ValueError, "secret-sensitive"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import (test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import) (tool_id='railway', boundary='validator')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/95447ff1684b/other-projects/Decision Field Operator Lab/test_fkdb_infrastructure_secrets.py", line 340, in test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import
+    with self.assertRaisesRegex(ValueError, "secret-sensitive"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import (test_fkdb_infrastructure_secrets.InfrastructureSecretExclusionTests.test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import) (tool_id='railway', boundary='bundle')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/95447ff1684b/other-projects/Decision Field Operator Lab/test_fkdb_infrastructure_secrets.py", line 348, in test_relabelled_retained_sources_cannot_bypass_validation_or_bundle_import
+    with self.assertRaisesRegex(ValueError, "secret-sensitive"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_relabelled_retained_sources_are_denied_over_http (test_fkdb_infrastructure_secret_import.InfrastructureSecretHttpImportTests.test_relabelled_retained_sources_are_denied_over_http) (tool_id='supabase')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/95447ff1684b/other-projects/Decision Field Operator Lab/test_fkdb_infrastructure_secret_import.py", line 79, in test_relabelled_retained_sources_are_denied_over_http
+    self.assertEqual(status, 400, "relabelled retained forbidden carrier was admitted")
+AssertionError: 200 != 400 : relabelled retained forbidden carrier was admitted
+
+======================================================================
+FAIL: test_relabelled_retained_sources_are_denied_over_http (test_fkdb_infrastructure_secret_import.InfrastructureSecretHttpImportTests.test_relabelled_retained_sources_are_denied_over_http) (tool_id='railway')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/95447ff1684b/other-projects/Decision Field Operator Lab/test_fkdb_infrastructure_secret_import.py", line 79, in test_relabelled_retained_sources_are_denied_over_http
+    self.assertEqual(status, 400, "relabelled retained forbidden carrier was admitted")
+AssertionError: 200 != 400 : relabelled retained forbidden carrier was admitted
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.510s
+
+FAILED (failures=6)
