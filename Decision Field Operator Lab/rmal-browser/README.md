@@ -551,8 +551,8 @@ IMPORT != EVIDENCE_PROMOTION
 LOCAL_TOOL_BRIDGE_UNAVAILABLE != FKDB_UNAVAILABLE
 ```
 
-Vendor adapters and remote synchronization are deliberately outside this verified
-boundary.
+Vendor adapters and remote synchronization are outside the Plan A boundary described
+here. Later sections record the separately implemented adapter increments.
 
 ## FKDB F10 Plan B local workflow adapters
 
@@ -604,3 +604,85 @@ ZOTERO_LOCAL_API != ZOTERO_CLOUD
 WOLFRAM_EXECUTABLE_DISCOVERY != EXECUTION_AUTHORITY
 COLLECTED_TOOLCARRIER != FKDB_SOURCE_INDEX_ADMISSION
 ```
+
+## FKDB F10 Plan C local infrastructure adapters
+
+FKDB now includes cloud-optional, read-only infrastructure artifact adapters:
+
+```text
+Supabase -> local project config/migrations/seed/functions -> ToolCarrier
+Railway  -> current .railway/railway.ts + legacy/build/portable snapshots -> ToolCarrier
+```
+
+Neither adapter invokes a CLI, connects to a database, queries hosted deployment state,
+or requires a cloud account. Supabase migration/config artifacts do not establish applied
+database state. Railway repository/deploy artifacts do not establish live deployment
+success.
+
+Railway legacy `railway.json` / `railway.toml` remain recoverable with explicit
+deprecation and 2026-12-01 cutoff metadata; current authority prefers
+`.railway/railway.ts`.
+
+Verification at `461a1aab4487a33ada2eee6102cc87eb02840f15`:
+
+```text
+Linux   55/55 PASS
+Windows 55/55 PASS
+Decision Field broad audit PASS
+```
+
+
+The 55/55 receipt above is historical and does not establish complete secret exclusion.
+PR #118 retained `PLAN-C-SECRET-001` (Railway explicit secret-like snapshots),
+`PLAN-C-SECRET-002` (Supabase secret-like directories) and `PLAN-C-MATRIX-001`
+(the exact newer-head matrix gap). PR #119 carries the scoped repairs and retains
+those witnesses in the [Plan C progress ledger](../../docs/superpowers/plans/2026-10-05-fkdb-f10-plan-c-local-infrastructure-adapters-progress.md).
+Secret-path exclusion is a filename/path policy, not a guarantee that arbitrary
+configuration, migration or log payloads contain no credentials. Static payload limits
+do not establish bounded directory enumeration or race-hard reads.
+
+## FKDB F10 Plan D/E portable providers and index admission
+
+SciSpace, Consensus, Exa and Linear portable JSON envelope adapters are implemented
+with provider identity, explicit authority scopes and unverified record status.
+Carrier JSON preserves record values through canonical serialization; original export
+formatting is not retained. Production enablement remains empty/opt-in.
+
+ToolCarrier admission and `EXT-` index overlay helpers preserve source identity,
+provenance and evidence status, reject duplicate/colliding IDs and leave canonical
+static records intact. Explicit same-subject/different-claim contradictions remain
+unresolved. No automatic browser/HTTP collection-to-index route or evidence promotion
+is claimed. The tested admission payload ceiling is per carrier, and the default
+index term ceiling is 32 per record.
+
+Historical exact-head receipts at `2a7180c7e26117e2834603ac0be82fda186ec016`:
+
+| Gate | Receipt |
+| --- | --- |
+| Dedicated Linux | [57/57 CTest targets](https://github.com/redogit/Other-Projects-/actions/runs/37764369121/job/113268261453) |
+| Dedicated Windows | [57/57 CTest targets](https://github.com/redogit/Other-Projects-/actions/runs/37764369121/job/113268261909) |
+| Broad Decision Field audit | [356 unittest tests and all evidence/stress steps PASS](https://github.com/redogit/Other-Projects-/actions/runs/37764369185/job/113268466797) |
+
+These historical receipts verify the prior rollout head. Scoped secret-path repairs and
+integration with `main` at `51b30bd28239b29eab68bf64c472d68923827166` subsequently
+passed at exact repair head `49a0154d60d5f0d8a419c3ac808a11442e169402`:
+
+| Gate | Exact repair-head receipt |
+| --- | --- |
+| Dedicated Linux | [59/59 CTest targets](https://github.com/redogit/Other-Projects-/actions/runs/38022100985/job/114125101762) |
+| Dedicated Windows | [59/59 CTest targets](https://github.com/redogit/Other-Projects-/actions/runs/38022100985/job/114125101696) |
+| Broad audit | [376 bounded tests, 14 Hodge tests and 8 evidence/stress steps PASS](https://github.com/redogit/Other-Projects-/actions/runs/38022100692/job/114125100934) |
+
+The matrices retain Plan B and Plan D/E while adding secret-path and HTTP import
+regressions. All four unchanged PR #118 counterprobe cases now pass without admitting
+payloads. The repaired boundary also rejects recognizable retained infrastructure
+sources at validator/import/admission/index boundaries. Independent agent code review
+passed 82 affected tests with no remaining Critical/Important finding. Raw evidence and
+recovery guidance are retained in the [repair record](../fkdb/evidence/plan-c-secret-repair/README.md).
+
+The final documentation-head merge gate must rerun Linux/Windows and the current broad
+workflow at its own exact commit; live final-head receipts are tracked in
+[PR #119](https://github.com/redogit/Other-Projects-/pull/119). No success for that later
+commit is inferred from these repair-head receipts.
+See [CURRENT](../fkdb/CURRENT.md) and the
+[Plan D/E progress ledger](../../docs/superpowers/plans/2026-10-08-fkdb-f10-plan-d-e-portable-admission-progress.md).

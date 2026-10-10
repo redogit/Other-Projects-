@@ -1,0 +1,795 @@
+{
+  "schema": "fkdb/independent-ci-receipts/v1",
+  "verified_commit": "49a0154d60d5f0d8a419c3ac808a11442e169402",
+  "scope": "Repair implementation head; final metadata-head gates remain separate.",
+  "native": [
+    {
+      "label": "linux",
+      "run_id": 38022100985,
+      "job_id": 114125101762,
+      "url": "https://github.com/redogit/Other-Projects-/actions/runs/38022100985/job/114125101762",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Fetch exact verification commit",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Configure pinned RMAL/RMALC",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Build native bootstrap",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Execute RMAL/RMALC browser bootstrap tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        }
+      ],
+      "verify_sha_lines": [
+        "2026-10-10T03:52:49.5335040Z   VERIFY_SHA: 49a0154d60d5f0d8a419c3ac808a11442e169402",
+        "2026-10-10T03:52:50.1243854Z   VERIFY_SHA: 49a0154d60d5f0d8a419c3ac808a11442e169402",
+        "2026-10-10T03:52:54.6124289Z   VERIFY_SHA: 49a0154d60d5f0d8a419c3ac808a11442e169402",
+        "2026-10-10T03:52:56.6952830Z   VERIFY_SHA: 49a0154d60d5f0d8a419c3ac808a11442e169402"
+      ],
+      "checkout_lines": [
+        "2026-10-10T03:52:50.0367862Z  * branch            49a0154d60d5f0d8a419c3ac808a11442e169402 -> FETCH_HEAD",
+        "2026-10-10T03:52:50.1023061Z HEAD is now at 49a0154 Repair FKDB Plan C secret exclusions and integrate current main with retained Plan D/E"
+      ],
+      "compiler": [
+        "2026-10-10T03:52:53.0182720Z -- The C compiler identification is Clang 18.1.3"
+      ],
+      "configure_command": [
+        "2026-10-10T03:52:50.1176824Z ##[group]Run cmake -S \"Decision Field Operator Lab/rmal-browser\" -B build/rmal-browser -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_BUILD_TYPE=Release",
+        "2026-10-10T03:52:50.1178673Z \u001b[36;1mcmake -S \"Decision Field Operator Lab/rmal-browser\" -B build/rmal-browser -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_BUILD_TYPE=Release\u001b[0m"
+      ],
+      "build_command": [
+        "2026-10-10T03:52:54.6057807Z ##[group]Run cmake --build build/rmal-browser --parallel 2",
+        "2026-10-10T03:52:54.6058390Z \u001b[36;1mcmake --build build/rmal-browser --parallel 2\u001b[0m"
+      ],
+      "native_build_lines": [
+        "2026-10-10T03:52:55.5650745Z [1/21] Building C object _deps/rmal_authority-build/CMakeFiles/rmal.dir/src/word_dna.c.o",
+        "2026-10-10T03:52:55.6148562Z [2/21] Building C object CMakeFiles/browser_rmal_host.dir/browser_rmal_host.c.o",
+        "2026-10-10T03:52:55.6910047Z [3/21] Building C object CMakeFiles/browser_rmal_http_plan_host.dir/browser_rmal_http_plan_host.c.o",
+        "2026-10-10T03:52:55.7770640Z [4/21] Building C object CMakeFiles/browser_rmal_http_response_host.dir/browser_rmal_http_response_host.c.o",
+        "2026-10-10T03:52:55.8041226Z [5/21] Building C object _deps/rmal_authority-build/CMakeFiles/rmal.dir/src/rmal.c.o",
+        "2026-10-10T03:52:55.8622670Z [6/21] Building C object CMakeFiles/browser_rmal_url_host.dir/browser_rmal_url_host.c.o",
+        "2026-10-10T03:52:55.9119672Z [7/21] Building C object CMakeFiles/fkdb_rmal_host.dir/fkdb_rmal_host.c.o",
+        "2026-10-10T03:52:55.9136239Z [8/21] Building C object CMakeFiles/browser_rmal_input_host.dir/browser_rmal_input_host.c.o",
+        "2026-10-10T03:52:55.9599685Z [9/21] Building C object CMakeFiles/fkdb_query_host.dir/fkdb_query_host.c.o",
+        "2026-10-10T03:52:55.9766317Z [10/21] Building C object CMakeFiles/fkdb_live_query_host.dir/fkdb_live_query_host.c.o",
+        "2026-10-10T03:52:56.0309362Z [11/21] Building C object _deps/rmal_authority-build/CMakeFiles/rmalc.dir/src/main.c.o",
+        "2026-10-10T03:52:56.5073081Z [12/21] Linking C static library _deps/rmal_authority-build/librmal.a",
+        "2026-10-10T03:52:56.5419252Z [13/21] Linking C executable browser_rmal_http_plan_host",
+        "2026-10-10T03:52:56.5428578Z [14/21] Linking C executable browser_rmal_host",
+        "2026-10-10T03:52:56.5774996Z [15/21] Linking C executable browser_rmal_url_host",
+        "2026-10-10T03:52:56.5777587Z [16/21] Linking C executable browser_rmal_http_response_host",
+        "2026-10-10T03:52:56.6154747Z [17/21] Linking C executable fkdb_rmal_host",
+        "2026-10-10T03:52:56.6159668Z [18/21] Linking C executable browser_rmal_input_host",
+        "2026-10-10T03:52:56.6481066Z [19/21] Linking C executable fkdb_live_query_host",
+        "2026-10-10T03:52:56.6507614Z [20/21] Linking C executable fkdb_query_host",
+        "2026-10-10T03:52:56.6831686Z [21/21] Linking C executable _deps/rmal_authority-build/rmalc"
+      ],
+      "tests": [
+        {
+          "timestamp": "2026-10-10T03:52:57.3326246Z",
+          "name": "browser_rmalc_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.3394082Z",
+          "name": "browser_rmalc_compile",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.3454114Z",
+          "name": "browser_rmal_native_host",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.3466516Z",
+          "name": "browser_rmal_http_plan_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.3479261Z",
+          "name": "browser_rmal_http_plan_compile",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.3492431Z",
+          "name": "browser_rmal_http_plan_native",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.4079331Z",
+          "name": "browser_rmapl_http_plan_lowering_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.4979937Z",
+          "name": "browser_rmapl_rmal_http_plan_equivalence",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.4995074Z",
+          "name": "browser_rmal_http_response_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.5008615Z",
+          "name": "browser_rmal_http_response_compile",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.5026115Z",
+          "name": "browser_rmal_http_response_native",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.5578613Z",
+          "name": "browser_rmapl_http_response_lowering_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.6407408Z",
+          "name": "browser_rmapl_rmal_http_response_equivalence",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.6422471Z",
+          "name": "browser_rmal_url_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.6441614Z",
+          "name": "browser_rmal_url_compile",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.6459514Z",
+          "name": "browser_rmal_url_native",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.7029353Z",
+          "name": "browser_rmapl_url_lowering_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.8066475Z",
+          "name": "browser_rmapl_rmal_url_equivalence",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.8082124Z",
+          "name": "browser_rmal_input_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.8098881Z",
+          "name": "browser_rmal_input_compile",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.8114935Z",
+          "name": "browser_rmal_input_native",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.8702626Z",
+          "name": "browser_rmapl_input_lowering_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.9708154Z",
+          "name": "browser_rmapl_rmal_input_equivalence",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.9721630Z",
+          "name": "fkdb_rmalc_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.9734870Z",
+          "name": "fkdb_rmalc_compile",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.9748549Z",
+          "name": "fkdb_native_host",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.9761030Z",
+          "name": "fkdb_query_rmalc_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.9774756Z",
+          "name": "fkdb_query_rmalc_compile",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:52:57.9788395Z",
+          "name": "fkdb_query_native",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.0679252Z",
+          "name": "fkdb_local_surface",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.1191708Z",
+          "name": "fkdb_page_manifest",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.1522884Z",
+          "name": "fkdb_page_build_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.1535863Z",
+          "name": "fkdb_live_query_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.1548770Z",
+          "name": "fkdb_live_query_compile",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.1561476Z",
+          "name": "fkdb_live_query_history",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.1573416Z",
+          "name": "fkdb_live_query_recover",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.1585473Z",
+          "name": "fkdb_live_query_lineage",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.1597664Z",
+          "name": "fkdb_live_query_home",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.1609710Z",
+          "name": "fkdb_live_query_empty",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.1621728Z",
+          "name": "fkdb_live_query_unresolved",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.1634216Z",
+          "name": "fkdb_live_query_decay",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.1646116Z",
+          "name": "fkdb_live_query_relate",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.2221360Z",
+          "name": "fkdb_source_index",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.2848233Z",
+          "name": "fkdb_result_projection",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.3361683Z",
+          "name": "fkdb_wasm_hif_contract",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.5729457Z",
+          "name": "fkdb_web_host_node",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.6378329Z",
+          "name": "fkdb_tool_carrier",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:26.7711160Z",
+          "name": "fkdb_local_tool_bridge",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:27.3836056Z",
+          "name": "fkdb_local_adapters",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:27.4737271Z",
+          "name": "fkdb_adapter_mathbox",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:27.5643432Z",
+          "name": "fkdb_adapter_superpowers",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:28.7330259Z",
+          "name": "fkdb_adapter_zotero",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:28.8174464Z",
+          "name": "fkdb_adapter_wolfram",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:28.9099288Z",
+          "name": "fkdb_adapter_supabase",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:29.0087468Z",
+          "name": "fkdb_adapter_railway",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:29.1914617Z",
+          "name": "fkdb_infrastructure_secrets",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:30.8325978Z",
+          "name": "fkdb_infrastructure_secret_import",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:30.9189724Z",
+          "name": "fkdb_adapter_portable_provider",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:30.9796044Z",
+          "name": "fkdb_cross_carrier",
+          "passed": true
+        }
+      ],
+      "test_total": 59,
+      "passed_count": 59,
+      "result_lines": [
+        "2026-10-10T03:53:30.9800652Z 100% tests passed, 0 tests failed out of 59",
+        "2026-10-10T03:53:31.0691078Z Total Test time (real) =  33.71 sec"
+      ],
+      "log_start": "﻿2026-10-10T03:52:49.2897724",
+      "log_end": "2026-10-10T03:53:31.0784164Z"
+    },
+    {
+      "label": "windows",
+      "run_id": 38022100985,
+      "job_id": 114125101696,
+      "url": "https://github.com/redogit/Other-Projects-/actions/runs/38022100985/job/114125101696",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Fetch exact verification commit",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Configure pinned RMAL/RMALC",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Build native bootstrap",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Execute RMAL/RMALC browser bootstrap tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        }
+      ],
+      "verify_sha_lines": [
+        "2026-10-10T03:52:50.8930179Z   VERIFY_SHA: 49a0154d60d5f0d8a419c3ac808a11442e169402",
+        "2026-10-10T03:53:01.2324214Z   VERIFY_SHA: 49a0154d60d5f0d8a419c3ac808a11442e169402",
+        "2026-10-10T03:53:21.2745557Z   VERIFY_SHA: 49a0154d60d5f0d8a419c3ac808a11442e169402",
+        "2026-10-10T03:53:23.7957868Z   VERIFY_SHA: 49a0154d60d5f0d8a419c3ac808a11442e169402"
+      ],
+      "checkout_lines": [
+        "2026-10-10T03:53:00.3834170Z  * branch            49a0154d60d5f0d8a419c3ac808a11442e169402 -> FETCH_HEAD",
+        "2026-10-10T03:53:01.0638730Z HEAD is now at 49a0154 Repair FKDB Plan C secret exclusions and integrate current main with retained Plan D/E"
+      ],
+      "compiler": [
+        "2026-10-10T03:53:14.6731442Z -- The C compiler identification is Clang 20.1.8 with GNU-like command-line"
+      ],
+      "configure_command": [
+        "2026-10-10T03:53:01.2245765Z ##[group]Run cmake -S \"Decision Field Operator Lab/rmal-browser\" -B build/rmal-browser -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_BUILD_TYPE=Release",
+        "2026-10-10T03:53:01.2246966Z \u001b[36;1mcmake -S \"Decision Field Operator Lab/rmal-browser\" -B build/rmal-browser -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_BUILD_TYPE=Release\u001b[0m"
+      ],
+      "build_command": [
+        "2026-10-10T03:53:21.2671107Z ##[group]Run cmake --build build/rmal-browser --parallel 2",
+        "2026-10-10T03:53:21.2671623Z \u001b[36;1mcmake --build build/rmal-browser --parallel 2\u001b[0m"
+      ],
+      "native_build_lines": [
+        "2026-10-10T03:53:22.3532100Z [1/21] Building C object _deps/rmal_authority-build/CMakeFiles/rmal.dir/src/word_dna.c.obj",
+        "2026-10-10T03:53:22.4528129Z [2/21] Building C object CMakeFiles/browser_rmal_host.dir/browser_rmal_host.c.obj",
+        "2026-10-10T03:53:22.4977585Z [3/21] Building C object _deps/rmal_authority-build/CMakeFiles/rmal.dir/src/rmal.c.obj",
+        "2026-10-10T03:53:22.5634761Z [4/21] Building C object CMakeFiles/browser_rmal_http_plan_host.dir/browser_rmal_http_plan_host.c.obj",
+        "2026-10-10T03:53:22.6217078Z [5/21] Building C object CMakeFiles/browser_rmal_http_response_host.dir/browser_rmal_http_response_host.c.obj",
+        "2026-10-10T03:53:22.6852605Z [6/21] Building C object CMakeFiles/browser_rmal_url_host.dir/browser_rmal_url_host.c.obj",
+        "2026-10-10T03:53:22.7550245Z [7/21] Building C object CMakeFiles/browser_rmal_input_host.dir/browser_rmal_input_host.c.obj",
+        "2026-10-10T03:53:22.7784581Z [8/21] Building C object CMakeFiles/fkdb_rmal_host.dir/fkdb_rmal_host.c.obj",
+        "2026-10-10T03:53:22.8346503Z [9/21] Building C object CMakeFiles/fkdb_query_host.dir/fkdb_query_host.c.obj",
+        "2026-10-10T03:53:22.8840266Z [10/21] Building C object CMakeFiles/fkdb_live_query_host.dir/fkdb_live_query_host.c.obj",
+        "2026-10-10T03:53:22.9047466Z [11/21] Linking C static library _deps\\rmal_authority-build\\rmal.lib",
+        "2026-10-10T03:53:22.9863491Z [12/21] Building C object _deps/rmal_authority-build/CMakeFiles/rmalc.dir/src/main.c.obj",
+        "2026-10-10T03:53:23.2199724Z [13/21] Linking C executable browser_rmal_host.exe",
+        "2026-10-10T03:53:23.2217634Z [14/21] Linking C executable browser_rmal_http_plan_host.exe",
+        "2026-10-10T03:53:23.3293559Z [15/21] Linking C executable browser_rmal_http_response_host.exe",
+        "2026-10-10T03:53:23.3317343Z [16/21] Linking C executable browser_rmal_url_host.exe",
+        "2026-10-10T03:53:23.4415157Z [17/21] Linking C executable fkdb_rmal_host.exe",
+        "2026-10-10T03:53:23.4432420Z [18/21] Linking C executable browser_rmal_input_host.exe",
+        "2026-10-10T03:53:23.5489095Z [19/21] Linking C executable fkdb_live_query_host.exe",
+        "2026-10-10T03:53:23.5507025Z [20/21] Linking C executable fkdb_query_host.exe",
+        "2026-10-10T03:53:23.6409225Z [21/21] Linking C executable _deps\\rmal_authority-build\\rmalc.exe"
+      ],
+      "tests": [
+        {
+          "timestamp": "2026-10-10T03:53:24.6142604Z",
+          "name": "browser_rmalc_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:24.6218084Z",
+          "name": "browser_rmalc_compile",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:24.6325713Z",
+          "name": "browser_rmal_native_host",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:24.6393669Z",
+          "name": "browser_rmal_http_plan_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:24.6462099Z",
+          "name": "browser_rmal_http_plan_compile",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:24.6587405Z",
+          "name": "browser_rmal_http_plan_native",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:24.9060659Z",
+          "name": "browser_rmapl_http_plan_lowering_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.4368780Z",
+          "name": "browser_rmapl_rmal_http_plan_equivalence",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.4448362Z",
+          "name": "browser_rmal_http_response_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.4518511Z",
+          "name": "browser_rmal_http_response_compile",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.4634432Z",
+          "name": "browser_rmal_http_response_native",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.5607428Z",
+          "name": "browser_rmapl_http_response_lowering_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.6850948Z",
+          "name": "browser_rmapl_rmal_http_response_equivalence",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.6924403Z",
+          "name": "browser_rmal_url_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.6998525Z",
+          "name": "browser_rmal_url_compile",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.7114633Z",
+          "name": "browser_rmal_url_native",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.8107253Z",
+          "name": "browser_rmapl_url_lowering_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.9503881Z",
+          "name": "browser_rmapl_rmal_url_equivalence",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.9574941Z",
+          "name": "browser_rmal_input_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.9641835Z",
+          "name": "browser_rmal_input_compile",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:25.9754815Z",
+          "name": "browser_rmal_input_native",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:26.0673968Z",
+          "name": "browser_rmapl_input_lowering_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:26.2077085Z",
+          "name": "browser_rmapl_rmal_input_equivalence",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:26.2146547Z",
+          "name": "fkdb_rmalc_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:26.2212124Z",
+          "name": "fkdb_rmalc_compile",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:26.2320143Z",
+          "name": "fkdb_native_host",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:26.2386179Z",
+          "name": "fkdb_query_rmalc_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:26.2451988Z",
+          "name": "fkdb_query_rmalc_compile",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:26.2564625Z",
+          "name": "fkdb_query_native",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:56.2878172Z",
+          "name": "fkdb_local_surface",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:56.3849188Z",
+          "name": "fkdb_page_manifest",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:56.4636830Z",
+          "name": "fkdb_page_build_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:56.4714252Z",
+          "name": "fkdb_live_query_check",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:56.4791369Z",
+          "name": "fkdb_live_query_compile",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:56.4904215Z",
+          "name": "fkdb_live_query_history",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:56.4968833Z",
+          "name": "fkdb_live_query_recover",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:56.5038596Z",
+          "name": "fkdb_live_query_lineage",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:56.5103060Z",
+          "name": "fkdb_live_query_home",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:56.5170694Z",
+          "name": "fkdb_live_query_empty",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:56.5235941Z",
+          "name": "fkdb_live_query_unresolved",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:56.5309970Z",
+          "name": "fkdb_live_query_decay",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:56.5373290Z",
+          "name": "fkdb_live_query_relate",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:56.6384398Z",
+          "name": "fkdb_source_index",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:56.7895535Z",
+          "name": "fkdb_result_projection",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:56.8825452Z",
+          "name": "fkdb_wasm_hif_contract",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:59.7775234Z",
+          "name": "fkdb_web_host_node",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:53:59.9243606Z",
+          "name": "fkdb_tool_carrier",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:54:01.6262206Z",
+          "name": "fkdb_local_tool_bridge",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:54:02.3757824Z",
+          "name": "fkdb_local_adapters",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:54:02.5508196Z",
+          "name": "fkdb_adapter_mathbox",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:54:02.7233341Z",
+          "name": "fkdb_adapter_superpowers",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:54:04.3593932Z",
+          "name": "fkdb_adapter_zotero",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:54:04.5136622Z",
+          "name": "fkdb_adapter_wolfram",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:54:04.6901788Z",
+          "name": "fkdb_adapter_supabase",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:54:04.8585851Z",
+          "name": "fkdb_adapter_railway",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:54:05.4834978Z",
+          "name": "fkdb_infrastructure_secrets",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:54:07.2799412Z",
+          "name": "fkdb_infrastructure_secret_import",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:54:07.4412179Z",
+          "name": "fkdb_adapter_portable_provider",
+          "passed": true
+        },
+        {
+          "timestamp": "2026-10-10T03:54:07.5475243Z",
+          "name": "fkdb_cross_carrier",
+          "passed": true
+        }
+      ],
+      "test_total": 59,
+      "passed_count": 59,
+      "result_lines": [
+        "2026-10-10T03:54:07.5486284Z 100% tests passed out of 59",
+        "2026-10-10T03:54:07.5487037Z Total Test time (real) =  42.98 sec"
+      ],
+      "log_start": "﻿2026-10-10T03:52:50.5482421",
+      "log_end": "2026-10-10T03:54:07.6909001Z"
+    }
+  ]
+}

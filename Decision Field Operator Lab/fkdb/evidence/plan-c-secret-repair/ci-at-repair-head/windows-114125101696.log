@@ -1,0 +1,218 @@
+﻿2026-10-10T03:52:50.5482421Z Current runner version: '2.337.0'
+2026-10-10T03:52:50.5508073Z ##[group]Runner Image Provisioner
+2026-10-10T03:52:50.5508981Z Hosted Compute Agent
+2026-10-10T03:52:50.5509558Z Version: 20260901.588
+2026-10-10T03:52:50.5510159Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-10-10T03:52:50.5510857Z Build Date: 2026-09-01T19:56:44Z
+2026-10-10T03:52:50.5511508Z Worker ID: {4eccbc36-4986-483d-a3c0-8fa7ce166bf1}
+2026-10-10T03:52:50.5512168Z Azure Region: centralus
+2026-10-10T03:52:50.5512764Z ##[endgroup]
+2026-10-10T03:52:50.5514086Z ##[group]Operating System
+2026-10-10T03:52:50.5514822Z Microsoft Windows Server 2025
+2026-10-10T03:52:50.5515412Z 10.0.26100
+2026-10-10T03:52:50.5515892Z Datacenter
+2026-10-10T03:52:50.5516414Z ##[endgroup]
+2026-10-10T03:52:50.5516961Z ##[group]Runner Image
+2026-10-10T03:52:50.5517568Z Image: windows-2025-vs2026
+2026-10-10T03:52:50.5518150Z Version: 20260925.250.1
+2026-10-10T03:52:50.5519741Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20260925.250/images/windows/Windows2025-VS2026-Readme.md
+2026-10-10T03:52:50.5521641Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20260925.250
+2026-10-10T03:52:50.5522598Z ##[endgroup]
+2026-10-10T03:52:50.5523698Z ##[group]GITHUB_TOKEN Permissions
+2026-10-10T03:52:50.5525766Z Contents: read
+2026-10-10T03:52:50.5526365Z Metadata: read
+2026-10-10T03:52:50.5526894Z ##[endgroup]
+2026-10-10T03:52:50.5528960Z Secret source: Actions
+2026-10-10T03:52:50.5529840Z Cache mode: write
+2026-10-10T03:52:50.5530602Z Prepare workflow directory
+2026-10-10T03:52:50.6173655Z Prepare all required actions
+2026-10-10T03:52:50.6270032Z Complete job name: windows
+2026-10-10T03:52:50.8342477Z ##[group]Run git init "$env:GITHUB_WORKSPACE"
+2026-10-10T03:52:50.8343426Z [36;1mgit init "$env:GITHUB_WORKSPACE"[0m
+2026-10-10T03:52:50.8344302Z [36;1mSet-Location "$env:GITHUB_WORKSPACE"[0m
+2026-10-10T03:52:50.8345234Z [36;1mgit remote add origin "https://github.com/$env:GITHUB_REPOSITORY.git"[0m
+2026-10-10T03:52:50.8346231Z [36;1mgit fetch --depth=1 origin "$env:VERIFY_SHA"[0m
+2026-10-10T03:52:50.8346987Z [36;1mgit checkout --detach FETCH_HEAD[0m
+2026-10-10T03:52:50.8347888Z [36;1mif ((git rev-parse HEAD).Trim() -ne "$env:VERIFY_SHA") { throw "exact-head mismatch" }[0m
+2026-10-10T03:52:50.8927321Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-10T03:52:50.8929142Z env:
+2026-10-10T03:52:50.8930179Z   VERIFY_SHA: 49a0154d60d5f0d8a419c3ac808a11442e169402
+2026-10-10T03:52:50.8931357Z ##[endgroup]
+2026-10-10T03:52:55.7944196Z Initialized empty Git repository in D:/a/Other-Projects-/Other-Projects-/.git/
+2026-10-10T03:53:00.3833151Z From https://github.com/redogit/Other-Projects-
+2026-10-10T03:53:00.3834170Z  * branch            49a0154d60d5f0d8a419c3ac808a11442e169402 -> FETCH_HEAD
+2026-10-10T03:53:01.0638730Z HEAD is now at 49a0154 Repair FKDB Plan C secret exclusions and integrate current main with retained Plan D/E
+2026-10-10T03:53:01.2245765Z ##[group]Run cmake -S "Decision Field Operator Lab/rmal-browser" -B build/rmal-browser -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_BUILD_TYPE=Release
+2026-10-10T03:53:01.2246966Z [36;1mcmake -S "Decision Field Operator Lab/rmal-browser" -B build/rmal-browser -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_BUILD_TYPE=Release[0m
+2026-10-10T03:53:01.2323500Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-10T03:53:01.2323942Z env:
+2026-10-10T03:53:01.2324214Z   VERIFY_SHA: 49a0154d60d5f0d8a419c3ac808a11442e169402
+2026-10-10T03:53:01.2324545Z ##[endgroup]
+2026-10-10T03:53:14.6731442Z -- The C compiler identification is Clang 20.1.8 with GNU-like command-line
+2026-10-10T03:53:15.3419370Z -- Detecting C compiler ABI info
+2026-10-10T03:53:16.7941650Z -- Detecting C compiler ABI info - done
+2026-10-10T03:53:16.8365778Z -- Check for working C compiler: C:/Program Files/LLVM/bin/clang.exe - skipped
+2026-10-10T03:53:16.8381455Z -- Detecting C compile features
+2026-10-10T03:53:16.8394893Z -- Detecting C compile features - done
+2026-10-10T03:53:21.0814614Z -- Found Python3: C:/hostedtoolcache/windows/Python/3.14.7/x64/python3.exe (found version "3.14.7") found components: Interpreter
+2026-10-10T03:53:21.0862512Z -- Configuring done (18.3s)
+2026-10-10T03:53:21.1489123Z -- Generating done (0.1s)
+2026-10-10T03:53:21.1500764Z -- Build files have been written to: D:/a/Other-Projects-/Other-Projects-/build/rmal-browser
+2026-10-10T03:53:21.2671107Z ##[group]Run cmake --build build/rmal-browser --parallel 2
+2026-10-10T03:53:21.2671623Z [36;1mcmake --build build/rmal-browser --parallel 2[0m
+2026-10-10T03:53:21.2744966Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-10T03:53:21.2745334Z env:
+2026-10-10T03:53:21.2745557Z   VERIFY_SHA: 49a0154d60d5f0d8a419c3ac808a11442e169402
+2026-10-10T03:53:21.2745862Z ##[endgroup]
+2026-10-10T03:53:22.3532100Z [1/21] Building C object _deps/rmal_authority-build/CMakeFiles/rmal.dir/src/word_dna.c.obj
+2026-10-10T03:53:22.4528129Z [2/21] Building C object CMakeFiles/browser_rmal_host.dir/browser_rmal_host.c.obj
+2026-10-10T03:53:22.4977585Z [3/21] Building C object _deps/rmal_authority-build/CMakeFiles/rmal.dir/src/rmal.c.obj
+2026-10-10T03:53:22.5634761Z [4/21] Building C object CMakeFiles/browser_rmal_http_plan_host.dir/browser_rmal_http_plan_host.c.obj
+2026-10-10T03:53:22.6217078Z [5/21] Building C object CMakeFiles/browser_rmal_http_response_host.dir/browser_rmal_http_response_host.c.obj
+2026-10-10T03:53:22.6852605Z [6/21] Building C object CMakeFiles/browser_rmal_url_host.dir/browser_rmal_url_host.c.obj
+2026-10-10T03:53:22.7550245Z [7/21] Building C object CMakeFiles/browser_rmal_input_host.dir/browser_rmal_input_host.c.obj
+2026-10-10T03:53:22.7784581Z [8/21] Building C object CMakeFiles/fkdb_rmal_host.dir/fkdb_rmal_host.c.obj
+2026-10-10T03:53:22.8346503Z [9/21] Building C object CMakeFiles/fkdb_query_host.dir/fkdb_query_host.c.obj
+2026-10-10T03:53:22.8840266Z [10/21] Building C object CMakeFiles/fkdb_live_query_host.dir/fkdb_live_query_host.c.obj
+2026-10-10T03:53:22.9047466Z [11/21] Linking C static library _deps\rmal_authority-build\rmal.lib
+2026-10-10T03:53:22.9863491Z [12/21] Building C object _deps/rmal_authority-build/CMakeFiles/rmalc.dir/src/main.c.obj
+2026-10-10T03:53:23.2199724Z [13/21] Linking C executable browser_rmal_host.exe
+2026-10-10T03:53:23.2217634Z [14/21] Linking C executable browser_rmal_http_plan_host.exe
+2026-10-10T03:53:23.3293559Z [15/21] Linking C executable browser_rmal_http_response_host.exe
+2026-10-10T03:53:23.3317343Z [16/21] Linking C executable browser_rmal_url_host.exe
+2026-10-10T03:53:23.4415157Z [17/21] Linking C executable fkdb_rmal_host.exe
+2026-10-10T03:53:23.4432420Z [18/21] Linking C executable browser_rmal_input_host.exe
+2026-10-10T03:53:23.5489095Z [19/21] Linking C executable fkdb_live_query_host.exe
+2026-10-10T03:53:23.5507025Z [20/21] Linking C executable fkdb_query_host.exe
+2026-10-10T03:53:23.6409225Z [21/21] Linking C executable _deps\rmal_authority-build\rmalc.exe
+2026-10-10T03:53:23.7887007Z ##[group]Run ctest --test-dir build/rmal-browser --output-on-failure
+2026-10-10T03:53:23.7887590Z [36;1mctest --test-dir build/rmal-browser --output-on-failure[0m
+2026-10-10T03:53:23.7957280Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-10T03:53:23.7957643Z env:
+2026-10-10T03:53:23.7957868Z   VERIFY_SHA: 49a0154d60d5f0d8a419c3ac808a11442e169402
+2026-10-10T03:53:23.7958176Z ##[endgroup]
+2026-10-10T03:53:24.5709128Z Test project D:/a/Other-Projects-/Other-Projects-/build/rmal-browser
+2026-10-10T03:53:24.5947014Z       Start  1: browser_rmalc_check
+2026-10-10T03:53:24.6142604Z  1/59 Test  #1: browser_rmalc_check ............................   Passed    0.02 sec
+2026-10-10T03:53:24.6158312Z       Start  2: browser_rmalc_compile
+2026-10-10T03:53:24.6218084Z  2/59 Test  #2: browser_rmalc_compile ..........................   Passed    0.01 sec
+2026-10-10T03:53:24.6223915Z       Start  3: browser_rmal_native_host
+2026-10-10T03:53:24.6325713Z  3/59 Test  #3: browser_rmal_native_host .......................   Passed    0.01 sec
+2026-10-10T03:53:24.6329644Z       Start  4: browser_rmal_http_plan_check
+2026-10-10T03:53:24.6393669Z  4/59 Test  #4: browser_rmal_http_plan_check ...................   Passed    0.01 sec
+2026-10-10T03:53:24.6398078Z       Start  5: browser_rmal_http_plan_compile
+2026-10-10T03:53:24.6462099Z  5/59 Test  #5: browser_rmal_http_plan_compile .................   Passed    0.01 sec
+2026-10-10T03:53:24.6466744Z       Start  6: browser_rmal_http_plan_native
+2026-10-10T03:53:24.6587405Z  6/59 Test  #6: browser_rmal_http_plan_native ..................   Passed    0.01 sec
+2026-10-10T03:53:24.6591955Z       Start  7: browser_rmapl_http_plan_lowering_check
+2026-10-10T03:53:24.9060659Z  7/59 Test  #7: browser_rmapl_http_plan_lowering_check .........   Passed    0.25 sec
+2026-10-10T03:53:24.9065267Z       Start  8: browser_rmapl_rmal_http_plan_equivalence
+2026-10-10T03:53:25.4368780Z  8/59 Test  #8: browser_rmapl_rmal_http_plan_equivalence .......   Passed    0.53 sec
+2026-10-10T03:53:25.4372548Z       Start  9: browser_rmal_http_response_check
+2026-10-10T03:53:25.4448362Z  9/59 Test  #9: browser_rmal_http_response_check ...............   Passed    0.01 sec
+2026-10-10T03:53:25.4452991Z       Start 10: browser_rmal_http_response_compile
+2026-10-10T03:53:25.4518511Z 10/59 Test #10: browser_rmal_http_response_compile .............   Passed    0.01 sec
+2026-10-10T03:53:25.4523434Z       Start 11: browser_rmal_http_response_native
+2026-10-10T03:53:25.4634432Z 11/59 Test #11: browser_rmal_http_response_native ..............   Passed    0.01 sec
+2026-10-10T03:53:25.4640199Z       Start 12: browser_rmapl_http_response_lowering_check
+2026-10-10T03:53:25.5607428Z 12/59 Test #12: browser_rmapl_http_response_lowering_check .....   Passed    0.10 sec
+2026-10-10T03:53:25.5612343Z       Start 13: browser_rmapl_rmal_http_response_equivalence
+2026-10-10T03:53:25.6850948Z 13/59 Test #13: browser_rmapl_rmal_http_response_equivalence ...   Passed    0.12 sec
+2026-10-10T03:53:25.6855886Z       Start 14: browser_rmal_url_check
+2026-10-10T03:53:25.6924403Z 14/59 Test #14: browser_rmal_url_check .........................   Passed    0.01 sec
+2026-10-10T03:53:25.6928261Z       Start 15: browser_rmal_url_compile
+2026-10-10T03:53:25.6998525Z 15/59 Test #15: browser_rmal_url_compile .......................   Passed    0.01 sec
+2026-10-10T03:53:25.7003031Z       Start 16: browser_rmal_url_native
+2026-10-10T03:53:25.7114633Z 16/59 Test #16: browser_rmal_url_native ........................   Passed    0.01 sec
+2026-10-10T03:53:25.7118944Z       Start 17: browser_rmapl_url_lowering_check
+2026-10-10T03:53:25.8107253Z 17/59 Test #17: browser_rmapl_url_lowering_check ...............   Passed    0.10 sec
+2026-10-10T03:53:25.8111526Z       Start 18: browser_rmapl_rmal_url_equivalence
+2026-10-10T03:53:25.9503881Z 18/59 Test #18: browser_rmapl_rmal_url_equivalence .............   Passed    0.14 sec
+2026-10-10T03:53:25.9511176Z       Start 19: browser_rmal_input_check
+2026-10-10T03:53:25.9574941Z 19/59 Test #19: browser_rmal_input_check .......................   Passed    0.01 sec
+2026-10-10T03:53:25.9578980Z       Start 20: browser_rmal_input_compile
+2026-10-10T03:53:25.9641835Z 20/59 Test #20: browser_rmal_input_compile .....................   Passed    0.01 sec
+2026-10-10T03:53:25.9646332Z       Start 21: browser_rmal_input_native
+2026-10-10T03:53:25.9754815Z 21/59 Test #21: browser_rmal_input_native ......................   Passed    0.01 sec
+2026-10-10T03:53:25.9759041Z       Start 22: browser_rmapl_input_lowering_check
+2026-10-10T03:53:26.0673968Z 22/59 Test #22: browser_rmapl_input_lowering_check .............   Passed    0.09 sec
+2026-10-10T03:53:26.0679099Z       Start 23: browser_rmapl_rmal_input_equivalence
+2026-10-10T03:53:26.2077085Z 23/59 Test #23: browser_rmapl_rmal_input_equivalence ...........   Passed    0.14 sec
+2026-10-10T03:53:26.2081511Z       Start 24: fkdb_rmalc_check
+2026-10-10T03:53:26.2146547Z 24/59 Test #24: fkdb_rmalc_check ...............................   Passed    0.01 sec
+2026-10-10T03:53:26.2151055Z       Start 25: fkdb_rmalc_compile
+2026-10-10T03:53:26.2212124Z 25/59 Test #25: fkdb_rmalc_compile .............................   Passed    0.01 sec
+2026-10-10T03:53:26.2216575Z       Start 26: fkdb_native_host
+2026-10-10T03:53:26.2320143Z 26/59 Test #26: fkdb_native_host ...............................   Passed    0.01 sec
+2026-10-10T03:53:26.2324061Z       Start 27: fkdb_query_rmalc_check
+2026-10-10T03:53:26.2386179Z 27/59 Test #27: fkdb_query_rmalc_check .........................   Passed    0.01 sec
+2026-10-10T03:53:26.2390103Z       Start 28: fkdb_query_rmalc_compile
+2026-10-10T03:53:26.2451988Z 28/59 Test #28: fkdb_query_rmalc_compile .......................   Passed    0.01 sec
+2026-10-10T03:53:26.2456470Z       Start 29: fkdb_query_native
+2026-10-10T03:53:26.2564625Z 29/59 Test #29: fkdb_query_native ..............................   Passed    0.01 sec
+2026-10-10T03:53:26.2568096Z       Start 30: fkdb_local_surface
+2026-10-10T03:53:56.2878172Z 30/59 Test #30: fkdb_local_surface .............................   Passed   30.03 sec
+2026-10-10T03:53:56.2883257Z       Start 31: fkdb_page_manifest
+2026-10-10T03:53:56.3849188Z 31/59 Test #31: fkdb_page_manifest .............................   Passed    0.10 sec
+2026-10-10T03:53:56.3853721Z       Start 32: fkdb_page_build_check
+2026-10-10T03:53:56.4636830Z 32/59 Test #32: fkdb_page_build_check ..........................   Passed    0.08 sec
+2026-10-10T03:53:56.4642101Z       Start 33: fkdb_live_query_check
+2026-10-10T03:53:56.4714252Z 33/59 Test #33: fkdb_live_query_check ..........................   Passed    0.01 sec
+2026-10-10T03:53:56.4719499Z       Start 34: fkdb_live_query_compile
+2026-10-10T03:53:56.4791369Z 34/59 Test #34: fkdb_live_query_compile ........................   Passed    0.01 sec
+2026-10-10T03:53:56.4797751Z       Start 35: fkdb_live_query_history
+2026-10-10T03:53:56.4904215Z 35/59 Test #35: fkdb_live_query_history ........................   Passed    0.01 sec
+2026-10-10T03:53:56.4908655Z       Start 36: fkdb_live_query_recover
+2026-10-10T03:53:56.4968833Z 36/59 Test #36: fkdb_live_query_recover ........................   Passed    0.01 sec
+2026-10-10T03:53:56.4973212Z       Start 37: fkdb_live_query_lineage
+2026-10-10T03:53:56.5038596Z 37/59 Test #37: fkdb_live_query_lineage ........................   Passed    0.01 sec
+2026-10-10T03:53:56.5042398Z       Start 38: fkdb_live_query_home
+2026-10-10T03:53:56.5103060Z 38/59 Test #38: fkdb_live_query_home ...........................   Passed    0.01 sec
+2026-10-10T03:53:56.5107250Z       Start 39: fkdb_live_query_empty
+2026-10-10T03:53:56.5170694Z 39/59 Test #39: fkdb_live_query_empty ..........................   Passed    0.01 sec
+2026-10-10T03:53:56.5174944Z       Start 40: fkdb_live_query_unresolved
+2026-10-10T03:53:56.5235941Z 40/59 Test #40: fkdb_live_query_unresolved .....................   Passed    0.01 sec
+2026-10-10T03:53:56.5240208Z       Start 41: fkdb_live_query_decay
+2026-10-10T03:53:56.5309970Z 41/59 Test #41: fkdb_live_query_decay ..........................   Passed    0.01 sec
+2026-10-10T03:53:56.5314049Z       Start 42: fkdb_live_query_relate
+2026-10-10T03:53:56.5373290Z 42/59 Test #42: fkdb_live_query_relate .........................   Passed    0.01 sec
+2026-10-10T03:53:56.5377990Z       Start 43: fkdb_source_index
+2026-10-10T03:53:56.6384398Z 43/59 Test #43: fkdb_source_index ..............................   Passed    0.10 sec
+2026-10-10T03:53:56.6389371Z       Start 44: fkdb_result_projection
+2026-10-10T03:53:56.7895535Z 44/59 Test #44: fkdb_result_projection .........................   Passed    0.15 sec
+2026-10-10T03:53:56.7900435Z       Start 45: fkdb_wasm_hif_contract
+2026-10-10T03:53:56.8825452Z 45/59 Test #45: fkdb_wasm_hif_contract .........................   Passed    0.09 sec
+2026-10-10T03:53:56.8830044Z       Start 46: fkdb_web_host_node
+2026-10-10T03:53:59.7775234Z 46/59 Test #46: fkdb_web_host_node .............................   Passed    2.89 sec
+2026-10-10T03:53:59.7780322Z       Start 47: fkdb_tool_carrier
+2026-10-10T03:53:59.9243606Z 47/59 Test #47: fkdb_tool_carrier ..............................   Passed    0.15 sec
+2026-10-10T03:53:59.9248138Z       Start 48: fkdb_local_tool_bridge
+2026-10-10T03:54:01.6262206Z 48/59 Test #48: fkdb_local_tool_bridge .........................   Passed    1.70 sec
+2026-10-10T03:54:01.6267528Z       Start 49: fkdb_local_adapters
+2026-10-10T03:54:02.3757824Z 49/59 Test #49: fkdb_local_adapters ............................   Passed    0.75 sec
+2026-10-10T03:54:02.3762859Z       Start 50: fkdb_adapter_mathbox
+2026-10-10T03:54:02.5508196Z 50/59 Test #50: fkdb_adapter_mathbox ...........................   Passed    0.17 sec
+2026-10-10T03:54:02.5512413Z       Start 51: fkdb_adapter_superpowers
+2026-10-10T03:54:02.7233341Z 51/59 Test #51: fkdb_adapter_superpowers .......................   Passed    0.17 sec
+2026-10-10T03:54:02.7237469Z       Start 52: fkdb_adapter_zotero
+2026-10-10T03:54:04.3593932Z 52/59 Test #52: fkdb_adapter_zotero ............................   Passed    1.64 sec
+2026-10-10T03:54:04.3598171Z       Start 53: fkdb_adapter_wolfram
+2026-10-10T03:54:04.5136622Z 53/59 Test #53: fkdb_adapter_wolfram ...........................   Passed    0.15 sec
+2026-10-10T03:54:04.5141865Z       Start 54: fkdb_adapter_supabase
+2026-10-10T03:54:04.6901788Z 54/59 Test #54: fkdb_adapter_supabase ..........................   Passed    0.18 sec
+2026-10-10T03:54:04.6906398Z       Start 55: fkdb_adapter_railway
+2026-10-10T03:54:04.8585851Z 55/59 Test #55: fkdb_adapter_railway ...........................   Passed    0.17 sec
+2026-10-10T03:54:04.8590444Z       Start 56: fkdb_infrastructure_secrets
+2026-10-10T03:54:05.4834978Z 56/59 Test #56: fkdb_infrastructure_secrets ....................   Passed    0.62 sec
+2026-10-10T03:54:05.4839952Z       Start 57: fkdb_infrastructure_secret_import
+2026-10-10T03:54:07.2799412Z 57/59 Test #57: fkdb_infrastructure_secret_import ..............   Passed    1.80 sec
+2026-10-10T03:54:07.2804502Z       Start 58: fkdb_adapter_portable_provider
+2026-10-10T03:54:07.4412179Z 58/59 Test #58: fkdb_adapter_portable_provider .................   Passed    0.16 sec
+2026-10-10T03:54:07.4416320Z       Start 59: fkdb_cross_carrier
+2026-10-10T03:54:07.5475243Z 59/59 Test #59: fkdb_cross_carrier .............................   Passed    0.11 sec
+2026-10-10T03:54:07.5485954Z 
+2026-10-10T03:54:07.5486284Z 100% tests passed out of 59
+2026-10-10T03:54:07.5486869Z 
+2026-10-10T03:54:07.5487037Z Total Test time (real) =  42.98 sec
+2026-10-10T03:54:07.6681315Z Cleaning up orphan processes
+2026-10-10T03:54:07.6909001Z Terminate orphan process: pid (8908) (vctip)

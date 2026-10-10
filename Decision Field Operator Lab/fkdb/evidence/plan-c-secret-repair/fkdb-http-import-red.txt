@@ -1,0 +1,48 @@
+SOURCE_HEAD: 9493a762d947c4d259f3a468acb252fb21ea8389
+CWD: /workspace/scratch/95447ff1684b/other-projects/Decision Field Operator Lab
+COMMAND: python3 -m unittest -v test_fkdb_infrastructure_secret_import.py
+EXIT_CODE: 1
+
+test_retained_forbidden_infrastructure_local_files_are_denied_over_http (test_fkdb_infrastructure_secret_import.InfrastructureSecretHttpImportTests.test_retained_forbidden_infrastructure_local_files_are_denied_over_http) ... 
+  test_retained_forbidden_infrastructure_local_files_are_denied_over_http (test_fkdb_infrastructure_secret_import.InfrastructureSecretHttpImportTests.test_retained_forbidden_infrastructure_local_files_are_denied_over_http) (tool_id='supabase', source='.env.json') ... FAIL
+  test_retained_forbidden_infrastructure_local_files_are_denied_over_http (test_fkdb_infrastructure_secret_import.InfrastructureSecretHttpImportTests.test_retained_forbidden_infrastructure_local_files_are_denied_over_http) (tool_id='supabase', source='supabase/functions/secrets/credentials.json') ... FAIL
+  test_retained_forbidden_infrastructure_local_files_are_denied_over_http (test_fkdb_infrastructure_secret_import.InfrastructureSecretHttpImportTests.test_retained_forbidden_infrastructure_local_files_are_denied_over_http) (tool_id='railway', source='.env.json') ... FAIL
+  test_retained_forbidden_infrastructure_local_files_are_denied_over_http (test_fkdb_infrastructure_secret_import.InfrastructureSecretHttpImportTests.test_retained_forbidden_infrastructure_local_files_are_denied_over_http) (tool_id='railway', source='supabase/functions/secrets/credentials.json') ... FAIL
+test_valid_infrastructure_local_file_counterparts_are_admitted_over_http (test_fkdb_infrastructure_secret_import.InfrastructureSecretHttpImportTests.test_valid_infrastructure_local_file_counterparts_are_admitted_over_http) ... ok
+
+======================================================================
+FAIL: test_retained_forbidden_infrastructure_local_files_are_denied_over_http (test_fkdb_infrastructure_secret_import.InfrastructureSecretHttpImportTests.test_retained_forbidden_infrastructure_local_files_are_denied_over_http) (tool_id='supabase', source='.env.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/95447ff1684b/other-projects/Decision Field Operator Lab/test_fkdb_infrastructure_secret_import.py", line 49, in test_retained_forbidden_infrastructure_local_files_are_denied_over_http
+    self.assertEqual(
+AssertionError: 200 != 400 : retained forbidden LOCAL_FILE carrier was ADMITTED
+
+======================================================================
+FAIL: test_retained_forbidden_infrastructure_local_files_are_denied_over_http (test_fkdb_infrastructure_secret_import.InfrastructureSecretHttpImportTests.test_retained_forbidden_infrastructure_local_files_are_denied_over_http) (tool_id='supabase', source='supabase/functions/secrets/credentials.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/95447ff1684b/other-projects/Decision Field Operator Lab/test_fkdb_infrastructure_secret_import.py", line 49, in test_retained_forbidden_infrastructure_local_files_are_denied_over_http
+    self.assertEqual(
+AssertionError: 200 != 400 : retained forbidden LOCAL_FILE carrier was ADMITTED
+
+======================================================================
+FAIL: test_retained_forbidden_infrastructure_local_files_are_denied_over_http (test_fkdb_infrastructure_secret_import.InfrastructureSecretHttpImportTests.test_retained_forbidden_infrastructure_local_files_are_denied_over_http) (tool_id='railway', source='.env.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/95447ff1684b/other-projects/Decision Field Operator Lab/test_fkdb_infrastructure_secret_import.py", line 49, in test_retained_forbidden_infrastructure_local_files_are_denied_over_http
+    self.assertEqual(
+AssertionError: 200 != 400 : retained forbidden LOCAL_FILE carrier was ADMITTED
+
+======================================================================
+FAIL: test_retained_forbidden_infrastructure_local_files_are_denied_over_http (test_fkdb_infrastructure_secret_import.InfrastructureSecretHttpImportTests.test_retained_forbidden_infrastructure_local_files_are_denied_over_http) (tool_id='railway', source='supabase/functions/secrets/credentials.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/95447ff1684b/other-projects/Decision Field Operator Lab/test_fkdb_infrastructure_secret_import.py", line 49, in test_retained_forbidden_infrastructure_local_files_are_denied_over_http
+    self.assertEqual(
+AssertionError: 200 != 400 : retained forbidden LOCAL_FILE carrier was ADMITTED
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.019s
+
+FAILED (failures=4)

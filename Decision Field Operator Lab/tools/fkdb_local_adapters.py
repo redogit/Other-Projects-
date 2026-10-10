@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from fkdb_secret_paths import is_secret_sensitive_path
 from fkdb_tool_carrier import validate_tool_carrier
 
 
@@ -30,6 +31,17 @@ class AdapterContext:
         resolved = self.policy.resolve_allowed_path(Path(path), "READ")
         if self.resolved_root is not None and not _within(resolved, self.resolved_root):
             raise PermissionError("adapter path is outside requested collection root")
+        return resolved
+
+    def resolve_non_secret_read_path(self, path: Path, *, root: Path) -> Path | None:
+        resolved = self.resolve_read_path(path)
+        try:
+            requested_relative = path.relative_to(root)
+            resolved_relative = resolved.relative_to(root)
+        except ValueError as exc:
+            raise PermissionError("adapter path is outside collection root") from exc
+        if is_secret_sensitive_path(requested_relative) or is_secret_sensitive_path(resolved_relative):
+            return None
         return resolved
 
 
@@ -183,6 +195,7 @@ def build_default_registry() -> LocalAdapterRegistry:
     from fkdb_adapter_wolfram import WolframAdapter
     from fkdb_adapter_supabase import SupabaseAdapter
     from fkdb_adapter_railway import RailwayAdapter
+    from fkdb_adapter_portable_provider import PortableProviderAdapter
 
     registry.register(MathboxAdapter())
     registry.register(SuperpowersAdapter())
@@ -190,4 +203,8 @@ def build_default_registry() -> LocalAdapterRegistry:
     registry.register(WolframAdapter())
     registry.register(SupabaseAdapter())
     registry.register(RailwayAdapter())
+    registry.register(PortableProviderAdapter("scispace", "RESEARCH_DISCOVERY_ONLY"))
+    registry.register(PortableProviderAdapter("consensus", "RESEARCH_SYNTHESIS_ONLY"))
+    registry.register(PortableProviderAdapter("exa", "SEARCH_DISCOVERY_ONLY"))
+    registry.register(PortableProviderAdapter("linear", "PROJECT_WORKFLOW_ONLY"))
     return registry

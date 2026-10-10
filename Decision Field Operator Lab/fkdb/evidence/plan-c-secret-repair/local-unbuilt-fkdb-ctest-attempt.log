@@ -1,0 +1,592 @@
+Test project /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser
+      Start 24: fkdb_rmalc_check
+Could not find executable /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+Looked in the following places:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+Unable to find executable: /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+ 1/36 Test #24: fkdb_rmalc_check ....................***Not Run   0.00 sec
+      Start 25: fkdb_rmalc_compile
+Could not find executable /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+Looked in the following places:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+Unable to find executable: /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+ 2/36 Test #25: fkdb_rmalc_compile ..................***Not Run   0.00 sec
+      Start 26: fkdb_native_host
+Could not find executable /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_rmal_host
+Looked in the following places:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_rmal_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_rmal_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_rmal_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_rmal_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_rmal_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_rmal_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_rmal_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_rmal_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_rmal_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_rmal_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_rmal_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_rmal_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_rmal_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_rmal_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_rmal_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_rmal_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_rmal_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_rmal_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_rmal_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_rmal_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_rmal_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_rmal_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_rmal_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_rmal_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_rmal_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_rmal_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_rmal_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_rmal_host
+Unable to find executable: /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_rmal_host
+ 3/36 Test #26: fkdb_native_host ....................***Not Run   0.00 sec
+      Start 27: fkdb_query_rmalc_check
+Could not find executable /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+Looked in the following places:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+Unable to find executable: /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+ 4/36 Test #27: fkdb_query_rmalc_check ..............***Not Run   0.00 sec
+      Start 28: fkdb_query_rmalc_compile
+Could not find executable /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+Looked in the following places:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+Unable to find executable: /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+ 5/36 Test #28: fkdb_query_rmalc_compile ............***Not Run   0.00 sec
+      Start 29: fkdb_query_native
+Could not find executable /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_query_host
+Looked in the following places:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_query_host
+Unable to find executable: /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_query_host
+ 6/36 Test #29: fkdb_query_native ...................***Not Run   0.00 sec
+      Start 30: fkdb_local_surface
+ 7/36 Test #30: fkdb_local_surface ..................   Passed   18.29 sec
+      Start 31: fkdb_page_manifest
+ 8/36 Test #31: fkdb_page_manifest ..................   Passed    0.05 sec
+      Start 32: fkdb_page_build_check
+ 9/36 Test #32: fkdb_page_build_check ...............   Passed    0.03 sec
+      Start 33: fkdb_live_query_check
+Could not find executable /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+Looked in the following places:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+Unable to find executable: /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+10/36 Test #33: fkdb_live_query_check ...............***Not Run   0.00 sec
+      Start 34: fkdb_live_query_compile
+Could not find executable /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+Looked in the following places:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Release/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Debug/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/MinSizeRel/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/RelWithDebInfo/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Deployment/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/Development/rmalc
+Unable to find executable: /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/_deps/rmal_authority-build/rmalc
+11/36 Test #34: fkdb_live_query_compile .............***Not Run   0.00 sec
+      Start 35: fkdb_live_query_history
+Could not find executable /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+Looked in the following places:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+Unable to find executable: /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+12/36 Test #35: fkdb_live_query_history .............***Not Run   0.00 sec
+      Start 36: fkdb_live_query_recover
+Could not find executable /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+Looked in the following places:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+Unable to find executable: /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+13/36 Test #36: fkdb_live_query_recover .............***Not Run   0.00 sec
+      Start 37: fkdb_live_query_lineage
+Could not find executable /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+Looked in the following places:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+Unable to find executable: /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+14/36 Test #37: fkdb_live_query_lineage .............***Not Run   0.00 sec
+      Start 38: fkdb_live_query_home
+Could not find executable /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+Looked in the following places:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+Unable to find executable: /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+15/36 Test #38: fkdb_live_query_home ................***Not Run   0.00 sec
+      Start 39: fkdb_live_query_empty
+Could not find executable /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+Looked in the following places:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+Unable to find executable: /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+16/36 Test #39: fkdb_live_query_empty ...............***Not Run   0.00 sec
+      Start 40: fkdb_live_query_unresolved
+Could not find executable /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+Looked in the following places:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+Unable to find executable: /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+17/36 Test #40: fkdb_live_query_unresolved ..........***Not Run   0.00 sec
+      Start 41: fkdb_live_query_decay
+Could not find executable /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+Looked in the following places:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+Unable to find executable: /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+18/36 Test #41: fkdb_live_query_decay ...............***Not Run   0.00 sec
+      Start 42: fkdb_live_query_relate
+Could not find executable /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+Looked in the following places:
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+/workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Release/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Debug/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/MinSizeRel/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/RelWithDebInfo/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Deployment/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/Development/fkdb_live_query_host
+Unable to find executable: /workspace/scratch/95447ff1684b/other-projects/build/rmal-browser/fkdb_live_query_host
+19/36 Test #42: fkdb_live_query_relate ..............***Not Run   0.00 sec
+      Start 43: fkdb_source_index
+20/36 Test #43: fkdb_source_index ...................   Passed    0.04 sec
+      Start 44: fkdb_result_projection
+21/36 Test #44: fkdb_result_projection ..............   Passed    0.05 sec
+      Start 45: fkdb_wasm_hif_contract
+22/36 Test #45: fkdb_wasm_hif_contract ..............   Passed    0.04 sec
+      Start 46: fkdb_web_host_node
+23/36 Test #46: fkdb_web_host_node ..................   Passed    0.12 sec
+      Start 47: fkdb_tool_carrier
+24/36 Test #47: fkdb_tool_carrier ...................   Passed    0.05 sec
+      Start 48: fkdb_local_tool_bridge
+25/36 Test #48: fkdb_local_tool_bridge ..............   Passed    1.10 sec
+      Start 49: fkdb_local_adapters
+26/36 Test #49: fkdb_local_adapters .................   Passed    0.61 sec
+      Start 50: fkdb_adapter_mathbox
+27/36 Test #50: fkdb_adapter_mathbox ................   Passed    0.08 sec
+      Start 51: fkdb_adapter_superpowers
+28/36 Test #51: fkdb_adapter_superpowers ............   Passed    0.08 sec
+      Start 52: fkdb_adapter_zotero
+29/36 Test #52: fkdb_adapter_zotero .................   Passed    1.09 sec
+      Start 53: fkdb_adapter_wolfram
+30/36 Test #53: fkdb_adapter_wolfram ................   Passed    0.07 sec
+      Start 54: fkdb_adapter_supabase
+31/36 Test #54: fkdb_adapter_supabase ...............   Passed    0.08 sec
+      Start 55: fkdb_adapter_railway
+32/36 Test #55: fkdb_adapter_railway ................   Passed    0.08 sec
+      Start 56: fkdb_infrastructure_secrets
+33/36 Test #56: fkdb_infrastructure_secrets .........   Passed    0.12 sec
+      Start 57: fkdb_infrastructure_secret_import
+34/36 Test #57: fkdb_infrastructure_secret_import ...   Passed    1.12 sec
+      Start 58: fkdb_adapter_portable_provider
+35/36 Test #58: fkdb_adapter_portable_provider ......   Passed    0.09 sec
+      Start 59: fkdb_cross_carrier
+36/36 Test #59: fkdb_cross_carrier ..................   Passed    0.06 sec
+
+56% tests passed, 16 tests failed out of 36
+
+Total Test time (real) =  23.27 sec
+
+The following tests FAILED:
+	 24 - fkdb_rmalc_check (Not Run)
+	 25 - fkdb_rmalc_compile (Not Run)
+	 26 - fkdb_native_host (Not Run)
+	 27 - fkdb_query_rmalc_check (Not Run)
+	 28 - fkdb_query_rmalc_compile (Not Run)
+	 29 - fkdb_query_native (Not Run)
+	 33 - fkdb_live_query_check (Not Run)
+	 34 - fkdb_live_query_compile (Not Run)
+	 35 - fkdb_live_query_history (Not Run)
+	 36 - fkdb_live_query_recover (Not Run)
+	 37 - fkdb_live_query_lineage (Not Run)
+	 38 - fkdb_live_query_home (Not Run)
+	 39 - fkdb_live_query_empty (Not Run)
+	 40 - fkdb_live_query_unresolved (Not Run)
+	 41 - fkdb_live_query_decay (Not Run)
+	 42 - fkdb_live_query_relate (Not Run)
+Errors while running CTest

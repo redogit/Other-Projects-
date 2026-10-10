@@ -1,0 +1,7 @@
+source_head: 49a0154d60d5f0d8a419c3ac808a11442e169402
+command: execute the unchanged Python counterprobe fenced in docs/superpowers/plans/2026-10-05-fkdb-f10-plan-c-local-infrastructure-adapters-progress.md with repo tools on sys.path
+exit_code: 0
+PASS railway .env.json UNAVAILABLE []
+PASS railway service_role.json UNAVAILABLE []
+PASS railway secrets.txt UNAVAILABLE []
+PASS supabase supabase/functions/secrets/credentials.json UNAVAILABLE []

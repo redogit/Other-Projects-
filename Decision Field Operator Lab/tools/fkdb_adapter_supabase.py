@@ -22,18 +22,6 @@ def _retrieved_at(path: Path) -> str:
     )
 
 
-def _secret_like(path: Path) -> bool:
-    name = path.name.lower()
-    return (
-        name.startswith(".env")
-        or "service_role" in name
-        or "service-role" in name
-        or "secret" in name
-        or name.endswith(".key")
-        or name.endswith(".pem")
-    )
-
-
 def _artifact_kind(relative: str) -> str:
     if relative == "supabase/config.toml":
         return "config"
@@ -102,17 +90,19 @@ def _carrier(path: Path, root: Path, raw: bytes) -> dict[str, Any]:
 class SupabaseAdapter:
     tool_id = "supabase"
 
-    def _supabase_root(self, context, root: Path) -> Path:
-        return context.resolve_read_path(root / "supabase")
+    def _supabase_root(self, context, root: Path) -> Path | None:
+        return context.resolve_non_secret_read_path(root / "supabase", root=root)
 
     def descriptor(self, context) -> dict[str, Any]:
         for root in context.policy.read_roots:
             try:
                 supabase = self._supabase_root(context, root)
-                config = context.resolve_read_path(supabase / "config.toml")
+                if supabase is None:
+                    continue
+                config = context.resolve_non_secret_read_path(supabase / "config.toml", root=root)
             except PermissionError:
                 continue
-            if config.is_file():
+            if config is not None and config.is_file():
                 return {
                     "tool_id": self.tool_id,
                     "locality": "LOCAL_FILE",
@@ -132,7 +122,7 @@ class SupabaseAdapter:
 
     def _candidates(self, context, root: Path) -> list[Path]:
         supabase = self._supabase_root(context, root)
-        if not supabase.exists():
+        if supabase is None or not supabase.exists():
             return []
         if not supabase.is_dir():
             raise ValueError("supabase path exists but is not a directory")
@@ -140,27 +130,27 @@ class SupabaseAdapter:
         candidates: list[Path] = []
         fixed = (supabase / "config.toml", supabase / "seed.sql")
         for path in fixed:
-            resolved = context.resolve_read_path(path)
-            if resolved.is_file() and not _secret_like(resolved):
+            resolved = context.resolve_non_secret_read_path(path, root=root)
+            if resolved is not None and resolved.is_file():
                 candidates.append(resolved)
 
-        migrations = context.resolve_read_path(supabase / "migrations")
-        if migrations.exists():
+        migrations = context.resolve_non_secret_read_path(supabase / "migrations", root=root)
+        if migrations is not None and migrations.exists():
             if not migrations.is_dir():
                 raise ValueError("supabase/migrations exists but is not a directory")
             for path in migrations.glob("*.sql"):
-                resolved = context.resolve_read_path(path)
-                if resolved.is_file() and not _secret_like(resolved):
+                resolved = context.resolve_non_secret_read_path(path, root=root)
+                if resolved is not None and resolved.is_file():
                     candidates.append(resolved)
 
-        functions = context.resolve_read_path(supabase / "functions")
-        if functions.exists():
+        functions = context.resolve_non_secret_read_path(supabase / "functions", root=root)
+        if functions is not None and functions.exists():
             if not functions.is_dir():
                 raise ValueError("supabase/functions exists but is not a directory")
             for pattern in ("**/*.ts", "**/*.json"):
                 for path in functions.glob(pattern):
-                    resolved = context.resolve_read_path(path)
-                    if resolved.is_file() and not _secret_like(resolved):
+                    resolved = context.resolve_non_secret_read_path(path, root=root)
+                    if resolved is not None and resolved.is_file():
                         candidates.append(resolved)
 
         unique = {path: None for path in candidates}

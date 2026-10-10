@@ -112,8 +112,8 @@ class RailwayAdapter:
             root / "Procfile",
         )
         for path in paths:
-            resolved = context.resolve_read_path(path)
-            if resolved.is_file():
+            resolved = context.resolve_non_secret_read_path(path, root=root)
+            if resolved is not None and resolved.is_file():
                 candidates.append(resolved)
         return candidates
 
@@ -162,7 +162,9 @@ class RailwayAdapter:
             candidate = Path(value)
             if not candidate.is_absolute():
                 candidate = root / candidate
-            resolved = context.resolve_read_path(candidate)
+            resolved = context.resolve_non_secret_read_path(candidate, root=root)
+            if resolved is None:
+                continue
             if not resolved.is_file():
                 raise ValueError("Railway snapshot path must reference a file")
             if resolved.suffix.lower() not in {".log", ".txt", ".json", ".ndjson"}:
