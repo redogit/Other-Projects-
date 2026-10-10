@@ -22,5 +22,59 @@
     "native_ctest_attempt": "16 targets not run because native binaries were unavailable; Python FKDB targets passed",
     "scope": "supplemental environment attempt; not the Linux/Windows acceptance matrix"
   },
-  "acceptance": "PENDING_EXACT_REVISED_HEAD_LINUX_WINDOWS_AND_BROAD_CI"
+  "acceptance": "REPAIR_HEAD_NATIVE_AND_BROAD_PASS; FINAL_DOCUMENTATION_HEAD_MUST_PASS_SAME_GATES_BEFORE_MERGE",
+  "verified_repair_commit": "49a0154d60d5f0d8a419c3ac808a11442e169402",
+  "native_ctest": {
+    "linux": 59,
+    "windows": 59,
+    "run_id": 38022100985
+  },
+  "broad_ci": {
+    "bounded_tests": 376,
+    "dependency_tests": 14,
+    "evidence_and_stress_steps": 8,
+    "run_id": 38022100692
+  },
+  "new_security_regressions": 23,
+  "fkdb_python_tests": 134,
+  "independent_agent_review": {
+    "affected_tests": 82,
+    "critical_or_important_findings_remaining": 0
+  },
+  "repair_head_ci_receipts": "ci-at-repair-head/receipts.json",
+  "exact_local_broad_record": "local-broad-at-repair-head/local-broad-report.json",
+  "evidence_file_sha256": {
+    "README.md": "e87c08636b911539d3da576da719383ce9599bb3a22f8273c6a19ba53d69ca57",
+    "ci-at-repair-head/broad-114125100934.log": "0548aeb855e34a683ca40bd3cbd5a37ffac5590bc01df3f4c830ed0f849b9838",
+    "ci-at-repair-head/linux-114125101762.log": "4520b6c6dc4ba16fef99c1ccbada7969b53b0c79846c4c15c9bf880115cb0395",
+    "ci-at-repair-head/native-receipts.json": "9a49a0b1b022512ab98aa17d35d715215d45b8788af65907a03ace0356610397",
+    "ci-at-repair-head/receipts.json": "cc030eefaa164f99ed381f266e7db3d965acf738a38a1a37cb089d91970b0f16",
+    "ci-at-repair-head/windows-114125101696.log": "911b2f8b7bbd770d493e7e2714f5fb48ef6661bdab04cbd1ee182c65b0f9e343",
+    "fkdb-ads-stream-red.txt": "8eec1697bb4a56c5ed2e9efd7df29e4f3dbf6498055cc07185ae80128e309a02",
+    "fkdb-http-import-green.txt": "415337d64689e58fb09995c2b659ba2567bd90d7620c9371fd5449701462a99e",
+    "fkdb-http-import-red.txt": "14ae2571ff49d08fa529186842c23dfd10f5ffa1e60553e7861a1b2bd3655d3d",
+    "fkdb-plan-c-repair-source-sha256.txt": "7dd583bb5f68e303fd72cb91c4116a8fa4db9a32ae02a1b144ef317dd7c7d37b",
+    "fkdb-plan-c-secrets-green.txt": "3b4992d39188019b6903f16253ae52fba8f9e5eddf56d55284d7db74f831fbb1",
+    "fkdb-plan-c-secrets-prefix-red.txt": "aa65c4b75e2ae49331d8fe642d5e5de2815d2670e22974933a7ab28b4afd9720",
+    "fkdb-plan-c-secrets-red.txt": "97b6c855852780073ac7a90acd43778e06e2b165478f3506043d746a8f6002b8",
+    "fkdb-provider-origin-red.txt": "6b255459fbdeab202718d8cae9fdf0826ff693880fc9beb5466ba1ff4d667886",
+    "fkdb-python-discovery-green.txt": "6b432b9a575b19b722ddef4be41560d8a01d0ad103e7dc09fbee1b7af26185f0",
+    "fkdb-relabelled-import-red.txt": "6c013a932401fc2d893ae883cbf3bb75f9410e189c902135588c70bd0354f486",
+    "independent-agent-review.md": "9a97b9d63eefd23f3628c6d55df361bab9c22839b6cdc2e85c84132acc388374",
+    "local-broad-at-repair-head/local-broad-00.log": "0d6a297b8a8f699b840c72082eb1c130fc21852a4cfdbb6e32bfb6315877aae0",
+    "local-broad-at-repair-head/local-broad-01.log": "61d17ddfde31212522fa78de4a136d3c2d5229113f135dca94939a67480639cc",
+    "local-broad-at-repair-head/local-broad-02.log": "8d50ce81bfccc59c8f50d865207864cdc896e210e4f46bb266b9dd321453795e",
+    "local-broad-at-repair-head/local-broad-03.log": "ea6e3fe2997db6693ec9e6ecd1e18f8d8b055ff9f5e01fe6fd44225e9a1bdee7",
+    "local-broad-at-repair-head/local-broad-04.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "local-broad-at-repair-head/local-broad-05.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "local-broad-at-repair-head/local-broad-06.log": "fd719e5002892f581bc92f55f1bfe80c01aaf901fccd227c04206f2d29302561",
+    "local-broad-at-repair-head/local-broad-07.log": "b2cee5461ccbc3a3657d8e5a5fd911437a25cae43e2b56d2497bf44e9096efb1",
+    "local-broad-at-repair-head/local-broad-08.log": "3c60f09319d89266b709bb73802af34d9ac91e0cd11185a5397ae82ba57ad9f2",
+    "local-broad-at-repair-head/local-broad-09.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "local-broad-at-repair-head/local-broad-10.log": "4a899dd3bdacb12d2ac9f972e13e6f2f5ef28e0b135b3bfe33f7a9021b126815",
+    "local-broad-at-repair-head/local-broad-report.json": "dec2e3de72947dce1caedef7d2ee47552e207ba7e3ab0c2320d7c292130b17ff",
+    "local-gcc-build-attempt.log": "b544e68a8da1921c8739e94dbd9a0e63d3ea9912169441aa19765c0df5157eb2",
+    "local-unbuilt-fkdb-ctest-attempt.log": "6ef34e38c48a004b9519df99dfc705b38da40a93e29c355f42f898dd3f2c2c22",
+    "pr118-retained-counterprobe-green.txt": "8d7b0c7018e651c9f9a7305a7c8d20508e50234dca0769deab36387c599c9bce"
+  }
 }

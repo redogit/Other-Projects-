@@ -32,14 +32,33 @@ Dedicated targets include Plan B, Supabase, Railway, `fkdb_adapter_portable_prov
 and `fkdb_cross_carrier`. These receipts establish the prior implemented scope and do
 not override the missing Plan C secret-path regressions discovered in PR #118.
 
-## Integration and repair gate — 2026-10-10 UTC
+## Verified repair integration — 2026-10-10 UTC
 
-Retain all Plan D/E code and tests while incorporating `main` at
-`51b30bd28239b29eab68bf64c472d68923827166` and the PR #118 negative history.
-Final verification is pending the Plan C secret-path repair, its synthetic regressions,
-dedicated Linux/Windows execution and current broad audit on one exact final head.
-The broad workflow now includes pinned Hodge dependency verification and tests.
+Plan D/E code and tests are retained while incorporating `main` at
+`51b30bd28239b29eab68bf64c472d68923827166` and the full PR #118 negative history.
+Exact repair head `49a0154d60d5f0d8a419c3ac808a11442e169402` passes:
+
+| Gate | Exact-head job | Result |
+| --- | --- | --- |
+| Dedicated Linux | [114125101762](https://github.com/redogit/Other-Projects-/actions/runs/38022100985/job/114125101762) | 59/59 CTest targets PASS |
+| Dedicated Windows | [114125101696](https://github.com/redogit/Other-Projects-/actions/runs/38022100985/job/114125101696) | 59/59 CTest targets PASS |
+| Current broad audit | [114125100934](https://github.com/redogit/Other-Projects-/actions/runs/38022100692/job/114125100934) | 376 bounded tests, 14 Hodge tests and all 8 evidence/stress steps PASS |
+
+Both dedicated matrices include portable providers and cross-carrier overlays together
+with Plan B, both Plan C adapters and the new secret-path/HTTP import suites. The
+validator, admission, direct index projection and external overlay reject recognizable
+retained Supabase/Railway secret sources without changing provider authority/evidence.
+The original four synthetic witnesses now pass under the unchanged PR #118 probe.
+Independent agent code review passed 82 affected tests with no remaining
+Critical/Important finding. No independent human review is claimed.
 
 The [Plan C progress ledger](2026-10-05-fkdb-f10-plan-c-local-infrastructure-adapters-progress.md)
-records the required gate and subsequent receipts. No new final-head success or full
-rollout closeout is claimed here before those executions complete.
+and [repair evidence](../../../Decision%20Field%20Operator%20Lab/fkdb/evidence/plan-c-secret-repair/README.md)
+retain exact checkout/timestamp receipts, raw red/green logs, review scope and recovery
+guidance. Sensitive path names and recognizable declared vendor sources are the tested
+policy; opaque source declarations or credentials under ordinary names are outside it.
+
+Subsequent documentation commits require their own exact-head native and broad merge
+gates. The final metadata-head receipt is tracked live in
+[PR #119](https://github.com/redogit/Other-Projects-/pull/119); repair-head success is not
+transferred to that later commit.

@@ -663,9 +663,26 @@ Historical exact-head receipts at `2a7180c7e26117e2834603ac0be82fda186ec016`:
 | Dedicated Windows | [57/57 CTest targets](https://github.com/redogit/Other-Projects-/actions/runs/37764369121/job/113268261909) |
 | Broad Decision Field audit | [356 unittest tests and all evidence/stress steps PASS](https://github.com/redogit/Other-Projects-/actions/runs/37764369185/job/113268466797) |
 
-These receipts verify the prior rollout head. They do not verify the secret-path repairs
-or integration with `main` at `51b30bd28239b29eab68bf64c472d68923827166`.
-Final repaired-head Linux/Windows and broad audit receipts remain pending; the current
-broad gate also fetches/verifies the pinned Hodge dependency and runs its tests.
+These historical receipts verify the prior rollout head. Scoped secret-path repairs and
+integration with `main` at `51b30bd28239b29eab68bf64c472d68923827166` subsequently
+passed at exact repair head `49a0154d60d5f0d8a419c3ac808a11442e169402`:
+
+| Gate | Exact repair-head receipt |
+| --- | --- |
+| Dedicated Linux | [59/59 CTest targets](https://github.com/redogit/Other-Projects-/actions/runs/38022100985/job/114125101762) |
+| Dedicated Windows | [59/59 CTest targets](https://github.com/redogit/Other-Projects-/actions/runs/38022100985/job/114125101696) |
+| Broad audit | [376 bounded tests, 14 Hodge tests and 8 evidence/stress steps PASS](https://github.com/redogit/Other-Projects-/actions/runs/38022100692/job/114125100934) |
+
+The matrices retain Plan B and Plan D/E while adding secret-path and HTTP import
+regressions. All four unchanged PR #118 counterprobe cases now pass without admitting
+payloads. The repaired boundary also rejects recognizable retained infrastructure
+sources at validator/import/admission/index boundaries. Independent agent code review
+passed 82 affected tests with no remaining Critical/Important finding. Raw evidence and
+recovery guidance are retained in the [repair record](../fkdb/evidence/plan-c-secret-repair/README.md).
+
+The final documentation-head merge gate must rerun Linux/Windows and the current broad
+workflow at its own exact commit; live final-head receipts are tracked in
+[PR #119](https://github.com/redogit/Other-Projects-/pull/119). No success for that later
+commit is inferred from these repair-head receipts.
 See [CURRENT](../fkdb/CURRENT.md) and the
 [Plan D/E progress ledger](../../docs/superpowers/plans/2026-10-08-fkdb-f10-plan-d-e-portable-admission-progress.md).

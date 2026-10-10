@@ -208,56 +208,107 @@ scope preserves all pre-existing ledger text and unrelated CURRENT sections; no 
 test, workflow, README or historical PR body is changed by this reconciliation.
 
 
-## PR #119 repair integration — 2026-10-10 UTC
+## PR #119 scoped repair closeout — 2026-10-10 UTC
 
-**Decision: retain Plan C failures and implemented Plan D/E; final repair closeout pending.**
+**Decision: scoped secret-path defects repaired and verified; Plan D/E retained.**
 
-All text above is preserved as the PR #118 historical record. Its ruling that Plan D
-was not advanced describes that reconciliation's scope, not the later PR #119
-implementation. PR #119 already implements portable SciSpace/Consensus/Exa/Linear
-provider envelopes and callable ToolCarrier admission/query-index overlay helpers.
-Those files and their retained tests are not to be replaced by the older reconciliation.
+All text above remains the complete PR #118 historical record. Its ruling that Plan D
+was not advanced describes that reconciliation, not the later PR #119 implementation.
+The historical negative witnesses and their narrow green controls remain unchanged.
+PR #119 retains portable SciSpace/Consensus/Exa/Linear adapters and callable ToolCarrier
+admission/query-index overlay helpers while integrating `main` at
+`51b30bd28239b29eab68bf64c472d68923827166` and the reconciliation branch.
 
-PR #119's previous exact head `2a7180c7e26117e2834603ac0be82fda186ec016`
-has independently inspected checkout logs and successful receipts:
+Prior rollout head `2a7180c7e26117e2834603ac0be82fda186ec016` remains separately
+verified by [Linux 57/57](https://github.com/redogit/Other-Projects-/actions/runs/37764369121/job/113268261453),
+[Windows 57/57](https://github.com/redogit/Other-Projects-/actions/runs/37764369121/job/113268261909)
+and [356 bounded tests plus evidence/stress](https://github.com/redogit/Other-Projects-/actions/runs/37764369185/job/113268466797).
+Those older receipts did not repair the secret witnesses and are not transferred to
+newer code.
 
-| Gate | Exact-head job | Result |
+### Repair behavior and retained negative controls
+
+The shared predicate screens requested and resolved project-relative paths before
+collection payload reads. The four original synthetic paths are excluded, including
+the Supabase secret-like directory. Regression controls also cover case, separator,
+trailing-dot/space, prefixed/camel filename, symlink alias/target, private-key and
+Windows alternate-stream base/name variants. A sensitive ambient parent directory
+does not incorrectly exclude ordinary legitimate project artifacts.
+
+Recognizable declared Supabase/Railway sources are screened again by the shared
+ToolCarrier validator, portable bundle and HTTP import, registry returned-carrier
+validation, Plan E admission, direct index projection and external overlay. Relabelled
+locality/adapter fields and changed outer tool IDs do not hide retained vendor sources.
+Ordinary admitted artifact bytes/hash, read-only collection, source/provider identity,
+artifact-only authority and empty production opt-in are preserved. No live database,
+deployment state, process execution or cloud synchronization is admitted.
+
+The unchanged historical counterprobe was executed at repair head
+`49a0154d60d5f0d8a419c3ac808a11442e169402`: all four cases report PASS,
+`UNAVAILABLE` and no admitted carriers; exit 0. Its
+[raw output](../../../Decision%20Field%20Operator%20Lab/fkdb/evidence/plan-c-secret-repair/pr118-retained-counterprobe-green.txt)
+is preserved alongside the original failure witness above. Before-read regressions
+prove these tested rejected payloads are not read.
+
+### Exact repair-head acceptance receipts
+
+All three independent CI log inspections confirm fetch/checkout of
+`49a0154d60d5f0d8a419c3ac808a11442e169402`, successful job/step conclusions and
+fresh execution timestamps:
+
+| Gate | Exact-head job | Outcome / log interval (UTC) |
 | --- | --- | --- |
-| Dedicated Linux | [113268261453](https://github.com/redogit/Other-Projects-/actions/runs/37764369121/job/113268261453) | 57/57 CTest targets; 2026-10-08 10:34:38–10:35:19 UTC |
-| Dedicated Windows | [113268261909](https://github.com/redogit/Other-Projects-/actions/runs/37764369121/job/113268261909) | 57/57 CTest targets; 2026-10-08 10:34:38–10:35:45 UTC |
-| Broad Decision Field audit | [113268466797](https://github.com/redogit/Other-Projects-/actions/runs/37764369185/job/113268466797) | 356 unittest tests plus all evidence/stress steps; 2026-10-08 10:35:11–10:38:23 UTC |
+| Dedicated Linux | [114125101762](https://github.com/redogit/Other-Projects-/actions/runs/38022100985/job/114125101762) | Native configure/build and 59/59 CTest targets PASS; 03:52:49–03:53:31 |
+| Dedicated Windows | [114125101696](https://github.com/redogit/Other-Projects-/actions/runs/38022100985/job/114125101696) | Native configure/build and 59/59 CTest targets PASS; 03:52:50–03:54:07 |
+| Current broad audit | [114125100934](https://github.com/redogit/Other-Projects-/actions/runs/38022100692/job/114125100934) | 376 bounded tests, 14 dependency tests and all 8 evidence/stress steps PASS; 03:52:48–03:56:48 |
 
-These close the old matrix discrepancy for that prior rollout head only. They do not
-repair `PLAN-C-SECRET-001` / `PLAN-C-SECRET-002` or verify the revised integration.
+Native targets include all retained Plan B adapters, Supabase/Railway,
+`fkdb_infrastructure_secrets`, `fkdb_infrastructure_secret_import`, portable providers
+and cross-carrier overlays. CTest counts are target counts, not individual Python
+method counts. The broad job fetches/verifies pinned canonical Hodge revision
+`365ce68da4f1d8dee3fd3cc7344b5e085dec364f` and three locked artifacts, runs its 14
+dependency tests, then the complete bounded suite, six committed-evidence reproductions,
+scale-4 Omega stress and frozen-stress check. The final stress receipt reports 5,376
+fixed-seed adversarial cases and 13/13 checks.
 
-Current integration includes `main` at `51b30bd28239b29eab68bf64c472d68923827166`
-and the PR #118 reconciliation. The authorized repair is scoped to secret-like
-path exclusion before payload reads, synthetic negative regressions and the validation
-boundary required by that repair. It preserves raw admitted artifact bytes/hash,
-read-only collection, source/provider identity, artifact-only authority and empty
-production opt-in. No live database/deployment state, process execution or cloud
-synchronization is admitted.
+The same exact repair source also passed the complete local broad audit from
+03:53:02–03:55:40 UTC with source identity unchanged: 376 bounded tests, 14 dependency
+tests and all eight evidence/stress commands. Earlier GCC/final-C23 build limitations
+and the resulting unbuilt local native targets remain recorded as unsuccessful
+supplemental attempts; native acceptance comes from the actual Linux/Windows jobs.
 
-Required closeout on one final exact commit:
+Independent agent code review passed 82 affected tests in 3.094 seconds, confirmed
+`git diff --check`, reviewed the final provider-origin guard and reported no remaining
+Critical/Important finding. The review exposed relabelled import, alternate-stream and
+Windows newline-fixture issues; each was corrected before the final review and exact
+repair-head CI. This is agent review, not a human GitHub approval. The frozen shared
+helper SHA-256 is `3e6f18381c8195e14e380ed8caae0ecc68c7c286a6957fbb80318b09daa83243`.
 
-1. Retain all four original synthetic counterexamples as passing exclusion regressions,
-   including a control proving rejected payloads are not read.
-2. Pass the dedicated native Linux and Windows configure/build/CTest matrices, including
-   retained Plan B, both Plan C adapters, portable providers, admission/index overlays
-   and the new secret-path regressions.
-3. Pass the current broad Decision Field workflow: pinned Hodge dependency fetch/verify,
-   dependency tests, complete bounded tests, all committed evidence reproduction checks,
-   scale-4 Omega stress and frozen-stress verification.
-4. Inspect checkout SHA, job conclusions, test totals and log timestamps. A rerun of an
-   older run, unchanged source blobs or carried-forward status is insufficient.
-5. Record independent review findings and resolve merge-blocking findings; recheck final
-   head and current main before merge.
+`PLAN-C-SECRET-001` and `PLAN-C-SECRET-002` are closed within this tested boundary.
+Fresh Linux/Windows and broad receipts at the repaired integration satisfy the current
+exact-head matrix requirement; the old `PLAN-C-MATRIX-001` historical failure is
+preserved rather than rewritten as a past success.
 
-**Final revised-head receipts: pending.** No local or remote success is substituted for
-this gate. An exact receipt append after execution may close these scoped defects; the
-negative history above remains intact.
+### Final documentation-head merge gate and recovery
 
-Claim ceiling: secret-name/path exclusions are not content-based credential scanning.
-Passing static payload and containment controls does not establish bounded candidate
-directory enumeration, concurrent-growth safety or race-hard file reads. Railway
-IaC/deprecation labels remain repository metadata rather than verified vendor policy.
+Receipt/documentation commits after the repair head require dedicated Linux/Windows
+and current broad audit execution at their own exact final SHA. Recheck final PR head,
+current-main integration and any unresolved merge-blocking findings before merge.
+The live final metadata-head gate is tracked in
+[PR #119](https://github.com/redogit/Other-Projects-/pull/119); no later commit's success
+is inferred from these repair-head receipts.
+
+[Execution evidence and recovery guidance](../../../Decision%20Field%20Operator%20Lab/fkdb/evidence/plan-c-secret-repair/README.md)
+retain raw red/green logs, CI and local receipts, review scope and source hashes.
+Recollect legitimate artifacts from their original read-only sources under the repaired
+boundary and rebuild disposable overlays instead of reusing pre-fix retained projections.
+Retain rejected synthetic carriers as negative evidence. If a regression appears, hold
+merge/collection and fix forward without weakening the secret policy.
+
+Claim ceiling: secret-name/path exclusions and recognizable source declarations are not
+content-based credential scanning. Opaque/misdeclared metadata or credentials under
+ordinary names are outside this policy. Passing static payload and containment controls
+does not establish bounded candidate enumeration, concurrent-growth safety or race-hard
+reads. Railway IaC/deprecation labels remain repository metadata rather than verified
+vendor policy. No automatic browser collection-to-index route or evidence promotion
+is claimed.

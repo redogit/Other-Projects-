@@ -1,0 +1,19 @@
+test_explicit_fetch_materializes_only_the_locked_revision (test_hodge_dependency.HodgeDependencyTests.test_explicit_fetch_materializes_only_the_locked_revision) ... ok
+test_failed_fetch_leaves_no_partially_admitted_checkout (test_hodge_dependency.HodgeDependencyTests.test_failed_fetch_leaves_no_partially_admitted_checkout) ... ok
+test_fetch_does_not_overwrite_modified_existing_artifact (test_hodge_dependency.HodgeDependencyTests.test_fetch_does_not_overwrite_modified_existing_artifact) ... ok
+test_fetch_integrity_failure_leaves_no_admitted_checkout (test_hodge_dependency.HodgeDependencyTests.test_fetch_integrity_failure_leaves_no_admitted_checkout) ... ok
+test_fetch_reuses_verified_checkout_without_network (test_hodge_dependency.HodgeDependencyTests.test_fetch_reuses_verified_checkout_without_network) ... ok
+test_lock_path_escape_is_rejected (test_hodge_dependency.HodgeDependencyTests.test_lock_path_escape_is_rejected) ... ok
+test_malformed_lock_types_fail_with_dependency_diagnostic (test_hodge_dependency.HodgeDependencyTests.test_malformed_lock_types_fail_with_dependency_diagnostic) ... ok
+test_missing_artifact_is_rejected_without_old_path_fallback (test_hodge_dependency.HodgeDependencyTests.test_missing_artifact_is_rejected_without_old_path_fallback) ... ok
+test_missing_checkout_fails_with_explicit_fetch_instruction (test_hodge_dependency.HodgeDependencyTests.test_missing_checkout_fails_with_explicit_fetch_instruction) ... ok
+test_modified_artifact_at_correct_commit_is_rejected (test_hodge_dependency.HodgeDependencyTests.test_modified_artifact_at_correct_commit_is_rejected) ... ok
+test_relocated_checkout_preserves_exact_bytes_without_former_path (test_hodge_dependency.HodgeDependencyTests.test_relocated_checkout_preserves_exact_bytes_without_former_path) ... ok
+test_same_bytes_at_unpinned_revision_are_rejected (test_hodge_dependency.HodgeDependencyTests.test_same_bytes_at_unpinned_revision_are_rejected) ... ok
+test_symlink_escape_is_rejected (test_hodge_dependency.HodgeDependencyTests.test_symlink_escape_is_rejected) ... ok
+test_unknown_artifact_is_rejected (test_hodge_dependency.HodgeDependencyTests.test_unknown_artifact_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.308s
+
+OK

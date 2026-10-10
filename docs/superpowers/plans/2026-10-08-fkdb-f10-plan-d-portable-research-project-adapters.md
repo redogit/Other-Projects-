@@ -51,6 +51,6 @@ envelopes, record limits, JSON-value preservation and authority separation. Regi
 four known adapter IDs in code while production policy remains opt-in.
 
 Plan D and the Plan E callable admission/index-overlay helpers are implemented on
-PR #119. Historical exact-head receipts at `2a7180c...` and the pending repaired/integrated
-head gate are recorded in the [Plan D/E progress ledger](2026-10-08-fkdb-f10-plan-d-e-portable-admission-progress.md).
+PR #119. Historical exact-head receipts at `2a7180c...` and retained Plan D/E verification
+at the repaired/integrated head `49a0154...` are recorded in the [Plan D/E progress ledger](2026-10-08-fkdb-f10-plan-d-e-portable-admission-progress.md).
 No automatic browser/HTTP collection-to-index workflow is claimed.
