@@ -18,8 +18,8 @@ This increment introduces a browser-side, dependency-aware source and claim regi
 - Source impact detection currently covers direct claim dependencies only, not arbitrary transitive claims.
 - Browser integration is a new optional surface, not replacement of the existing host entry.
 
-## Test
-Run `node web/knowledge-workbench/test.mjs` from the FKDB project root. This requires Node.js 20+.
+## Prototype status
+The executable prototype and tests are available as a separate local ZIP artifact in the development conversation. They have **not** yet been committed to this branch. The ten finite checks were run locally with Node.js 22. Do not treat this README as an integrated executable feature or CI receipt.
 
 ## Research alignment
 The immediate next boundary is append-only versioned source snapshots with integrity-checked historical restoration, followed by a typed transitive justification graph and crash-safe persistence.
