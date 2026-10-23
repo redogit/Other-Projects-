@@ -1,0 +1,67 @@
+name: FKDB G03 pinned-source baseline
+
+on:
+  push:
+    branches: [fkdb-g03-matrix-recovery-20261023]
+    paths: [.github/workflows/fkdb-g03-source-baseline.yml]
+
+permissions:
+  contents: read
+
+jobs:
+  pinned-baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Read the pinned public browser source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: e25aca5496436e1c67d0c0b82205575baf3e5a27
+          persist-credentials: false
+      - name: Recover external RMAL authority and portable source evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p authorities evidence
+          git clone --no-checkout --depth=1 https://github.com/redogit/DnD.git authorities/DnD
+          git -C authorities/DnD fetch --depth=1 origin 57786dd85cb13c4a8f657ae4a66ca6d4058854fa
+          git -C authorities/DnD checkout --detach 57786dd85cb13c4a8f657ae4a66ca6d4058854fa
+          test "$(git rev-parse HEAD)" = e25aca5496436e1c67d0c0b82205575baf3e5a27
+          test "$(git -C authorities/DnD rev-parse HEAD)" = 57786dd85cb13c4a8f657ae4a66ca6d4058854fa
+          git archive --format=tar HEAD 'Decision Field Operator Lab' .github/workflows/rmal-browser-bootstrap.yml > evidence/browser-source.tar
+          git ls-tree -r HEAD > evidence/browser-tree.txt
+          git -C authorities/DnD ls-tree -r HEAD > evidence/rmal-tree.txt
+          git -C authorities/DnD remote remove origin
+          tar -czf evidence/external-rmal-authority.tar.gz -C authorities DnD
+          sha256sum evidence/browser-source.tar evidence/external-rmal-authority.tar.gz > evidence/SHA256SUMS
+          printf '%s\n' 'Scope: unmodified public pinned baseline, NOT native-core integrated G03 acceptance.' > evidence/SCOPE.txt
+      - name: Preserve source acquisition independently of test success
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: fkdb-g03-pinned-public-sources
+          path: evidence/
+          retention-days: 7
+          if-no-files-found: error
+      - name: Build the canonical browser baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          cmake -S 'Decision Field Operator Lab/rmal-browser' -B build-browser -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_BUILD_TYPE=Release -DFETCHCONTENT_SOURCE_DIR_RMAL_AUTHORITY="$PWD/authorities/DnD"
+          cmake --build build-browser --parallel 2
+          ctest --test-dir build-browser --show-only=json-v1 > evidence/baseline-test-inventory.json
+          python3 -c "import json; d=json.load(open('evidence/baseline-test-inventory.json')); assert len(d['tests'])==59, len(d['tests'])"
+      - name: Execute all canonical baseline targets
+        shell: bash
+        run: |
+          set -euo pipefail
+          ctest --test-dir build-browser --output-on-failure --output-junit "$PWD/evidence/baseline-junit.xml" | tee evidence/baseline-ctest.log
+      - name: Preserve the actual baseline result
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: fkdb-g03-baseline-evidence
+          path: |
+            evidence/baseline-*
+            evidence/SCOPE.txt
+          retention-days: 7
+          if-no-files-found: warn
